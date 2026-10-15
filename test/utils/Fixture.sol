@@ -8,7 +8,7 @@ import {EquipmentRegistry} from "../../src/EquipmentRegistry.sol";
 import {DestructionClaims} from "../../src/DestructionClaims.sol";
 import {FlagRegistry} from "../../src/FlagRegistry.sol";
 import {KigaliLedger} from "../../src/KigaliLedger.sol";
-import {ScaleReading, LabCertificate} from "../../src/Attestations.sol";
+import {ScaleReading, LabCertificate, RecoveryConsent, DestructionCertificate} from "../../src/Attestations.sol";
 
 /// @notice Shared deployment and helpers. In unit tests the test contract itself acts as
 ///         governance so privileged calls stay readable; Governance.t.sol covers the multisig.
@@ -48,6 +48,9 @@ abstract contract Fixture is Test {
     uint256 internal constant SCALE_FACILITY_PK = 0xA15;
     uint256 internal constant LAB_PK = 0xB01;
     uint256 internal constant ROGUE_PK = 0xBAD;
+    uint256 internal constant OWNER_PK = 0xC01; // operator of the Tier A units (e.g. a supermarket chain)
+    uint256 internal constant TAKEBACK_PK = 0xC02; // take-back point that owns scrapped Tier B units
+    uint256 internal constant VERIFIER_PK = 0xD01; // independent destruction verifier
 
     bytes32 internal constant QUOTA_ID = keccak256("quota/TR/2026/importer/R-404A");
     bytes32 internal constant EQ_A = keccak256("EKOMVET/supermarket-freezer-001");
@@ -56,6 +59,7 @@ abstract contract Fixture is Test {
     uint64 internal constant INSTALLED_LONG_AGO = 1_600_000_000; // 2020: well past the residence period
 
     uint256 private _nonce;
+    mapping(bytes32 => uint256) internal ownerPkOf; // equipment id => private key of its owner
 
     function setUp() public virtual {
         vm.warp(1_790_000_000); // a realistic timestamp (Sept 2026)
@@ -87,11 +91,13 @@ abstract contract Fixture is Test {
         _bindScale(SCALE_RECLAIM_PK, reclaimer);
         _bindScale(SCALE_FACILITY_PK, facility);
         _grant(vm.addr(LAB_PK), Roles.LAB);
+        _grant(vm.addr(OWNER_PK), Roles.EQUIPMENT_OWNER);
+        _grant(vm.addr(TAKEBACK_PK), Roles.EQUIPMENT_OWNER);
+        _grant(vm.addr(VERIFIER_PK), Roles.VERIFIER);
 
         vm.prank(quotaAuthority);
         ledger.registerQuota(QUOTA_ID, importer, R404A, 100_000); // 100 kg
-        vm.prank(registrar);
-        equipment.registerTierA(EQ_A, R404A, NAMEPLATE, INSTALLED_LONG_AGO, keccak256("ekomvet-record-001"));
+        _registerA(EQ_A, R404A, NAMEPLATE, INSTALLED_LONG_AGO);
         vm.prank(registrar);
         equipment.setModel(MODEL_SPLIT_AC, R404A, 1_200); // 1.2 kg household unit
     }
@@ -106,6 +112,22 @@ abstract contract Fixture is Test {
         address device = vm.addr(pk);
         _grant(device, Roles.SCALE);
         ledger.bindDevice(device, operator);
+    }
+
+    /// @dev Registers a Tier A unit owned by OWNER_PK, as imported from a national registry.
+    function _registerA(bytes32 id, bytes32 gas, uint64 nameplateGrams, uint64 installedAt) internal {
+        vm.prank(registrar);
+        equipment.registerTierA(
+            id, gas, nameplateGrams, installedAt, keccak256(abi.encode("registry-record", id)), vm.addr(OWNER_PK)
+        );
+        ownerPkOf[id] = OWNER_PK;
+    }
+
+    /// @dev Registers a Tier B unit at decommissioning; the take-back point is its owner.
+    function _registerB(bytes32 id, address svc) internal {
+        vm.prank(svc);
+        equipment.registerTierB(id, MODEL_SPLIT_AC, keccak256(abi.encode("nameplate-photo", id)), vm.addr(TAKEBACK_PK));
+        ownerPkOf[id] = TAKEBACK_PK;
     }
 
     // ------------------------------------------------------------ signing helpers
@@ -139,6 +161,47 @@ abstract contract Fixture is Test {
         return abi.encodePacked(rr, s, v);
     }
 
+    function _consent(bytes32 eqId, bytes32 cyl, address svc, uint64 grams, bool decommission)
+        internal
+        returns (RecoveryConsent memory)
+    {
+        return RecoveryConsent({
+            equipmentId: eqId,
+            cylinderId: cyl,
+            service: svc,
+            grams: grams,
+            decommission: decommission,
+            timestamp: uint64(block.timestamp),
+            nonce: _nextNonce()
+        });
+    }
+
+    function _signConsent(uint256 pk, RecoveryConsent memory c) internal view returns (bytes memory) {
+        (uint8 v, bytes32 rr, bytes32 s) = vm.sign(pk, ledger.consentDigest(c));
+        return abi.encodePacked(rr, s, v);
+    }
+
+    /// @dev Consent signed by the unit's registered owner.
+    function _ownerSigned(RecoveryConsent memory c) internal view returns (bytes memory) {
+        return _signConsent(ownerPkOf[c.equipmentId], c);
+    }
+
+    function _destCert(bytes32 subject, uint64 grams, uint16 dreBps) internal returns (DestructionCertificate memory) {
+        return DestructionCertificate({
+            subject: subject,
+            grams: grams,
+            dreBps: dreBps,
+            documentHash: keccak256(abi.encode("destruction-certificate", subject)),
+            timestamp: uint64(block.timestamp),
+            nonce: _nextNonce()
+        });
+    }
+
+    function _signDestruction(uint256 pk, DestructionCertificate memory d) internal view returns (bytes memory) {
+        (uint8 v, bytes32 rr, bytes32 s) = vm.sign(pk, ledger.destructionDigest(d));
+        return abi.encodePacked(rr, s, v);
+    }
+
     // ------------------------------------------------------------ flow helpers
 
     function _mint(uint64 grams) internal returns (uint256 lotId) {
@@ -164,10 +227,12 @@ abstract contract Fixture is Test {
         returns (uint256 lotId)
     {
         bytes32 cyl = keccak256(abi.encode("recovery-cyl", eqId, _nonce));
+        RecoveryConsent memory c = _consent(eqId, cyl, svc, grams, decommission);
+        bytes memory cs = _ownerSigned(c);
         ScaleReading memory r = _reading(ledger.recoverySubject(eqId, cyl), grams);
         bytes memory sig = _signScale(svcScalePk, r);
         vm.prank(svc);
-        (uint256 inService, uint256 quarantined) = ledger.recover(eqId, cyl, decommission, r, sig);
+        (uint256 inService, uint256 quarantined) = ledger.recover(c, cs, r, sig);
         lotId = inService != 0 ? inService : quarantined;
     }
 
@@ -177,10 +242,33 @@ abstract contract Fixture is Test {
         returns (uint256 inService, uint256 quarantined)
     {
         bytes32 cyl = keccak256(abi.encode("recovery-cyl", eqId, _nonce));
+        RecoveryConsent memory c = _consent(eqId, cyl, svc, grams, true);
+        bytes memory cs = _ownerSigned(c);
         ScaleReading memory r = _reading(ledger.recoverySubject(eqId, cyl), grams);
         bytes memory sig = _signScale(svcScalePk, r);
         vm.prank(svc);
-        (inService, quarantined) = ledger.recover(eqId, cyl, true, r, sig);
+        (inService, quarantined) = ledger.recover(c, cs, r, sig);
+    }
+
+    /// @dev Owner consent for `service` to recover `grams` from `eqId` into `cyl`.
+    function _ownerConsentFor(bytes32 eqId, bytes32 cyl, uint64 grams, bool decommission)
+        internal
+        returns (RecoveryConsent memory c, bytes memory cs)
+    {
+        c = _consent(eqId, cyl, service, grams, decommission);
+        cs = _ownerSigned(c);
+    }
+
+    /// @dev Builds a fully signed recovery (owner consent + service scale) without submitting it,
+    ///      so a test can put `vm.expectRevert` directly in front of `ledger.recover`.
+    function _recoveryArgs(uint256 svcScalePk, address svc, bytes32 eqId, bytes32 cyl, uint64 grams, bool decommission)
+        internal
+        returns (RecoveryConsent memory c, bytes memory cs, ScaleReading memory r, bytes memory rs)
+    {
+        c = _consent(eqId, cyl, svc, grams, decommission);
+        cs = _signConsent(ownerPkOf[eqId] != 0 ? ownerPkOf[eqId] : OWNER_PK, c);
+        r = _reading(ledger.recoverySubject(eqId, cyl), grams);
+        rs = _signScale(svcScalePk, r);
     }
 
     function _reclaim(uint256[] memory inputs, uint64 outGrams, uint16 purityBps) internal returns (uint256) {
@@ -195,10 +283,13 @@ abstract contract Fixture is Test {
     }
 
     function _destroy(uint256[] memory inputs, uint64 grams) internal returns (uint256) {
-        ScaleReading memory r = _reading(ledger.destructionSubject(inputs), grams);
+        bytes32 subject = ledger.destructionSubject(inputs);
+        ScaleReading memory r = _reading(subject, grams);
         bytes memory sig = _signScale(SCALE_FACILITY_PK, r);
+        DestructionCertificate memory d = _destCert(subject, grams, 9_999);
+        bytes memory ds = _signDestruction(VERIFIER_PK, d);
         vm.prank(facility);
-        return ledger.destroy(inputs, r, sig, keccak256("destruction-certificate"), 9_999);
+        return ledger.destroy(inputs, r, sig, d, ds);
     }
 
     function _one(uint256 a) internal pure returns (uint256[] memory arr) {

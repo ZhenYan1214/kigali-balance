@@ -8,7 +8,7 @@ import {EquipmentRegistry} from "../src/EquipmentRegistry.sol";
 import {DestructionClaims} from "../src/DestructionClaims.sol";
 import {FlagRegistry} from "../src/FlagRegistry.sol";
 import {KigaliLedger} from "../src/KigaliLedger.sol";
-import {ScaleReading, Attestations} from "../src/Attestations.sol";
+import {ScaleReading, Attestations, RecoveryConsent, DestructionCertificate} from "../src/Attestations.sol";
 
 /// @notice Input validation and parameter bounds.
 contract EdgeCasesTest is Fixture {
@@ -64,20 +64,20 @@ contract EdgeCasesTest is Fixture {
     // ---------------------------------------------------------------- signatures
 
     function test_revert_signatureWrongLength() public {
-        bytes32 cyl = bytes32("cyl");
-        ScaleReading memory r = _reading(ledger.recoverySubject(EQ_A, cyl), 1_000);
+        (RecoveryConsent memory c, bytes memory cs, ScaleReading memory r,) =
+            _recoveryArgs(SCALE_SERVICE_PK, service, EQ_A, bytes32("cyl"), 1_000, false);
         vm.prank(service);
         vm.expectRevert(Attestations.BadSignature.selector);
-        ledger.recover(EQ_A, cyl, false, r, hex"1234");
+        ledger.recover(c, cs, r, hex"1234");
     }
 
     function test_revert_signatureBadV() public {
-        bytes32 cyl = bytes32("cyl");
-        ScaleReading memory r = _reading(ledger.recoverySubject(EQ_A, cyl), 1_000);
+        (RecoveryConsent memory c, bytes memory cs, ScaleReading memory r,) =
+            _recoveryArgs(SCALE_SERVICE_PK, service, EQ_A, bytes32("cyl"), 1_000, false);
         (, bytes32 rr, bytes32 s) = vm.sign(SCALE_SERVICE_PK, ledger.scaleDigest(r));
         vm.prank(service);
         vm.expectRevert(Attestations.BadSignature.selector);
-        ledger.recover(EQ_A, cyl, false, r, abi.encodePacked(rr, s, uint8(29)));
+        ledger.recover(c, cs, r, abi.encodePacked(rr, s, uint8(29)));
     }
 
     // ---------------------------------------------------------------- lots and quotas
@@ -140,11 +140,14 @@ contract EdgeCasesTest is Fixture {
 
     function test_revert_emptyInputs() public {
         uint256[] memory none = new uint256[](0);
-        ScaleReading memory r = _reading(ledger.destructionSubject(none), 1);
+        bytes32 subject = ledger.destructionSubject(none);
+        ScaleReading memory r = _reading(subject, 1);
         bytes memory sig = _signScale(SCALE_FACILITY_PK, r);
+        DestructionCertificate memory d = _destCert(subject, 1, 9_999);
+        bytes memory ds = _signDestruction(VERIFIER_PK, d);
         vm.prank(facility);
         vm.expectRevert(KigaliLedger.EmptyInputs.selector);
-        ledger.destroy(none, r, sig, bytes32("c"), 9_999);
+        ledger.destroy(none, r, sig, d, ds);
     }
 
     function test_revert_destroyMixedGases() public {
@@ -153,11 +156,14 @@ contract EdgeCasesTest is Fixture {
         vm.prank(facility);
         uint256 other = ledger.declareUnknown(R134A, 1_000, bytes32("c"), bytes32("d"));
         uint256[] memory inputs = _two(fa, other);
-        ScaleReading memory r = _reading(ledger.destructionSubject(inputs), 5_000);
+        bytes32 subject = ledger.destructionSubject(inputs);
+        ScaleReading memory r = _reading(subject, 5_000);
         bytes memory sig = _signScale(SCALE_FACILITY_PK, r);
+        DestructionCertificate memory d = _destCert(subject, 5_000, 9_999);
+        bytes memory ds = _signDestruction(VERIFIER_PK, d);
         vm.prank(facility);
         vm.expectRevert(KigaliLedger.GasMismatch.selector);
-        ledger.destroy(inputs, r, sig, bytes32("c"), 9_999);
+        ledger.destroy(inputs, r, sig, d, ds);
     }
 
     // ---------------------------------------------------------------- claims and flags

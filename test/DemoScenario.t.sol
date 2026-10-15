@@ -14,10 +14,9 @@ contract DemoScenarioTest is Fixture {
     bytes32 internal constant COLD_ROOM = keccak256("EKOMVET/demo-cold-room");
 
     function test_demo_sixSteps() public {
-        vm.startPrank(registrar);
-        equipment.registerTierA(FREEZER, R404A, 9_000, uint64(block.timestamp - 6 * 365 days), keccak256("ekomvet-demo-1"));
-        equipment.registerTierA(COLD_ROOM, R404A, 6_000, uint64(block.timestamp - 9 * 365 days), keccak256("ekomvet-demo-2"));
-        vm.stopPrank();
+        // both units come from the (mock) national registry, bound to the supermarket that operates them
+        _registerA(FREEZER, R404A, 9_000, uint64(block.timestamp - 6 * 365 days));
+        _registerA(COLD_ROOM, R404A, 6_000, uint64(block.timestamp - 9 * 365 days));
 
         // Step 1 — a Turkish importer mints 100 kg of R-404A against its (mock) FARAVET quota.
         uint256 stock = _mint(100_000);

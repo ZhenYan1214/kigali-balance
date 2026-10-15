@@ -1,9 +1,13 @@
 // In-memory mirror of the on-chain rules (KigaliLedger, EquipmentRegistry, DestructionClaims).
 // The simulator only records an event as "accepted" if the real contracts would accept it, and
-// rejected attempts carry the same reason names as the Solidity custom errors.
+// rejected attempts carry the same reason names as the Solidity custom errors. Checks run in the
+// same order as on chain, and nothing is mutated before every check has passed.
 
 const PERIOD_SECONDS = 30 * 24 * 3600; // EquipmentRegistry.MONTH
 const TIER_RANK = { A: 1, B: 2, C: 3 };
+
+/** A signer label like "scale:service-03" is a scale key bound to that operator (KigaliLedger.deviceOperator). */
+const deviceOperator = (signer) => (signer.startsWith('scale:') ? signer.slice('scale:'.length) : null);
 
 export class LedgerMirror {
   constructor(rules) {
@@ -20,6 +24,20 @@ export class LedgerMirror {
     this.events = [];
     this.seq = 0;
     this.now = 0;
+    this.owners = new Set(); // accounts holding EQUIPMENT_OWNER
+    this.verifiers = new Set(); // accounts holding VERIFIER
+    this.cylinders = new Map(); // cylinderId => open (ACTIVE or IN_TRANSIT) lots
+    this.nextCylinder = 1;
+  }
+
+  // ------------------------------------------------------------------ roles (granted by governance; no events)
+
+  addOwner(id) {
+    this.owners.add(id);
+  }
+
+  addVerifier(id) {
+    this.verifiers.add(id);
   }
 
   // ------------------------------------------------------------------ bookkeeping
@@ -52,10 +70,26 @@ export class LedgerMirror {
     return null;
   }
 
-  createLot(t, { gas, grams, cls, tier = null, holder, origin, parent = 0 }) {
+  /** A fresh physical cylinder ID. */
+  newCylinder() {
+    return `cyl-${String(this.nextCylinder++).padStart(6, '0')}`;
+  }
+
+  openLotsIn(cylinder) {
+    return this.cylinders.get(cylinder) ?? 0;
+  }
+
+  createLot(t, { gas, grams, cls, tier = null, holder, origin, parent = 0, cylinder }) {
     const id = this.nextLotId++;
-    this.lots.set(id, { id, gas, grams, cls, tier, holder, origin, parent, status: 'ACTIVE', pendingTo: null, createdAt: t });
+    this.lots.set(id, { id, gas, grams, cls, tier, holder, origin, parent, cylinder, status: 'ACTIVE', pendingTo: null, createdAt: t });
+    this.cylinders.set(cylinder, this.openLotsIn(cylinder) + 1);
     return id;
+  }
+
+  /** The lot leaves circulation (emptied, reclaimed or destroyed) and frees its cylinder. */
+  closeLot(lot) {
+    lot.status = 'CONSUMED';
+    this.cylinders.set(lot.cylinder, this.openLotsIn(lot.cylinder) - 1);
   }
 
   activeLotsOf(holder, filter = () => true) {
@@ -74,37 +108,40 @@ export class LedgerMirror {
     this.log(t, 'QUOTA', { quotaId, importer, gas, grams });
   }
 
-  mintVirgin(t, importer, quotaId, grams) {
+  mintVirgin(t, importer, quotaId, grams, cylinder = this.newCylinder()) {
     t = this.tick(t);
     const q = this.quotas.get(quotaId);
-    const data = { actor: importer, quotaId, grams };
+    const data = { actor: importer, quotaId, grams, cylinder };
     if (!q) return this.reject(t, 'MINT', data, 'UnknownQuota');
     if (q.importer !== importer) return this.reject(t, 'MINT', data, 'NotQuotaHolder');
     if (q.used + grams > q.allowed) return this.reject(t, 'MINT', data, 'QuotaExceeded');
+    if (this.openLotsIn(cylinder) > 0) return this.reject(t, 'MINT', data, 'CylinderInUse');
     q.used += grams;
     const tot = this.totalsOf(q.gas);
     tot.virginMinted += grams;
     tot.live += grams;
-    const lot = this.createLot(t, { gas: q.gas, grams, cls: 'VIRGIN', holder: importer, origin: quotaId });
+    const lot = this.createLot(t, { gas: q.gas, grams, cls: 'VIRGIN', holder: importer, origin: quotaId, cylinder });
     this.log(t, 'MINT', { ...data, gas: q.gas, lot });
     return lot;
   }
 
   // ------------------------------------------------------------------ R2 two-step transfers
 
-  send(t, from, lotId, to, grams) {
+  send(t, from, lotId, to, grams, newCylinder = this.newCylinder()) {
     t = this.tick(t);
     const lot = this.lots.get(lotId);
-    const data = { actor: from, to, lot: lotId, grams };
+    const data = { actor: from, to, lot: lotId, grams, newCylinder };
     if (!lot || lot.status !== 'ACTIVE') return this.reject(t, 'SEND', data, 'NotActive');
     if (lot.holder !== from) return this.reject(t, 'SEND', data, 'NotHolder');
     if (from === to) return this.reject(t, 'SEND', data, 'SelfTransfer');
     if (grams <= 0) return this.reject(t, 'SEND', data, 'ZeroAmount');
     if (grams > lot.grams) return this.reject(t, 'SEND', data, 'InsufficientGrams');
+    const split = grams < lot.grams;
+    if (split && this.openLotsIn(newCylinder) > 0) return this.reject(t, 'SEND', data, 'CylinderInUse');
     let sentId = lotId;
-    if (grams < lot.grams) {
+    if (split) {
       lot.grams -= grams;
-      sentId = this.createLot(t, { gas: lot.gas, grams, cls: lot.cls, tier: lot.tier, holder: from, origin: lot.origin, parent: lotId });
+      sentId = this.createLot(t, { gas: lot.gas, grams, cls: lot.cls, tier: lot.tier, holder: from, origin: lot.origin, parent: lotId, cylinder: newCylinder });
     }
     const s = this.lots.get(sentId);
     s.status = 'IN_TRANSIT';
@@ -133,7 +170,8 @@ export class LedgerMirror {
     }
     lot.holder = to;
     lot.pendingTo = null;
-    lot.status = lot.grams === 0 ? 'CONSUMED' : 'ACTIVE';
+    if (lot.grams === 0) this.closeLot(lot);
+    else lot.status = 'ACTIVE';
     this.log(t, 'RECEIVE', { ...data, sentGrams: sent, gas: lot.gas, ...(discrepancy ? { discrepancy } : {}) });
     return lotId;
   }
@@ -146,21 +184,28 @@ export class LedgerMirror {
     this.log(t, 'MODEL', { modelId, gas, chargeGrams });
   }
 
-  registerTierA(t, id, gas, nameplateGrams, installedAt, category) {
+  registerTierA(t, id, gas, nameplateGrams, installedAt, category, owner) {
     t = this.tick(t);
-    if (this.equipment.has(id)) return this.reject(t, 'REGISTER_EQUIPMENT', { equipment: id }, 'AlreadyRegistered');
-    this.equipment.set(id, this._newUnit({ tier: 'A', gas, nameplateGrams, installedAt, category, registeredAt: t, registeredBy: 'registrar' }));
-    this.log(t, 'REGISTER_EQUIPMENT', { equipment: id, tier: 'A', gas, nameplateGrams, installedAt: new Date(installedAt * 1000).toISOString() });
+    const data = { equipment: id, tier: 'A', gas, nameplateGrams, installedAt: new Date(installedAt * 1000).toISOString(), owner };
+    if (nameplateGrams <= 0) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'ZeroAmount');
+    if (installedAt > t) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'InstalledInFuture');
+    if (!this.owners.has(owner)) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'NotEquipmentOwner');
+    if (this.equipment.has(id)) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'AlreadyRegistered');
+    this.equipment.set(id, this._newUnit({ tier: 'A', gas, nameplateGrams, installedAt, category, registeredAt: t, registeredBy: 'registrar', owner }));
+    this.log(t, 'REGISTER_EQUIPMENT', data);
     return id;
   }
 
-  registerTierB(t, service, id, modelId, category) {
+  registerTierB(t, service, id, modelId, category, owner) {
     t = this.tick(t);
     const m = this.models.get(modelId);
-    if (!m) return this.reject(t, 'REGISTER_EQUIPMENT', { actor: service, equipment: id }, 'UnknownModel');
-    if (this.equipment.has(id)) return this.reject(t, 'REGISTER_EQUIPMENT', { actor: service, equipment: id }, 'AlreadyRegistered');
-    this.equipment.set(id, this._newUnit({ tier: 'B', gas: m.gas, nameplateGrams: m.chargeGrams, installedAt: 0, category, registeredAt: t, registeredBy: service, modelId }));
-    this.log(t, 'REGISTER_EQUIPMENT', { actor: service, equipment: id, tier: 'B', gas: m.gas, nameplateGrams: m.chargeGrams, modelId });
+    const data = { actor: service, equipment: id, tier: 'B', modelId, owner };
+    if (!m) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'UnknownModel');
+    if (!this.owners.has(owner)) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'NotEquipmentOwner');
+    if (owner === service) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'OwnerNotIndependent');
+    if (this.equipment.has(id)) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'AlreadyRegistered');
+    this.equipment.set(id, this._newUnit({ tier: 'B', gas: m.gas, nameplateGrams: m.chargeGrams, installedAt: 0, category, registeredAt: t, registeredBy: service, modelId, owner }));
+    this.log(t, 'REGISTER_EQUIPMENT', { ...data, gas: m.gas, nameplateGrams: m.chargeGrams });
     return id;
   }
 
@@ -168,10 +213,11 @@ export class LedgerMirror {
     return { ...u, charged: 0, recovered: 0, status: 'ACTIVE', charges: [] };
   }
 
+  /** Nameplate charge (Tier A with tolerance) plus every top-up charged through the ledger. */
   recoveryCap(id) {
     const e = this.equipment.get(id);
-    if (e.tier === 'A') return Math.floor((e.nameplateGrams * (10_000 + this.rules.tierAToleranceBps)) / 10_000);
-    return e.nameplateGrams;
+    const base = e.tier === 'A' ? Math.floor((e.nameplateGrams * (10_000 + this.rules.tierAToleranceBps)) / 10_000) : e.nameplateGrams;
+    return base + e.charged;
   }
 
   charge(t, service, lotId, eqId, grams) {
@@ -188,7 +234,7 @@ export class LedgerMirror {
     e.charged += grams;
     e.charges.push({ at: t, grams });
     lot.grams -= grams;
-    if (lot.grams === 0) lot.status = 'CONSUMED';
+    if (lot.grams === 0) this.closeLot(lot);
     const tot = this.totalsOf(lot.gas);
     tot.charged += grams;
     tot.live -= grams;
@@ -196,35 +242,45 @@ export class LedgerMirror {
     return true;
   }
 
-  /** R3 + residence rule. Returns { inService, quarantined } lot ids (0 when absent) or null. */
-  recover(t, service, eqId, grams, decommission) {
+  /**
+   * R3 + residence rule + owner consent + cylinder uniqueness.
+   * `consentSigner` defaults to the unit's registered owner (an honest recovery).
+   * Returns { inService, quarantined } lot ids (0 when absent) or null.
+   */
+  recover(t, service, eqId, grams, decommission, { consentSigner, cylinder = this.newCylinder() } = {}) {
     t = this.tick(t);
     const e = this.equipment.get(eqId);
-    const data = { actor: service, equipment: eqId, grams, decommission };
+    const signer = consentSigner ?? e?.owner ?? 'nobody';
+    const data = { actor: service, equipment: eqId, grams, decommission, cylinder, consentSigner: signer };
+    // EquipmentRegistry.recordRecovery
     if (!e) return this.reject(t, 'RECOVER', data, 'UnknownEquipment');
     if (e.status !== 'ACTIVE') return this.reject(t, 'RECOVER', data, 'NotActive');
     if (grams <= 0) return this.reject(t, 'RECOVER', data, 'ZeroAmount');
     const cap = this.recoveryCap(eqId);
     if (e.recovered + grams > cap) return this.reject(t, 'RECOVER', { ...data, cap }, 'RecoveryCapExceeded');
-    if (e.tier === 'B') {
-      const key = `${service}|${Math.floor(t / PERIOD_SECONDS)}`;
-      const used = (this.tierBUsage.get(key) ?? 0) + grams;
-      if (used > this.rules.tierBMonthlyCapGrams) return this.reject(t, 'RECOVER', data, 'TierBMonthlyCapExceeded');
-      this.tierBUsage.set(key, used);
-    }
-    e.recovered += grams;
-    if (decommission) e.status = 'DECOMMISSIONED';
+    const periodKey = `${service}|${Math.floor(t / PERIOD_SECONDS)}`;
+    const tierBUsed = (this.tierBUsage.get(periodKey) ?? 0) + grams;
+    if (e.tier === 'B' && tierBUsed > this.rules.tierBMonthlyCapGrams) return this.reject(t, 'RECOVER', data, 'TierBMonthlyCapExceeded');
+    // KigaliLedger._verifyConsent
+    if (signer !== e.owner || !this.owners.has(signer)) return this.reject(t, 'RECOVER', data, 'NotUnitOwner');
+    if (signer === service || deviceOperator(signer) === service) return this.reject(t, 'RECOVER', data, 'OwnerNotIndependent');
 
     const quarantined = this._quarantinedGrams(t, e, grams);
     const inServiceGrams = grams - quarantined;
+    // KigaliLedger._createRaw: the first lot needs an empty cylinder; a quarantined second part joins it
+    if (this.openLotsIn(cylinder) > 0) return this.reject(t, 'RECOVER', data, 'CylinderInUse');
+
+    if (e.tier === 'B') this.tierBUsage.set(periodKey, tierBUsed);
+    e.recovered += grams;
+    if (decommission) e.status = 'DECOMMISSIONED';
     const tot = this.totalsOf(e.gas);
     tot.recovered += grams;
     tot.live += grams;
     const inService = inServiceGrams > 0
-      ? this.createLot(t, { gas: e.gas, grams: inServiceGrams, cls: 'RECOVERED', tier: e.tier, holder: service, origin: eqId })
+      ? this.createLot(t, { gas: e.gas, grams: inServiceGrams, cls: 'RECOVERED', tier: e.tier, holder: service, origin: eqId, cylinder })
       : 0;
     const q = quarantined > 0
-      ? this.createLot(t, { gas: e.gas, grams: quarantined, cls: 'RECOVERED', tier: 'C', holder: service, origin: eqId })
+      ? this.createLot(t, { gas: e.gas, grams: quarantined, cls: 'RECOVERED', tier: 'C', holder: service, origin: eqId, cylinder })
       : 0;
     this.log(t, 'RECOVER', { ...data, gas: e.gas, tier: e.tier, inServiceLot: inService, inServiceGrams, quarantinedLot: q, quarantinedGrams: quarantined });
     return { inService, quarantined: q };
@@ -242,9 +298,9 @@ export class LedgerMirror {
 
   // ------------------------------------------------------------------ R4 + R5 reclamation
 
-  reclaim(t, reclaimer, inputs, outGrams, purityBps) {
+  reclaim(t, reclaimer, inputs, outGrams, purityBps, outputCylinder = this.newCylinder()) {
     t = this.tick(t);
-    const data = { actor: reclaimer, inputs, outGrams, purityBps };
+    const data = { actor: reclaimer, inputs, outGrams, purityBps, outputCylinder };
     if (inputs.length === 0) return this.reject(t, 'RECLAIM', data, 'EmptyInputs');
     if (new Set(inputs).size !== inputs.length) return this.reject(t, 'RECLAIM', data, 'DuplicateInput');
     const lots = inputs.map((id) => this.lots.get(id));
@@ -264,23 +320,30 @@ export class LedgerMirror {
     if (outGrams <= 0) return this.reject(t, 'RECLAIM', data, 'ZeroAmount');
     if (outGrams > maxOut) return this.reject(t, 'RECLAIM', { ...data, inGrams, maxOut }, 'ReclaimExceedsInput');
     if (purityBps < this.rules.minReclaimPurityBps) return this.reject(t, 'RECLAIM', data, 'PurityTooLow');
-    for (const lot of lots) lot.status = 'CONSUMED';
+    // the inputs are emptied first, so the output may go into one of their cylinders
+    const freed = lots.filter((l) => l.cylinder === outputCylinder).length;
+    if (this.openLotsIn(outputCylinder) - freed > 0) return this.reject(t, 'RECLAIM', data, 'CylinderInUse');
+    for (const lot of lots) this.closeLot(lot);
     const tot = this.totalsOf(gas);
     tot.live -= inGrams;
     tot.reclaimLoss += inGrams - outGrams;
     tot.live += outGrams;
-    const out = this.createLot(t, { gas, grams: outGrams, cls: 'RECLAIMED', tier: worst, holder: reclaimer, origin: `reclaim:${inputs.join('+')}` });
+    const out = this.createLot(t, { gas, grams: outGrams, cls: 'RECLAIMED', tier: worst, holder: reclaimer, origin: `reclaim:${inputs.join('+')}`, cylinder: outputCylinder });
     this.log(t, 'RECLAIM', { ...data, gas, inGrams, outputLot: out, tier: worst });
     return out;
   }
 
   // ------------------------------------------------------------------ R6 destruction, R7 claims
 
-  destroy(t, facility, inputs, intakeGrams, dreBps) {
+  /** `verifier` signs the destruction certificate; `certGrams` defaults to the intake weighing. */
+  destroy(t, facility, inputs, intakeGrams, dreBps, { verifier, certGrams = intakeGrams } = {}) {
     t = this.tick(t);
-    const data = { actor: facility, inputs, intakeGrams, dreBps };
+    const data = { actor: facility, inputs, intakeGrams, dreBps, verifier, certGrams };
     if (inputs.length === 0) return this.reject(t, 'DESTROY', data, 'EmptyInputs');
+    if (certGrams !== intakeGrams) return this.reject(t, 'DESTROY', data, 'CertificateMismatch');
     if (dreBps < this.rules.minDreBps) return this.reject(t, 'DESTROY', data, 'DreTooLow');
+    if (!this.verifiers.has(verifier)) return this.reject(t, 'DESTROY', data, 'NotVerifier');
+    if (verifier === facility || deviceOperator(verifier) === facility) return this.reject(t, 'DESTROY', data, 'VerifierNotIndependent');
     if (new Set(inputs).size !== inputs.length) return this.reject(t, 'DESTROY', data, 'DuplicateInput');
     const lots = inputs.map((id) => this.lots.get(id));
     const gas = lots[0]?.gas;
@@ -297,13 +360,13 @@ export class LedgerMirror {
     }
     if (intakeGrams <= 0) return this.reject(t, 'DESTROY', data, 'ZeroAmount');
     if (intakeGrams > held) return this.reject(t, 'DESTROY', { ...data, held }, 'DestroyExceedsHeld');
-    for (const lot of lots) lot.status = 'CONSUMED';
+    for (const lot of lots) this.closeLot(lot);
     const tot = this.totalsOf(gas);
     tot.live -= held;
     tot.destroyed += intakeGrams;
     tot.handlingLoss += held - intakeGrams;
     const eventId = this.destructionEvents.length;
-    this.destructionEvents.push({ eventId, facility, gas, grams: intakeGrams, eligible, worstTier: eligible ? worst : null, claimedBy: null });
+    this.destructionEvents.push({ eventId, facility, gas, grams: intakeGrams, eligible, worstTier: eligible ? worst : null, claimedBy: null, verifier });
     this.log(t, 'DESTROY', { ...data, gas, held, eventId, creditEligible: eligible, worstTier: eligible ? worst : null });
     return eventId;
   }

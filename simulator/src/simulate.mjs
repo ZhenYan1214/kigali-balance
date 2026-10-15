@@ -27,9 +27,15 @@ export function simulate(params, overrides = {}) {
   const services = ids('service', p.actors.serviceCompanies);
   const reclaimers = ids('reclaimer', p.actors.reclaimers);
   const facilities = ids('facility', p.actors.destructionFacilities);
+  const owners = ids('owner', p.actors.equipmentOwners);
+  const takeBacks = ids('takeback', p.actors.takeBackPoints);
+  const verifiers = ids('verifier', p.actors.verifiers);
   const registries = p.actors.registries;
+  for (const o of [...owners, ...takeBacks]) ledger.addOwner(o);
+  for (const v of verifiers) ledger.addVerifier(v);
 
   const shuffledServices = rng.shuffle(services);
+  const colludingTakeBacks = rng.shuffle(takeBacks).slice(0, p.fraud.phantomTierB.colludingTakeBackPoints);
   const truth = {
     fraud: {
       offLedgerTopUpServices: shuffledServices.slice(0, p.fraud.offLedgerTopUps.serviceCompanies),
@@ -39,8 +45,13 @@ export function simulate(params, overrides = {}) {
       ),
       oversellingDistributors: rng.shuffle(distributors).slice(0, p.fraud.distributorOverselling.distributors),
       inflatedYieldReclaimers: rng.shuffle(reclaimers).slice(0, p.fraud.inflatedYield.reclaimers),
+      colludingTakeBackPoints: colludingTakeBacks,
+      phantomProfiles: {}, // service => 'naive' | 'adaptive'
       phantomUnits: [],
       chargeAndRecoverUnits: [],
+      unconsentedRecoveryAttempts: [],
+      cylinderReuseAttempts: [],
+      selfCertifiedDestructionAttempts: [],
     },
     units: {},
     physical: {},
@@ -50,6 +61,8 @@ export function simulate(params, overrides = {}) {
   const isPhantomService = new Set(truth.fraud.phantomTierBServices);
   const smugglingDistributor = truth.fraud.oversellingDistributors[0];
   const isInflatedReclaimer = new Set(truth.fraud.inflatedYieldReclaimers);
+  truth.fraud.phantomTierBServices.forEach((svc, i) => { truth.fraud.phantomProfiles[svc] = i === 0 ? 'naive' : 'adaptive'; });
+  const honestTakeBacks = takeBacks.filter((tb) => !colludingTakeBacks.includes(tb));
 
   const actors = [
     ...importers.map((id) => ({ id, role: 'IMPORTER', country: 'TR' })),
@@ -58,6 +71,9 @@ export function simulate(params, overrides = {}) {
     ...reclaimers.map((id, i) => ({ id, role: 'RECLAIMER', country: i === 0 ? 'EU' : 'TR' })),
     ...facilities.map((id) => ({ id, role: 'DESTRUCTION', country: 'TR' })),
     ...registries.map((r) => ({ id: r.id, role: 'REGISTRY', country: r.id.endsWith('tw') ? 'TW' : 'INTL' })),
+    ...owners.map((id, i) => ({ id, role: 'EQUIPMENT_OWNER', country: i % 3 === 0 ? 'EU' : 'TR' })),
+    ...takeBacks.map((id) => ({ id, role: 'EQUIPMENT_OWNER', country: 'TR' })),
+    ...verifiers.map((id, i) => ({ id, role: 'VERIFIER', country: i === 0 ? 'EU' : 'TR' })),
   ];
 
   // physical pools per gas (grams)
@@ -112,6 +128,8 @@ export function simulate(params, overrides = {}) {
         leakRate: rng.uniform(c.leakRatePerYear[0], c.leakRatePerYear[1]),
         charge: Math.round(nameplate * rng.uniform(p.fleet.initialChargeFraction[0], p.fleet.initialChargeFraction[1])),
         service: rng.pick(services),
+        // Tier A: the operator in the national registry; Tier B: the take-back point at scrapping
+        owner: tier === 'A' ? rng.pick(owners) : rng.pick(honestTakeBacks),
         registered: false,
         active: true,
       };
@@ -119,7 +137,7 @@ export function simulate(params, overrides = {}) {
       truth.units[id] = { leakRatePerYear: Number(unit.leakRate.toFixed(4)), serviceCompany: unit.service };
       units.push(unit);
       if (tier === 'A') {
-        ledger.registerTierA(t0, id, gas, nameplate, installedAt, category);
+        ledger.registerTierA(t0, id, gas, nameplate, installedAt, category, unit.owner);
         unit.registered = true;
       }
     }
@@ -211,7 +229,7 @@ export function simulate(params, overrides = {}) {
 
   const registerTierBIfNeeded = (t, svc, unit) => {
     if (unit.registered) return true;
-    if (ledger.registerTierB(t, svc, unit.id, unit.modelId, unit.category)) {
+    if (ledger.registerTierB(t, svc, unit.id, unit.modelId, unit.category, unit.owner)) {
       unit.registered = true;
       return true;
     }
@@ -281,6 +299,18 @@ export function simulate(params, overrides = {}) {
       }
     }
 
+    // 2b) unconsented recovery: smuggled gas booked as recovered from someone else's unit, with the
+    //     consent signed by the service company's own scale key (rejected: NotUnitOwner)
+    if (rng.chance(p.fraud.unconsentedRecovery.attemptsPerYear / 12)) {
+      const svc = rng.pick(truth.fraud.offLedgerTopUpServices);
+      const target = rng.pick(units.filter((u) => u.active && u.registered && u.tier === 'A' && u.service !== svc));
+      if (target) {
+        const grams = Math.round(target.nameplate * 0.3);
+        const res = ledger.recover(t, svc, target.id, grams, false, { consentSigner: `scale:${svc}` });
+        truth.fraud.unconsentedRecoveryAttempts.push({ unit: target.id, service: svc, grams, month: m, accepted: Boolean(res) });
+      }
+    }
+
     // 3) end of life
     for (const u of units) {
       if (!u.active || u.eolMonth !== m) continue;
@@ -299,14 +329,27 @@ export function simulate(params, overrides = {}) {
       u.charge = 0;
     }
 
-    // 4) phantom Tier B recoveries: smuggled virgin gas presented as recovered from fake small units
+    // 4) phantom Tier B recoveries: smuggled virgin gas presented as recovered from fake small units.
+    //    A colluding take-back point co-signs as the owner; the adaptive company mimics honest
+    //    recovery efficiency instead of booking the full model charge.
     for (const svc of truth.fraud.phantomTierBServices) {
       const n = rng.int(p.fraud.phantomTierB.unitsPerMonth[0], p.fraud.phantomTierB.unitsPerMonth[1]);
+      const range = truth.fraud.phantomProfiles[svc] === 'adaptive'
+        ? p.fraud.phantomTierB.adaptiveFractionOfModelCharge
+        : p.fraud.phantomTierB.fractionOfModelCharge;
       for (let k = 0; k < n; k++) {
         const model = rng.pick(models.filter((x) => x.category === 'split_ac'));
         const id = fakeSerial();
-        if (!ledger.registerTierB(t, svc, id, model.id, model.category)) continue;
-        const g = Math.round(model.grams * rng.uniform(p.fraud.phantomTierB.fractionOfModelCharge[0], p.fraud.phantomTierB.fractionOfModelCharge[1]));
+        const accomplice = rng.pick(colludingTakeBacks);
+        if (!ledger.registerTierB(t, svc, id, model.id, model.category, accomplice)) continue;
+        const g = Math.round(model.grams * rng.uniform(range[0], range[1]));
+        // occasionally try to book it into a cylinder that still backs an open lot (rejected: CylinderInUse)
+        const openLot = ledger.activeLotsOf(svc)[0];
+        if (openLot && rng.chance(p.fraud.cylinderReuse.attemptsPerYear / 12 / p.fraud.phantomTierB.unitsPerMonth[1])) {
+          const res = ledger.recover(t, svc, id, g, true, { cylinder: openLot.cylinder });
+          truth.fraud.cylinderReuseAttempts.push({ unit: id, service: svc, cylinder: openLot.cylinder, month: m, accepted: Boolean(res) });
+          if (res) continue;
+        }
         if (ledger.recover(t, svc, id, g, true)) {
           smuggledSale(t, svc, model.gas, g); // the "recovered" gas is really smuggled virgin
           truth.fraud.phantomUnits.push({ unit: id, service: svc, grams: g, month: m });
@@ -355,7 +398,14 @@ export function simulate(params, overrides = {}) {
       });
       for (const batch of Object.values(batches)) {
         const held = batch.reduce((s, l) => s + l.grams, 0);
-        const eventId = ledger.destroy(t + 2 * DAY, fac, batch.map((l) => l.id), held, p.destruction.dreBps);
+        const inputs = batch.map((l) => l.id);
+        if (rng.chance(p.fraud.selfCertifiedDestruction.attemptsPerYear / 12 / facilities.length)) {
+          // the facility signs its own certificate with its scale key (rejected: NotVerifier)
+          const res = ledger.destroy(t + 2 * DAY, fac, inputs, held, p.destruction.dreBps, { verifier: `scale:${fac}` });
+          truth.fraud.selfCertifiedDestructionAttempts.push({ facility: fac, grams: held, month: m, accepted: res !== null });
+          if (res !== null) continue;
+        }
+        const eventId = ledger.destroy(t + 2 * DAY, fac, inputs, held, p.destruction.dreBps, { verifier: rng.pick(verifiers) });
         if (eventId === null) continue;
         const ev = ledger.destructionEvents[eventId];
         if (!ev.eligible) continue;
@@ -387,7 +437,7 @@ export function simulate(params, overrides = {}) {
   const equipment = [...ledger.equipment.entries()].map(([id, e]) => ({
     id, tier: e.tier, gas: e.gas, category: e.category, nameplate_g: e.nameplateGrams,
     installed_at: e.installedAt ? iso(e.installedAt) : '', registered_at: iso(e.registeredAt),
-    registered_by: e.registeredBy, model_id: e.modelId ?? '',
+    registered_by: e.registeredBy, model_id: e.modelId ?? '', owner: e.owner,
   }));
 
   return {

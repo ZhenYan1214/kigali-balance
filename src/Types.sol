@@ -41,6 +41,11 @@ library Roles {
     bytes32 internal constant AI_ORACLE = keccak256("AI_ORACLE");
     bytes32 internal constant SCALE = keccak256("SCALE"); // device key of a calibrated scale
     bytes32 internal constant LAB = keccak256("LAB"); // accredited laboratory signing key
+    /// @dev Owner or operator of a unit (Tier A: the operator in the national registry; Tier B: the
+    ///      owner or the take-back point that receives the scrapped unit). Co-signs every recovery.
+    bytes32 internal constant EQUIPMENT_OWNER = keccak256("EQUIPMENT_OWNER");
+    /// @dev Independent verifier that signs destruction certificates (quantity and DRE).
+    bytes32 internal constant VERIFIER = keccak256("VERIFIER");
 }
 
 /// @notice Base for contracts whose privileged functions are executed by the consortium Governance contract.

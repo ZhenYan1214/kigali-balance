@@ -19,18 +19,17 @@ contract InvariantsTest is Fixture {
         ledger.registerQuota(BIG_QUOTA, importer, R404A, 2_000_000); // 2 t
 
         bytes32[] memory pool = new bytes32[](6);
-        vm.startPrank(registrar);
+        uint256[] memory ownerKeys = new uint256[](6);
         for (uint256 i; i < 4; ++i) {
             pool[i] = keccak256(abi.encode("inv-tierA", i));
-            equipment.registerTierA(pool[i], R404A, uint64(5_000 + i * 5_000), INSTALLED_LONG_AGO, keccak256(abi.encode("rec", i)));
+            _registerA(pool[i], R404A, uint64(5_000 + i * 5_000), INSTALLED_LONG_AGO);
+            ownerKeys[i] = OWNER_PK;
         }
-        vm.stopPrank();
-        vm.startPrank(service);
         for (uint256 i = 4; i < 6; ++i) {
             pool[i] = keccak256(abi.encode("inv-tierB", i));
-            equipment.registerTierB(pool[i], MODEL_SPLIT_AC, keccak256(abi.encode("photo", i)));
+            _registerB(pool[i], service);
+            ownerKeys[i] = TAKEBACK_PK;
         }
-        vm.stopPrank();
 
         _bindScale(IMPORTER_SCALE_PK, importer); // the importer also receives returned lots
         address[] memory ops = new address[](5);
@@ -66,7 +65,10 @@ contract InvariantsTest is Fixture {
                 scaleKeys: keys,
                 registries: regs,
                 labKey: LAB_PK,
-                equipmentPool: pool
+                equipmentPool: pool,
+                ownerKeys: ownerKeys,
+                verifierKey: VERIFIER_PK,
+                rogueKey: ROGUE_PK
             })
         );
         targetContract(address(handler));
@@ -139,6 +141,16 @@ contract InvariantsTest is Fixture {
         assertLe(used, allowed);
     }
 
+    /// 8. R3: no recovery is ever booked without the consent of the unit's registered owner.
+    function invariant_noRecoveryWithoutOwnerConsent() public view {
+        assertEq(handler.ghostUnconsentedRecoveriesAccepted(), 0);
+    }
+
+    /// 9. R6: no destruction is ever recorded on a certificate the facility signed itself.
+    function invariant_noSelfCertifiedDestruction() public view {
+        assertEq(handler.ghostSelfCertifiedDestructionsAccepted(), 0);
+    }
+
     function afterInvariant() external {
         KigaliLedger.Totals memory t = ledger.totals(R404A);
         console.log("lots", ledger.lotCount(), "destruction events", claims.eventCount());
@@ -148,6 +160,10 @@ contract InvariantsTest is Fixture {
         console.log("destroy ok", handler.outcomes("destroy.ok"), "rejected", handler.outcomes("destroy.rejected"));
         console.log("claim ok", handler.outcomes("claim.ok"), "rejected", handler.outcomes("claim.rejected"));
         console.log("recover rejected (over cap)", handler.outcomes("recover.rejected"));
+        console.log("unconsented recoveries rejected", handler.outcomes("recover.unconsented.rejected"));
+        console.log("self-certified destructions rejected", handler.outcomes("destroy.selfcertified.rejected"));
+        // columns: reclaim.ok, reclaim.rejected, destroy.ok, claim.ok, claim.rejected, recover.rejected,
+        //          recover.unconsented.rejected, destroy.selfcertified.rejected
         vm.writeLine(
             "reports/invariant-metrics.csv",
             string.concat(
@@ -156,7 +172,9 @@ contract InvariantsTest is Fixture {
                 vm.toString(handler.outcomes("destroy.ok")), ",",
                 vm.toString(handler.outcomes("claim.ok")), ",",
                 vm.toString(handler.outcomes("claim.rejected")), ",",
-                vm.toString(handler.outcomes("recover.rejected"))
+                vm.toString(handler.outcomes("recover.rejected")), ",",
+                vm.toString(handler.outcomes("recover.unconsented.rejected")), ",",
+                vm.toString(handler.outcomes("destroy.selfcertified.rejected"))
             )
         );
     }

@@ -65,8 +65,7 @@ contract ClaimsTest is Fixture {
 
     function test_tierPolicy_defaultAcceptsTierAOnly() public {
         bytes32 eqB = keccak256("household-ac/1");
-        vm.prank(service);
-        equipment.registerTierB(eqB, MODEL_SPLIT_AC, bytes32("photo"));
+        _registerB(eqB, service);
         uint256 ev = _destroyRecovered(eqB, 1_000);
         assertEq(uint8(claims.destructionEvent(ev).worstTier), uint8(Tier.B));
 
@@ -83,8 +82,7 @@ contract ClaimsTest is Fixture {
 
     function test_tierPolicy_mixedInputsTakeWeakestTier() public {
         bytes32 eqB = keccak256("household-ac/2");
-        vm.prank(service);
-        equipment.registerTierB(eqB, MODEL_SPLIT_AC, bytes32("photo"));
+        _registerB(eqB, service);
         uint256 a = _recover(service, SCALE_SERVICE_PK, EQ_A, 5_000, true);
         uint256 b = _recover(service, SCALE_SERVICE_PK, eqB, 1_000, true);
         uint256 fa = _move(a, service, facility, SCALE_FACILITY_PK, 5_000);

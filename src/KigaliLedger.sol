@@ -5,7 +5,7 @@ import {Governed, Roles, LotClass, LotStatus, Tier} from "./Types.sol";
 import {IdentityRegistry} from "./IdentityRegistry.sol";
 import {EquipmentRegistry} from "./EquipmentRegistry.sol";
 import {DestructionClaims} from "./DestructionClaims.sol";
-import {Attestations, ScaleReading, LabCertificate} from "./Attestations.sol";
+import {Attestations, ScaleReading, LabCertificate, RecoveryConsent, DestructionCertificate} from "./Attestations.sol";
 
 /// @title KigaliLedger
 /// @notice Lot ledger that keeps HFC kilograms consistent across organisations.
@@ -15,13 +15,16 @@ import {Attestations, ScaleReading, LabCertificate} from "./Attestations.sol";
 ///
 ///   R1  virgin lots are minted only against a quota document, never above its allowance
 ///   R2  transfers are two-step; the receiver re-weighs on its own scale and gaps are flagged
-///   R3  recovery from a unit never exceeds its charge (enforced in EquipmentRegistry)
+///   R3  recovery from a unit never exceeds its charge plus recorded top-ups (EquipmentRegistry),
+///       and every recovery is co-signed by the unit's registered owner
 ///   R4  reclaimed output <= RECOVERED input x (1 - minimum process loss), with a lab certificate
 ///   R5  VIRGIN and UNKNOWN lots can never enter reclamation (classes are not interchangeable)
 ///       and neither can Tier C gas (recovered too soon after installation or a charge)
-///   R6  a facility destroys only lots it holds; only all-RECOVERED inputs are credit-eligible
-///       (and none of them Tier C)
+///   R6  a facility destroys only lots it holds, with quantity and DRE certified by an independent
+///       verifier; only all-RECOVERED inputs are credit-eligible (and none of them Tier C)
 ///   R7  each destruction event can be claimed by one registry only (DestructionClaims)
+///   Cylinders: every lot names a cylinder, and a cylinder holds one open lot at a time (the two
+///       parts of one split recovery excepted), so one physical cylinder cannot back two claims.
 ///
 /// All quantities are integer grams. Mass is conserved per gas:
 ///   virginMinted + unknownDeclared + recovered == live + charged + destroyed + reclaimLoss + handlingLoss
@@ -85,6 +88,7 @@ contract KigaliLedger is Governed {
     mapping(bytes32 => Totals) internal _totals;
     mapping(address => address) public deviceOperator; // scale key => operator that owns the scale
     mapping(address => mapping(bytes32 => bool)) public nonceUsed; // signer => nonce => used
+    mapping(bytes32 => uint32) public openLotsInCylinder; // cylinderId => ACTIVE or IN_TRANSIT lots
 
     // ------------------------------------------------------------------ events
 
@@ -133,6 +137,14 @@ contract KigaliLedger is Governed {
     error AttestationExpired();
     error AttestationFromFuture();
     error NonceReused(address signer, bytes32 nonce);
+    error ZeroCylinder();
+    error CylinderInUse(bytes32 cylinderId);
+    error ConsentMismatch();
+    error NotUnitOwner(address signer);
+    error OwnerNotIndependent(address signer);
+    error CertificateMismatch();
+    error NotVerifier(address signer);
+    error VerifierNotIndependent(address signer);
 
     // ------------------------------------------------------------------ setup
 
@@ -200,7 +212,7 @@ contract KigaliLedger is Governed {
         q.usedGrams = used;
 
         _totals[q.gas].virginMinted += grams;
-        lotId = _create(q.gas, grams, LotClass.VIRGIN, Tier.NONE, msg.sender, cylinderId, quotaId, 0);
+        lotId = _create(q.gas, grams, LotClass.VIRGIN, Tier.NONE, msg.sender, cylinderId, quotaId, false);
     }
 
     /// @notice Declare legacy stock of undocumented origin. It can be held, sold or destroyed,
@@ -212,7 +224,7 @@ contract KigaliLedger is Governed {
         _requireOperator(msg.sender);
         if (grams == 0) revert ZeroAmount();
         _totals[gas].unknownDeclared += grams;
-        lotId = _create(gas, grams, LotClass.UNKNOWN, Tier.NONE, msg.sender, cylinderId, declarationHash, 0);
+        lotId = _create(gas, grams, LotClass.UNKNOWN, Tier.NONE, msg.sender, cylinderId, declarationHash, false);
     }
 
     // ------------------------------------------------------------------ R2: two-step transfers
@@ -264,7 +276,8 @@ contract KigaliLedger is Governed {
 
         lot.holder = msg.sender;
         lot.pendingTo = address(0);
-        lot.status = lot.grams == 0 ? LotStatus.CONSUMED : LotStatus.ACTIVE;
+        if (lot.grams == 0) _close(lot);
+        else lot.status = LotStatus.ACTIVE;
         emit LotReceived(lotId, msg.sender, sent, lot.grams);
     }
 
@@ -286,7 +299,7 @@ contract KigaliLedger is Governed {
         equipmentRegistry.recordCharge(equipmentId, lot.gas, grams, msg.sender);
 
         lot.grams -= grams;
-        if (lot.grams == 0) lot.status = LotStatus.CONSUMED;
+        if (lot.grams == 0) _close(lot);
         Totals storage t = _totals[lot.gas];
         t.charged += grams;
         t.live -= grams;
@@ -294,30 +307,36 @@ contract KigaliLedger is Governed {
     }
 
     /// @notice Recover refrigerant from a registered unit into a recovery cylinder.
-    ///         The weight must come from the caller's own signed scale.
+    ///         Two independent signatures are required: the weight from the caller's own scale, and
+    ///         the consent of the unit's registered owner naming this service company and weight.
     /// @return lotId            the in-service part, stamped with the unit's tier (0 if none)
     /// @return quarantinedLotId the part charged too recently, stamped Tier C (0 if none).
     ///         Both lots describe gas in the same physical cylinder; the split only bounds how
     ///         many of its grams can ever be reclaimed or credited.
-    function recover(bytes32 equipmentId, bytes32 cylinderId, bool decommission, ScaleReading calldata reading, bytes calldata sig)
-        external
-        onlyRole(Roles.SERVICE)
-        returns (uint256 lotId, uint256 quarantinedLotId)
-    {
-        if (reading.subject != recoverySubject(equipmentId, cylinderId)) revert WrongSubject();
-        _verifyScale(reading, sig);
-        bytes32 gas = equipmentRegistry.equipment(equipmentId).gas;
+    function recover(
+        RecoveryConsent calldata consent,
+        bytes calldata consentSig,
+        ScaleReading calldata reading,
+        bytes calldata scaleSig
+    ) external onlyRole(Roles.SERVICE) returns (uint256 lotId, uint256 quarantinedLotId) {
+        bytes32 equipmentId = consent.equipmentId;
+        if (reading.subject != recoverySubject(equipmentId, consent.cylinderId)) revert WrongSubject();
+        _verifyScale(reading, scaleSig);
+        EquipmentRegistry.Equipment memory unit = equipmentRegistry.equipment(equipmentId);
         (Tier tier, uint64 quarantined) =
-            equipmentRegistry.recordRecovery(equipmentId, gas, reading.grams, msg.sender, decommission);
+            equipmentRegistry.recordRecovery(equipmentId, unit.gas, reading.grams, msg.sender, consent.decommission);
+        _verifyConsent(consent, consentSig, reading.grams, unit.owner);
 
-        _totals[gas].recovered += reading.grams;
+        _totals[unit.gas].recovered += reading.grams;
         uint64 inService = reading.grams - quarantined;
         if (inService > 0) {
-            lotId = _create(gas, inService, LotClass.RECOVERED, tier, msg.sender, cylinderId, equipmentId, 0);
+            lotId = _create(unit.gas, inService, LotClass.RECOVERED, tier, msg.sender, consent.cylinderId, equipmentId, false);
         }
         if (quarantined > 0) {
-            quarantinedLotId =
-                _create(gas, quarantined, LotClass.RECOVERED, Tier.C, msg.sender, cylinderId, equipmentId, 0);
+            // the quarantined part shares the physical cylinder with the in-service part
+            quarantinedLotId = _create(
+                unit.gas, quarantined, LotClass.RECOVERED, Tier.C, msg.sender, consent.cylinderId, equipmentId, inService > 0
+            );
         }
     }
 
@@ -350,24 +369,29 @@ contract KigaliLedger is Governed {
         t.reclaimLoss += inputGrams - outputReading.grams;
         t.live += outputReading.grams; // reclaimed mass is not new mass: it moves from inputs to the output lot
 
-        outputLot = _createRaw(gas, outputReading.grams, LotClass.RECLAIMED, worst, msg.sender, outputCylinderId, subject, 0);
+        outputLot = _createRaw(gas, outputReading.grams, LotClass.RECLAIMED, worst, msg.sender, outputCylinderId, subject, 0, false);
         _reclaimInputs[outputLot] = inputs;
         emit Reclaimed(outputLot, inputs, inputGrams, outputReading.grams, cert.purityBps);
     }
 
     // ------------------------------------------------------------------ R6: destruction
 
+    /// @notice Destroy held lots. The facility weighs the intake on its own scale; an independent
+    ///         verifier certifies the same quantity and the destruction and removal efficiency.
     function destroy(
         uint256[] calldata inputs,
         ScaleReading calldata intake,
-        bytes calldata sig,
-        bytes32 certificateHash,
-        uint16 dreBps
+        bytes calldata scaleSig,
+        DestructionCertificate calldata cert,
+        bytes calldata certSig
     ) external onlyRole(Roles.DESTRUCTION) returns (uint256 eventId) {
         if (inputs.length == 0) revert EmptyInputs();
-        if (intake.subject != destructionSubject(inputs)) revert WrongSubject();
-        if (dreBps < minDreBps) revert DreTooLow(dreBps, minDreBps);
-        _verifyScale(intake, sig);
+        bytes32 subject = destructionSubject(inputs);
+        if (intake.subject != subject || cert.subject != subject) revert WrongSubject();
+        if (cert.grams != intake.grams) revert CertificateMismatch();
+        if (cert.dreBps < minDreBps) revert DreTooLow(cert.dreBps, minDreBps);
+        _verifyScale(intake, scaleSig);
+        _verifyDestruction(cert, certSig);
 
         bytes32 gas = _lots[inputs[0]].gas;
         uint64 held;
@@ -380,7 +404,7 @@ contract KigaliLedger is Governed {
             held += lot.grams;
             if (lot.cls != LotClass.RECOVERED || lot.tier == Tier.C) eligible = false;
             if (uint8(lot.tier) > uint8(worst)) worst = lot.tier;
-            lot.status = LotStatus.CONSUMED;
+            _close(lot);
         }
         if (intake.grams == 0) revert ZeroAmount();
         if (intake.grams > held) revert DestroyExceedsHeld(held, intake.grams);
@@ -395,7 +419,7 @@ contract KigaliLedger is Governed {
             emit DiscrepancyFlagged(inputs[0], Discrepancy.UNDERWEIGHT_AT_DESTRUCTION, held, intake.grams);
         }
 
-        eventId = claims.record(msg.sender, gas, intake.grams, dreBps, eligible, worst, certificateHash);
+        eventId = claims.record(msg.sender, gas, intake.grams, cert.dreBps, eligible, worst, cert.documentHash);
         emit Destroyed(eventId, inputs, held, intake.grams, eligible);
     }
 
@@ -443,6 +467,14 @@ contract KigaliLedger is Governed {
         return Attestations.digest(Attestations.domainSeparator(address(this)), Attestations.hashLab(c));
     }
 
+    function consentDigest(RecoveryConsent calldata c) external view returns (bytes32) {
+        return Attestations.digest(Attestations.domainSeparator(address(this)), Attestations.hashConsent(c));
+    }
+
+    function destructionDigest(DestructionCertificate calldata d) external view returns (bytes32) {
+        return Attestations.digest(Attestations.domainSeparator(address(this)), Attestations.hashDestruction(d));
+    }
+
     // ------------------------------------------------------------------ internal: lots
 
     function _create(
@@ -453,13 +485,14 @@ contract KigaliLedger is Governed {
         address holder,
         bytes32 cylinderId,
         bytes32 origin,
-        uint256 parent
+        bool joinCylinder
     ) internal returns (uint256 lotId) {
         _totals[gas].live += grams;
-        lotId = _createRaw(gas, grams, cls, tier, holder, cylinderId, origin, parent);
+        lotId = _createRaw(gas, grams, cls, tier, holder, cylinderId, origin, 0, joinCylinder);
     }
 
     /// @dev Creates a lot without touching totals (callers account for mass themselves).
+    ///      The cylinder must be empty unless `joinCylinder` (the second part of a split recovery).
     function _createRaw(
         bytes32 gas,
         uint64 grams,
@@ -468,8 +501,12 @@ contract KigaliLedger is Governed {
         address holder,
         bytes32 cylinderId,
         bytes32 origin,
-        uint256 parent
+        uint256 parent,
+        bool joinCylinder
     ) internal returns (uint256 lotId) {
+        if (cylinderId == bytes32(0)) revert ZeroCylinder();
+        if (openLotsInCylinder[cylinderId] != 0 && !joinCylinder) revert CylinderInUse(cylinderId);
+        ++openLotsInCylinder[cylinderId];
         lotId = ++lotCount;
         _lots[lotId] = Lot({
             gas: gas,
@@ -490,7 +527,7 @@ contract KigaliLedger is Governed {
     /// @dev Split child inherits gas, class, tier and origin; mass moves from parent to child.
     function _createChild(uint256 parentId, uint64 grams, bytes32 cylinderId) internal returns (uint256) {
         Lot storage p = _lots[parentId];
-        return _createRaw(p.gas, grams, p.cls, p.tier, p.holder, cylinderId, p.origin, parentId);
+        return _createRaw(p.gas, grams, p.cls, p.tier, p.holder, cylinderId, p.origin, parentId, false);
     }
 
     function _consumeReclaimInputs(uint256[] calldata inputs)
@@ -507,8 +544,14 @@ contract KigaliLedger is Governed {
             if (lot.gas != gas) revert GasMismatch();
             inputGrams += lot.grams;
             if (uint8(lot.tier) > uint8(worst)) worst = lot.tier;
-            lot.status = LotStatus.CONSUMED;
+            _close(lot);
         }
+    }
+
+    /// @dev A lot leaves circulation (emptied, reclaimed or destroyed) and frees its cylinder.
+    function _close(Lot storage lot) internal {
+        lot.status = LotStatus.CONSUMED;
+        --openLotsInCylinder[lot.cylinderId];
     }
 
     function _requireUnique(uint256[] calldata inputs, uint256 i) internal pure {
@@ -555,6 +598,30 @@ contract KigaliLedger is Governed {
         // a lab must be independent of the party whose batch it certifies
         if (signer == msg.sender || deviceOperator[signer] == msg.sender) revert LabNotIndependent(signer);
         _useNonce(signer, c.nonce);
+    }
+
+    /// @dev The unit's registered owner must name this service company and this exact weight.
+    function _verifyConsent(RecoveryConsent calldata c, bytes calldata sig, uint64 weighedGrams, address owner)
+        internal
+    {
+        if (c.service != msg.sender || c.grams != weighedGrams) revert ConsentMismatch();
+        _checkFreshness(c.timestamp);
+        address signer =
+            Attestations.recover(Attestations.digest(Attestations.domainSeparator(address(this)), Attestations.hashConsent(c)), sig);
+        if (signer != owner || !identity.hasRole(signer, Roles.EQUIPMENT_OWNER)) revert NotUnitOwner(signer);
+        if (signer == msg.sender || deviceOperator[signer] == msg.sender) revert OwnerNotIndependent(signer);
+        _useNonce(signer, c.nonce);
+    }
+
+    function _verifyDestruction(DestructionCertificate calldata d, bytes calldata sig) internal {
+        _checkFreshness(d.timestamp);
+        address signer = Attestations.recover(
+            Attestations.digest(Attestations.domainSeparator(address(this)), Attestations.hashDestruction(d)), sig
+        );
+        if (!identity.hasRole(signer, Roles.VERIFIER)) revert NotVerifier(signer);
+        // a verifier must be independent of the facility whose destruction it certifies
+        if (signer == msg.sender || deviceOperator[signer] == msg.sender) revert VerifierNotIndependent(signer);
+        _useNonce(signer, d.nonce);
     }
 
     function _checkFreshness(uint64 timestamp) internal view {

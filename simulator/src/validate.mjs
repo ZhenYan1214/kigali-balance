@@ -71,6 +71,34 @@ export function validate(result) {
     if (rec) check(rec.inServiceGrams === 0, `charge-and-recover on ${a.unit} escaped quarantine`);
   }
 
+  // 6) independent second parties: every accepted recovery was consented by the unit's owner and
+  //    every accepted destruction was certified by a verifier independent of the facility
+  for (const e of accepted) {
+    if (e.type === 'RECOVER') {
+      const unit = ledger.equipment.get(e.equipment);
+      check(e.consentSigner === unit.owner && e.consentSigner !== e.actor && e.consentSigner !== `scale:${e.actor}`,
+        `recovery seq ${e.seq} lacks independent owner consent`);
+    }
+    if (e.type === 'DESTROY') {
+      check(ledger.verifiers.has(e.verifier) && e.verifier !== `scale:${e.actor}`, `destruction seq ${e.seq} not independently certified`);
+    }
+  }
+  for (const a of [...truth.fraud.unconsentedRecoveryAttempts, ...truth.fraud.cylinderReuseAttempts, ...truth.fraud.selfCertifiedDestructionAttempts]) {
+    check(!a.accepted, `an attack was accepted: ${JSON.stringify(a)}`);
+  }
+
+  // 7) cylinders: the mirror's occupancy count matches the open lots, and only a split recovery
+  //    (in-service part + quarantined part) shares a cylinder
+  const openByCylinder = {};
+  for (const lot of ledger.lots.values()) {
+    if (lot.status === 'ACTIVE' || lot.status === 'IN_TRANSIT') (openByCylinder[lot.cylinder] ??= []).push(lot);
+  }
+  for (const [cyl, n] of ledger.cylinders) check((openByCylinder[cyl]?.length ?? 0) === n, `cylinder ${cyl} occupancy ${n} != open lots`);
+  for (const [cyl, lots] of Object.entries(openByCylinder)) {
+    check(lots.length <= 2, `cylinder ${cyl} backs ${lots.length} open lots`);
+    if (lots.length === 2) check(lots.some((l) => l.tier === 'C') && lots[0].origin === lots[1].origin, `cylinder ${cyl} shared by unrelated lots`);
+  }
+
   // calibration (reported, not enforced)
   const calibration = {};
   for (const [gas, ph] of Object.entries(truth.physical)) {
@@ -139,6 +167,10 @@ export function summarize(result, validation) {
       offLedgerTopUpServices: truth.fraud.offLedgerTopUpServices.length,
       phantomTierBServices: truth.fraud.phantomTierBServices.length,
       phantomUnits: truth.fraud.phantomUnits.length,
+      colludingTakeBackPoints: truth.fraud.colludingTakeBackPoints.length,
+      unconsentedRecoveryAttempts: truth.fraud.unconsentedRecoveryAttempts.length,
+      cylinderReuseAttempts: truth.fraud.cylinderReuseAttempts.length,
+      selfCertifiedDestructionAttempts: truth.fraud.selfCertifiedDestructionAttempts.length,
       oversellingDistributors: truth.fraud.oversellingDistributors.length,
       inflatedYieldReclaimers: truth.fraud.inflatedYieldReclaimers.length,
       chargeAndRecoverAttempts: truth.fraud.chargeAndRecoverUnits.length,

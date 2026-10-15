@@ -13,8 +13,11 @@ const OLD = 1_600_000_000;
 
 function setup() {
   const L = new LedgerMirror(rules);
+  L.addOwner('own'); // operator of eqA
+  L.addOwner('tb'); // take-back point owning scrapped Tier B units
+  L.addVerifier('ver');
   L.registerQuota(T0, 'q', 'imp', 'R-404A', 100_000);
-  L.registerTierA(T0, 'eqA', 'R-404A', 10_000, OLD, 'medium_large_commercial');
+  L.registerTierA(T0, 'eqA', 'R-404A', 10_000, OLD, 'medium_large_commercial', 'own');
   L.setModel(T0, 'm', 'R-404A', 1_200);
   return L;
 }
@@ -85,10 +88,10 @@ test('charge-and-recover laundering is fully quarantined and cannot be reclaimed
 
 test('Tier B monthly cap per service company', () => {
   const L = setup();
-  for (let i = 0; i < 41; i++) L.registerTierB(T0, 'svc', `b${i}`, 'm', 'split_ac');
+  for (let i = 0; i < 41; i++) L.registerTierB(T0, 'svc', `b${i}`, 'm', 'split_ac', 'tb');
   for (let i = 0; i < 41; i++) L.recover(T0, 'svc', `b${i}`, 1_200, true);
   // 41 x 1.2 kg = 49.2 kg fits under 50 kg; the next one does not
-  L.registerTierB(T0, 'svc', 'b41', 'm', 'split_ac');
+  L.registerTierB(T0, 'svc', 'b41', 'm', 'split_ac', 'tb');
   assert.equal(L.recover(T0, 'svc', 'b41', 1_200, true), null);
   assert.equal(lastReason(L), 'TierBMonthlyCapExceeded');
 });
@@ -97,7 +100,7 @@ test('R6 eligibility and R7 single claim with registry tier policy', () => {
   const L = setup();
   const { inService } = L.recover(T0, 'svc', 'eqA', 5_000, true);
   const f = move(L, T0, 'svc', inService, 'fac', 5_000);
-  const ev = L.destroy(T0, 'fac', [f], 5_000, 9_999);
+  const ev = L.destroy(T0, 'fac', [f], 5_000, 9_999, { verifier: 'ver' });
   assert.equal(L.destructionEvents[ev].eligible, true);
   assert.ok(L.claim(T0, 'registry-tw', 'B', ev));
   assert.equal(L.claim(T0, 'registry-intl', 'A', ev), null);
@@ -113,4 +116,51 @@ test('ledger identity holds after a mixed sequence', () => {
   L.reclaim(T0 + 200 * DAY, 'rec', [r], 7_000, 9_960);
   const t = L.totalsOf('R-404A');
   assert.equal(t.virginMinted + t.unknownDeclared + t.recovered, t.live + t.charged + t.destroyed + t.reclaimLoss + t.handlingLoss);
+});
+
+test('H1 recovery needs the unit owner as an independent co-signer', () => {
+  const L = setup();
+  assert.equal(L.recover(T0, 'svc', 'eqA', 4_000, false, { consentSigner: 'scale:svc' }), null);
+  assert.equal(lastReason(L), 'NotUnitOwner');
+  assert.equal(L.recover(T0, 'svc', 'eqA', 4_000, false, { consentSigner: 'tb' }), null); // an owner, but not of eqA
+  assert.equal(lastReason(L), 'NotUnitOwner');
+  assert.equal(L.equipment.get('eqA').recovered, 0, 'rejected attempts change nothing');
+  L.addOwner('svc');
+  assert.equal(L.registerTierB(T0, 'svc', 'b1', 'm', 'split_ac', 'svc'), null);
+  assert.equal(lastReason(L), 'OwnerNotIndependent');
+  assert.ok(L.recover(T0, 'svc', 'eqA', 4_000, false));
+});
+
+test('H4 destruction needs an independent verifier', () => {
+  const L = setup();
+  const { inService } = L.recover(T0, 'svc', 'eqA', 5_000, true);
+  const f = move(L, T0, 'svc', inService, 'fac', 5_000);
+  assert.equal(L.destroy(T0, 'fac', [f], 5_000, 9_999, { verifier: 'scale:fac' }), null);
+  assert.equal(lastReason(L), 'NotVerifier');
+  assert.equal(L.destroy(T0, 'fac', [f], 5_000, 9_999, { verifier: 'ver', certGrams: 4_000 }), null);
+  assert.equal(lastReason(L), 'CertificateMismatch');
+  assert.equal(L.lots.get(f).status, 'ACTIVE', 'rejected attempts change nothing');
+  assert.notEqual(L.destroy(T0, 'fac', [f], 5_000, 9_999, { verifier: 'ver' }), null);
+});
+
+test('M8 cap includes ledger top-ups', () => {
+  const L = setup();
+  const { inService } = L.recover(T0, 'svc', 'eqA', 4_000, false);
+  L.charge(T0, 'svc', inService, 'eqA', 4_000);
+  assert.equal(L.recoveryCap('eqA'), 14_500);
+  assert.ok(L.recover(T0 + 181 * DAY, 'svc', 'eqA', 9_000, true));
+});
+
+test('M1 one open lot per cylinder; split recoveries share theirs', () => {
+  const L = setup();
+  const v = L.mintVirgin(T0, 'imp', 'q', 1_000, 'cyl-x');
+  assert.equal(L.mintVirgin(T0, 'imp', 'q', 1_000, 'cyl-x'), null);
+  assert.equal(lastReason(L), 'CylinderInUse');
+  const s1 = move(L, T0, 'imp', v, 'svc', 1_000);
+  assert.equal(L.recover(T0, 'svc', 'eqA', 4_000, true, { cylinder: 'cyl-x' }), null);
+  assert.equal(lastReason(L), 'CylinderInUse');
+  L.charge(T0, 'svc', s1, 'eqA', 1_000); // empties the lot: the cylinder is free again
+  const res = L.recover(T0 + 60 * DAY, 'svc', 'eqA', 8_000, true, { cylinder: 'cyl-x' });
+  assert.ok(res.inService && res.quarantined);
+  assert.equal(L.openLotsIn('cyl-x'), 2);
 });

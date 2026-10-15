@@ -6,7 +6,7 @@ import {LotClass, LotStatus, Tier} from "../../src/Types.sol";
 import {KigaliLedger} from "../../src/KigaliLedger.sol";
 import {EquipmentRegistry} from "../../src/EquipmentRegistry.sol";
 import {DestructionClaims} from "../../src/DestructionClaims.sol";
-import {ScaleReading, LabCertificate} from "../../src/Attestations.sol";
+import {ScaleReading, LabCertificate, RecoveryConsent, DestructionCertificate} from "../../src/Attestations.sol";
 
 /// @notice Drives random sequences of honest and dishonest actions. Calls that the ledger
 ///         rejects are expected; the invariants check that whatever got through kept the books
@@ -27,6 +27,9 @@ contract Handler is Test {
     address internal facility;
     address[] internal registries;
     uint256 internal labKey;
+    uint256 internal verifierKey;
+    uint256 internal rogueKey;
+    mapping(bytes32 => uint256) internal ownerKey; // equipment id => owner's signing key
 
     bytes32[] public equipmentPool;
     uint256[] public allLots;
@@ -37,6 +40,8 @@ contract Handler is Test {
     mapping(uint256 => uint64) public outputGramsAtCreation;
     mapping(uint256 => bool) public ghostEligibleEventHadOnlyRecovered;
     uint256[] public eligibleEvents;
+    uint256 public ghostUnconsentedRecoveriesAccepted;
+    uint256 public ghostSelfCertifiedDestructionsAccepted;
 
     // call counters, useful when tuning the fuzzer
     mapping(bytes32 => uint256) public calls;
@@ -53,6 +58,9 @@ contract Handler is Test {
         address[] registries;
         uint256 labKey;
         bytes32[] equipmentPool;
+        uint256[] ownerKeys; // parallel to equipmentPool
+        uint256 verifierKey;
+        uint256 rogueKey;
     }
 
     constructor(Config memory c) {
@@ -72,6 +80,11 @@ contract Handler is Test {
         registries = c.registries;
         labKey = c.labKey;
         equipmentPool = c.equipmentPool;
+        for (uint256 i; i < c.equipmentPool.length; ++i) {
+            ownerKey[c.equipmentPool[i]] = c.ownerKeys[i];
+        }
+        verifierKey = c.verifierKey;
+        rogueKey = c.rogueKey;
     }
 
     // ------------------------------------------------------------ actions
@@ -151,10 +164,11 @@ contract Handler is Test {
         uint64 cap = equipment.recoveryCap(eq);
         uint64 grams = uint64(bound(gramsSeed, 1, (uint256(cap) * 15) / 10));
         bytes32 cyl = _id("rec");
+        (RecoveryConsent memory c, bytes memory cs) = _consent(eq, cyl, grams, decommission, ownerKey[eq]);
         ScaleReading memory r = _reading(ledger.recoverySubject(eq, cyl), grams);
         bytes memory sig = _signScale(scaleKey[service], r);
         vm.prank(service);
-        try ledger.recover(eq, cyl, decommission, r, sig) returns (uint256 id, uint256 qid) {
+        try ledger.recover(c, cs, r, sig) returns (uint256 id, uint256 qid) {
             if (id != 0) allLots.push(id);
             if (qid != 0) allLots.push(qid);
         } catch {
@@ -214,10 +228,11 @@ contract Handler is Test {
         if (room == 0) return;
         uint64 grams = uint64(bound(gramsSeed, 1, room));
         bytes32 cyl = _id("rec");
+        (RecoveryConsent memory c, bytes memory cs) = _consent(eq, cyl, grams, false, ownerKey[eq]);
         ScaleReading memory r = _reading(ledger.recoverySubject(eq, cyl), grams);
         bytes memory sig = _signScale(scaleKey[service], r);
         vm.prank(service);
-        try ledger.recover(eq, cyl, false, r, sig) returns (uint256 id, uint256 qid) {
+        try ledger.recover(c, cs, r, sig) returns (uint256 id, uint256 qid) {
             if (id != 0) {
                 allLots.push(id);
                 _sendAndReceive(id, service, facility, ledger.getLot(id).grams, 10_000);
@@ -260,10 +275,12 @@ contract Handler is Test {
         }
         uint64 intake = uint64((held * bound(intakeFactorBps, 9_500, 10_500)) / 10_000);
         if (intake == 0) return;
-        ScaleReading memory r = _reading(ledger.destructionSubject(inputs), intake);
+        bytes32 subject = ledger.destructionSubject(inputs);
+        ScaleReading memory r = _reading(subject, intake);
         bytes memory sig = _signScale(scaleKey[facility], r);
+        (DestructionCertificate memory d, bytes memory ds) = _certificate(subject, intake, verifierKey);
         vm.prank(facility);
-        try ledger.destroy(inputs, r, sig, _id("cert"), 9_999) returns (uint256 eventId) {
+        try ledger.destroy(inputs, r, sig, d, ds) returns (uint256 eventId) {
             if (claims.destructionEvent(eventId).creditEligible) {
                 eligibleEvents.push(eventId);
                 ghostEligibleEventHadOnlyRecovered[eventId] = allRecovered;
@@ -271,6 +288,47 @@ contract Handler is Test {
             outcomes["destroy.ok"]++;
         } catch {
             outcomes["destroy.rejected"]++;
+        }
+    }
+
+    /// @dev Attack: book gas as recovered from a unit without its owner's consent. The consent is
+    ///      signed by the service company's own scale key or by an unregistered key. Must always fail.
+    function recoverWithoutOwnerConsent(uint256 eqSeed, uint64 gramsSeed, bool useOwnScale) external {
+        calls["recoverUnconsented"]++;
+        bytes32 eq = equipmentPool[eqSeed % equipmentPool.length];
+        uint64 grams = uint64(bound(gramsSeed, 1, 5_000));
+        bytes32 cyl = _id("rec");
+        (RecoveryConsent memory c, bytes memory cs) =
+            _consent(eq, cyl, grams, false, useOwnScale ? scaleKey[service] : rogueKey);
+        ScaleReading memory r = _reading(ledger.recoverySubject(eq, cyl), grams);
+        bytes memory sig = _signScale(scaleKey[service], r);
+        vm.prank(service);
+        try ledger.recover(c, cs, r, sig) returns (uint256 id, uint256 qid) {
+            ghostUnconsentedRecoveriesAccepted++;
+            if (id != 0) allLots.push(id);
+            if (qid != 0) allLots.push(qid);
+        } catch {
+            outcomes["recover.unconsented.rejected"]++;
+        }
+    }
+
+    /// @dev Attack: the facility certifies its own destruction (own scale key or unregistered key).
+    ///      Must always fail.
+    function destroyWithSelfCertificate(uint256 seed, bool useOwnScale) external {
+        calls["destroySelfCertified"]++;
+        uint256[] memory inputs = _collect(facility, seed, 1);
+        if (inputs.length == 0) return;
+        uint64 grams = ledger.getLot(inputs[0]).grams;
+        bytes32 subject = ledger.destructionSubject(inputs);
+        ScaleReading memory r = _reading(subject, grams);
+        bytes memory sig = _signScale(scaleKey[facility], r);
+        (DestructionCertificate memory d, bytes memory ds) =
+            _certificate(subject, grams, useOwnScale ? scaleKey[facility] : rogueKey);
+        vm.prank(facility);
+        try ledger.destroy(inputs, r, sig, d, ds) {
+            ghostSelfCertifiedDestructionsAccepted++;
+        } catch {
+            outcomes["destroy.selfcertified.rejected"]++;
         }
     }
 
@@ -369,5 +427,38 @@ contract Handler is Test {
     function _signLab(uint256 pk, LabCertificate memory c) internal view returns (bytes memory) {
         (uint8 v, bytes32 rr, bytes32 s) = vm.sign(pk, ledger.labDigest(c));
         return abi.encodePacked(rr, s, v);
+    }
+
+    function _consent(bytes32 eq, bytes32 cyl, uint64 grams, bool decommission, uint256 signerKey)
+        internal
+        returns (RecoveryConsent memory c, bytes memory sig)
+    {
+        c = RecoveryConsent({
+            equipmentId: eq,
+            cylinderId: cyl,
+            service: service,
+            grams: grams,
+            decommission: decommission,
+            timestamp: uint64(block.timestamp),
+            nonce: _id("consent")
+        });
+        (uint8 v, bytes32 rr, bytes32 s) = vm.sign(signerKey, ledger.consentDigest(c));
+        sig = abi.encodePacked(rr, s, v);
+    }
+
+    function _certificate(bytes32 subject, uint64 grams, uint256 signerKey)
+        internal
+        returns (DestructionCertificate memory d, bytes memory sig)
+    {
+        d = DestructionCertificate({
+            subject: subject,
+            grams: grams,
+            dreBps: 9_999,
+            documentHash: _id("certificate"),
+            timestamp: uint64(block.timestamp),
+            nonce: _id("cert-nonce")
+        });
+        (uint8 v, bytes32 rr, bytes32 s) = vm.sign(signerKey, ledger.destructionDigest(d));
+        sig = abi.encodePacked(rr, s, v);
     }
 }

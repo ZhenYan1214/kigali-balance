@@ -5,6 +5,7 @@ import {Fixture} from "./utils/Fixture.sol";
 import {Tier, LotClass} from "../src/Types.sol";
 import {KigaliLedger} from "../src/KigaliLedger.sol";
 import {DestructionClaims} from "../src/DestructionClaims.sol";
+import {EquipmentRegistry} from "../src/EquipmentRegistry.sol";
 import {ScaleReading, LabCertificate} from "../src/Attestations.sol";
 
 /// @notice Charge-and-recover laundering: put virgin gas into a registered unit and take it
@@ -101,8 +102,7 @@ contract LaunderingTest is Fixture {
     }
 
     function test_recentlyInstalledUnitIsTierC() public {
-        vm.prank(registrar);
-        equipment.registerTierA(NEW_UNIT, R404A, 5_000, uint64(block.timestamp - 30 days), bytes32("rec"));
+        _registerA(NEW_UNIT, R404A, 5_000, uint64(block.timestamp - 30 days));
         uint256 rec = _recover(service, SCALE_SERVICE_PK, NEW_UNIT, 5_000, true);
         assertEq(uint8(ledger.getLot(rec).tier), uint8(Tier.C));
     }
@@ -126,8 +126,9 @@ contract LaunderingTest is Fixture {
     }
 
     function test_revert_installedInFuture() public {
+        address owner = vm.addr(OWNER_PK);
         vm.prank(registrar);
-        vm.expectRevert();
-        equipment.registerTierA(NEW_UNIT, R404A, 5_000, uint64(block.timestamp + 1 days), bytes32("rec"));
+        vm.expectRevert(EquipmentRegistry.InstalledInFuture.selector);
+        equipment.registerTierA(NEW_UNIT, R404A, 5_000, uint64(block.timestamp + 1 days), bytes32("rec"), owner);
     }
 }

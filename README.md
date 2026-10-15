@@ -8,7 +8,9 @@ IEEE ClimateChain Global Hackathon 2026 · Track 3: Sustainable Supply Chains (a
 
 ## The problem
 
-HFC refrigerants are super-pollutants (1 kg of R-404A ≈ 3.9 t CO₂e). They are recorded in separate systems — customs quotas, technician logbooks, waste slips and carbon-credit registries — but no system checks that the kilograms claimed as *recovered*, *reclaimed* or *destroyed* add up across them. That gap lets virgin or smuggled gas be sold as "reclaimed", and it could let the same destroyed kilogram be credited twice.
+HFC refrigerants are super-pollutants (1 kg of R-404A ≈ 3.9 t CO₂e). They are recorded in separate systems: customs quotas, technician logbooks, reclaimer reports and carbon-credit registries. Each now checks its own records. US reclaimers report input and output, Isometric reconciles each container, and Japan issues electronic manifests. But no one checks the same kilogram *between* these systems. That seam lets virgin or smuggled gas be sold as "reclaimed", which carries a price premium, a quota exemption in the EU and carbon credits. It also leaves cross-registry uniqueness of destruction credits to a supplier declaration.
+
+A shared ledger is only justified where no single trusted operator spans all the parties: several independent carbon registries, competing reclaimers, and recovered gas shipped across borders for destruction. Inside one country, a regulator's database is enough.
 
 See the two-page problem statement: [`docs/proposal/Kigali_Balance_Problem_Statement.pdf`](docs/proposal/Kigali_Balance_Problem_Statement.pdf).
 
@@ -18,16 +20,22 @@ See the two-page problem statement: [`docs/proposal/Kigali_Balance_Problem_State
 
 | Layer | Role |
 |---|---|
-| Physical anchors | Signed cylinder IDs, signed scale readings, signed lab certificates (EIP-712, verified on-chain) |
-| Shared ledger | Per-gas mass conservation, non-interchangeable provenance classes, one-registry-only claim lock for destruction events |
+| Physical anchors | Signed scale readings bound to cylinder IDs (one open lot per cylinder), recoveries co-signed by the unit's owner, lab and destruction certificates signed by independent parties (EIP-712, verified on-chain) |
+| Shared ledger | Per-gas mass conservation, non-interchangeable provenance classes, recovery caps that count recorded top-ups, a 180-day quarantine against charge-and-recover laundering, one-registry-only claim lock for destruction events |
 | AI | Flags what is compliant but implausible (leak gaps, mass-balance anomalies, implausible recoveries) for human review |
+
+## Honest limits
+
+- The ledger cannot see inside a cylinder; physical truth comes from weighing and lab sampling.
+- It cannot catch gas that never enters it; it makes legitimate gas provable instead.
+- It is not confidential by default: consortium members can see lot quantities. A production version would store commitments instead of grams.
 
 ## Repository
 
 | Path | Contents |
 |---|---|
 | `src/` | Solidity contracts: `KigaliLedger`, `EquipmentRegistry`, `DestructionClaims`, `IdentityRegistry`, `Governance`, `FlagRegistry` |
-| `test/` | 108 Foundry unit tests (including the demo scenario) plus 7 fuzzed invariants |
+| `test/` | 131 Foundry unit tests (including the demo scenario and attacks on every signature) plus 9 fuzzed invariants |
 | `simulator/` | Deterministic simulator of an HFC economy with injected fraud, plus a differential test that replays every simulated event against the real contracts |
 | `ai/` | Anomaly-detection modules (in progress) |
 | `docs/` | Proposal, plan, research and design notes |

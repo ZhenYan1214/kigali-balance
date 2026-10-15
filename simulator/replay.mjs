@@ -163,6 +163,29 @@ async function scaleReading(actor, subject, grams, t, seq) {
   const sig = await scaleOf(actor).signTypedData({ domain, types: scaleTypes, primaryType: 'ScaleReading', message: reading });
   return [reading, sig];
 }
+const consentTypes = { RecoveryConsent: [
+  { name: 'equipmentId', type: 'bytes32' }, { name: 'cylinderId', type: 'bytes32' }, { name: 'service', type: 'address' },
+  { name: 'grams', type: 'uint64' }, { name: 'decommission', type: 'bool' }, { name: 'timestamp', type: 'uint64' },
+  { name: 'nonce', type: 'bytes32' },
+] };
+const destructionTypes = { DestructionCertificate: [
+  { name: 'subject', type: 'bytes32' }, { name: 'grams', type: 'uint64' }, { name: 'dreBps', type: 'uint16' },
+  { name: 'documentHash', type: 'bytes32' }, { name: 'timestamp', type: 'uint64' }, { name: 'nonce', type: 'bytes32' },
+] };
+// signer labels are actor ids (owners, verifiers) or "scale:<operator>" for an operator's own scale key
+async function ownerConsent(signer, ev, cyl, t) {
+  const consent = {
+    equipmentId: h(ev.equipment), cylinderId: cyl, service: acct(ev.actor).address, grams: BigInt(ev.grams),
+    decommission: ev.decommission, timestamp: BigInt(t), nonce: h(`consent:${ev.seq}`),
+  };
+  const sig = await acct(signer).signTypedData({ domain, types: consentTypes, primaryType: 'RecoveryConsent', message: consent });
+  return [consent, sig];
+}
+async function destructionCert(signer, subject, grams, dreBps, t, seq) {
+  const cert = { subject, grams: BigInt(grams), dreBps, documentHash: h(`cert:${seq}`), timestamp: BigInt(t), nonce: h(`cert-nonce:${seq}`) };
+  const sig = await acct(signer).signTypedData({ domain, types: destructionTypes, primaryType: 'DestructionCertificate', message: cert });
+  return [cert, sig];
+}
 async function labCert(subject, gas, purityBps, t, seq) {
   const cert = { subject, gas: gasId(gas), purityBps, sampleId: h(`sample:${seq}`), timestamp: BigInt(t), nonce: h(`lab-nonce:${seq}`) };
   const sig = await lab.signTypedData({ domain, types: labTypes, primaryType: 'LabCertificate', message: cert });
@@ -187,13 +210,13 @@ async function build(ev, t) {
     case 'REGISTER_EQUIPMENT':
       if (ev.tier === 'A') {
         const installed = BigInt(Math.floor(Date.parse(ev.installedAt) / 1000));
-        return [registrar, equipment, call('EquipmentRegistry', 'registerTierA', [h(ev.equipment), gasId(ev.gas), BigInt(ev.nameplateGrams), installed, h(`ekomvet:${ev.equipment}`)])];
+        return [registrar, equipment, call('EquipmentRegistry', 'registerTierA', [h(ev.equipment), gasId(ev.gas), BigInt(ev.nameplateGrams), installed, h(`ekomvet:${ev.equipment}`), acct(ev.owner).address])];
       }
-      return [acct(a), equipment, call('EquipmentRegistry', 'registerTierB', [h(ev.equipment), h(ev.modelId), h(`photo:${ev.equipment}`)])];
+      return [acct(a), equipment, call('EquipmentRegistry', 'registerTierB', [h(ev.equipment), h(ev.modelId), h(`photo:${ev.equipment}`), acct(ev.owner).address])];
     case 'MINT':
-      return [acct(a), ledger, call('KigaliLedger', 'mintVirgin', [h(ev.quotaId), BigInt(ev.grams), h(`cyl:${ev.seq}`)])];
+      return [acct(a), ledger, call('KigaliLedger', 'mintVirgin', [h(ev.quotaId), BigInt(ev.grams), h(ev.cylinder)])];
     case 'SEND':
-      return [acct(a), ledger, call('KigaliLedger', 'send', [BigInt(ev.lot), acct(ev.to).address, BigInt(ev.grams), h(`cyl:${ev.seq}`)])];
+      return [acct(a), ledger, call('KigaliLedger', 'send', [BigInt(ev.lot), acct(ev.to).address, BigInt(ev.grams), h(ev.newCylinder)])];
     case 'RECEIVE': {
       const [r, sig] = await scaleReading(a, subjects.receipt(ev.lot), ev.weighed, t, ev.seq);
       return [acct(a), ledger, call('KigaliLedger', 'receiveLot', [BigInt(ev.lot), r, sig])];
@@ -201,12 +224,13 @@ async function build(ev, t) {
     case 'CHARGE':
       return [acct(a), ledger, call('KigaliLedger', 'charge', [BigInt(ev.lot), h(ev.equipment), BigInt(ev.grams)])];
     case 'RECOVER': {
-      const cyl = h(`rec:${ev.seq}`);
+      const cyl = h(ev.cylinder);
+      const [c, cs] = await ownerConsent(ev.consentSigner, ev, cyl, t);
       const [r, sig] = await scaleReading(a, subjects.recovery(h(ev.equipment), cyl), ev.grams, t, ev.seq);
-      return [acct(a), ledger, call('KigaliLedger', 'recover', [h(ev.equipment), cyl, ev.decommission, r, sig])];
+      return [acct(a), ledger, call('KigaliLedger', 'recover', [c, cs, r, sig])];
     }
     case 'RECLAIM': {
-      const cyl = h(`out:${ev.seq}`);
+      const cyl = h(ev.outputCylinder);
       const subject = subjects.reclaim(cyl);
       const [r, ss] = await scaleReading(a, subject, ev.outGrams, t, ev.seq);
       const gas = ev.gas ?? gasOfLot.get(ev.inputs[0]);
@@ -214,8 +238,10 @@ async function build(ev, t) {
       return [acct(a), ledger, call('KigaliLedger', 'reclaim', [ev.inputs.map(BigInt), cyl, r, ss, c, ls])];
     }
     case 'DESTROY': {
-      const [r, sig] = await scaleReading(a, subjects.destruction(ev.inputs), ev.intakeGrams, t, ev.seq);
-      return [acct(a), ledger, call('KigaliLedger', 'destroy', [ev.inputs.map(BigInt), r, sig, h(`cert:${ev.seq}`), ev.dreBps])];
+      const subject = subjects.destruction(ev.inputs);
+      const [r, sig] = await scaleReading(a, subject, ev.intakeGrams, t, ev.seq);
+      const [d, ds] = await destructionCert(ev.verifier, subject, ev.certGrams, ev.dreBps, t, ev.seq);
+      return [acct(a), ledger, call('KigaliLedger', 'destroy', [ev.inputs.map(BigInt), r, sig, d, ds])];
     }
     case 'CLAIM':
       return [acct(a), claims, call('DestructionClaims', 'claim', [BigInt(ev.eventId), h(`batch:${ev.seq}`)])];

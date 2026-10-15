@@ -7,7 +7,10 @@ import {IdentityRegistry} from "./IdentityRegistry.sol";
 /// @title EquipmentRegistry
 /// @notice Equipment accounts, the recovery cap (rule R3) and the residence rule.
 ///
-///   R3         A unit can never yield more refrigerant over its lifetime than it physically holds.
+///   R3         A unit can never yield more refrigerant over its lifetime than it physically held:
+///              its nameplate charge plus every top-up recorded through the ledger.
+///   Owner      Every unit is bound to an EQUIPMENT_OWNER who must co-sign each recovery (checked
+///              by the ledger), so a service company alone cannot book gas as recovered from it.
 ///   Residence  Gas recovered too soon after the unit was installed or last charged through the
 ///              ledger is stamped Tier C. Otherwise virgin gas could be "laundered" by charging it
 ///              into a registered unit and recovering it the next day as RECOVERED.
@@ -36,6 +39,7 @@ contract EquipmentRegistry is Governed {
         bytes32 sourceRef; // Tier A: hash of the national registry record; Tier B: hash of the nameplate photo
         bytes32 modelId; // Tier B only
         address registeredBy;
+        address owner; // must co-sign every recovery
     }
 
     struct ChargeRecord {
@@ -69,7 +73,7 @@ contract EquipmentRegistry is Governed {
     event LedgerSet(address ledger);
     event ParamsSet(uint16 toleranceBps, uint64 tierBMonthlyCapGrams, uint32 minResidence);
     event ModelSet(bytes32 indexed modelId, bytes32 gas, uint64 chargeGrams);
-    event EquipmentRegistered(bytes32 indexed id, Tier tier, bytes32 gas, uint64 nameplateGrams, bytes32 sourceRef, address registeredBy);
+    event EquipmentRegistered(bytes32 indexed id, Tier tier, bytes32 gas, uint64 nameplateGrams, bytes32 sourceRef, address registeredBy, address owner);
     event Charged(bytes32 indexed id, address indexed by, uint64 grams, uint64 chargedTotal);
     event Recovered(bytes32 indexed id, address indexed by, uint64 grams, uint64 recoveredTotal, Tier tier, uint64 quarantinedGrams, bool decommissioned);
 
@@ -87,6 +91,8 @@ contract EquipmentRegistry is Governed {
     error RecoveryCapExceeded(uint64 cap, uint64 attempted);
     error TierBMonthlyCapExceeded(uint64 cap, uint64 attempted);
     error BadParams();
+    error NotEquipmentOwner(address account);
+    error OwnerNotIndependent(address owner);
 
     constructor(address governance_, IdentityRegistry identity_) Governed(governance_) {
         identity = identity_;
@@ -121,14 +127,20 @@ contract EquipmentRegistry is Governed {
 
     // ---------------------------------------------------------------- registration
 
-    /// @notice Register a Tier A unit imported from a national registry.
-    function registerTierA(bytes32 id, bytes32 gas, uint64 nameplateGrams, uint64 installedAt, bytes32 registryRecordHash)
-        external
-        onlyRole(Roles.EQUIPMENT_REGISTRAR)
-    {
+    /// @notice Register a Tier A unit imported from a national registry, bound to the operator
+    ///         recorded there as its owner.
+    function registerTierA(
+        bytes32 id,
+        bytes32 gas,
+        uint64 nameplateGrams,
+        uint64 installedAt,
+        bytes32 registryRecordHash,
+        address owner
+    ) external onlyRole(Roles.EQUIPMENT_REGISTRAR) {
         if (nameplateGrams == 0) revert ZeroAmount();
         if (installedAt > block.timestamp) revert InstalledInFuture();
-        _register(id, Tier.A, gas, nameplateGrams, installedAt, registryRecordHash, bytes32(0));
+        _requireOwner(owner);
+        _register(id, Tier.A, gas, nameplateGrams, installedAt, registryRecordHash, bytes32(0), owner);
     }
 
     /// @notice Maintain the model database used to look up Tier B nameplate charges.
@@ -138,11 +150,18 @@ contract EquipmentRegistry is Governed {
         emit ModelSet(modelId, gas, chargeGrams);
     }
 
-    /// @notice Register a Tier B unit at decommissioning (no national record exists).
-    function registerTierB(bytes32 id, bytes32 modelId, bytes32 nameplatePhotoHash) external onlyRole(Roles.SERVICE) {
+    /// @notice Register a Tier B unit at decommissioning (no national record exists). The owner (or
+    ///         the take-back point receiving the scrapped unit) must be a separate EQUIPMENT_OWNER:
+    ///         the service company cannot vouch for its own recoveries.
+    function registerTierB(bytes32 id, bytes32 modelId, bytes32 nameplatePhotoHash, address owner)
+        external
+        onlyRole(Roles.SERVICE)
+    {
         Model memory m = models[modelId];
         if (!m.exists) revert UnknownModel();
-        _register(id, Tier.B, m.gas, m.chargeGrams, 0, nameplatePhotoHash, modelId);
+        _requireOwner(owner);
+        if (owner == msg.sender) revert OwnerNotIndependent(owner);
+        _register(id, Tier.B, m.gas, m.chargeGrams, 0, nameplatePhotoHash, modelId, owner);
     }
 
     // ---------------------------------------------------------------- ledger hooks
@@ -187,10 +206,15 @@ contract EquipmentRegistry is Governed {
 
     // ---------------------------------------------------------------- views
 
+    /// @notice Lifetime recovery cap: the nameplate charge (Tier A with tolerance for overcharging,
+    ///         Tier B the model charge) plus every top-up charged through the ledger. Gas recovered
+    ///         during a repair and charged back in can therefore come out again at end of life.
     function recoveryCap(bytes32 id) public view returns (uint64) {
         Equipment storage e = _equipment[id];
-        if (e.tier == Tier.A) return uint64((uint256(e.nameplateGrams) * (10_000 + toleranceBps)) / 10_000);
-        return e.nameplateGrams; // Tier B: model charge, no tolerance
+        uint256 base = e.tier == Tier.A
+            ? (uint256(e.nameplateGrams) * (10_000 + toleranceBps)) / 10_000
+            : e.nameplateGrams;
+        return uint64(base + e.chargedGrams);
     }
 
     function equipment(bytes32 id) external view returns (Equipment memory) {
@@ -221,7 +245,8 @@ contract EquipmentRegistry is Governed {
         uint64 nameplateGrams,
         uint64 installedAt,
         bytes32 sourceRef,
-        bytes32 modelId
+        bytes32 modelId,
+        address owner
     ) internal {
         if (_equipment[id].status != Status.NONE) revert AlreadyRegistered();
         _equipment[id] = Equipment({
@@ -236,9 +261,14 @@ contract EquipmentRegistry is Governed {
             status: Status.ACTIVE,
             sourceRef: sourceRef,
             modelId: modelId,
-            registeredBy: msg.sender
+            registeredBy: msg.sender,
+            owner: owner
         });
-        emit EquipmentRegistered(id, tier, gas, nameplateGrams, sourceRef, msg.sender);
+        emit EquipmentRegistered(id, tier, gas, nameplateGrams, sourceRef, msg.sender, owner);
+    }
+
+    function _requireOwner(address owner) internal view {
+        if (!identity.hasRole(owner, Roles.EQUIPMENT_OWNER)) revert NotEquipmentOwner(owner);
     }
 
     function _activeUnit(bytes32 id, bytes32 gas) internal view returns (Equipment storage e) {

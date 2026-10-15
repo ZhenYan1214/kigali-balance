@@ -54,6 +54,23 @@ test('injected fraud actually happens and the on-chain rules block what they sho
   assert.ok(ev.some((e) => e.type === 'RECLAIM' && e.reason === 'ReclaimExceedsInput'));
 });
 
+test('attacks on the second-party anchors happen and are all rejected for the right reason', () => {
+  const r = simulate(params, { seed: 42 });
+  const f = r.truth.fraud;
+  const ev = r.observations.events;
+  const reasonsOf = (type, pred) => ev.filter((e) => e.type === type && e.status === 'rejected' && pred(e)).map((e) => e.reason);
+  assert.ok(f.unconsentedRecoveryAttempts.length > 0, 'unconsented recoveries attempted');
+  assert.ok(f.unconsentedRecoveryAttempts.every((a) => !a.accepted));
+  assert.ok(reasonsOf('RECOVER', (e) => e.consentSigner?.startsWith('scale:')).every((x) => x === 'NotUnitOwner'));
+  assert.ok(f.selfCertifiedDestructionAttempts.length > 0, 'self-certified destructions attempted');
+  assert.ok(f.selfCertifiedDestructionAttempts.every((a) => !a.accepted));
+  assert.ok(reasonsOf('DESTROY', (e) => e.verifier?.startsWith('scale:')).every((x) => x === 'NotVerifier'));
+  assert.ok(f.cylinderReuseAttempts.every((a) => !a.accepted));
+  // both phantom profiles are present: naive (~full model charge) and adaptive (honest-looking)
+  assert.deepEqual(new Set(Object.values(f.phantomProfiles)), new Set(['naive', 'adaptive']));
+  for (const u of f.phantomUnits) assert.ok(r.ledger.equipment.get(u.unit).owner === f.colludingTakeBackPoints[0]);
+});
+
 test('observations carry no ground-truth labels', () => {
   const r = simulate(params, { seed: 42 });
   const files = {

@@ -19,6 +19,28 @@ struct LabCertificate {
     bytes32 nonce;
 }
 
+/// @notice The registered owner of a unit consents to one recovery from it (second, independent party).
+///         Without it a service company could book gas from anywhere as "recovered" from any unit.
+struct RecoveryConsent {
+    bytes32 equipmentId;
+    bytes32 cylinderId;
+    address service; // the service company allowed to perform this recovery
+    uint64 grams; // must equal the service company's signed weighing
+    bool decommission;
+    uint64 timestamp;
+    bytes32 nonce;
+}
+
+/// @notice A destruction certificate signed by a verifier independent of the facility (physical anchor).
+struct DestructionCertificate {
+    bytes32 subject; // destructionSubject(inputs)
+    uint64 grams; // destroyed quantity; must equal the facility's intake weighing
+    uint16 dreBps; // destruction and removal efficiency
+    bytes32 documentHash; // full certificate, stored off-chain
+    uint64 timestamp;
+    bytes32 nonce;
+}
+
 /// @notice EIP-712 typed-data hashing and strict ECDSA recovery.
 ///         Signing is kept behind this library so the scheme can be swapped (crypto agility),
 ///         e.g. for a post-quantum signature verified by a precompile or a verifier contract.
@@ -29,6 +51,12 @@ library Attestations {
         keccak256("ScaleReading(bytes32 subject,uint64 grams,uint64 timestamp,bytes32 nonce)");
     bytes32 internal constant LAB_TYPEHASH = keccak256(
         "LabCertificate(bytes32 subject,bytes32 gas,uint16 purityBps,bytes32 sampleId,uint64 timestamp,bytes32 nonce)"
+    );
+    bytes32 internal constant CONSENT_TYPEHASH = keccak256(
+        "RecoveryConsent(bytes32 equipmentId,bytes32 cylinderId,address service,uint64 grams,bool decommission,uint64 timestamp,bytes32 nonce)"
+    );
+    bytes32 internal constant DESTRUCTION_TYPEHASH = keccak256(
+        "DestructionCertificate(bytes32 subject,uint64 grams,uint16 dreBps,bytes32 documentHash,uint64 timestamp,bytes32 nonce)"
     );
 
     /// @dev Half the secp256k1 curve order; higher `s` values are rejected to prevent malleability.
@@ -54,6 +82,20 @@ library Attestations {
 
     function hashLab(LabCertificate memory c) internal pure returns (bytes32) {
         return keccak256(abi.encode(LAB_TYPEHASH, c.subject, c.gas, c.purityBps, c.sampleId, c.timestamp, c.nonce));
+    }
+
+    function hashConsent(RecoveryConsent memory c) internal pure returns (bytes32) {
+        return keccak256(
+            abi.encode(
+                CONSENT_TYPEHASH, c.equipmentId, c.cylinderId, c.service, c.grams, c.decommission, c.timestamp, c.nonce
+            )
+        );
+    }
+
+    function hashDestruction(DestructionCertificate memory d) internal pure returns (bytes32) {
+        return keccak256(
+            abi.encode(DESTRUCTION_TYPEHASH, d.subject, d.grams, d.dreBps, d.documentHash, d.timestamp, d.nonce)
+        );
     }
 
     function recover(bytes32 hash, bytes memory sig) internal pure returns (address signer) {

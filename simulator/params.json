@@ -95,6 +95,10 @@
     "serviceCompanies": 40,
     "reclaimers": 3,
     "destructionFacilities": 2,
+    "equipmentOwners": 30,
+    "takeBackPoints": 3,
+    "verifiers": 2,
+    "_ownersReadme": "Equipment owners co-sign every recovery from their Tier A units (supermarket chains, building operators). Take-back points own scrapped Tier B units. Verifiers sign destruction certificates.",
     "registries": [
       { "id": "registry-tw", "acceptsTier": "B" },
       { "id": "registry-intl", "acceptsTier": "A" }
@@ -105,9 +109,16 @@
     "_readme": "Injected scenarios with ground-truth labels, used only to evaluate the AI modules. Patterns follow fraud modes documented by EIA (2026); magnitudes are assumptions.",
     "offLedgerTopUps": { "serviceCompanies": 6, "recordedShare": 0.2 },
     "distributorOverselling": { "distributors": 1 },
-    "phantomTierB": { "serviceCompanies": 2, "unitsPerMonth": [1, 4], "fractionOfModelCharge": [0.97, 1.0] },
+    "phantomTierB": {
+      "_readme": "Fake small units 'recovered' with smuggled virgin gas. Needs a colluding take-back point to co-sign as owner. The first company is naive (recovers ~the full model charge); the second adapts to look like honest recovery efficiency.",
+      "serviceCompanies": 2, "colludingTakeBackPoints": 1, "unitsPerMonth": [1, 4],
+      "fractionOfModelCharge": [0.97, 1.0], "adaptiveFractionOfModelCharge": [0.85, 0.95]
+    },
     "inflatedYield": { "reclaimers": 1, "yield": [0.93, 0.98], "overCapAttemptsPerYear": 2 },
     "chargeAndRecover": { "attemptsPerYear": 4 },
-    "duplicateClaims": { "probabilityPerEligibleEvent": 0.05 }
+    "duplicateClaims": { "probabilityPerEligibleEvent": 0.05 },
+    "unconsentedRecovery": { "_readme": "Off-ledger services book smuggled gas as recovered from someone else's unit, signing the consent with their own key (rejected: NotUnitOwner).", "attemptsPerYear": 6 },
+    "cylinderReuse": { "_readme": "A phantom service books a recovery into a cylinder that still backs an open lot (rejected: CylinderInUse).", "attemptsPerYear": 3 },
+    "selfCertifiedDestruction": { "_readme": "A facility signs its own destruction certificate (rejected: NotVerifier).", "attemptsPerYear": 2 }
   }
 }

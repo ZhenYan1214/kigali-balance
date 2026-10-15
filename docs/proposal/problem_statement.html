@@ -4,20 +4,19 @@
 <meta charset="utf-8">
 <title>Kigali Balance – Problem Statement</title>
 <style>
-  @page { size: A4; margin: 1.6cm 1.8cm; }
-  body { font-family: "Calibri", "Segoe UI", Arial, sans-serif; font-size: 10pt; line-height: 1.32; color: #111; margin: 0; }
-  h1 { font-size: 15pt; margin: 0 0 2pt; line-height: 1.2; }
-  .sub { font-size: 9.5pt; color: #444; margin: 0 0 6pt; border-bottom: 1.5px solid #2a6f4f; padding-bottom: 4pt; }
-  h2 { font-size: 11pt; margin: 8pt 0 2pt; color: #2a6f4f; }
-  p { margin: 0 0 4pt; }
-  ul, ol { margin: 0 0 4pt; padding-left: 16pt; }
+  @page { size: A4; margin: 1.5cm 1.7cm; }
+  body { font-family: "Calibri", "Segoe UI", Arial, sans-serif; font-size: 9.6pt; line-height: 1.28; color: #111; margin: 0; }
+  h1 { font-size: 14.5pt; margin: 0 0 2pt; line-height: 1.2; }
+  .sub { font-size: 9.2pt; color: #444; margin: 0 0 5pt; border-bottom: 1.5px solid #2a6f4f; padding-bottom: 3pt; }
+  h2 { font-size: 10.6pt; margin: 6pt 0 2pt; color: #2a6f4f; }
+  p { margin: 0 0 3pt; }
+  ul, ol { margin: 0 0 3pt; padding-left: 15pt; }
   li { margin: 0 0 1.5pt; }
-  table { border-collapse: collapse; width: 100%; font-size: 8.8pt; margin: 2pt 0 4pt; }
-  th, td { border: 0.6pt solid #999; padding: 2pt 4pt; text-align: left; vertical-align: top; }
+  table { border-collapse: collapse; width: 100%; font-size: 8.4pt; margin: 2pt 0 3pt; }
+  th, td { border: 0.6pt solid #999; padding: 1.5pt 4pt; text-align: left; vertical-align: top; }
   th { background: #e8f1ec; }
-  .rule { border-left: 3pt solid #2a6f4f; background: #f1f7f3; padding: 3pt 6pt; margin: 3pt 0 4pt; font-weight: 600; }
-  .refs { font-size: 7.6pt; color: #333; border-top: 0.8pt solid #999; padding-top: 3pt; margin-top: 6pt; line-height: 1.25; }
-  .note { font-size: 9pt; color: #333; }
+  .rule { border-left: 3pt solid #2a6f4f; background: #f1f7f3; padding: 3pt 6pt; margin: 3pt 0 3pt; font-weight: 600; }
+  .refs { font-size: 7.3pt; color: #333; border-top: 0.8pt solid #999; padding-top: 3pt; margin-top: 5pt; line-height: 1.22; }
   h2 { break-after: avoid; page-break-after: avoid; }
   table, .rule, li { break-inside: avoid; page-break-inside: avoid; }
 </style>
@@ -27,64 +26,61 @@
 <p class="sub">IEEE ClimateChain Global Hackathon 2026 · Track 3: Sustainable Supply Chains (also Track 1: Carbon Markets &amp; Emissions Transparency)</p>
 
 <h2>1. The problem</h2>
-<p>HFC refrigerants are recorded in separate systems: customs quotas, technician logbooks, waste slips and carbon-credit registries. We found no system that checks whether the kilograms claimed as <i>recovered</i>, <i>reclaimed</i> or <i>destroyed</i> add up across borders and registries. This gap lets virgin or smuggled gas be sold as “reclaimed”. It could also let the same destroyed kilogram be credited twice.</p>
+<p>HFC refrigerants are recorded in separate systems: customs quotas, technician logbooks, reclaimer reports and carbon-credit registries. Each now checks its own records. US reclaimers report input and output, Isometric reconciles mass container by container, and Japan issues electronic manifests. But no one checks the same kilogram <i>between</i> these systems. That seam lets virgin or smuggled gas be sold as “reclaimed”. It also lets a kilogram earn a credit in one registry with nothing but a declaration to stop the same claim elsewhere.</p>
 
 <h2>2. Why it matters</h2>
 <ul>
 <li><b>Super-pollutant.</b> One kilogram of R-404A, a common supermarket refrigerant, warms the planet as much as about 3.9 t of CO₂. Equipment “banks” hold an estimated 13–24 GtCO₂e and leak about 1.5 GtCO₂e per year [1]. Lifecycle management could avoid another 39 GtCO₂e by 2050 [2].</li>
 <li><b>End of life is where the bank escapes.</b> Japan has one of the most comprehensive lifecycle laws. Even so, in 2024 it recovered only 43% of the HFC left in scrapped equipment; the other 6,878 t (12.6 MtCO₂e) was released. Operators reported 575 t of leakage, while the national inventory estimated 6,283 t [3].</li>
-<li><b>Illegal trade is growing.</b> EU HFC seizures rose from about 250 t in 2023 to about 670 t in 2024. Documented fraud includes labelling virgin gas as reclaimed, exceeding quotas and using false invoices. Illegal gas has reached Italian supermarkets and state-railway supply chains [4]. Prices are up about tenfold, and EU supply will fall by another 50% in 2027 [4].</li>
+<li><b>Illegal trade is growing.</b> EU HFC seizures rose from about 250 t in 2023 to about 670 t in 2024. The fraud documented includes labelling virgin gas as reclaimed, exceeding quotas and using false invoices, and illegal gas has reached Italian supermarket and state-railway supply chains [4].</li>
 </ul>
 
 <h2>3. Why “reclaimed” and “destroyed” are the weak points</h2>
-<p>Both labels now carry money.</p>
 <ul>
-<li><b>“Reclaimed” escapes scarcity.</b> Since 2025 the EU has banned servicing refrigeration with <i>virgin</i> gas of GWP ≥ 2,500, such as R-404A. Labelled reclaimed gas stays legal until 2030 [5], and HFCs reclaimed inside the EU fall outside the shrinking quota [6]. Relabelling virgin gas as “reclaimed” therefore turns a banned, quota-limited product into a legal one.</li>
-<li><b>“Destroyed” now earns credits.</b> Verra VM0016 v2.0 (Dec 2025) [7], Isometric (May 2026) [8], ACR, and a Taiwanese draft methodology (Jul 2026) [9] all credit HFC destruction. This market has a history: under the CDM, 19 HFC-23 projects out of about 2,000 received over half of all credits issued [10]. Isometric requires chain of custody for every container [8], but each registry can only check its own records.</li>
+<li><b>“Reclaimed” sells at a premium.</b> Since 2025 the EU has banned servicing refrigeration with <i>virgin</i> gas of GWP ≥ 2,500, such as R-404A. Gas reclaimed in an EU facility and labelled as such is exempt from that ban until 1 January 2030 and from the shrinking quota. Imported gas counts as virgin [5]. In Q1 2025 reclaimed R-404A cost 140% of the virgin price [6], and an EU reclaimer warned that untreated virgin R-404A was being sold as reclaimed [7]. In the US, since 2026 gas with more than 15% virgin content may not be sold as reclaimed. From 2029, supermarket systems, refrigerated transport and ice makers must be serviced with reclaimed gas [8].</li>
+<li><b>Both labels earn credits.</b> ACR has issued about 9 million credits for certified reclaimed HFCs. A 2024 technical note estimates that 2022 issuance was about twice the quota allowances left unused that year [9]. Verra VM0016 v2.0 (Dec 2025) [10], Isometric (May 2026) [11] and a Taiwanese draft methodology (Jul 2026) [12] now credit HFC destruction. Under the CDM, 19 HFC-23 projects out of about 2,000 received over half of all credits issued [13]. If virgin gas is labelled reclaimed, a credit is paid for virgin gas. The “reclaimed” fraud and the crediting problem are one conservation problem.</li>
 </ul>
 
 <h2>4. What exists, and the gap</h2>
 <table>
 <tr><th>System</th><th>Covers</th><th>Missing</th></tr>
-<tr><td>EU F-gas Portal + customs single window</td><td>Importer registration; quota at the border</td><td>Kilograms after first sale</td></tr>
+<tr><td>US EPA (40 CFR 82.164, 84.33, 84.112)</td><td>Reclaimer input and output per gas; annual audit by an independent accountant; electronic certificate per container; 15% virgin cap</td><td>US only; not linked to credit registries</td></tr>
+<tr><td>EU F-gas Portal + customs; Art. 26 reports</td><td>Quota at the border; annual reclaimed and destroyed quantities; imports for destruction name the destroyer</td><td>Reclaimers do not report recovered input; no published cross-check</td></tr>
 <tr><td>Italy Banca Dati; France Trackdéchets</td><td>Technician interventions; recovered-waste slips</td><td>Not linked to each other or to supply. Italy still had the EU’s largest seizures [4]</td></tr>
-<tr><td>Türkiye FARAVET / EKOMVET</td><td>Quotas and imports; equipment and service records</td><td>Rules for waste F-gas are still a draft [11]</td></tr>
+<tr><td>Türkiye FARAVET / EKOMVET</td><td>Quotas, per-shipment control documents; 21,456 equipment records with service history</td><td>Not linked to EU systems; waste F-gas rules still a draft [14]</td></tr>
 <tr><td>Japan RaMS</td><td>Electronic manifests from recovery to destruction</td><td>One country only; recovery stuck near 43% [3]</td></tr>
-<tr><td>Recoolit; Verra / Isometric / ACR</td><td>Project tracking; credit issuance</td><td>No container-level uniqueness check across registries</td></tr>
+<tr><td>UNEP iPIC (112 countries incl. Türkiye)</td><td>Pre-shipment check that traders are licensed</td><td>No kilograms after delivery; no recovered / reclaimed / destroyed split [15]</td></tr>
+<tr><td>Isometric; Verra; ACR</td><td>Chain of custody and mass reconciliation per container, inside one registry</td><td>“Not credited elsewhere” is a supplier declaration, not a check [11]</td></tr>
 </table>
-<p>Every segment has an owner, but no one owns the seams between segments. That is where the most profitable fraud happens.</p>
+<p>Each system reconciles its own kilograms. No one reconciles a reclaimer’s output against recovery recorded elsewhere, or a destruction event against every registry that might credit it.</p>
 
 <h2>5. Who needs this</h2>
-<p><b>Compliant reclaimers and distributors</b> lose sales to cheap gas sold as “reclaimed”. <b>Large buyers</b>, such as supermarkets and rail operators, need proof that their gas is legitimate. <b>Registries, verifiers and credit buyers</b> need proof that each destroyed kilogram came from real equipment and was credited only once. <b>Regulators</b> need warning signals that cut across segments. Technicians get no new paperwork: the system reuses records they already file.</p>
+<p><b>Compliant reclaimers and distributors</b> lose sales to cheap gas sold as “reclaimed”. <b>Large buyers</b>, such as supermarkets and rail operators, need proof that their gas is legitimate. <b>Registries, verifiers and credit buyers</b> need proof that each credited kilogram came from real equipment and was credited only once. <b>Regulators</b> need warning signals that cut across segments. Technicians do not re-enter data they already file; their scale signs the weight.</p>
 
 <h2>6. Solution</h2>
 <p>Kigali Balance is a reconciliation layer. It ingests existing national and registry records rather than replacing them, and enforces one rule:</p>
 <div class="rule">Every kilogram claimed as “reclaimed” or “destroyed” must trace back to a kilogram recovered from a real, registered piece of equipment.</div>
 <ol>
-<li><b>Physical anchors.</b> Signed cylinder IDs; signed weighings at recovery, reclamation and destruction; signed lab composition certificates; equipment IDs from national registries.</li>
-<li><b>Conservation rules on a shared ledger.</b> (a) Every transfer balances: out equals in. (b) Kilograms recovered from a unit cannot exceed its registered charge. (c) Reclaimed output cannot exceed documented recovered input minus losses. (d) A party can only destroy what it holds. (e) Each destruction event is recorded once and can be claimed by only one registry before credits are issued, without exposing commercial data. (f) Gas charged into a unit in the last 180 days is quarantined: it can never be reclaimed or credited, so virgin gas cannot be laundered by charging it into a unit and recovering it the next day.</li>
-<li><b>AI that finds the implausible, not just the illegal.</b> (a) Mass-balance anomalies, such as reclamation yields or sales that outrun documented inflows. (b) Leakage gaps between expected and reported top-ups per unit, prompted by Japan’s tenfold gap. (c) Recovery quantities or compositions that do not match a unit’s type, age and service history. The AI flags cases for human review and never sanctions anyone automatically.</li>
+<li><b>Physical anchors from independent parties.</b> Signed weighings at recovery, receipt, reclamation and destruction, each bound to a cylinder ID that can hold only one open lot. Each recovery is co-signed by the unit’s registered owner. Lab certificates and destruction certificates (DRE ≥ 99.99%) are signed by parties independent of the operator. Equipment IDs come from national registries.</li>
+<li><b>Conservation rules on a shared ledger.</b> (a) A receiver re-weighs every transfer, and mass cannot appear in transit. (b) Kilograms recovered from a unit cannot exceed its registered charge plus recorded top-ups. (c) Reclaimed output cannot exceed documented recovered input minus losses. (d) A party can only destroy what it holds. (e) Each destruction event can be claimed by only one registry, without registries sharing their databases. (f) Gas charged into a unit in the last 180 days is quarantined and can never be reclaimed or credited, so virgin gas cannot be laundered by charging it into a unit and recovering it the next day.</li>
+<li><b>AI that finds the implausible, not just the illegal.</b> (a) Mass-balance anomalies, such as reclamation yields or sales that outrun documented inflows. (b) Leakage gaps between expected and reported top-ups per unit, prompted by Japan’s tenfold gap. (c) Recoveries that do not match a unit’s type, age and service history. The AI flags cases for human review and never sanctions anyone automatically.</li>
 </ol>
 
 <h2>7. Why a shared ledger, and its limits</h2>
-<p>Inside one country with a strong regulator, a central database is enough; Japan’s RaMS proves it. A shared ledger is justified only where <b>no single trusted operator spans all the parties</b>: cross-border trade between Türkiye and the EU, several independent carbon registries, and competing reclaimers. In those settings, conservation is enforced when each record is written instead of in an annual audit. Lying then requires collusion among independent counterparties.</p>
-<p>The ledger has two honest limits:</p>
-<ul>
-<li><b>It cannot see inside a cylinder.</b> Physical truth comes from weighing and lab sampling.</li>
-<li><b>It cannot catch gas that never enters it.</b> Instead it makes legitimate gas <i>provable</i>, so buyers can demand provenance. It also stops illegal gas from being laundered into the legal market under a “reclaimed” label, which is that gas’s most profitable exit.</li>
-</ul>
+<p>Inside one country with a strong regulator, a central database is enough; Japan’s RaMS and the US reporting rules prove it. A shared ledger is justified only where <b>no single trusted operator spans all the parties</b>: several independent carbon registries, competing reclaimers, and recovered gas shipped across borders for destruction, the one import the EU exempts from quota [5]. There, conservation is enforced when each record is written instead of in an annual audit. Lying requires collusion between independent parties, such as a technician and the unit’s owner, or a destroyer and its verifier.</p>
+<p>The ledger has three honest limits. <b>It cannot see inside a cylinder</b>: physical truth comes from weighing and lab sampling. <b>It cannot catch gas that never enters it</b>; instead it makes legitimate gas <i>provable</i> and closes the “reclaimed” label, illegal gas’s most profitable exit. <b>It is not confidential by default</b>: consortium members can see lot quantities, and only state hashes are anchored publicly. A production version would store commitments instead of grams.</p>
 
 <h2>8. Impact and alignment</h2>
 <ul>
-<li><b>How it cuts emissions.</b> Recovery rises only when someone pays for recovered kilograms, through credits, extended producer responsibility (EPR) schemes or a premium for reclaimed gas. Payment attracts fraud unless those kilograms are verifiable. <i>Illustration:</i> each percentage point of Japan’s disposal recovery rate is worth about 120 t of HFC, or about 0.22 MtCO₂e per year [3].</li>
-<li><b>Adoption without a new mandate.</b> Participants join to qualify for credits or a reclaimed-gas premium. A US rule requiring QR-code cylinder tracking was struck down in court and then withdrawn after industry pushback.</li>
-<li><b>COP31 and Türkiye.</b> Super-pollutants, including HFCs, were named “a central pillar of implementation on the road to COP31” at a June 2026 event attended by the COP31 President [12]. Türkiye rebuilt its F-gas regime in October 2024 [13]. Kigali Balance links FARAVET, EKOMVET and end-of-life records, giving compliant Turkish suppliers provable provenance in trade with the EU.</li>
-<li><b>Taiwan.</b> Taiwan’s HFC regulation (Feb 2025) and its draft destruction-credit methodology (Jul 2026) [9] need exactly this evidence.</li>
+<li><b>How it cuts emissions.</b> Recovery rises only when someone pays for recovered kilograms, through credits, extended producer responsibility schemes or the reclaimed-gas premium. Payment attracts fraud unless those kilograms are verifiable. <i>Illustration:</i> each percentage point of Japan’s disposal recovery rate is worth about 120 t of HFC, or about 0.22 MtCO₂e per year [3].</li>
+<li><b>Adoption without a new mandate.</b> Participants join to qualify for credits or the reclaimed-gas premium. A US rule requiring QR-code cylinder tracking was struck down in court and then withdrawn after industry pushback.</li>
+<li><b>COP31 and Türkiye.</b> Super-pollutants, including HFCs, were named “a central pillar of implementation on the road to COP31” at a June 2026 event attended by the COP31 President [16]. Türkiye rebuilt its F-gas regime in October 2024 [14]. Linking FARAVET quota documents, EKOMVET service records and end-of-life recovery lets compliant Turkish suppliers prove their gas is quota-backed. It also lets gas recovered in Türkiye and destroyed in the EU be credited once.</li>
+<li><b>Taiwan.</b> Taiwan’s HFC regulation (Feb 2025) and its draft destruction-credit methodology (Jul 2026) [12] need exactly this evidence.</li>
 </ul>
 
 <h2>9. What we do not claim</h2>
-<p>We are <b>not the first to track cylinders</b>: commercial tools, Japan’s RaMS and a 2023 New Zealand blockchain project already do. Our contribution is cross-organisation conservation and cross-registry uniqueness. Double counting between destruction credits and national phase-down accounting is <b>undocumented</b>, so we treat it as a design safeguard, not a proven problem. The demo uses <b>simulated data only</b>.</p>
+<p>We are <b>not the first to track cylinders</b>: commercial tools, Japan’s RaMS and a 2023 New Zealand blockchain project already do. Our contribution is conservation across organisations and uniqueness across registries. No HFC destruction credit has yet been shown to be <b>double-issued</b>, so cross-registry uniqueness is a safeguard for a market that is only now opening. The demo uses <b>simulated data only</b>.</p>
 
-<div class="refs"><b>References</b> · [1] EIA, <i>ODS and HFC Banks</i>, 2026 · [2] UNEP guide citing TEAP 2024, Jul 2026 · [3] Japan MOE, OEWG48 side-event deck, Jul 2026 · [4] EIA, <i>Fakes, Fraud and F-Gases</i>, Apr 2026 · [5] Reg. (EU) 2024/573 Art. 13 · [6] German Environment Agency (UBA), F-gas Regulation overview · [7] Verra VM0016 v2.0 · [8] Isometric HFC &amp; ODS Destruction Protocol v1.0 · [9] Taiwan MOENV HFC Management Regulation, 2025-02-25; PTS News, 2026-07-22 · [10] Carbon Market Watch, HFC-23 background paper · [11] iklim.gov.tr, draft waste F-gas circular · [12] CCAC, Jun 2026 · [13] Resmî Gazete No. 32693, 2024-10-15</div>
+<div class="refs"><b>References</b> · [1] EIA, <i>ODS and HFC Banks</i>, 2026 · [2] UNEP guide citing TEAP 2024, Jul 2026 · [3] Japan MOE, OEWG48 side-event deck, Jul 2026 · [4] EIA, <i>Fakes, Fraud and F-Gases</i>, Apr 2026 · [5] Reg. (EU) 2024/573 Arts. 12(7), 13, 16(2), 22(2), 26; German Environment Agency, F-gas FAQ 5.3 · [6] Öko-Recherche / CITEPA, EU refrigerant price monitoring Q4/2025 · [7] Cooling Post, 4 Apr 2025 (PROZON) · [8] 40 CFR 82.164, 84.33, 84.112 (US EPA ER&amp;R rule, 2024) · [9] Carbon Containment Lab, <i>Technical Note on Refrigerant Reclamation</i>, Jun 2024 · [10] Verra VM0016 v2.0 · [11] Isometric HFC &amp; ODS Recovery and Destruction Protocol v1.0 · [12] Taiwan MOENV HFC Management Regulation, 2025-02-25; PTS News, 2026-07-22 · [13] Carbon Market Watch, HFC-23 background paper · [14] Resmî Gazete No. 32693, 2024-10-15; Türkiye MoEUCC briefing, Dec 2025 · [15] UNEP OzonAction, iPIC report 2024 · [16] CCAC, Jun 2026</div>
 </body>
 </html>

@@ -4,7 +4,7 @@ pragma solidity 0.8.28;
 import {Fixture} from "./utils/Fixture.sol";
 import {Roles, Tier, LotClass, LotStatus} from "../src/Types.sol";
 import {KigaliLedger} from "../src/KigaliLedger.sol";
-import {ScaleReading, LabCertificate, Attestations} from "../src/Attestations.sol";
+import {ScaleReading, LabCertificate, Attestations, RecoveryConsent, DestructionCertificate} from "../src/Attestations.sol";
 
 contract LedgerTest is Fixture {
     // ================================================================ R1 quota-backed virgin supply
@@ -183,10 +183,11 @@ contract LedgerTest is Fixture {
         // nameplate 10 kg + 5 % tolerance = 10.5 kg cap
         bytes32 cyl = bytes32("cyl");
         ScaleReading memory r = _reading(ledger.recoverySubject(EQ_A, cyl), 10_501);
+        (RecoveryConsent memory c, bytes memory cs) = _ownerConsentFor(EQ_A, cyl, 10_501, true);
         bytes memory sig = _signScale(SCALE_SERVICE_PK, r);
         vm.prank(service);
         vm.expectRevert(); // RecoveryCapExceeded(10_500, 10_501)
-        ledger.recover(EQ_A, cyl, true, r, sig);
+        ledger.recover(c, cs, r, sig);
     }
 
     // ================================================================ R4 + R5 reclamation
@@ -344,9 +345,11 @@ contract LedgerTest is Fixture {
         uint256[] memory inputs = _one(atFacility);
         ScaleReading memory r = _reading(ledger.destructionSubject(inputs), 9_000);
         bytes memory sig = _signScale(SCALE_FACILITY_PK, r);
+        DestructionCertificate memory d = _destCert(ledger.destructionSubject(inputs), 9_000, 9_999);
+        bytes memory ds = _signDestruction(VERIFIER_PK, d);
         vm.prank(facility);
         vm.expectRevert(abi.encodeWithSelector(KigaliLedger.DestroyExceedsHeld.selector, 8_000, 9_000));
-        ledger.destroy(inputs, r, sig, bytes32("cert"), 9_999);
+        ledger.destroy(inputs, r, sig, d, ds);
     }
 
     function test_R6_revert_dreBelowIsometric() public {
@@ -355,9 +358,11 @@ contract LedgerTest is Fixture {
         uint256[] memory inputs = _one(atFacility);
         ScaleReading memory r = _reading(ledger.destructionSubject(inputs), 8_000);
         bytes memory sig = _signScale(SCALE_FACILITY_PK, r);
+        DestructionCertificate memory d = _destCert(ledger.destructionSubject(inputs), 8_000, 9_990);
+        bytes memory ds = _signDestruction(VERIFIER_PK, d);
         vm.prank(facility);
         vm.expectRevert(abi.encodeWithSelector(KigaliLedger.DreTooLow.selector, 9_990, 9_999));
-        ledger.destroy(inputs, r, sig, bytes32("cert"), 9_990);
+        ledger.destroy(inputs, r, sig, d, ds);
     }
 
     function test_R6_revert_cannotDestroyOthersLots() public {
@@ -365,9 +370,11 @@ contract LedgerTest is Fixture {
         uint256[] memory inputs = _one(rec);
         ScaleReading memory r = _reading(ledger.destructionSubject(inputs), 8_000);
         bytes memory sig = _signScale(SCALE_FACILITY_PK, r);
+        DestructionCertificate memory d = _destCert(ledger.destructionSubject(inputs), 8_000, 9_999);
+        bytes memory ds = _signDestruction(VERIFIER_PK, d);
         vm.prank(facility);
         vm.expectRevert(abi.encodeWithSelector(KigaliLedger.NotHolder.selector, rec));
-        ledger.destroy(inputs, r, sig, bytes32("cert"), 9_999);
+        ledger.destroy(inputs, r, sig, d, ds);
     }
 
     // ================================================================ attestation security (threats T2, T3, T6)
@@ -375,87 +382,96 @@ contract LedgerTest is Fixture {
     function test_sec_revert_signatureFromUnregisteredDevice() public {
         bytes32 cyl = bytes32("cyl");
         ScaleReading memory r = _reading(ledger.recoverySubject(EQ_A, cyl), 8_000);
+        (RecoveryConsent memory c, bytes memory cs) = _ownerConsentFor(EQ_A, cyl, 8_000, true);
         bytes memory sig = _signScale(ROGUE_PK, r);
         vm.prank(service);
         vm.expectRevert(abi.encodeWithSelector(KigaliLedger.NotScaleDevice.selector, vm.addr(ROGUE_PK)));
-        ledger.recover(EQ_A, cyl, true, r, sig);
+        ledger.recover(c, cs, r, sig);
     }
 
     function test_sec_revert_replayedReading() public {
         bytes32 cyl = bytes32("cyl");
         ScaleReading memory r = _reading(ledger.recoverySubject(EQ_A, cyl), 4_000);
+        (RecoveryConsent memory c, bytes memory cs) = _ownerConsentFor(EQ_A, cyl, 4_000, false);
         bytes memory sig = _signScale(SCALE_SERVICE_PK, r);
         vm.prank(service);
-        ledger.recover(EQ_A, cyl, false, r, sig);
+        ledger.recover(c, cs, r, sig);
         vm.prank(service);
         vm.expectRevert(abi.encodeWithSelector(KigaliLedger.NonceReused.selector, vm.addr(SCALE_SERVICE_PK), r.nonce));
-        ledger.recover(EQ_A, cyl, false, r, sig);
+        ledger.recover(c, cs, r, sig);
     }
 
     function test_sec_revert_readingForAnotherSubject() public {
         ScaleReading memory r = _reading(ledger.recoverySubject(EQ_A, bytes32("cyl-1")), 4_000);
+        (RecoveryConsent memory c, bytes memory cs) = _ownerConsentFor(EQ_A, bytes32("cyl-2"), 4_000, false);
         bytes memory sig = _signScale(SCALE_SERVICE_PK, r);
         vm.prank(service);
         vm.expectRevert(KigaliLedger.WrongSubject.selector);
-        ledger.recover(EQ_A, bytes32("cyl-2"), false, r, sig);
+        ledger.recover(c, cs, r, sig);
     }
 
     function test_sec_revert_tamperedWeight() public {
         bytes32 cyl = bytes32("cyl");
         ScaleReading memory r = _reading(ledger.recoverySubject(EQ_A, cyl), 4_000);
+        (RecoveryConsent memory c, bytes memory cs) = _ownerConsentFor(EQ_A, cyl, 4_000, false);
         bytes memory sig = _signScale(SCALE_SERVICE_PK, r);
         r.grams = 9_000; // edited after signing => recovers a different (unregistered) signer
         vm.prank(service);
         vm.expectRevert(); // NotScaleDevice(<random address>)
-        ledger.recover(EQ_A, cyl, false, r, sig);
+        ledger.recover(c, cs, r, sig);
     }
 
     function test_sec_revert_expiredReading() public {
         bytes32 cyl = bytes32("cyl");
         ScaleReading memory r = _reading(ledger.recoverySubject(EQ_A, cyl), 4_000);
+        (RecoveryConsent memory c, bytes memory cs) = _ownerConsentFor(EQ_A, cyl, 4_000, false);
         bytes memory sig = _signScale(SCALE_SERVICE_PK, r);
         vm.warp(block.timestamp + 8 days);
         vm.prank(service);
         vm.expectRevert(KigaliLedger.AttestationExpired.selector);
-        ledger.recover(EQ_A, cyl, false, r, sig);
+        ledger.recover(c, cs, r, sig);
     }
 
     function test_sec_revert_futureReading() public {
         bytes32 cyl = bytes32("cyl");
         ScaleReading memory r = _reading(ledger.recoverySubject(EQ_A, cyl), 4_000);
+        (RecoveryConsent memory c, bytes memory cs) = _ownerConsentFor(EQ_A, cyl, 4_000, false);
         r.timestamp = uint64(block.timestamp + 1 hours);
         bytes memory sig = _signScale(SCALE_SERVICE_PK, r);
         vm.prank(service);
         vm.expectRevert(KigaliLedger.AttestationFromFuture.selector);
-        ledger.recover(EQ_A, cyl, false, r, sig);
+        ledger.recover(c, cs, r, sig);
     }
 
     function test_sec_revert_revokedDeviceStopsImmediately() public {
         identity.revokeRole(vm.addr(SCALE_SERVICE_PK), Roles.SCALE, keccak256("calibration expired"));
         bytes32 cyl = bytes32("cyl");
         ScaleReading memory r = _reading(ledger.recoverySubject(EQ_A, cyl), 4_000);
+        (RecoveryConsent memory c, bytes memory cs) = _ownerConsentFor(EQ_A, cyl, 4_000, false);
         bytes memory sig = _signScale(SCALE_SERVICE_PK, r);
         vm.prank(service);
         vm.expectRevert(abi.encodeWithSelector(KigaliLedger.NotScaleDevice.selector, vm.addr(SCALE_SERVICE_PK)));
-        ledger.recover(EQ_A, cyl, false, r, sig);
+        ledger.recover(c, cs, r, sig);
     }
 
     function test_sec_revert_malleableHighS() public {
         bytes32 cyl = bytes32("cyl");
         ScaleReading memory r = _reading(ledger.recoverySubject(EQ_A, cyl), 4_000);
+        (RecoveryConsent memory c, bytes memory cs) = _ownerConsentFor(EQ_A, cyl, 4_000, false);
         (uint8 v, bytes32 rr, bytes32 s) = vm.sign(SCALE_SERVICE_PK, ledger.scaleDigest(r));
         // flip to the equivalent high-s signature
         uint256 n = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141;
         bytes memory sig = abi.encodePacked(rr, bytes32(n - uint256(s)), v == 27 ? uint8(28) : uint8(27));
         vm.prank(service);
         vm.expectRevert(Attestations.BadSignature.selector);
-        ledger.recover(EQ_A, cyl, false, r, sig);
+        ledger.recover(c, cs, r, sig);
     }
 
     function test_sec_revert_signatureFromOtherDeployment() public {
         // same reading, but signed under the EIP-712 domain of chain 999 => must not verify here
         bytes32 cyl = bytes32("cyl");
         ScaleReading memory r = _reading(ledger.recoverySubject(EQ_A, cyl), 4_000);
+        (RecoveryConsent memory c, bytes memory cs) = _ownerConsentFor(EQ_A, cyl, 4_000, false);
         bytes32 foreignDomain = keccak256(
             abi.encode(
                 Attestations.DOMAIN_TYPEHASH, keccak256("KigaliBalance"), keccak256("1"), uint256(999), address(ledger)
@@ -466,7 +482,7 @@ contract LedgerTest is Fixture {
         (uint8 v, bytes32 rr, bytes32 s) = vm.sign(SCALE_SERVICE_PK, foreignDigest);
         vm.prank(service);
         vm.expectRevert(); // recovers an unregistered address => NotScaleDevice
-        ledger.recover(EQ_A, cyl, false, r, abi.encodePacked(rr, s, v));
+        ledger.recover(c, cs, r, abi.encodePacked(rr, s, v));
     }
 
     // ================================================================ access control
