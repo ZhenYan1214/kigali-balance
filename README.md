@@ -27,7 +27,7 @@ See the two-page problem statement: [`docs/proposal/Kigali_Balance_Problem_State
 | Path | Contents |
 |---|---|
 | `src/` | Solidity contracts: `KigaliLedger`, `EquipmentRegistry`, `DestructionClaims`, `IdentityRegistry`, `Governance`, `FlagRegistry` |
-| `test/` | 109 Foundry tests, including 7 fuzzed invariants and the demo scenario |
+| `test/` | 108 Foundry unit tests (including the demo scenario) plus 7 fuzzed invariants |
 | `simulator/` | Deterministic simulator of an HFC economy with injected fraud, plus a differential test that replays every simulated event against the real contracts |
 | `ai/` | Anomaly-detection modules (in progress) |
 | `docs/` | Proposal, plan, research and design notes |
