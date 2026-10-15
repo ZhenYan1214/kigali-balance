@@ -54,7 +54,9 @@
     "topUpWhenBelowFraction": 0.85,
     "purchaseBatchKg": 20,
     "source": "Assumption: technicians top up when a leak check finds the charge 15 % low",
-    "verified": false
+    "verified": false,
+    "companyLeakFactor": [0.7, 1.15],
+    "companyLeakFactorReadme": "Honest maintenance quality differs: each service company's units leak at the drawn category rate times this factor (better maintenance, less leakage). Assumption, not verified."
   },
 
   "endOfLife": {
@@ -116,7 +118,10 @@
 
   "fraud": {
     "_readme": "Injected scenarios with ground-truth labels, used only to evaluate the AI modules. Patterns follow fraud modes documented by EIA (2026); magnitudes are assumptions.",
-    "offLedgerTopUps": { "serviceCompanies": 6, "recordedShare": 0.2 },
+    "offLedgerTopUps": {
+      "_readme": "Service companies that top units up with smuggled gas off the ledger. Naive ones record 20 % of top-ups and buy the smuggled gas on invoices. Adaptive ones record just enough that every unit's ledger leakage sits between its category's IPCC minimum and midpoint, and pay cash for smuggled gas (no invoice).",
+      "serviceCompanies": 6, "adaptive": 3, "recordedShare": 0.2
+    },
     "distributorOverselling": {
       "_readme": "Distributors that sell smuggled gas off the ledger. The naive one bills it on separate invoices. The adaptive one knows the 5 % weight tolerance: it delivers smuggled gas together with legitimate shipments and pads those invoices by at most 4 % each, and keeps the total under 2 % of its ledger sales.",
       "distributors": 2, "adaptiveMaxExcessShare": 0.02, "adaptivePadMaxPerInvoice": 0.04

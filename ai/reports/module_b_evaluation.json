@@ -53,23 +53,23 @@
       "months": 12,
       "variant": "rules only",
       "entities": 180,
-      "tp": 39,
+      "tp": 38,
       "fp": 0,
-      "fn": 41,
+      "fn": 42,
       "tn": 100,
       "precision": 1.0,
-      "recall": 0.487,
+      "recall": 0.475,
       "false_positive_rate": 0.0,
       "recall_distributor_adaptive": 0.0,
       "recall_distributor_naive": 1.0,
       "recall_reclaimer_adaptive": 0.0,
-      "recall_reclaimer_naive": 0.95,
+      "recall_reclaimer_naive": 0.9,
       "fpr_distributor": 0.0,
       "fpr_reclaimer": 0.0,
       "auc_distributor_naive": 1.0,
-      "auc_distributor_adaptive": 0.7,
+      "auc_distributor_adaptive": 0.6,
       "auc_reclaimer_naive": 1.0,
-      "auc_reclaimer_adaptive": 0.525
+      "auc_reclaimer_adaptive": 0.55
     },
     {
       "months": 12,
@@ -89,9 +89,9 @@
       "fpr_distributor": 0.0,
       "fpr_reclaimer": 0.0,
       "auc_distributor_naive": 1.0,
-      "auc_distributor_adaptive": 0.715,
+      "auc_distributor_adaptive": 0.841,
       "auc_reclaimer_naive": 1.0,
-      "auc_reclaimer_adaptive": 0.587
+      "auc_reclaimer_adaptive": 0.517
     },
     {
       "months": 24,
@@ -111,9 +111,9 @@
       "fpr_distributor": 0.0,
       "fpr_reclaimer": 0.0,
       "auc_distributor_naive": 1.0,
-      "auc_distributor_adaptive": 0.875,
+      "auc_distributor_adaptive": 0.75,
       "auc_reclaimer_naive": 1.0,
-      "auc_reclaimer_adaptive": 0.525
+      "auc_reclaimer_adaptive": 0.55
     },
     {
       "months": 24,
@@ -133,9 +133,9 @@
       "fpr_distributor": 0.0,
       "fpr_reclaimer": 0.0,
       "auc_distributor_naive": 1.0,
-      "auc_distributor_adaptive": 0.883,
+      "auc_distributor_adaptive": 0.871,
       "auc_reclaimer_naive": 1.0,
-      "auc_reclaimer_adaptive": 0.443
+      "auc_reclaimer_adaptive": 0.564
     },
     {
       "months": 36,
@@ -155,7 +155,7 @@
       "fpr_distributor": 0.0,
       "fpr_reclaimer": 0.0,
       "auc_distributor_naive": 1.0,
-      "auc_distributor_adaptive": 0.9,
+      "auc_distributor_adaptive": 0.8,
       "auc_reclaimer_naive": 1.0,
       "auc_reclaimer_adaptive": 0.5
     },
@@ -177,39 +177,39 @@
       "fpr_distributor": 0.0,
       "fpr_reclaimer": 0.0,
       "auc_distributor_naive": 1.0,
-      "auc_distributor_adaptive": 0.88,
+      "auc_distributor_adaptive": 0.876,
       "auc_reclaimer_naive": 1.0,
-      "auc_reclaimer_adaptive": 0.457
+      "auc_reclaimer_adaptive": 0.423
     }
   ],
   "fraud_volume_kg_over_36_months": [
     {
       "role": "DISTRIBUTOR",
       "label": "adaptive",
-      "mean": 45.4,
-      "min": 34.8,
-      "max": 54.4
+      "mean": 19.4,
+      "min": 9.3,
+      "max": 27.3
     },
     {
       "role": "DISTRIBUTOR",
       "label": "naive",
-      "mean": 2556.8,
-      "min": 1690.0,
-      "max": 4084.2
+      "mean": 1419.4,
+      "min": 847.3,
+      "max": 2145.6
     },
     {
       "role": "RECLAIMER",
       "label": "adaptive",
-      "mean": 17.3,
-      "min": 1.6,
-      "max": 51.6
+      "mean": 14.1,
+      "min": 2.9,
+      "max": 40.0
     },
     {
       "role": "RECLAIMER",
       "label": "naive",
-      "mean": 32.3,
-      "min": 4.5,
-      "max": 90.0
+      "mean": 27.6,
+      "min": 5.8,
+      "max": 56.9
     }
   ]
 }

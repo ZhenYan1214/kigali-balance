@@ -57,10 +57,16 @@ export function simulate(params, overrides = {}) {
     },
     units: {},
     physical: {},
-    offLedger: { topUpsByService: {}, topUpsByUnit: {}, smuggledByGas: {}, smuggledByDistributor: {}, invoiceIds: [], paddedInvoices: [] },
+    offLedger: { topUpsByService: {}, topUpsByUnit: {}, smuggledByGas: {}, smuggledByDistributor: {}, cashPurchasesByService: {}, invoiceIds: [], paddedInvoices: [] },
     reclaimerYieldCentre: {}, // honest plant efficiency (evaluation only)
   };
   const isOffLedgerService = new Set(truth.fraud.offLedgerTopUpServices);
+  truth.fraud.offLedgerProfiles = Object.fromEntries(truth.fraud.offLedgerTopUpServices.map(
+    (s, i) => [s, i < p.fraud.offLedgerTopUps.serviceCompanies - p.fraud.offLedgerTopUps.adaptive ? 'naive' : 'adaptive'],
+  ));
+  truth.serviceLeakFactor = Object.fromEntries(services.map(
+    (s) => [s, Number(rng.uniform(p.service.companyLeakFactor[0], p.service.companyLeakFactor[1]).toFixed(4))],
+  ));
   const isPhantomService = new Set(truth.fraud.phantomTierBServices);
   truth.fraud.oversellingDistributors.forEach((d, i) => { truth.fraud.oversellingProfiles[d] = i === 0 ? 'naive' : 'adaptive'; });
   truth.fraud.inflatedYieldReclaimers.forEach((r, i) => { truth.fraud.inflatedYieldProfiles[r] = i === 0 ? 'naive' : 'adaptive'; });
@@ -137,11 +143,13 @@ export function simulate(params, overrides = {}) {
         leakRate: rng.uniform(c.leakRatePerYear[0], c.leakRatePerYear[1]),
         charge: Math.round(nameplate * rng.uniform(p.fleet.initialChargeFraction[0], p.fleet.initialChargeFraction[1])),
         service: rng.pick(services),
+        leakBand: c.leakRatePerYear,
         // Tier A: the operator in the national registry; Tier B: the take-back point at scrapping
         owner: tier === 'A' ? rng.pick(owners) : rng.pick(honestTakeBacks),
         registered: false,
         active: true,
       };
+      unit.leakRate *= truth.serviceLeakFactor[unit.service];
       physOf(gas).initialInEquipment += unit.charge;
       truth.units[id] = { leakRatePerYear: Number(unit.leakRate.toFixed(4)), serviceCompany: unit.service };
       units.push(unit);
@@ -253,6 +261,13 @@ export function simulate(params, overrides = {}) {
   };
 
   const smuggledSale = (t, svc, gas, grams) => {
+    if (truth.fraud.offLedgerProfiles[svc] === 'adaptive') {
+      // bought for cash from a smuggler outside the system: no invoice anywhere
+      physOf(gas).smuggledIn += grams;
+      truth.offLedger.smuggledByGas[gas] = (truth.offLedger.smuggledByGas[gas] ?? 0) + grams;
+      truth.offLedger.cashPurchasesByService[svc] = (truth.offLedger.cashPurchasesByService[svc] ?? 0) + grams;
+      return;
+    }
     // off-ledger: smuggled gas sold by an overselling distributor; appears only on its invoices.
     // The adaptive distributor only takes a sale while its total stays under a small share of its
     // ledger sales and what it still has to bill fits on one ordinary invoice; it bills it by padding
@@ -300,6 +315,18 @@ export function simulate(params, overrides = {}) {
 
   const iso = (t) => new Date(t * 1000).toISOString().slice(0, 10);
 
+  // Share of a unit's top-ups an off-ledger service company records on the ledger. The adaptive
+  // ones record just enough that the unit's ledger leakage looks like a plausible rate between
+  // its category's minimum and midpoint (drawn once per unit).
+  const recordShare = (u) => {
+    if (truth.fraud.offLedgerProfiles[u.service] !== 'adaptive') return p.fraud.offLedgerTopUps.recordedShare;
+    if (u.adaptiveShare === undefined) {
+      const [lo, hi] = u.leakBand;
+      u.adaptiveShare = Math.min(1, rng.uniform(lo, (lo + hi) / 2) / u.leakRate);
+    }
+    return u.adaptiveShare;
+  };
+
   // ------------------------------------------------------------------ monthly loop
   // fake units get ordinary-looking serials drawn from the same space as real ones
   const fakeSerial = newSerial;
@@ -316,7 +343,7 @@ export function simulate(params, overrides = {}) {
       if (u.charge >= u.nameplate * p.service.topUpWhenBelowFraction) continue;
       const deficit = u.nameplate - u.charge;
       const svc = u.service;
-      const offLedger = isOffLedgerService.has(svc) && !rng.chance(p.fraud.offLedgerTopUps.recordedShare);
+      const offLedger = isOffLedgerService.has(svc) && !rng.chance(recordShare(u));
       if (offLedger) {
         smuggledSale(t, svc, u.gas, deficit);
         physOf(u.gas).topUpsTrue += deficit;
@@ -365,6 +392,7 @@ export function simulate(params, overrides = {}) {
     for (const u of units) {
       if (!u.active || u.eolMonth !== m) continue;
       u.active = false;
+      u.removedAt = t;
       const svc = u.service;
       physOf(u.gas).eolRemaining += u.charge;
       const meanEff = (p.endOfLife.recoveryEfficiency[0] + p.endOfLife.recoveryEfficiency[1]) / 2;
@@ -489,10 +517,17 @@ export function simulate(params, overrides = {}) {
   }
   truth.physical = phys;
 
+  // the national registry (e.g. EKOMVET) records which company services each unit; a unit first
+  // registered at decommissioning is serviced by the company that registered it
+  const serviceOf = new Map(units.map((u) => [u.id, u.service]));
+  const removedAt = new Map(units.filter((u) => u.removedAt).map((u) => [u.id, u.removedAt]));
   const equipment = [...ledger.equipment.entries()].map(([id, e]) => ({
     id, tier: e.tier, gas: e.gas, category: e.category, nameplate_g: e.nameplateGrams,
     installed_at: e.installedAt ? iso(e.installedAt) : '', registered_at: iso(e.registeredAt),
     registered_by: e.registeredBy, model_id: e.modelId ?? '', owner: e.owner,
+    service_company: serviceOf.get(id) ?? e.registeredBy,
+    // Tier A removals are reported to the national registry; Tier B units are registered at scrapping
+    removed_at: e.tier === 'A' && removedAt.has(id) ? iso(removedAt.get(id)) : '',
   }));
 
   return {

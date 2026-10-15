@@ -1,0 +1,126 @@
+{
+  "note": "Simulated data only. Thresholds were fixed on development seeds before this evaluation; ground truth was used only to score.",
+  "model_version": "1.0.0",
+  "model_hash": "e0db6131b3d46fe500fb77ee635bdb6725dad859a3c7608c38bff44e911c006a",
+  "params": {
+    "match_window_days": 21,
+    "match_weight_tolerance": 0.05,
+    "grace_days": 21,
+    "unbacked_share_full": 0.02,
+    "unbacked_count_full": 3,
+    "z_floor": 2.0,
+    "z_span": 2.0,
+    "min_expected_kg": 20.0,
+    "silent_min_loss_share": 0.25,
+    "silent_share_full": 0.2,
+    "silent_count_full": 2,
+    "flag_threshold": 0.6,
+    "high_threshold": 0.85
+  },
+  "leak_bands": {
+    "medium_large_commercial": [
+      0.1,
+      0.35
+    ],
+    "standalone_commercial": [
+      0.01,
+      0.15
+    ],
+    "chiller": [
+      0.02,
+      0.15
+    ],
+    "split_ac": [
+      0.01,
+      0.1
+    ]
+  },
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ],
+  "months": [
+    12,
+    24,
+    36
+  ],
+  "results": [
+    {
+      "months": 12,
+      "entities": 800,
+      "flagged": 113,
+      "false_positives": 8,
+      "precision": 0.929,
+      "recall_off_ledger": 0.542,
+      "false_positive_rate": 0.013,
+      "flag_rate_naive": 1.0,
+      "auc_naive": 0.995,
+      "flag_rate_adaptive": 0.083,
+      "auc_adaptive": 0.606,
+      "flag_rate_phantom": 1.0,
+      "auc_phantom": 0.995
+    },
+    {
+      "months": 24,
+      "entities": 800,
+      "flagged": 109,
+      "false_positives": 3,
+      "precision": 0.972,
+      "recall_off_ledger": 0.55,
+      "false_positive_rate": 0.005,
+      "flag_rate_naive": 1.0,
+      "auc_naive": 0.999,
+      "flag_rate_adaptive": 0.1,
+      "auc_adaptive": 0.622,
+      "flag_rate_phantom": 1.0,
+      "auc_phantom": 0.999
+    },
+    {
+      "months": 36,
+      "entities": 800,
+      "flagged": 107,
+      "false_positives": 2,
+      "precision": 0.981,
+      "recall_off_ledger": 0.542,
+      "false_positive_rate": 0.003,
+      "flag_rate_naive": 1.0,
+      "auc_naive": 1.0,
+      "flag_rate_adaptive": 0.083,
+      "auc_adaptive": 0.641,
+      "flag_rate_phantom": 1.0,
+      "auc_phantom": 1.0
+    }
+  ],
+  "off_ledger_kg_over_36_months": [
+    {
+      "label": "adaptive",
+      "mean": 166.3,
+      "min": 3.1,
+      "max": 529.1
+    },
+    {
+      "label": "naive",
+      "mean": 387.8,
+      "min": 54.1,
+      "max": 911.2
+    }
+  ]
+}
