@@ -21,6 +21,7 @@
 10. 風險、未決事項、待查證清單
 11. 環境與工具的注意事項
 12. 檔案地圖
+13. 附錄 A：專案起源與其他考慮過的比賽；附錄 B：本機原始檔案的位置
 
 ---
 
@@ -51,7 +52,8 @@
 | 賽道 | 主賽道三：永續供應鏈；兼賽道一：碳市場與排放透明 |
 | 一句話 | 讓每一公斤被宣稱為「已回收、已再生、已銷毀」的 HFC 冷媒，在跨國境、跨碳權註冊處的情況下都對得起帳 |
 | 核心規則 | **每一公斤被宣稱為「再生」或「銷毀」的冷媒，都必須追溯到從一台真實、已登錄的設備回收出來的一公斤** |
-| GitHub | https://github.com/ZhenYan1214/kigali-balance |
+| GitHub | https://github.com/ZhenYan1214/kigali-balance（**目前是公開的**。使用者可能想在截止前先改成私人、交件前再改回公開，這個決定還沒做） |
+| 參賽目的 | 使用者想累積可以放上履歷的作品，興趣方向是區塊鏈、AI、交易（見附錄 A） |
 
 **目前進度（2026-10-15）**：
 
@@ -139,7 +141,7 @@
 
 ## 4. 最終題目：問題、背景、痛點
 
-完整英文版見 `docs/proposal/Kigali_Balance_Problem_Statement.pdf`（交件版，剛好 2 頁），中英對照見 `docs/proposal/01_問題陳述_Problem_Statement.md`。
+完整英文版見 `docs/proposal/Kigali_Balance_Problem_Statement.pdf`（交件版，剛好 2 頁），中英對照見 `docs/proposal/01_問題陳述_Problem_Statement.md`。PDF 第 6 節列出帳本的六條規則 (a)–(f)，其中 (f) 是駐留規則（防灌注後立即回收的洗白）。改 PDF 的方法見第 12 節最後。
 
 ### 4.1 問題
 HFC 冷媒的紀錄分散在各自獨立的系統：海關配額、技師維修紀錄、廢棄物聯單、碳權註冊處。沒有系統跨國境、跨註冊處核對「已回收、已再生、已銷毀」的公斤數。結果是原生或走私冷媒能被標成「再生」賣出，同一公斤被銷毀的冷媒也可能被算兩次碳權。
@@ -413,3 +415,26 @@ kigali-balance/
 "C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --no-pdf-header-footer --print-to-pdf=docs/proposal/Kigali_Balance_Problem_Statement.pdf docs/proposal/problem_statement.html
 ```
 改完內容後要確認仍是 2 頁。
+
+---
+
+## 附錄 A：專案起源與其他考慮過的比賽
+
+使用者一開始的需求是：找最近可以參加、**線上**、和**區塊鏈、AI 或交易**相關的黑客松，用來放在履歷上。2026-10-14 搜尋到的候選（之後選了 IEEE ClimateChain）：
+
+| 比賽 | 形式與時間 | 備註 |
+|---|---|---|
+| **IEEE ClimateChain Global Hackathon** | 線上，截止 2026-10-25 | ✅ 選定：區塊鏈＋AI＋氣候，有 IEEE 證書 |
+| Solana Developer Hackathon（Encode Club） | 線上，2026-10-12 至 11-08 | 區塊鏈；是否能中途加入未確認 |
+| PayPal AI Hackathon（Devpost） | 線上，截止 2026-11-12，獎金 67,500 美元 | AI＋支付，可同時參加 |
+| Vultr: Agent Rush（lablab.ai） | 2026-11-03 至 11-08 線上開發 | AI Agent |
+| AMD AI League（lablab.ai） | 線上，2026-09-01 至 12-01 | 多場比賽共用排行榜 |
+| Hefty Hacks（Devfolio） | 線上，決賽 10-31 至 11-01 | 金融與交易賽道，但提案已於 10-10 截止 |
+| IMC Prosperity | 通常每年春天 | 交易類，可留意 2027 年 |
+| 2026 和泰 AI 黑客松（台灣） | 初賽線上、決賽 11-21 現場 | AI |
+
+使用者後來表示不需要和交易有關，只要契合比賽主題、真正有意義即可，並且**不考慮時間與技術難度**。
+
+## 附錄 B：本機原始檔案的位置（原電腦）
+
+原電腦的 `C:\Users\User\Desktop\contest2\` 底下還有 `proposal/`、`reports/`、`research_notes/` 三個資料夾，是 `docs/` 的前身。**之後一律以儲存庫裡的 `docs/` 為準**：`docs/` 版本已修正過時內容、移除其他參賽者的個人資訊，並加上補註。

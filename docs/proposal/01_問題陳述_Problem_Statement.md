@@ -55,6 +55,7 @@ Kigali Balance is a reconciliation layer. It ingests existing national and regis
    - Reclaimed output cannot exceed documented recovered input minus losses.
    - A party can only destroy what it holds.
    - Each destruction event is recorded once and can be claimed by only one registry before credits are issued, without exposing commercial data.
+   - Gas charged into a unit in the last 180 days is quarantined: it can never be reclaimed or credited, so virgin gas cannot be laundered by charging it into a unit and recovering it the next day.
 3. **AI that finds the implausible, not just the illegal.**
    - Mass-balance anomalies, such as reclamation yields or sales that outrun documented inflows.
    - Leakage gaps between expected and reported top-ups per unit, prompted by Japan's tenfold gap.
@@ -145,6 +146,7 @@ Kigali Balance 是一層對帳機制。它匯入各國和各註冊處既有的�
    - 再生產出量，不能超過有文件的回收進料量扣掉損耗。
    - 只能銷毀自己持有的量。
    - 每個銷毀事件只記錄一次，而且在核發碳權前只能被一個註冊處認領，不需揭露商業資料。
+   - 最近 180 天內灌進設備的冷媒會被隔離：永遠不能再生、不能申請碳權，所以無法用「把原生冷媒灌進設備、隔天再回收」的方式洗白。
 3. **AI 找出「不合理」，而不只是「違法」**：
    - 質量平衡異常，例如再生產率或銷售量超過有文件的進貨量。
    - 每台設備預期與申報的補充灌注量之間的洩漏落差，動機是日本相差十倍的數據。
