@@ -1,0 +1,18 @@
+{
+  "name": "kigali-balance-simulator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Deterministic simulator of HFC refrigerant flows for the Kigali Balance demo. All data is simulated.",
+  "type": "module",
+  "scripts": {
+    "simulate": "node run.mjs",
+    "replay": "node replay.mjs",
+    "test": "node --test \"test/*.test.mjs\""
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "viem": "^2.57.6"
+  }
+}

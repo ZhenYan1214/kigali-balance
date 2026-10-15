@@ -1,0 +1,113 @@
+{
+  "_readme": "All quantities are simulated. Every parameter carries a source and a 'verified' flag: true = checked against a cited source, false = an assumption to be validated (see plan section 11). Nothing here is real company or government data.",
+
+  "simulation": {
+    "seed": 42,
+    "startDate": "2023-10-01",
+    "months": 36
+  },
+
+  "gases": {
+    "R-404A": { "gwpAR4": 3922, "source": "EU F-gas Regulation 2024/573 Annex (IPCC AR4 values)", "verified": true },
+    "R-134a": { "gwpAR4": 1430, "source": "EU F-gas Regulation 2024/573 Annex (IPCC AR4 values)", "verified": true },
+    "R-410A": { "gwpAR4": 2088, "source": "EU F-gas Regulation 2024/573 Annex (IPCC AR4 values)", "verified": true }
+  },
+
+  "registry": {
+    "tierAThresholdTco2e": 5,
+    "source": "Türkiye F-gas regulation (Resmî Gazete 32693, 2024-10-15): EKOMVET registration for equipment >= 5 tCO2e",
+    "verified": true
+  },
+
+  "fleet": {
+    "units": 2000,
+    "categories": {
+      "medium_large_commercial": {
+        "share": 0.06, "gases": { "R-404A": 1.0 }, "chargeKg": [50, 300],
+        "leakRatePerYear": [0.10, 0.35], "lifetimeYears": [10, 20],
+        "source": "IPCC 2006 GL Vol.3 Ch.7 Table 7.9 via Climate Action Reserve (2018): medium/large commercial 10–35 %/yr",
+        "verified": true, "lifetimeVerified": false
+      },
+      "standalone_commercial": {
+        "share": 0.30, "gases": { "R-404A": 0.5, "R-134a": 0.5 }, "chargeKg": [0.2, 6],
+        "leakRatePerYear": [0.01, 0.15], "lifetimeYears": [8, 15],
+        "source": "IPCC 2006 GL Table 7.9 via ACR peer review (2023): stand-alone 0.2–6 kg, 1–15 %/yr",
+        "verified": true, "lifetimeVerified": false
+      },
+      "chiller": {
+        "share": 0.06, "gases": { "R-134a": 1.0 }, "chargeKg": [20, 500],
+        "leakRatePerYear": [0.02, 0.15], "lifetimeYears": [15, 25],
+        "source": "IPCC 2006 GL Table 7.9 via Climate Action Reserve (2018): chillers 2–15 %/yr",
+        "verified": true, "lifetimeVerified": false
+      },
+      "split_ac": {
+        "share": 0.58, "gases": { "R-410A": 1.0 }, "chargeKg": [0.8, 3.0],
+        "leakRatePerYear": [0.01, 0.10], "lifetimeYears": [8, 15],
+        "source": "Assumed (IPCC residential/commercial AC 1–10 %/yr could not be confirmed)",
+        "verified": false, "lifetimeVerified": false
+      }
+    },
+    "initialChargeFraction": [0.85, 1.0]
+  },
+
+  "service": {
+    "topUpWhenBelowFraction": 0.85,
+    "purchaseBatchKg": 20,
+    "source": "Assumption: technicians top up when a leak check finds the charge 15 % low",
+    "verified": false
+  },
+
+  "endOfLife": {
+    "targetMassRecoveryRate": 0.43,
+    "recoveryRateSource": "Japan MOE, OEWG48 side-event deck (Jul 2026): 5,188 t recovered of 12,011 t remaining at disposal in 2024",
+    "recoveryRateVerified": true,
+    "recoveryEfficiency": [0.85, 0.98],
+    "recoveryEfficiencyVerified": false,
+    "recoveredToReclaimShare": 0.6
+  },
+
+  "reclaim": {
+    "honestYield": [0.85, 0.95],
+    "yieldVerified": false,
+    "purityBps": [9950, 9990],
+    "puritySource": "AHRI 700: reclaimed refrigerant purity >= 99.5 %"
+  },
+
+  "destruction": {
+    "dreBps": 9999,
+    "source": "Isometric HFC & ODS Recovery and Destruction Protocol v1.0: DRE >= 99.99 %"
+  },
+
+  "rules": {
+    "_readme": "Mirror of the on-chain parameters. Must match KigaliLedger / EquipmentRegistry defaults.",
+    "transferToleranceBps": 100,
+    "minReclaimLossBps": 200,
+    "minReclaimPurityBps": 9950,
+    "minDreBps": 9999,
+    "tierAToleranceBps": 500,
+    "tierBMonthlyCapGrams": 50000,
+    "minResidenceDays": 180
+  },
+
+  "actors": {
+    "importers": 2,
+    "distributors": 5,
+    "serviceCompanies": 40,
+    "reclaimers": 3,
+    "destructionFacilities": 2,
+    "registries": [
+      { "id": "registry-tw", "acceptsTier": "B" },
+      { "id": "registry-intl", "acceptsTier": "A" }
+    ]
+  },
+
+  "fraud": {
+    "_readme": "Injected scenarios with ground-truth labels, used only to evaluate the AI modules. Patterns follow fraud modes documented by EIA (2026); magnitudes are assumptions.",
+    "offLedgerTopUps": { "serviceCompanies": 6, "recordedShare": 0.2 },
+    "distributorOverselling": { "distributors": 1 },
+    "phantomTierB": { "serviceCompanies": 2, "unitsPerMonth": [1, 4], "fractionOfModelCharge": [0.97, 1.0] },
+    "inflatedYield": { "reclaimers": 1, "yield": [0.93, 0.98], "overCapAttemptsPerYear": 2 },
+    "chargeAndRecover": { "attemptsPerYear": 4 },
+    "duplicateClaims": { "probabilityPerEligibleEvent": 0.05 }
+  }
+}
