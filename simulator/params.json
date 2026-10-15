@@ -67,7 +67,9 @@
   },
 
   "reclaim": {
-    "honestYield": [0.85, 0.95],
+    "_readme": "Each honest reclaimer has its own plant efficiency: a yield centre drawn once, then batch yields within +/- the half-width. Some honest plants are therefore naturally high-yield.",
+    "honestYieldCentre": [0.87, 0.93],
+    "honestYieldHalfWidth": 0.04,
     "yieldVerified": false,
     "purityBps": [9950, 9990],
     "puritySource": "AHRI 700: reclaimed refrigerant purity >= 99.5 %"
@@ -76,6 +78,13 @@
   "destruction": {
     "dreBps": 9999,
     "source": "Isometric HFC & ODS Recovery and Destruction Protocol v1.0: DRE >= 99.99 %"
+  },
+
+  "observationNoise": {
+    "_readme": "Honest paperwork is not perfectly aligned with the ledger: invoice weights are rounded/estimated and invoices are dated a few days before or after the shipment. Without this, any invoice/ledger gap would be fraud by construction.",
+    "invoiceWeightSd": 0.01,
+    "invoiceLagDays": [-5, 12],
+    "verified": false
   },
 
   "rules": {
@@ -93,7 +102,7 @@
     "importers": 2,
     "distributors": 5,
     "serviceCompanies": 40,
-    "reclaimers": 3,
+    "reclaimers": 4,
     "destructionFacilities": 2,
     "equipmentOwners": 30,
     "takeBackPoints": 3,
@@ -108,13 +117,19 @@
   "fraud": {
     "_readme": "Injected scenarios with ground-truth labels, used only to evaluate the AI modules. Patterns follow fraud modes documented by EIA (2026); magnitudes are assumptions.",
     "offLedgerTopUps": { "serviceCompanies": 6, "recordedShare": 0.2 },
-    "distributorOverselling": { "distributors": 1 },
+    "distributorOverselling": {
+      "_readme": "Distributors that sell smuggled gas off the ledger. The naive one bills it on separate invoices. The adaptive one knows the 5 % weight tolerance: it delivers smuggled gas together with legitimate shipments and pads those invoices by at most 4 % each, and keeps the total under 2 % of its ledger sales.",
+      "distributors": 2, "adaptiveMaxExcessShare": 0.02, "adaptivePadMaxPerInvoice": 0.04
+    },
     "phantomTierB": {
       "_readme": "Fake small units 'recovered' with smuggled virgin gas. Needs a colluding take-back point to co-sign as owner. The first company is naive (recovers ~the full model charge); the second adapts to look like honest recovery efficiency.",
       "serviceCompanies": 2, "colludingTakeBackPoints": 1, "unitsPerMonth": [1, 4],
       "fractionOfModelCharge": [0.97, 1.0], "adaptiveFractionOfModelCharge": [0.85, 0.95]
     },
-    "inflatedYield": { "reclaimers": 1, "yield": [0.93, 0.98], "overCapAttemptsPerYear": 2 },
+    "inflatedYield": {
+      "_readme": "Reclaimers that blend virgin gas into 'reclaimed' output. The naive one books 93-98 % yields and sometimes tries to exceed the 98 % ceiling (rejected by R4); the adaptive one keeps its own plant's spread and only shifts its centre up by a few points, so it looks like an efficient honest plant and never hits the ceiling.",
+      "reclaimers": 2, "yield": [0.93, 0.98], "adaptiveUplift": 0.03, "overCapAttemptsPerYear": 2
+    },
     "chargeAndRecover": { "attemptsPerYear": 4 },
     "duplicateClaims": { "probabilityPerEligibleEvent": 0.05 },
     "unconsentedRecovery": { "_readme": "Off-ledger services book smuggled gas as recovered from someone else's unit, signing the consent with their own key (rejected: NotUnitOwner).", "attemptsPerYear": 6 },

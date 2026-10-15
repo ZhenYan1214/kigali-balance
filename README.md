@@ -37,7 +37,7 @@ See the two-page problem statement: [`docs/proposal/Kigali_Balance_Problem_State
 | `src/` | Solidity contracts: `KigaliLedger`, `EquipmentRegistry`, `DestructionClaims`, `IdentityRegistry`, `Governance`, `FlagRegistry` |
 | `test/` | 131 Foundry unit tests (including the demo scenario and attacks on every signature) plus 9 fuzzed invariants |
 | `simulator/` | Deterministic simulator of an HFC economy with injected fraud, plus a differential test that replays every simulated event against the real contracts |
-| `ai/` | Anomaly-detection modules (in progress) |
+| `ai/` | Anomaly detection on observations only. Module B (mass balance) is done, with an evaluation on held-out simulated runs in `ai/reports/`; modules A and C are in progress |
 | `docs/` | Proposal, plan, research and design notes |
 
 ## Quick start
@@ -50,6 +50,12 @@ forge test                          # contracts
 cd simulator
 node run.mjs && npm test            # simulated data + self-checks
 npm install && node replay.mjs      # differential test against the contracts (needs `forge build`)
+
+cd ../ai
+python -m venv .venv && .venv/Scripts/pip install -r requirements.lock.txt   # macOS/Linux: .venv/bin/pip
+.venv/Scripts/python run_module_b.py        # flags with reasons for ../simulator/out
+.venv/Scripts/python -m pytest              # module tests, incl. no-ground-truth guards
+.venv/Scripts/python evaluate_module_b.py   # precision/recall on held-out simulated runs
 ```
 
 Requirements: Foundry ≥ 1.8, Node.js ≥ 20, Python 3.12 (for `ai/`).

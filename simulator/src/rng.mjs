@@ -23,6 +23,13 @@ export class Rng {
     return Math.floor(this.uniform(min, max + 1));
   }
 
+  /** Normal draw (Box–Muller). */
+  normal(mean = 0, sd = 1) {
+    const u = 1 - this.next(); // (0, 1]
+    const v = this.next();
+    return mean + sd * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  }
+
   chance(p) {
     return this.next() < p;
   }

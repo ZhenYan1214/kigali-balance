@@ -46,6 +46,8 @@ export function simulate(params, overrides = {}) {
       oversellingDistributors: rng.shuffle(distributors).slice(0, p.fraud.distributorOverselling.distributors),
       inflatedYieldReclaimers: rng.shuffle(reclaimers).slice(0, p.fraud.inflatedYield.reclaimers),
       colludingTakeBackPoints: colludingTakeBacks,
+      oversellingProfiles: {}, // distributor => 'naive' | 'adaptive'
+      inflatedYieldProfiles: {}, // reclaimer => 'naive' | 'adaptive'
       phantomProfiles: {}, // service => 'naive' | 'adaptive'
       phantomUnits: [],
       chargeAndRecoverUnits: [],
@@ -55,12 +57,19 @@ export function simulate(params, overrides = {}) {
     },
     units: {},
     physical: {},
-    offLedger: { topUpsByService: {}, topUpsByUnit: {}, smuggledByGas: {}, invoiceIds: [] },
+    offLedger: { topUpsByService: {}, topUpsByUnit: {}, smuggledByGas: {}, smuggledByDistributor: {}, invoiceIds: [], paddedInvoices: [] },
+    reclaimerYieldCentre: {}, // honest plant efficiency (evaluation only)
   };
   const isOffLedgerService = new Set(truth.fraud.offLedgerTopUpServices);
   const isPhantomService = new Set(truth.fraud.phantomTierBServices);
-  const smugglingDistributor = truth.fraud.oversellingDistributors[0];
-  const isInflatedReclaimer = new Set(truth.fraud.inflatedYieldReclaimers);
+  truth.fraud.oversellingDistributors.forEach((d, i) => { truth.fraud.oversellingProfiles[d] = i === 0 ? 'naive' : 'adaptive'; });
+  truth.fraud.inflatedYieldReclaimers.forEach((r, i) => { truth.fraud.inflatedYieldProfiles[r] = i === 0 ? 'naive' : 'adaptive'; });
+  const [naiveSmuggler, adaptiveSmuggler] = truth.fraud.oversellingDistributors;
+  for (const rec of reclaimers) {
+    truth.reclaimerYieldCentre[rec] = Number(rng.uniform(p.reclaim.honestYieldCentre[0], p.reclaim.honestYieldCentre[1]).toFixed(4));
+  }
+  const ledgerSalesByDistributor = {};
+  const smugglingCustomers = new Set([...truth.fraud.offLedgerTopUpServices, ...truth.fraud.phantomTierBServices]);
   truth.fraud.phantomTierBServices.forEach((svc, i) => { truth.fraud.phantomProfiles[svc] = i === 0 ? 'naive' : 'adaptive'; });
   const honestTakeBacks = takeBacks.filter((tb) => !colludingTakeBacks.includes(tb));
 
@@ -208,22 +217,63 @@ export function simulate(params, overrides = {}) {
   const buyForService = (t, svc, gas, grams) => {
     const want = Math.max(grams, Math.min(p.service.purchaseBatchKg * KG, distributorBatch(gas)));
     let bought = 0;
-    for (const dist of rng.shuffle(distributors)) {
+    let order = rng.shuffle(distributors);
+    if (adaptiveSmuggler && smugglingCustomers.has(svc)) order = [adaptiveSmuggler, ...order.filter((d) => d !== adaptiveSmuggler)];
+    for (const dist of order) {
       if (bought >= grams) break;
       if (!distributorStock(t, dist, gas, want - bought)) continue;
       const moved = moveGrams(t, dist, svc, gas, Math.min(want - bought, heldGrams(dist, gas)), classPreference);
-      if (moved > 0) invoices.push({ invoice: `inv-${String(invoices.length + 1).padStart(5, '0')}`, date: iso(t), distributor: dist, buyer: svc, gas, grams: moved });
+      if (moved > 0) {
+        ledgerSalesByDistributor[dist] = (ledgerSalesByDistributor[dist] ?? 0) + moved;
+        issueInvoice(t, dist, svc, gas, moved);
+      }
       bought += moved;
     }
     return bought;
   };
 
+  // Honest paperwork is noisy: weights are estimated/rounded and invoices are dated a few days
+  // before or after the shipment. The same noise applies to fraudulent invoices.
+  // Smuggled gas the adaptive distributor has delivered and bills on the buyer's next legitimate
+  // invoice, padding it by at most the per-invoice share: `${buyer}|${gas}` => grams.
+  const pendingPadding = {};
+  const issueInvoice = (t, dist, buyer, gas, grams) => {
+    const noise = p.observationNoise;
+    const key = `${buyer}|${gas}`;
+    const padding = dist === adaptiveSmuggler
+      ? Math.min(pendingPadding[key] ?? 0, Math.floor(grams * p.fraud.distributorOverselling.adaptivePadMaxPerInvoice))
+      : 0;
+    if (padding > 0) pendingPadding[key] -= padding;
+    const lag = rng.int(noise.invoiceLagDays[0], noise.invoiceLagDays[1]) * DAY;
+    const billed = Math.max(1, Math.round(((grams + padding) * (1 + rng.normal(0, noise.invoiceWeightSd))) / 10) * 10);
+    const invoice = `inv-${String(invoices.length + 1).padStart(5, '0')}`;
+    invoices.push({ invoice, date: iso(t + lag), distributor: dist, buyer, gas, grams: billed });
+    if (padding > 0) truth.offLedger.paddedInvoices.push({ invoice, distributor: dist, grams: padding });
+    return invoice;
+  };
+
   const smuggledSale = (t, svc, gas, grams) => {
-    // off-ledger: smuggled gas sold by the overselling distributor; appears only on its invoices
+    // off-ledger: smuggled gas sold by an overselling distributor; appears only on its invoices.
+    // The adaptive distributor only takes a sale while its total stays under a small share of its
+    // ledger sales and what it still has to bill fits on one ordinary invoice; it bills it by padding
+    // the buyer's next legitimate invoice. Everything else goes to the naive distributor.
     physOf(gas).smuggledIn += grams;
     truth.offLedger.smuggledByGas[gas] = (truth.offLedger.smuggledByGas[gas] ?? 0) + grams;
-    const invoice = `inv-${String(invoices.length + 1).padStart(5, '0')}`;
-    invoices.push({ invoice, date: iso(t), distributor: smugglingDistributor, buyer: svc, gas, grams });
+    const byDist = truth.offLedger.smuggledByDistributor;
+    let dist = naiveSmuggler;
+    if (adaptiveSmuggler) {
+      const cfg = p.fraud.distributorOverselling;
+      const room = cfg.adaptiveMaxExcessShare * (ledgerSalesByDistributor[adaptiveSmuggler] ?? 0);
+      const key = `${svc}|${gas}`;
+      const fits = (pendingPadding[key] ?? 0) + grams <= cfg.adaptivePadMaxPerInvoice * distributorBatch(gas);
+      if ((byDist[adaptiveSmuggler] ?? 0) + grams <= room && fits) {
+        byDist[adaptiveSmuggler] = (byDist[adaptiveSmuggler] ?? 0) + grams;
+        pendingPadding[key] = (pendingPadding[key] ?? 0) + grams;
+        return;
+      }
+    }
+    byDist[dist] = (byDist[dist] ?? 0) + grams;
+    const invoice = issueInvoice(t, dist, svc, gas, grams);
     truth.offLedger.invoiceIds.push(invoice); // evaluation only: the invoice itself looks normal
   };
 
@@ -372,12 +422,17 @@ export function simulate(params, overrides = {}) {
       const byGas = groupBy(ledger.activeLotsOf(rec, (l) => l.cls === 'RECOVERED' && l.tier !== 'C'), (l) => l.gas);
       for (const [gas, lots] of Object.entries(byGas)) {
         const inGrams = lots.reduce((s, l) => s + l.grams, 0);
-        const inflated = isInflatedReclaimer.has(rec);
-        if (inflated && rng.chance(p.fraud.inflatedYield.overCapAttemptsPerYear / 12)) {
+        const profile = truth.fraud.inflatedYieldProfiles[rec];
+        if (profile === 'naive' && rng.chance(p.fraud.inflatedYield.overCapAttemptsPerYear / 12)) {
           // occasional attempt above the 98 % ceiling: rejected by R4
           ledger.reclaim(t, rec, lots.map((l) => l.id), Math.round(inGrams * 1.05), 9_960);
         }
-        const range = inflated ? p.fraud.inflatedYield.yield : p.reclaim.honestYield;
+        const centre = truth.reclaimerYieldCentre[rec];
+        const honest = [centre - p.reclaim.honestYieldHalfWidth, centre + p.reclaim.honestYieldHalfWidth];
+        // the adaptive fraudster keeps its plant's honest spread and shifts the centre up
+        const uplift = profile === 'adaptive' ? p.fraud.inflatedYield.adaptiveUplift : 0;
+        const range = profile === 'naive' ? p.fraud.inflatedYield.yield
+          : [honest[0] + uplift, Math.min(honest[1] + uplift, 0.975)];
         const out = Math.round(inGrams * rng.uniform(range[0], range[1]));
         const purity = rng.int(p.reclaim.purityBps[0], p.reclaim.purityBps[1]);
         const outLot = ledger.reclaim(t, rec, lots.map((l) => l.id), out, purity);

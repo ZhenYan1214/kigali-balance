@@ -11,3 +11,10 @@ simulator/node_modules/
 # Python
 ai/.venv/
 __pycache__/
+
+# AI caches and run outputs (reports/ is committed)
+ai/.cache/
+ai/out/
+ai/**/__pycache__/
+ai/.pytest_cache/
+simulator/out-dev/
