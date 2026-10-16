@@ -1,0 +1,776 @@
+{
+  "meta": {
+    "inputs": {
+      "equipment": "simulator/out/equipment.csv",
+      "params": "simulator/params.json",
+      "units": 1856,
+      "tier_a": 952,
+      "tier_b": 904,
+      "seed": 42,
+      "draws": 400
+    },
+    "ipcc_table_7_9": {
+      "standalone_commercial": {
+        "sub_application": "Stand-alone Commercial Applications",
+        "remaining": [
+          0.0,
+          0.8
+        ],
+        "life": [
+          10,
+          15
+        ],
+        "eff_max": 0.7
+      },
+      "medium_large_commercial": {
+        "sub_application": "Medium & Large Commercial Refrigeration",
+        "remaining": [
+          0.5,
+          1.0
+        ],
+        "life": [
+          7,
+          15
+        ],
+        "eff_max": 0.7
+      },
+      "chiller": {
+        "sub_application": "Chillers",
+        "remaining": [
+          0.8,
+          1.0
+        ],
+        "life": [
+          15,
+          30
+        ],
+        "eff_max": 0.95
+      },
+      "split_ac": {
+        "sub_application": "Residential and Commercial A/C, including Heat Pumps",
+        "remaining": [
+          0.0,
+          0.8
+        ],
+        "life": [
+          10,
+          20
+        ],
+        "eff_max": 0.8
+      }
+    },
+    "leak_rates_params": {
+      "medium_large_commercial": [
+        0.1,
+        0.35
+      ],
+      "standalone_commercial": [
+        0.01,
+        0.15
+      ],
+      "chiller": [
+        0.02,
+        0.15
+      ],
+      "split_ac": [
+        0.01,
+        0.1
+      ]
+    },
+    "scenario_0": "no finite bound: without a unit register and a one-claim-per-unit rule, paper claims can name nonexistent units or the same unit twice"
+  },
+  "main": {
+    "assumptions": {
+      "remaining_dist": "uniform",
+      "sudden_share": 0.3,
+      "drift_sigma": 0.5,
+      "slack_k": 3.0,
+      "ledger_years": null,
+      "efficiency": "ipcc_max",
+      "tier_b_threshold": 0.97,
+      "detector_mode": "both",
+      "detector_eff": false,
+      "label": "main"
+    },
+    "honest": {
+      "recovered_kg": {
+        "mean": 39013.89718503507,
+        "p05": 38528.97227267479,
+        "p95": 39464.36868697797
+      },
+      "recovered_tco2e": {
+        "mean": 86168.4214423162,
+        "p05": 84598.32917685772,
+        "p95": 87642.25874594423
+      },
+      "remaining_kg": {
+        "mean": 45810.84872622671,
+        "p05": 45155.87384266745,
+        "p95": 46382.00430181893
+      },
+      "remaining_tco2e": {
+        "mean": 108831.04716470317,
+        "p05": 106673.37105760402,
+        "p95": 110926.20029324075
+      }
+    },
+    "scenarios": {
+      "s1_lifetime_cap": {
+        "kg": {
+          "mean": 122531.21821835836,
+          "p05": 116740.02141732331,
+          "p95": 128052.94430109383
+        },
+        "tco2e": {
+          "mean": 323452.3441778275,
+          "p05": 309395.8632482668,
+          "p95": 338020.29160733405
+        },
+        "tier_a_tco2e": {
+          "mean": 321729.25152272393,
+          "p05": 307676.7289181946,
+          "p95": 336289.24595059647
+        },
+        "tier_b_tco2e": {
+          "mean": 1723.0926551035427,
+          "p05": 1688.4520665688187,
+          "p95": 1760.2100678048514
+        },
+        "tier_a_kg": {
+          "mean": 121673.35119761497,
+          "p05": 115890.32980879814,
+          "p95": 127205.02593079272
+        },
+        "tier_b_kg": {
+          "mean": 857.8670207434028,
+          "p05": 839.0847278357054,
+          "p95": 876.5501753936604
+        },
+        "share_of_honest_recovered_tco2e": {
+          "mean": 3.7541878864132685,
+          "p05": 3.57232669269788,
+          "p95": 3.9519161310958157
+        },
+        "share_of_honest_recovered_kg": {
+          "mean": 3.14090317157256,
+          "p05": 2.983725337006102,
+          "p95": 3.2899957857743765
+        }
+      },
+      "s2_per_recovery_as_deployed": {
+        "kg": {
+          "mean": 122531.21821835836,
+          "p05": 116740.02141732331,
+          "p95": 128052.94430109383
+        },
+        "tco2e": {
+          "mean": 323452.3441778275,
+          "p05": 309395.8632482668,
+          "p95": 338020.29160733405
+        },
+        "tier_a_tco2e": {
+          "mean": 321729.25152272393,
+          "p05": 307676.7289181946,
+          "p95": 336289.24595059647
+        },
+        "tier_b_tco2e": {
+          "mean": 1723.0926551035427,
+          "p05": 1688.4520665688187,
+          "p95": 1760.2100678048514
+        },
+        "tier_a_kg": {
+          "mean": 121673.35119761497,
+          "p05": 115890.32980879814,
+          "p95": 127205.02593079272
+        },
+        "tier_b_kg": {
+          "mean": 857.8670207434028,
+          "p05": 839.0847278357054,
+          "p95": 876.5501753936604
+        },
+        "share_of_honest_recovered_tco2e": {
+          "mean": 3.7541878864132685,
+          "p05": 3.57232669269788,
+          "p95": 3.9519161310958157
+        },
+        "share_of_honest_recovered_kg": {
+          "mean": 3.14090317157256,
+          "p05": 2.983725337006102,
+          "p95": 3.2899957857743765
+        }
+      },
+      "s2b_per_recovery_single": {
+        "kg": {
+          "mean": 13708.076373773292,
+          "p05": 13136.920798181085,
+          "p95": 14363.051257332565
+        },
+        "tco2e": {
+          "mean": 38563.74386459683,
+          "p05": 36468.59073605949,
+          "p95": 40721.41997169646
+        },
+        "tier_a_tco2e": {
+          "mean": 36840.651209493284,
+          "p05": 34744.00890270274,
+          "p95": 38983.8697841639
+        },
+        "tier_b_tco2e": {
+          "mean": 1723.0926551035427,
+          "p05": 1688.4520665688187,
+          "p95": 1760.2100678048514
+        },
+        "tier_a_kg": {
+          "mean": 12850.209353029892,
+          "p05": 12278.370833870873,
+          "p95": 13499.464359576104
+        },
+        "tier_b_kg": {
+          "mean": 857.8670207434028,
+          "p05": 839.0847278357054,
+          "p95": 876.5501753936604
+        },
+        "share_of_honest_recovered_tco2e": {
+          "mean": 0.4477355714781398,
+          "p05": 0.4161158201604241,
+          "p95": 0.48134278978524986
+        },
+        "share_of_honest_recovered_kg": {
+          "mean": 0.3514531429602831,
+          "p05": 0.3329258360792551,
+          "p95": 0.3724089415708184
+        }
+      },
+      "s3_detector": {
+        "kg": {
+          "mean": 10833.545177342869,
+          "p05": 10393.996664392862,
+          "p95": 11327.034240688608
+        },
+        "tco2e": {
+          "mean": 30012.799533308447,
+          "p05": 28476.08659185049,
+          "p95": 31659.207107321097
+        },
+        "tier_a_tco2e": {
+          "mean": 28375.834688204905,
+          "p05": 26830.534923651623,
+          "p95": 30010.93339245579
+        },
+        "tier_b_tco2e": {
+          "mean": 1636.964845103543,
+          "p05": 1602.324256568817,
+          "p95": 1674.0822578048508
+        },
+        "tier_a_kg": {
+          "mean": 10018.563156599464,
+          "p05": 9585.941202285638,
+          "p95": 10507.261459218384
+        },
+        "tier_b_kg": {
+          "mean": 814.9820207434027,
+          "p05": 796.1997278357053,
+          "p95": 833.665175393662
+        },
+        "share_of_honest_recovered_tco2e": {
+          "mean": 0.34843950674407126,
+          "p05": 0.3253656185035662,
+          "p95": 0.373061198013906
+        },
+        "share_of_honest_recovered_kg": {
+          "mean": 0.277746722035715,
+          "p05": 0.26380607723942,
+          "p95": 0.29330287949085704
+        }
+      }
+    },
+    "detector": {
+      "honest_flag_rate_tier_a": {
+        "mean": 6.302521008403361e-05,
+        "p05": 0.0,
+        "p95": 0.0010504201680672268
+      },
+      "honest_flag_rate_tier_b": {
+        "mean": 0.0,
+        "p05": 0.0,
+        "p95": 0.0
+      },
+      "units_flagged_tier_a_mean": 0.06
+    },
+    "split_transactions_tier_a": {
+      "median": 2.0,
+      "p95": 4.0,
+      "max": 6.0
+    },
+    "gradual_share_tier_a": 0.5258849789915966,
+    "per_category": [
+      {
+        "category": "standalone_commercial",
+        "tier": "A",
+        "units": 377,
+        "nameplate_kg_mean": 4.111029177718834,
+        "remaining_kg_mean": 1.6433270750890614,
+        "honest_recovered_kg_mean": 1.150328952562343,
+        "recorded_topups_kg_mean": 2.9532157617285186,
+        "gradual_share": 0.4902785145888594,
+        "split_transactions_median": 2.0,
+        "honest_flag_rate": 6.631299734748011e-06,
+        "s1_lifetime_cap_kg_per_unit": 5.626469323244232,
+        "s1_lifetime_cap_tco2e_total": 6062.395536301034,
+        "s2_per_recovery_as_deployed_kg_per_unit": 5.626469323244232,
+        "s2_per_recovery_as_deployed_tco2e_total": 6062.395536301034,
+        "s2b_per_recovery_single_kg_per_unit": 2.6732535615157134,
+        "s2b_per_recovery_single_tco2e_total": 2881.9610119674544,
+        "s3_detector_kg_per_unit": 1.7640168418028788,
+        "s3_detector_tco2e_total": 1901.7950404972373
+      },
+      {
+        "category": "standalone_commercial",
+        "tier": "B",
+        "units": 179,
+        "nameplate_kg_mean": 1.6184357541899441,
+        "remaining_kg_mean": 0.6490157056522649,
+        "honest_recovered_kg_mean": 0.45431099395658536,
+        "recorded_topups_kg_mean": 0.0,
+        "gradual_share": 0.4930446927374302,
+        "split_transactions_median": 1.0,
+        "honest_flag_rate": 0.0,
+        "s1_lifetime_cap_kg_per_unit": 0.9694200485376793,
+        "s1_lifetime_cap_tco2e_total": 294.1889977723728,
+        "s2_per_recovery_as_deployed_kg_per_unit": 0.9694200485376793,
+        "s2_per_recovery_as_deployed_tco2e_total": 294.1889977723728,
+        "s2b_per_recovery_single_kg_per_unit": 0.9694200485376793,
+        "s2b_per_recovery_single_tco2e_total": 294.1889977723728,
+        "s3_detector_kg_per_unit": 0.920866975911981,
+        "s3_detector_tco2e_total": 279.4582597723728
+      },
+      {
+        "category": "medium_large_commercial",
+        "tier": "A",
+        "units": 120,
+        "nameplate_kg_mean": 186.35218333333333,
+        "remaining_kg_mean": 140.01928391251346,
+        "honest_recovered_kg_mean": 98.01349873875942,
+        "recorded_topups_kg_mean": 425.83600639495904,
+        "gradual_share": 0.6983958333333333,
+        "split_transactions_median": 4.0,
+        "honest_flag_rate": 0.00020833333333333335,
+        "s1_lifetime_cap_kg_per_unit": 481.4865149824456,
+        "s1_lifetime_cap_tco2e_total": 226606.8134113382,
+        "s2_per_recovery_as_deployed_kg_per_unit": 481.4865149824456,
+        "s2_per_recovery_as_deployed_tco2e_total": 226606.8134113382,
+        "s2b_per_recovery_single_kg_per_unit": 55.650508587486534,
+        "s2b_per_recovery_single_tco2e_total": 26191.355361614667,
+        "s3_detector_kg_per_unit": 42.94895227388838,
+        "s3_detector_tco2e_total": 20213.494898182824
+      },
+      {
+        "category": "chiller",
+        "tier": "A",
+        "units": 120,
+        "nameplate_kg_mean": 254.31272500000003,
+        "remaining_kg_mean": 228.83446793699443,
+        "honest_recovered_kg_mean": 217.3927445401447,
+        "recorded_topups_kg_mean": 467.4245453336467,
+        "gradual_share": 0.69625,
+        "split_transactions_median": 3.0,
+        "honest_flag_rate": 0.00025,
+        "s1_lifetime_cap_kg_per_unit": 505.6184386466523,
+        "s1_lifetime_cap_tco2e_total": 86764.12407176555,
+        "s2_per_recovery_as_deployed_kg_per_unit": 505.6184386466523,
+        "s2_per_recovery_as_deployed_tco2e_total": 86764.12407176555,
+        "s2b_per_recovery_single_kg_per_unit": 38.193893313005596,
+        "s2b_per_recovery_single_tco2e_total": 6554.07209251176,
+        "s3_detector_kg_per_unit": 31.767146887618452,
+        "s3_detector_tco2e_total": 5451.242405915325
+      },
+      {
+        "category": "split_ac",
+        "tier": "A",
+        "units": 335,
+        "nameplate_kg_mean": 2.6675074626865674,
+        "remaining_kg_mean": 1.066361843942055,
+        "honest_recovered_kg_mean": 0.8530894751536442,
+        "recorded_topups_kg_mean": 1.5478008805395007,
+        "gradual_share": 0.44313432835820893,
+        "split_transactions_median": 2.0,
+        "honest_flag_rate": 7.462686567164179e-06,
+        "s1_lifetime_cap_kg_per_unit": 3.2823218724183416,
+        "s1_lifetime_cap_tco2e_total": 2295.918503319181,
+        "s2_per_recovery_as_deployed_kg_per_unit": 3.2823218724183416,
+        "s2_per_recovery_as_deployed_tco2e_total": 2295.918503319181,
+        "s2b_per_recovery_single_kg_per_unit": 1.7345209918788402,
+        "s2b_per_recovery_single_tco2e_total": 1213.2627433994112,
+        "s3_detector_kg_per_unit": 1.1570056951013767,
+        "s3_detector_tco2e_total": 809.3023436095109
+      },
+      {
+        "category": "split_ac",
+        "tier": "B",
+        "units": 725,
+        "nameplate_kg_mean": 1.572137931034483,
+        "remaining_kg_mean": 0.6282195419928854,
+        "honest_recovered_kg_mean": 0.5025756335943083,
+        "recorded_topups_kg_mean": 0.0,
+        "gradual_share": 0.4451965517241379,
+        "split_transactions_median": 1.0,
+        "honest_flag_rate": 0.0,
+        "s1_lifetime_cap_kg_per_unit": 0.9439183890415974,
+        "s1_lifetime_cap_tco2e_total": 1428.90365733117,
+        "s2_per_recovery_as_deployed_kg_per_unit": 0.9439183890415974,
+        "s2_per_recovery_as_deployed_tco2e_total": 1428.90365733117,
+        "s2b_per_recovery_single_kg_per_unit": 0.9439183890415974,
+        "s2b_per_recovery_single_tco2e_total": 1428.90365733117,
+        "s3_detector_kg_per_unit": 0.8967542511105627,
+        "s3_detector_tco2e_total": 1357.5065853311698
+      }
+    ]
+  },
+  "sensitivity": [
+    {
+      "group": "remaining charge distribution",
+      "case": "uniform in IPCC range (main)",
+      "honest_recovered_tco2e": 86168.4214423162,
+      "s1_lifetime_cap_tco2e": 323452.3441778275,
+      "s1_lifetime_cap_share": 3.7541878864132685,
+      "s2_per_recovery_as_deployed_tco2e": 323452.3441778275,
+      "s2_per_recovery_as_deployed_share": 3.7541878864132685,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.4477355714781398,
+      "s3_detector_tco2e": 30012.799533308447,
+      "s3_detector_share": 0.34843950674407126,
+      "fpr_tier_a": 6.302521008403361e-05,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "remaining charge distribution",
+      "case": "skewed to empty (triangular)",
+      "honest_recovered_tco2e": 78750.47629197972,
+      "s1_lifetime_cap_tco2e": 326069.48003938847,
+      "s1_lifetime_cap_share": 4.140956826200638,
+      "s2_per_recovery_as_deployed_tco2e": 326069.48003938847,
+      "s2_per_recovery_as_deployed_share": 4.140956826200638,
+      "s2b_per_recovery_single_tco2e": 48560.98817609663,
+      "s2b_per_recovery_single_share": 0.6168190671102148,
+      "s3_detector_tco2e": 37448.48253794937,
+      "s3_detector_share": 0.475653228221797,
+      "fpr_tier_a": 8.665966386554622e-05,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "remaining charge distribution",
+      "case": "centred (Beta 2,2)",
+      "honest_recovered_tco2e": 86104.0828599783,
+      "s1_lifetime_cap_tco2e": 323227.5147435167,
+      "s1_lifetime_cap_share": 3.7542404085350696,
+      "s2_per_recovery_as_deployed_tco2e": 323227.5147435167,
+      "s2_per_recovery_as_deployed_share": 3.7542404085350696,
+      "s2b_per_recovery_single_tco2e": 38652.56386252507,
+      "s2b_per_recovery_single_share": 0.44905216496005695,
+      "s3_detector_tco2e": 30041.997112593708,
+      "s3_detector_share": 0.34900782057420426,
+      "fpr_tier_a": 3.676470588235294e-05,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "remaining charge distribution",
+      "case": "skewed to full (triangular)",
+      "honest_recovered_tco2e": 93561.00321005509,
+      "s1_lifetime_cap_tco2e": 320819.5798855681,
+      "s1_lifetime_cap_share": 3.4292518462945405,
+      "s2_per_recovery_as_deployed_tco2e": 320819.5798855681,
+      "s2_per_recovery_as_deployed_share": 3.4292518462945405,
+      "s2b_per_recovery_single_tco2e": 28603.709249880176,
+      "s2b_per_recovery_single_share": 0.30582301910112464,
+      "s3_detector_tco2e": 22594.445809697554,
+      "s3_detector_share": 0.24156392456248754,
+      "fpr_tier_a": 3.413865546218487e-05,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "remaining charge distribution",
+      "case": "simulator: 85-100 % (outside IPCC)",
+      "honest_recovered_tco2e": 101485.55689256785,
+      "s1_lifetime_cap_tco2e": 317317.58285447094,
+      "s1_lifetime_cap_share": 3.1267771307873558,
+      "s2_per_recovery_as_deployed_tco2e": 317317.58285447094,
+      "s2_per_recovery_as_deployed_share": 3.1267771307873558,
+      "s2b_per_recovery_single_tco2e": 17391.08161748393,
+      "s2b_per_recovery_single_share": 0.17138030306164923,
+      "s3_detector_tco2e": 14221.492549795392,
+      "s3_detector_share": 0.1401438074305752,
+      "fpr_tier_a": 1.838235294117647e-05,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "loss mechanism",
+      "case": "no sudden losses",
+      "honest_recovered_tco2e": 86168.4214423162,
+      "s1_lifetime_cap_tco2e": 317091.5248639428,
+      "s1_lifetime_cap_share": 3.6803271612542177,
+      "s2_per_recovery_as_deployed_tco2e": 317091.5248639428,
+      "s2_per_recovery_as_deployed_share": 3.6803271612542177,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.4477355714781398,
+      "s3_detector_tco2e": 27948.5326452661,
+      "s3_detector_share": 0.3244681216540043,
+      "fpr_tier_a": 8.928571428571429e-05,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "loss mechanism",
+      "case": "60 % sudden",
+      "honest_recovered_tco2e": 86168.4214423162,
+      "s1_lifetime_cap_tco2e": 329737.123924015,
+      "s1_lifetime_cap_share": 3.827184365350933,
+      "s2_per_recovery_as_deployed_tco2e": 329737.123924015,
+      "s2_per_recovery_as_deployed_share": 3.827184365350933,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.4477355714781398,
+      "s3_detector_tco2e": 32052.541363829394,
+      "s3_detector_share": 0.37213209109589956,
+      "fpr_tier_a": 4.2016806722689084e-05,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "loss mechanism",
+      "case": "all sudden",
+      "honest_recovered_tco2e": 86168.4214423162,
+      "s1_lifetime_cap_tco2e": 338192.94546495617,
+      "s1_lifetime_cap_share": 3.925393191531108,
+      "s2_per_recovery_as_deployed_tco2e": 338192.94546495617,
+      "s2_per_recovery_as_deployed_share": 3.925393191531108,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.4477355714781398,
+      "s3_detector_tco2e": 34799.95523661616,
+      "s3_detector_share": 0.4040428146719681,
+      "fpr_tier_a": 0.0,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "leak-rate drift",
+      "case": "sigma 0.25",
+      "honest_recovered_tco2e": 86168.4214423162,
+      "s1_lifetime_cap_tco2e": 324813.6412057996,
+      "s1_lifetime_cap_share": 3.7700084682120885,
+      "s2_per_recovery_as_deployed_tco2e": 324813.6412057996,
+      "s2_per_recovery_as_deployed_share": 3.7700084682120885,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.4477355714781398,
+      "s3_detector_tco2e": 30515.689271647072,
+      "s3_detector_share": 0.3542833192197581,
+      "fpr_tier_a": 0.0,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "leak-rate drift",
+      "case": "sigma 1.0",
+      "honest_recovered_tco2e": 86168.4214423162,
+      "s1_lifetime_cap_tco2e": 319700.76210507797,
+      "s1_lifetime_cap_share": 3.7106217642565777,
+      "s2_per_recovery_as_deployed_tco2e": 319700.76210507797,
+      "s2_per_recovery_as_deployed_share": 3.7106217642565777,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.4477355714781398,
+      "s3_detector_tco2e": 29259.01659483972,
+      "s3_detector_share": 0.3396907673283306,
+      "fpr_tier_a": 0.0029700630252100842,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "detector slack k",
+      "case": "k = 2",
+      "honest_recovered_tco2e": 86168.4214423162,
+      "s1_lifetime_cap_tco2e": 323452.3441778275,
+      "s1_lifetime_cap_share": 3.7541878864132685,
+      "s2_per_recovery_as_deployed_tco2e": 323452.3441778275,
+      "s2_per_recovery_as_deployed_share": 3.7541878864132685,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.4477355714781398,
+      "s3_detector_tco2e": 26500.156955988772,
+      "s3_detector_share": 0.3076490811178942,
+      "fpr_tier_a": 0.0013629201680672267,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "detector slack k",
+      "case": "k = 4",
+      "honest_recovered_tco2e": 86168.4214423162,
+      "s1_lifetime_cap_tco2e": 323452.3441778275,
+      "s1_lifetime_cap_share": 3.7541878864132685,
+      "s2_per_recovery_as_deployed_tco2e": 323452.3441778275,
+      "s2_per_recovery_as_deployed_share": 3.7541878864132685,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.4477355714781398,
+      "s3_detector_tco2e": 31815.579873031722,
+      "s3_detector_share": 0.36937559214545046,
+      "fpr_tier_a": 0.0,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "detector slack k",
+      "case": "k = 6",
+      "honest_recovered_tco2e": 86168.4214423162,
+      "s1_lifetime_cap_tco2e": 323452.3441778275,
+      "s1_lifetime_cap_share": 3.7541878864132685,
+      "s2_per_recovery_as_deployed_tco2e": 323452.3441778275,
+      "s2_per_recovery_as_deployed_share": 3.7541878864132685,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.4477355714781398,
+      "s3_detector_tco2e": 33605.75563162097,
+      "s3_detector_share": 0.3901656913538039,
+      "fpr_tier_a": 0.0,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "ledger history",
+      "case": "ledger 10 years old",
+      "honest_recovered_tco2e": 86168.4214423162,
+      "s1_lifetime_cap_tco2e": 244704.7467972897,
+      "s1_lifetime_cap_share": 2.8401999574437333,
+      "s2_per_recovery_as_deployed_tco2e": 244704.7467972897,
+      "s2_per_recovery_as_deployed_share": 2.8401999574437333,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.4477355714781398,
+      "s3_detector_tco2e": 30081.04839517267,
+      "s3_detector_share": 0.3492316666590179,
+      "fpr_tier_a": 3.413865546218487e-05,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "ledger history",
+      "case": "ledger 3 years old (simulator)",
+      "honest_recovered_tco2e": 86168.4214423162,
+      "s1_lifetime_cap_tco2e": 90483.81146843638,
+      "s1_lifetime_cap_share": 1.0502291979632985,
+      "s2_per_recovery_as_deployed_tco2e": 90483.81146843638,
+      "s2_per_recovery_as_deployed_share": 1.0502291979632985,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.4477355714781398,
+      "s3_detector_tco2e": 31575.17689685804,
+      "s3_detector_share": 0.3665917814126236,
+      "fpr_tier_a": 0.0,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "recovery efficiency",
+      "case": "params: U(0.85, 0.98)",
+      "honest_recovered_tco2e": 99599.02258916825,
+      "s1_lifetime_cap_tco2e": 323452.3441778275,
+      "s1_lifetime_cap_share": 3.2480686826036504,
+      "s2_per_recovery_as_deployed_tco2e": 323452.3441778275,
+      "s2_per_recovery_as_deployed_share": 3.2480686826036504,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.38739014149554224,
+      "s3_detector_tco2e": 30008.766354684347,
+      "s3_detector_share": 0.30143377145468664,
+      "fpr_tier_a": 0.00021533613445378152,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "Tier B threshold",
+      "case": "IPCC ceiling 0.80 instead of 0.97",
+      "honest_recovered_tco2e": 86168.4214423162,
+      "s1_lifetime_cap_tco2e": 323452.3441778275,
+      "s1_lifetime_cap_share": 3.7541878864132685,
+      "s2_per_recovery_as_deployed_tco2e": 323452.3441778275,
+      "s2_per_recovery_as_deployed_share": 3.7541878864132685,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.4477355714781398,
+      "s3_detector_tco2e": 29524.74194330845,
+      "s3_detector_share": 0.3427749045021898,
+      "fpr_tier_a": 6.302521008403361e-05,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "detector design",
+      "case": "IPCC ceiling only",
+      "honest_recovered_tco2e": 86168.4214423162,
+      "s1_lifetime_cap_tco2e": 323452.3441778275,
+      "s1_lifetime_cap_share": 3.7541878864132685,
+      "s2_per_recovery_as_deployed_tco2e": 323452.3441778275,
+      "s2_per_recovery_as_deployed_share": 3.7541878864132685,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.4477355714781398,
+      "s3_detector_tco2e": 37155.26283527682,
+      "s3_detector_share": 0.4313881465844226,
+      "fpr_tier_a": 0.0,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "detector design",
+      "case": "time since last top-up only",
+      "honest_recovered_tco2e": 86168.4214423162,
+      "s1_lifetime_cap_tco2e": 323452.3441778275,
+      "s1_lifetime_cap_share": 3.7541878864132685,
+      "s2_per_recovery_as_deployed_tco2e": 323452.3441778275,
+      "s2_per_recovery_as_deployed_share": 3.7541878864132685,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.4477355714781398,
+      "s3_detector_tco2e": 30863.354304069668,
+      "s3_detector_share": 0.3583113711168616,
+      "fpr_tier_a": 6.302521008403361e-05,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "detector design",
+      "case": "threshold x IPCC efficiency bound",
+      "honest_recovered_tco2e": 86168.4214423162,
+      "s1_lifetime_cap_tco2e": 323452.3441778275,
+      "s1_lifetime_cap_share": 3.7541878864132685,
+      "s2_per_recovery_as_deployed_tco2e": 323452.3441778275,
+      "s2_per_recovery_as_deployed_share": 3.7541878864132685,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.4477355714781398,
+      "s3_detector_tco2e": 8653.181776093075,
+      "s3_detector_share": 0.10047099805214944,
+      "fpr_tier_a": 0.0006197478991596639,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "detector design",
+      "case": "threshold x IPCC efficiency bound, params efficiency",
+      "honest_recovered_tco2e": 99599.02258916825,
+      "s1_lifetime_cap_tco2e": 323452.3441778275,
+      "s1_lifetime_cap_share": 3.2480686826036504,
+      "s2_per_recovery_as_deployed_tco2e": 323452.3441778275,
+      "s2_per_recovery_as_deployed_share": 3.2480686826036504,
+      "s2b_per_recovery_single_tco2e": 38563.74386459683,
+      "s2b_per_recovery_single_share": 0.38739014149554224,
+      "s3_detector_tco2e": 8656.148126544449,
+      "s3_detector_share": 0.08695784550477176,
+      "fpr_tier_a": 0.173686974789916,
+      "fpr_tier_b": 0.0
+    },
+    {
+      "group": "simulator world",
+      "case": "85-100 % remaining + params efficiency",
+      "honest_recovered_tco2e": 118976.7210047473,
+      "s1_lifetime_cap_tco2e": 317317.58285447094,
+      "s1_lifetime_cap_share": 2.667121335858991,
+      "s2_per_recovery_as_deployed_tco2e": 317317.58285447094,
+      "s2_per_recovery_as_deployed_share": 2.667121335858991,
+      "s2b_per_recovery_single_tco2e": 17391.08161748393,
+      "s2b_per_recovery_single_share": 0.1461873396839144,
+      "s3_detector_tco2e": 14220.994546920252,
+      "s3_detector_share": 0.11953821319332526,
+      "fpr_tier_a": 0.40086134453781513,
+      "fpr_tier_b": 0.0025138274336283183
+    },
+    {
+      "group": "simulator world",
+      "case": "same + ledger 3 years old",
+      "honest_recovered_tco2e": 118976.7210047473,
+      "s1_lifetime_cap_tco2e": 82361.02348954331,
+      "s1_lifetime_cap_share": 0.6922622814972205,
+      "s2_per_recovery_as_deployed_tco2e": 82361.02348954331,
+      "s2_per_recovery_as_deployed_share": 0.6922622814972205,
+      "s2b_per_recovery_single_tco2e": 17391.08161748393,
+      "s2b_per_recovery_single_share": 0.1461873396839144,
+      "s3_detector_tco2e": 14478.341110128375,
+      "s3_detector_share": 0.12170159945249091,
+      "fpr_tier_a": 0.4008377100840336,
+      "fpr_tier_b": 0.0025138274336283183
+    }
+  ]
+}

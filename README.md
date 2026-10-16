@@ -9,7 +9,7 @@ A shared ledger that reconciles recovered, reclaimed and destroyed HFC refrigera
 
 [![Track 3](https://img.shields.io/badge/IEEE_ClimateChain_2026-Track_3%3A_Supply_Chains-0f766e)](https://ieee-climatechain-hack.devpost.com/)
 [![Contracts](https://img.shields.io/badge/Solidity-0.8.28-363636?logo=solidity)](src/)
-[![Tests](https://img.shields.io/badge/tests-133_unit_%2B_10_invariants-1a7f37)](test/)
+[![Tests](https://img.shields.io/badge/tests-135_unit_%2B_10_invariants-1a7f37)](test/)
 [![OP Sepolia](https://img.shields.io/badge/OP_Sepolia-deployed_%26_verified-ff0420?logo=optimism&logoColor=white)](#live-on-op-sepolia)
 [![Data](https://img.shields.io/badge/data-simulated-9a6700)](#honest-limits)
 [![License](https://img.shields.io/badge/license-MIT-59636e)](#license)
@@ -49,6 +49,12 @@ Each of these reconciles its own kilograms well. None reconciles a reclaimer's o
 | Türkiye FARAVET / EKOMVET | Quotas, shipment documents, 21,456 equipment records | Not linked to EU systems |
 | Isometric, Verra, ACR | Chain of custody per container, inside one registry | Uniqueness across registries is a declaration |
 
+**We checked this against real public records** ([audit](docs/research/03-registry-audit.md), [data](research/registry-audit/)). The audit covers 436 ODS/HFC destruction and reclamation projects at ACR, CAR and Verra, plus California's ARB issuance table, all accessed 2026-10-16:
+
+- **Where two ledgers share a key, the public record can be checked, and it reconciles.** ARB issues credits only after the registry retires the matching registry credits. For 291 ARB reporting periods, 270 match the registry exactly, 21 are lower on the ARB side, and none are higher. This is a working cross-ledger claim lock, but it operates per project period, not per kilogram.
+- **Between ACR, CAR and Verra there is no shared key.** 68.6% of the 42.4 million destruction credits come from projects that publish no certificate-of-destruction identifier in any form. Where identifiers are public, they come in three incompatible forms, and no registry publishes which container and how many kilograms each credit draws on.
+- **The exposure is structural.** Three U.S. destruction facilities sit behind 75.7% of the destruction credits. ACR and CAR projects both have credited destruction windows at the same facility in the same month (50 months at one facility). We found **no evidence of double counting**; the point is that an outsider cannot check.
+
 A shared ledger is only justified where **no single trusted operator spans all the parties**: several independent carbon registries, competing reclaimers, and recovered gas shipped across borders for destruction. Inside one country, a regulator's database is enough.
 
 ## The solution
@@ -63,7 +69,7 @@ A shared ledger is only justified where **no single trusted operator spans all t
 | Layer | What it does |
 |---|---|
 | **Physical anchors** | Signed scale readings bound to one cylinder ID; each recovery co-signed by the unit's owner; lab and destruction certificates signed by parties independent of the operator. All EIP-712, verified on chain. |
-| **Conservation rules** | Per-gas mass conservation, provenance classes that cannot be swapped, recovery caps that count recorded top-ups, a 180-day quarantine against charge-and-recover laundering, and a claim lock so one registry credits each destruction event. |
+| **Conservation rules** | Per-gas mass conservation, provenance classes that cannot be swapped, a booked content per unit that every recovery draws down and only recorded top-ups refill, a 180-day quarantine against charge-and-recover laundering, and a claim lock so one registry credits each destruction event. |
 | **AI** | Flags what is compliant but implausible, with reasons a reviewer can read. It never sanctions anyone. |
 
 ### What changes compared with single-system reconciliation
@@ -72,7 +78,7 @@ A shared ledger is only justified where **no single trusted operator spans all t
 |---|---|---|
 | Reclaimed output vs. recovered input | Reported per reclaimer and audited yearly, inside one country | Checked on every reclamation, against recoveries signed by other parties |
 | Destruction credits | Each registry checks its own projects; "not credited elsewhere" is declared | Each destruction event can be claimed once, without registries sharing databases |
-| A recovery | Recorded in one national system | Scale reading **and** the unit owner's co-signature; no single recovery above one charge, lifetime capped at the charge plus recorded top-ups |
+| A recovery | Recorded in one national system | Scale reading **and** the unit owner's co-signature; never more than is booked inside the unit (one charge, drawn down by recoveries, refilled only by recorded top-ups) |
 | To fake a kilogram | An operator's records only need to agree with themselves | A second, accountable signer must collude, and collusion leaves patterns AI module C looks for |
 
 ## Architecture
@@ -99,9 +105,9 @@ All results are on simulated data. Fraud in the simulator includes *adaptive* fr
 
 | Check | Result |
 |---|---|
-| Foundry unit tests | 133 passing, including the demo scenario and attacks on every signature |
-| Fuzzed invariants (256 runs × 128 steps) | 10 passing; 2,283 unconsented recoveries, 1,773 self-certified destructions and 538 single recoveries above one charge attempted, none succeeded |
-| Differential test | 9,753 simulated events replayed against the real contracts: every accept/reject decision, reason, lot ID and gas total matches the simulator's rule mirror |
+| Foundry unit tests | 135 passing, including the demo scenario and attacks on every signature |
+| Fuzzed invariants (256 runs × 128 steps) | 10 passing; 2,197 unconsented recoveries, 1,745 self-certified destructions and 3,255 recoveries above what the unit could still hold (including padding split over several recoveries) attempted, none succeeded |
+| Differential test | 9,759 simulated events replayed against the real contracts: every accept/reject decision, reason, lot ID and gas total matches the simulator's rule mirror |
 
 **AI modules** (threshold fixed before evaluation, scored on held-out simulated runs at 36 months)
 
@@ -112,6 +118,21 @@ All results are on simulated data. Fraud in the simulator includes *adaptive* fr
 | [C · Recovery plausibility](ai/reports/module_c_evaluation.md) | Does a recovery match the unit? | 0.96 | 0.3% | 100% (and every colluding co-signer) | 35% | 6 kg of fake recoveries, vs 140 kg naive |
 
 **End-of-life closure** ([report](ai/reports/closure_evaluation.md)): registered units the national register shows as removed, with no recovery on the ledger, the clearest sign of venting. Over 10 simulated runs it listed 1,233 such units and estimated 30–49 t of refrigerant unaccounted for, from the IPCC 2006 range of charge left at end of life; the true amount (46 t) fell inside the range in every run.
+
+**How much can still be laundered** ([analysis](docs/research/04-laundering-capacity.md)): if a technician and an owner padded every registered unit to the limit, with the charge really left in each unit drawn from the IPCC 2006 Table 7.9 ranges, the rules would accept:
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="analysis/laundering/chart-dark.svg">
+  <img src="analysis/laundering/chart-light.svg" alt="Laundering capacity by defence layer: a lifetime cap of one charge plus top-ups allows 323.5 kt CO2e; the booked-content rule allows 38.6 kt CO2e; a padding detector sketch would leave 30.0 kt CO2e." width="100%">
+</picture>
+
+| Rule | Virgin gas the rules would accept as recovered | vs honest recovered volume |
+|---|---:|---:|
+| Lifetime cap only (one charge + every recorded top-up) | 323.5 kt CO₂e | 375% |
+| Booked content (implemented) | 38.6 kt CO₂e | 45% |
+| + a padding detector (design sketch, not calibrated) | 30.0 kt CO₂e | 35% |
+
+The booked-content rule removes 88% of the room. The rest cannot be closed by rules: many honest units reach end of life far from full, so padding one up to a full charge looks like an ordinary recovery. That is why the ledger bounds laundering per unit and leaves the rest to statistics and inspection.
 
 The honest reading: **the AI mostly misses fraudsters who adapt, but adapting forces them to stay small.** Catching them needs evidence the ledger cannot see, such as site inspections. Each report states how it was evaluated, including the versions that failed first.
 
@@ -141,7 +162,7 @@ The pages read only what a regulator could observe: ledger events, the equipment
 
 ## Live on OP Sepolia
 
-The six contracts are deployed and verified, and the demo has run on chain (142 transactions, none failed, 2026-10-16). This deployment predates the per-recovery cap added in the twelfth review; a redeploy is pending.
+The six contracts are deployed and verified, and the demo has run on chain (142 transactions, none failed, 2026-10-16). This deployment predates the booked-content rule added in the twelfth and thirteenth reviews; a redeploy is pending.
 
 | Contract | Address |
 |---|---|
@@ -179,6 +200,13 @@ All demo actor keys are derived from one deployer key, so on the testnet one per
 ## Quick start
 
 Requirements: Foundry ≥ 1.8, Node.js ≥ 20, Python 3.12.
+
+Rebuild everything and check it in two commands (after setting up `ai/.venv` as below):
+
+```bash
+python scripts/rebuild.py --full          # contracts, simulator, differential test, AI, web data, diagrams, PDF
+python scripts/check_submission.py        # numbers consistent across documents, links, no secrets, PDF still 2 pages
+```
 
 ```bash
 git clone --recurse-submodules https://github.com/ZhenYan1214/kigali-balance.git
@@ -231,9 +259,9 @@ Addresses are written to `deployments/11155420.json`.
 - **It cannot see inside a cylinder.** Physical truth comes from weighing and lab sampling.
 - **It cannot catch gas that never enters it.** It makes legitimate gas provable instead, which closes the "reclaimed" label, illegal gas's most profitable exit.
 - **It is not confidential by default.** Consortium members can see lot quantities. A production version would store commitments instead of grams.
-- **Collusion is made visible, not impossible.** A technician and an owner, or a destroyer and its verifier, can still lie together.
+- **Collusion is bounded and made visible, not prevented.** A technician and an owner can still book a unit as fuller than it was, up to one charge. In our model of every registered unit padded to that limit, the room left equals about 45% of honest recovered volume ([analysis](docs/research/04-laundering-capacity.md)). A destroyer and its verifier can still lie together.
 - **We are not the first to track cylinders.** Commercial tools, Japan's RaMS and a 2023 New Zealand blockchain project already do. Our contribution is conservation across organisations and uniqueness across registries.
-- **No HFC destruction credit has yet been shown to be double-issued.** Cross-registry uniqueness is a safeguard for a market that is only now opening.
+- **No HFC destruction credit has yet been shown to be double-issued**, and our audit of public records found no evidence of it. What it found is that most credits cannot be checked from outside. Cross-registry uniqueness is a safeguard for a market that is only now opening.
 - **All data is simulated.** No real company or government data is used.
 
 ## Roadmap
@@ -253,7 +281,10 @@ Addresses are written to `deployments/11155420.json`.
 | [`simulator/`](simulator/) | Deterministic HFC-economy simulator with injected fraud, and the differential test |
 | [`ai/`](ai/) | Anomaly detection on observations only, with evaluation reports |
 | [`web/`](web/) | Regulator dashboard and provenance passport (static; live reads from OP Sepolia) |
-| [`docs/`](docs/) | Problem statement, proposal, research notes |
+| [`scripts/`](scripts/) | One-command rebuild (`rebuild.py`) and pre-submission checks (`check_submission.py`) |
+| [`research/registry-audit/`](research/registry-audit/) | Public-record audit of ODS/HFC destruction credits: dataset with a source URL per row, and a rebuild script |
+| [`analysis/laundering/`](analysis/laundering/) | Model of how much gas a colluding technician and owner could book as recovered, per defence layer |
+| [`docs/`](docs/) | Problem statement, research reports, design notes ([index](docs/README.md)) |
 
 ## License
 

@@ -1,6 +1,6 @@
 > 交件版排版請見 [Kigali_Balance_Problem_Statement.pdf](Kigali_Balance_Problem_Statement.pdf)（A4 共 2 頁，由 [problem_statement.html](problem_statement.html) 產生）。這份 Markdown 和 PDF 的內容相同，只是第 5、6、7、9 節在 PDF 中排得比較緊湊。
 >
-> **2026-10-16 修訂（第十二輪反思）**：單次回收上限＝一次充填量；「獨立各方」改為「可追責的第二簽章者」；AI 新增「退役無回收紀錄」；公開測試網的保密說明。理由見 [05_第十二輪反思_概念層級的漏洞.md](05_第十二輪反思_概念層級的漏洞.md)。
+> **2026-10-16 修訂（第十二、十三輪反思）**：回收上限改為「帳面內容量」（從一次充填量開始，回收扣除、補充補回，上限一次充填量），分次灌水也擋得住；「獨立各方」改為「可追責的第二簽章者」；AI 新增「退役無回收紀錄」；公開測試網的保密說明。理由見 [05_第十二輪反思_概念層級的漏洞.md](05_第十二輪反思_概念層級的漏洞.md)。
 >
 > **2026-10-15 改版（第十輪反思）**：跨境情境改成「為銷毀而進口」（歐盟 2024/573 第 22(2) 條規定進口一律視為原生氣體，所以原本「土耳其再生冷媒賣到歐盟」的敘事不成立）；既有系統表補上美國 EPA、歐盟第 26 條申報、UNEP iPIC、Isometric 的單一註冊處對帳；拿掉「稀缺」改用有出處的價格溢價；加入 ACR 再生碳權；統一為 2030-01-01；隱私改為如實描述；實體錨點改成反映新的合約設計（回收需設備持有者共同簽章、銷毀證明由獨立查證者簽署、鋼瓶唯一性、回收上限計入補充量）。理由見 [03_第十輪反思_評審視角.md](03_第十輪反思_評審視角.md)。
 
@@ -55,7 +55,7 @@ Kigali Balance is a reconciliation layer. It ingests existing national and regis
 1. **Physical anchors from second parties.** Signed weighings at recovery, receipt, reclamation and destruction, each bound to a cylinder ID that can hold only one open lot. Each recovery is co-signed by the unit's registered owner. Lab certificates and destruction certificates (DRE ≥ 99.99%) are signed by parties independent of the operator. Equipment IDs come from national registries.
 2. **Conservation rules on a shared ledger.**
    - (a) A receiver re-weighs every transfer, and mass cannot appear in transit.
-   - (b) No single recovery can exceed what the unit holds (its registered charge), and lifetime recoveries cannot exceed that charge plus recorded top-ups.
+   - (b) A unit yields only what is booked inside it: one registered charge, drawn down by every recovery and refilled only by recorded top-ups.
    - (c) Reclaimed output cannot exceed documented recovered input minus losses.
    - (d) A party can only destroy what it holds.
    - (e) Each destruction event can be claimed by only one registry, without registries sharing their databases.
@@ -151,7 +151,7 @@ Kigali Balance 是一層對帳機制。它匯入各國和各註冊處既有的�
 1. **來自第二方的實體錨點**：回收、收貨、再生、銷毀時都有簽章秤重，每一筆都綁定一個鋼瓶 ID，每支鋼瓶同時只能有一個未結批次。每次回收都要由設備的登錄持有者共同簽章。實驗室成分報告和銷毀證明（破壞去除率 ≥ 99.99%）由獨立於業者的一方簽署。設備 ID 來自國家登錄系統。
 2. **共享帳本上的守恆規則**：
    - (a) 每筆轉移都由收方重新秤重，運送途中不可能多出質量。
-   - (b) 單次回收不能超過設備裝得下的量（登記的充填量）；一台設備終身的回收量，不能超過充填量加上帳本記錄的補充量。
+   - (b) 一台設備只能回收「帳面上還在裡面」的量：起始為一次登記充填量，每次回收扣除，只有帳本記錄的補充能補回，而且不會超過一次充填量。
    - (c) 再生產出量，不能超過有文件的回收進料量扣掉損耗。
    - (d) 只能銷毀自己持有的量。
    - (e) 每個銷毀事件只能被一個註冊處認領，各註冊處不需要分享自己的資料庫。

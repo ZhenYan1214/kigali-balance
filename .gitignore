@@ -27,3 +27,10 @@ simulator/out-dev/
 # local rehearsals (Anvil chain id 31337); testnet (OP Sepolia) deployment records are committed
 deployments/31337.json
 broadcast/**/*.lock
+
+# local run logs of scripts/rebuild.py
+reports/rebuild-latest.json
+reports/.pdf-profile/
+
+# outreach drafts stay private (names organisations; user decides whether to send)
+docs/outreach/

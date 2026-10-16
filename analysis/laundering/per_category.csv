@@ -1,0 +1,7 @@
+category,tier,units,nameplate_kg_mean,remaining_kg_mean,honest_recovered_kg_mean,recorded_topups_kg_mean,gradual_share,split_transactions_median,honest_flag_rate,s1_lifetime_cap_kg_per_unit,s1_lifetime_cap_tco2e_total,s2_per_recovery_as_deployed_kg_per_unit,s2_per_recovery_as_deployed_tco2e_total,s2b_per_recovery_single_kg_per_unit,s2b_per_recovery_single_tco2e_total,s3_detector_kg_per_unit,s3_detector_tco2e_total
+standalone_commercial,A,377,4.111,1.6433,1.1503,2.9532,0.4903,2.0,0.0,5.6265,6062.3955,5.6265,6062.3955,2.6733,2881.961,1.764,1901.795
+standalone_commercial,B,179,1.6184,0.649,0.4543,0.0,0.493,1.0,0.0,0.9694,294.189,0.9694,294.189,0.9694,294.189,0.9209,279.4583
+medium_large_commercial,A,120,186.3522,140.0193,98.0135,425.836,0.6984,4.0,0.0002,481.4865,226606.8134,481.4865,226606.8134,55.6505,26191.3554,42.949,20213.4949
+chiller,A,120,254.3127,228.8345,217.3927,467.4245,0.6963,3.0,0.0003,505.6184,86764.1241,505.6184,86764.1241,38.1939,6554.0721,31.7671,5451.2424
+split_ac,A,335,2.6675,1.0664,0.8531,1.5478,0.4431,2.0,0.0,3.2823,2295.9185,3.2823,2295.9185,1.7345,1213.2627,1.157,809.3023
+split_ac,B,725,1.5721,0.6282,0.5026,0.0,0.4452,1.0,0.0,0.9439,1428.9037,0.9439,1428.9037,0.9439,1428.9037,0.8968,1357.5066
