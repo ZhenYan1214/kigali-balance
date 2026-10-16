@@ -48,8 +48,22 @@ test('R2 underweight receipt becomes handling loss', () => {
 test('R3 cap: 10 kg nameplate + 5 % tolerance', () => {
   const L = setup();
   assert.equal(L.recover(T0, 'svc', 'eqA', 10_501, true), null);
-  assert.equal(lastReason(L), 'RecoveryCapExceeded');
-  assert.ok(L.recover(T0, 'svc', 'eqA', 10_500, true));
+  assert.equal(lastReason(L), 'RecoveryExceedsCharge');
+  assert.ok(L.recover(T0, 'svc', 'eqA', 6_000, false));
+  assert.equal(L.recover(T0, 'svc', 'eqA', 4_501, true), null);
+  assert.equal(lastReason(L), 'RecoveryCapExceeded', 'the lifetime total still applies');
+  assert.ok(L.recover(T0, 'svc', 'eqA', 4_500, true));
+});
+
+test('R3 per recovery: top-ups on a leaky unit never allow more than one charge at once', () => {
+  const L = setup();
+  const v = L.mintVirgin(T0, 'imp', 'q', 20_000);
+  const s = move(L, T0, 'imp', v, 'svc', 20_000);
+  L.charge(T0, 'svc', s, 'eqA', 20_000);
+  assert.equal(L.recoveryCap('eqA'), 30_500);
+  assert.equal(L.recover(T0 + 181 * DAY, 'svc', 'eqA', 10_501, false), null);
+  assert.equal(lastReason(L), 'RecoveryExceedsCharge');
+  assert.ok(L.recover(T0 + 181 * DAY, 'svc', 'eqA', 10_500, false));
 });
 
 test('R4 yield ceiling and R5 class rule', () => {

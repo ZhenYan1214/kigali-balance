@@ -9,7 +9,7 @@ A shared ledger that reconciles recovered, reclaimed and destroyed HFC refrigera
 
 [![Track 3](https://img.shields.io/badge/IEEE_ClimateChain_2026-Track_3%3A_Supply_Chains-0f766e)](https://ieee-climatechain-hack.devpost.com/)
 [![Contracts](https://img.shields.io/badge/Solidity-0.8.28-363636?logo=solidity)](src/)
-[![Tests](https://img.shields.io/badge/tests-131_unit_%2B_9_invariants-1a7f37)](test/)
+[![Tests](https://img.shields.io/badge/tests-133_unit_%2B_10_invariants-1a7f37)](test/)
 [![OP Sepolia](https://img.shields.io/badge/OP_Sepolia-deployed_%26_verified-ff0420?logo=optimism&logoColor=white)](#live-on-op-sepolia)
 [![Data](https://img.shields.io/badge/data-simulated-9a6700)](#honest-limits)
 [![License](https://img.shields.io/badge/license-MIT-59636e)](#license)
@@ -72,8 +72,8 @@ A shared ledger is only justified where **no single trusted operator spans all t
 |---|---|---|
 | Reclaimed output vs. recovered input | Reported per reclaimer and audited yearly, inside one country | Checked on every reclamation, against recoveries signed by other parties |
 | Destruction credits | Each registry checks its own projects; "not credited elsewhere" is declared | Each destruction event can be claimed once, without registries sharing databases |
-| A recovery | Recorded in one national system | Scale reading **and** the unit owner's co-signature, capped at the unit's charge plus recorded top-ups |
-| To fake a kilogram | An operator's records only need to agree with themselves | Two independent parties must collude, and that pattern is what AI module C looks for |
+| A recovery | Recorded in one national system | Scale reading **and** the unit owner's co-signature; no single recovery above one charge, lifetime capped at the charge plus recorded top-ups |
+| To fake a kilogram | An operator's records only need to agree with themselves | A second, accountable signer must collude, and collusion leaves patterns AI module C looks for |
 
 ## Architecture
 
@@ -99,9 +99,9 @@ All results are on simulated data. Fraud in the simulator includes *adaptive* fr
 
 | Check | Result |
 |---|---|
-| Foundry unit tests | 131 passing, including the demo scenario and attacks on every signature |
-| Fuzzed invariants (256 runs × 128 steps) | 9 passing; 2,424 unconsented recoveries and 1,842 self-certified destructions attempted, none succeeded |
-| Differential test | 9,749 simulated events replayed against the real contracts: every accept/reject decision, reason, lot ID and gas total matches the simulator's rule mirror |
+| Foundry unit tests | 133 passing, including the demo scenario and attacks on every signature |
+| Fuzzed invariants (256 runs × 128 steps) | 10 passing; 2,283 unconsented recoveries, 1,773 self-certified destructions and 538 single recoveries above one charge attempted, none succeeded |
+| Differential test | 9,753 simulated events replayed against the real contracts: every accept/reject decision, reason, lot ID and gas total matches the simulator's rule mirror |
 
 **AI modules** (threshold fixed before evaluation, scored on held-out simulated runs at 36 months)
 
@@ -110,6 +110,8 @@ All results are on simulated data. Fraud in the simulator includes *adaptive* fr
 | [A · Leakage gap](ai/reports/module_a_evaluation.md) | Are a unit's top-ups plausible? | 0.96 | 0.6% | 100% | 3% | 157 kg off-ledger, vs 446 kg naive |
 | [B · Mass balance](ai/reports/module_b_evaluation.md) | Do sales and yields match inflows? | 1.00 | 0% | 100% | 0% | 19 kg smuggled, vs 1,270 kg naive |
 | [C · Recovery plausibility](ai/reports/module_c_evaluation.md) | Does a recovery match the unit? | 0.96 | 0.3% | 100% (and every colluding co-signer) | 35% | 6 kg of fake recoveries, vs 140 kg naive |
+
+**End-of-life closure** ([report](ai/reports/closure_evaluation.md)): registered units the national register shows as removed, with no recovery on the ledger, the clearest sign of venting. Over 10 simulated runs it listed 1,233 such units and estimated 30–49 t of refrigerant unaccounted for, from the IPCC 2006 range of charge left at end of life; the true amount (46 t) fell inside the range in every run.
 
 The honest reading: **the AI mostly misses fraudsters who adapt, but adapting forces them to stay small.** Catching them needs evidence the ledger cannot see, such as site inspections. Each report states how it was evaluated, including the versions that failed first.
 
@@ -139,7 +141,7 @@ The pages read only what a regulator could observe: ledger events, the equipment
 
 ## Live on OP Sepolia
 
-The six contracts are deployed and verified, and the demo has run on chain (142 transactions, none failed, 2026-10-16).
+The six contracts are deployed and verified, and the demo has run on chain (142 transactions, none failed, 2026-10-16). This deployment predates the per-recovery cap added in the twelfth review; a redeploy is pending.
 
 | Contract | Address |
 |---|---|

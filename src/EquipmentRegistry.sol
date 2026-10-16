@@ -7,8 +7,12 @@ import {IdentityRegistry} from "./IdentityRegistry.sol";
 /// @title EquipmentRegistry
 /// @notice Equipment accounts, the recovery cap (rule R3) and the residence rule.
 ///
-///   R3         A unit can never yield more refrigerant over its lifetime than it physically held:
-///              its nameplate charge plus every top-up recorded through the ledger.
+///   R3         A single recovery can never exceed what the unit can physically hold: one nameplate
+///              charge (Tier A with a tolerance for overcharging). Over its lifetime a unit can never
+///              yield more than its nameplate charge plus every top-up recorded through the ledger
+///              (so gas recovered during a repair and charged back in can come out again). The
+///              per-recovery limit matters for leaky units: their top-ups replace gas that already
+///              leaked out, so the lifetime total alone would leave room to book gas that never was.
 ///   Owner      Every unit is bound to an EQUIPMENT_OWNER who must co-sign each recovery (checked
 ///              by the ledger), so a service company alone cannot book gas as recovered from it.
 ///   Residence  Gas recovered too soon after the unit was installed or last charged through the
@@ -88,6 +92,7 @@ contract EquipmentRegistry is Governed {
     error GasMismatch();
     error ZeroAmount();
     error InstalledInFuture();
+    error RecoveryExceedsCharge(uint64 maxPerRecovery, uint64 attempted);
     error RecoveryCapExceeded(uint64 cap, uint64 attempted);
     error TierBMonthlyCapExceeded(uint64 cap, uint64 attempted);
     error BadParams();
@@ -186,6 +191,8 @@ contract EquipmentRegistry is Governed {
     {
         if (grams == 0) revert ZeroAmount();
         Equipment storage e = _activeUnit(id, gas);
+        uint64 perRecovery = maxPerRecovery(id);
+        if (grams > perRecovery) revert RecoveryExceedsCharge(perRecovery, grams);
         uint64 cap = recoveryCap(id);
         uint64 total = e.recoveredGrams + grams;
         if (total > cap) revert RecoveryCapExceeded(cap, total);
@@ -206,15 +213,20 @@ contract EquipmentRegistry is Governed {
 
     // ---------------------------------------------------------------- views
 
-    /// @notice Lifetime recovery cap: the nameplate charge (Tier A with tolerance for overcharging,
-    ///         Tier B the model charge) plus every top-up charged through the ledger. Gas recovered
-    ///         during a repair and charged back in can therefore come out again at end of life.
-    function recoveryCap(bytes32 id) public view returns (uint64) {
+    /// @notice Most a single recovery can take: what the unit can physically hold, i.e. one
+    ///         nameplate charge (Tier A with tolerance for overcharging, Tier B the model charge).
+    function maxPerRecovery(bytes32 id) public view returns (uint64) {
         Equipment storage e = _equipment[id];
-        uint256 base = e.tier == Tier.A
-            ? (uint256(e.nameplateGrams) * (10_000 + toleranceBps)) / 10_000
+        return e.tier == Tier.A
+            ? uint64((uint256(e.nameplateGrams) * (10_000 + toleranceBps)) / 10_000)
             : e.nameplateGrams;
-        return uint64(base + e.chargedGrams);
+    }
+
+    /// @notice Lifetime recovery cap: one charge plus every top-up charged through the ledger. Gas
+    ///         recovered during a repair and charged back in can therefore come out again at end
+    ///         of life; each single recovery is still limited by `maxPerRecovery`.
+    function recoveryCap(bytes32 id) public view returns (uint64) {
+        return maxPerRecovery(id) + _equipment[id].chargedGrams;
     }
 
     function equipment(bytes32 id) external view returns (Equipment memory) {

@@ -16,6 +16,8 @@ export function simulate(params, overrides = {}) {
   const p = structuredClone(params);
   Object.assign(p.simulation, overrides);
   const rng = new Rng(p.simulation.seed);
+  // a separate stream for probe attacks, so adding them leaves every other draw unchanged
+  const probe = new Rng((p.simulation.seed ^ 0x9e3779b9) >>> 0);
   const ledger = new LedgerMirror(p.rules);
   const start = Math.floor(Date.parse(p.simulation.startDate + 'T00:00:00Z') / 1000);
   const monthT = (m) => start + Math.round(m * 30.4375 * DAY);
@@ -53,6 +55,7 @@ export function simulate(params, overrides = {}) {
       chargeAndRecoverUnits: [],
       unconsentedRecoveryAttempts: [],
       cylinderReuseAttempts: [],
+      paddedRecoveryAttempts: [],
       selfCertifiedDestructionAttempts: [],
     },
     units: {},
@@ -390,11 +393,30 @@ export function simulate(params, overrides = {}) {
       }
     }
 
+    // 2c) padded recovery: a service company and a colluding owner book more than one charge from a
+    //     leaky unit in a single recovery. The lifetime cap (charge + top-ups) would allow it; the
+    //     per-recovery cap rejects it (RecoveryExceedsCharge).
+    if (probe.chance(p.fraud.paddedRecovery.attemptsPerYear / 12)) {
+      const candidates = units.filter((u) => {
+        if (!u.active || !u.registered || u.tier !== 'A') return false;
+        const e = ledger.equipment.get(u.id);
+        return e && ledger.recoveryCap(u.id) - e.recovered > ledger.maxPerRecovery(u.id) * 1.2;
+      });
+      if (candidates.length) {
+        const target = probe.pick(candidates);
+        const grams = Math.round(ledger.maxPerRecovery(target.id) * 1.2);
+        const n = truth.fraud.paddedRecoveryAttempts.length + 1;
+        const res = ledger.recover(t, target.service, target.id, grams, false, { cylinder: `cyl-probe-${n}` });
+        truth.fraud.paddedRecoveryAttempts.push({ unit: target.id, service: target.service, grams, month: m, accepted: Boolean(res) });
+      }
+    }
+
     // 3) end of life
     for (const u of units) {
       if (!u.active || u.eolMonth !== m) continue;
       u.active = false;
       u.removedAt = t;
+      truth.units[u.id].eolCharge = u.charge; // evaluation only: what was really inside at removal
       const svc = u.service;
       physOf(u.gas).eolRemaining += u.charge;
       const meanEff = (p.endOfLife.recoveryEfficiency[0] + p.endOfLife.recoveryEfficiency[1]) / 2;

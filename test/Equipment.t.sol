@@ -39,6 +39,34 @@ contract EquipmentTest is Fixture {
         _assertConservation(R404A);
     }
 
+    /// Round 12: a leaky unit's top-ups replace gas that already leaked out. They raise the
+    /// lifetime total but never let a single recovery take more than one charge.
+    function test_tierA_singleRecoveryNeverExceedsOneCharge() public {
+        uint256 v = _mint(30_000);
+        uint256 atService = _move(v, importer, service, SCALE_SERVICE_PK, 30_000);
+        vm.startPrank(service);
+        ledger.charge(atService, EQ_A, 10_000); // years of top-ups on a leaky unit
+        ledger.charge(atService, EQ_A, 10_000);
+        vm.stopPrank();
+        assertEq(equipment.recoveryCap(EQ_A), 30_500, "lifetime: one charge + 20 kg of top-ups");
+        assertEq(equipment.maxPerRecovery(EQ_A), 10_500, "per recovery: one charge");
+
+        vm.warp(block.timestamp + 181 days);
+        (RecoveryConsent memory c, bytes memory cs, ScaleReading memory r, bytes memory rs) =
+            _recoveryArgs(SCALE_SERVICE_PK, service, EQ_A, bytes32("cyl-padded"), 10_501, true);
+        vm.prank(service);
+        vm.expectRevert(abi.encodeWithSelector(EquipmentRegistry.RecoveryExceedsCharge.selector, 10_500, 10_501));
+        ledger.recover(c, cs, r, rs);
+
+        _recover(service, SCALE_SERVICE_PK, EQ_A, 10_500, true); // a full charge is still accepted
+        _assertConservation(R404A);
+    }
+
+    function test_tierB_singleRecoveryCappedAtModelCharge() public {
+        _registerB(EQ_B, service);
+        assertEq(equipment.maxPerRecovery(EQ_B), 1_200);
+    }
+
     function test_decommissionedUnitCannotYieldMore() public {
         _recover(service, SCALE_SERVICE_PK, EQ_A, 3_000, true);
         assertEq(uint8(equipment.equipment(EQ_A).status), uint8(EquipmentRegistry.Status.DECOMMISSIONED));

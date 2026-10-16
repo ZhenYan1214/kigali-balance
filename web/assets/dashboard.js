@@ -50,8 +50,9 @@ function tiles() {
       el('div', { class: 'value' }, kg(entered, 0), el('small', {}, 'kg')),
       el('div', { class: 'foot' }, `${kg(s.virgin, 0)} kg minted against quota documents + ${kg(recovered, 0)} kg recovered from registered equipment`),
       el('div', { style: { marginTop: '8px' } }, unexplained === 0
-        ? checkMark('Every gram is accounted for: charged, destroyed, lost in handling or still in a cylinder')
+        ? checkMark('Ledger invariant holds: every gram in is charged, destroyed, in stock or booked as a loss')
         : status('high', `${fmt(unexplained)} g unexplained`)),
+      el('div', { class: 'foot' }, `By design, not a finding. What matters is where losses land: ${kg(sinks.loss, 0)} kg of losses, ${data.discrepancies.filter((d) => state.gas === 'all' || d.gas === state.gas).length} weight discrepancies flagged on receipt.`),
     ),
     tile('Recovered from equipment', kg(recovered, 0), 'kg', `${Math.round((100 * s.recoveredA) / Math.max(recovered, 1))}% Tier A · ${kg(s.recoveredC, 0)} kg quarantined (tier C)`),
     tile('Reclaimed', kg(s.reclaimed, 0), 'kg', `${fmt(reclaimYield, 1)}% of recovered input; never above input minus losses`),
@@ -230,6 +231,7 @@ const roundedBar = (x, y, w, h) => {
 function describeRejection(r) {
   const d = r.detail;
   switch (r.reason) {
+    case 'RecoveryExceedsCharge': return `Recover ${kg(d.grams)} kg from ${d.equipment} in one go, more than the unit can hold`;
     case 'NotUnitOwner': return `Recover ${kg(d.grams)} kg from ${d.equipment} signed by ${d.consent}, not the unit's owner`;
     case 'CylinderInUse': return `Recover into ${d.cylinder}, which already holds an open lot`;
     case 'ReclaimExceedsInput': return `Claim ${kg(d.outGrams, 2)} kg reclaimed from ${kg(d.inGrams, 2)} kg input (max ${kg(d.maxOut, 2)} kg)`;
@@ -434,10 +436,41 @@ async function renderLive() {
   }
 }
 
+// ------------------------------------------------------------------ end-of-life closure
+function renderClosure() {
+  const c = data.closure;
+  const units = c.units.filter((u) => state.gas === 'all' || u.gas === state.gas);
+  const by = (s) => units.filter((u) => u.status === s);
+  const gap = by('no_record');
+  const low = gap.reduce((a, u) => a + u.low, 0);
+  const high = gap.reduce((a, u) => a + u.high, 0);
+  const t = (k) => gap.reduce((a, u) => a + (u[k] / 1e6) * data.meta.gwp[u.gas], 0);
+  const decided = Math.max(units.length - by('pending').length, 1);
+  const top = [...gap].sort((a, b) => b.high - a.high).slice(0, 6);
+  document.getElementById('closure').replaceChildren(
+    el('div', { class: 'grid', style: { gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))' } },
+      tile('Registered units removed', fmt(units.length), 'units', `${by('recovered').length} with a recovery on the ledger · ${by('pending').length} pending`),
+      tile('Removed with no recovery record', fmt(gap.length), 'units', `${Math.round((100 * gap.length) / decided)}% of decided removals`),
+      tile('Refrigerant unaccounted for', `${kg(low, 0)}–${kg(high, 0)}`, 'kg', `${fmt(t('low'), 0)}–${fmt(t('high'), 0)} tCO₂e, probably vented`),
+    ),
+    el('div', { class: 'table-wrap', style: { marginTop: '12px' } }, el('table', {},
+      el('thead', {}, el('tr', {}, el('th', {}, 'Unit'), el('th', {}, 'Type'), el('th', {}, 'Gas'), el('th', {}, 'Removed'), el('th', {}, 'Serviced by'), el('th', { class: 'r' }, 'Nameplate kg'), el('th', { class: 'r' }, 'Likely unaccounted kg'))),
+      el('tbody', {}, ...top.map((u) => el('tr', {},
+        el('td', { class: 'mono' }, u.id), el('td', {}, u.category.replaceAll('_', ' ')), el('td', {}, u.gas), el('td', { class: 'num' }, u.removed),
+        el('td', { class: 'mono' }, u.service), el('td', { class: 'r num' }, kg(u.nameplate, 1)), el('td', { class: 'r num' }, `${kg(u.low, 1)}–${kg(u.high, 1)}`),
+      ))),
+    )),
+    el('p', { class: 'muted', style: { fontSize: '12.5px', marginTop: '10px' } },
+      `Largest six shown. ${c.companies.length ? `${c.companies.length} service compan${c.companies.length > 1 ? 'ies stand' : 'y stands'} out against the others.` : `No service company stands out against the others (${c.companiesAssessed} compared).`} `
+      + 'The estimate is the nameplate charge times the IPCC 2006 range of charge still in a unit of that kind at end of life (Table 7.9). Units below the national registration threshold are invisible here until someone recovers them.'),
+  );
+}
+
 // ------------------------------------------------------------------ render
 function render() {
   tiles();
   renderSankey();
+  renderClosure();
   renderRules();
   renderQueue();
   renderDestructions();

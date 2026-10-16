@@ -147,14 +147,15 @@ function lineageNode(l, depth) {
 function equipmentNode(l) {
   const e = data.equipment[l.origin] ?? {};
   const rec = l.history.find((h) => h.kind === 'RECOVER');
-  const cap = e.tier === 'A' && e.nameplate ? Math.floor(e.nameplate * 1.05) + e.chargedG : null;
+  const perRecovery = e.tier === 'A' && e.nameplate ? Math.floor(e.nameplate * 1.05) : null;
+  const cap = perRecovery != null ? perRecovery + e.chargedG : null;
   return el('div', { class: 'node', style: { '--c': 'var(--axis)' } },
     el('div', {}, el('span', { class: 't mono' }, l.origin), el('span', { class: 'muted' }, `  Tier ${e.tier} · ${String(e.category ?? '').replaceAll('_', ' ')}`)),
     el('div', { class: 'd' }, e.tier === 'A'
       ? `national register record · nameplate ${kg(e.nameplate, 1)} kg · installed ${e.installed}`
       : `registered at decommissioning from a nameplate photo · model ${e.model ?? 'n/a'}`),
     el('div', { class: 'd' }, `owner ${e.owner} · recovery co-signed by ${rec?.consent}${rec?.decommission ? ' · decommissioned' : ''}`),
-    cap ? el('div', { class: 'd' }, `recovered ${kg(e.recoveredG, 1)} kg of a ${kg(cap, 1)} kg cap (nameplate + 5% + ${kg(e.chargedG, 1)} kg recorded top-ups)`) : null,
+    cap ? el('div', { class: 'd' }, `recovered ${kg(e.recoveredG, 1)} kg · at most ${kg(perRecovery, 1)} kg per recovery (one charge + 5%) · lifetime cap ${kg(cap, 1)} kg (incl. ${kg(e.chargedG, 1)} kg recorded top-ups)`) : null,
   );
 }
 
@@ -170,7 +171,7 @@ function checksList(lot, lineage, recoveries, reclaim) {
   }
   for (const r of recoveries) {
     const h = r.history.find((x) => x.kind === 'RECOVER');
-    add('R3', `Lot #${r.id}: ${kg(r.g0, 2)} kg recovered from ${r.origin} with the owner's co-signature (${h.consent}), within the unit's recovery cap.`);
+    add('R3', `Lot #${r.id}: ${kg(r.g0, 2)} kg recovered from ${r.origin} with the owner's co-signature (${h.consent}), no more than one charge at once, and within the unit's lifetime cap.`);
   }
   const quarantined = lineage.filter((l) => l.tier === 'C');
   if (quarantined.length) add('R3', `${quarantined.length} lot(s) were recovered within 180 days of a recorded charge and quarantined as tier C.`);

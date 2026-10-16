@@ -213,11 +213,15 @@ export class LedgerMirror {
     return { ...u, charged: 0, recovered: 0, status: 'ACTIVE', charges: [] };
   }
 
-  /** Nameplate charge (Tier A with tolerance) plus every top-up charged through the ledger. */
-  recoveryCap(id) {
+  /** Most a single recovery can take: one nameplate charge (Tier A with tolerance). */
+  maxPerRecovery(id) {
     const e = this.equipment.get(id);
-    const base = e.tier === 'A' ? Math.floor((e.nameplateGrams * (10_000 + this.rules.tierAToleranceBps)) / 10_000) : e.nameplateGrams;
-    return base + e.charged;
+    return e.tier === 'A' ? Math.floor((e.nameplateGrams * (10_000 + this.rules.tierAToleranceBps)) / 10_000) : e.nameplateGrams;
+  }
+
+  /** Lifetime cap: one charge plus every top-up charged through the ledger. */
+  recoveryCap(id) {
+    return this.maxPerRecovery(id) + this.equipment.get(id).charged;
   }
 
   charge(t, service, lotId, eqId, grams) {
@@ -256,6 +260,8 @@ export class LedgerMirror {
     if (!e) return this.reject(t, 'RECOVER', data, 'UnknownEquipment');
     if (e.status !== 'ACTIVE') return this.reject(t, 'RECOVER', data, 'NotActive');
     if (grams <= 0) return this.reject(t, 'RECOVER', data, 'ZeroAmount');
+    const perRecovery = this.maxPerRecovery(eqId);
+    if (grams > perRecovery) return this.reject(t, 'RECOVER', { ...data, maxPerRecovery: perRecovery }, 'RecoveryExceedsCharge');
     const cap = this.recoveryCap(eqId);
     if (e.recovered + grams > cap) return this.reject(t, 'RECOVER', { ...data, cap }, 'RecoveryCapExceeded');
     const periodKey = `${service}|${Math.floor(t / PERIOD_SECONDS)}`;

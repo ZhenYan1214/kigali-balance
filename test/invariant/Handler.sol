@@ -41,6 +41,7 @@ contract Handler is Test {
     mapping(uint256 => bool) public ghostEligibleEventHadOnlyRecovered;
     uint256[] public eligibleEvents;
     uint256 public ghostUnconsentedRecoveriesAccepted;
+    uint256 public ghostOverChargeRecoveriesAccepted; // single recoveries above one nameplate charge
     uint256 public ghostSelfCertifiedDestructionsAccepted;
 
     // call counters, useful when tuning the fuzzer
@@ -157,11 +158,13 @@ contract Handler is Test {
         try ledger.charge(lotId, eq, grams) {} catch {}
     }
 
-    /// @dev Deliberately tries amounts up to 150 % of the cap; over-cap attempts must be rejected.
+    /// @dev Deliberately tries amounts up to 150 % of the lifetime cap (which includes top-ups), so
+    ///      many attempts exceed one charge; over-cap and over-charge attempts must be rejected.
     function recoverUnit(uint256 eqSeed, uint64 gramsSeed, bool decommission) external {
         calls["recover"]++;
         bytes32 eq = equipmentPool[eqSeed % equipmentPool.length];
         uint64 cap = equipment.recoveryCap(eq);
+        uint64 perRecovery = equipment.maxPerRecovery(eq);
         uint64 grams = uint64(bound(gramsSeed, 1, (uint256(cap) * 15) / 10));
         bytes32 cyl = _id("rec");
         (RecoveryConsent memory c, bytes memory cs) = _consent(eq, cyl, grams, decommission, ownerKey[eq]);
@@ -171,8 +174,10 @@ contract Handler is Test {
         try ledger.recover(c, cs, r, sig) returns (uint256 id, uint256 qid) {
             if (id != 0) allLots.push(id);
             if (qid != 0) allLots.push(qid);
+            if (grams > perRecovery) ghostOverChargeRecoveriesAccepted++;
         } catch {
             outcomes["recover.rejected"]++;
+            if (grams > perRecovery) outcomes["recover.overCharge.rejected"]++;
         }
     }
 
@@ -225,6 +230,8 @@ contract Handler is Test {
         bytes32 eq = equipmentPool[eqSeed % equipmentPool.length];
         if (equipment.equipment(eq).status != EquipmentRegistry.Status.ACTIVE) return;
         uint64 room = equipment.recoveryCap(eq) - equipment.equipment(eq).recoveredGrams;
+        uint64 perRecovery = equipment.maxPerRecovery(eq);
+        if (room > perRecovery) room = perRecovery;
         if (room == 0) return;
         uint64 grams = uint64(bound(gramsSeed, 1, room));
         bytes32 cyl = _id("rec");

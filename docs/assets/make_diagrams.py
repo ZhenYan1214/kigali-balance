@@ -89,7 +89,7 @@ def flow(theme):
     xs = [28, 262, 496]
     node(s, xs[0], Y, W, H, "blue", "VIRGIN lot", ["minted against a quota", "document, capped at its", "allowance"], "R1")
     node(s, xs[1], Y, W, H, "line", "In equipment", ["charged by a service", "company; the newest 180", "days are quarantined"])
-    node(s, xs[2], Y, W, H, "teal", "RECOVERED lot", ["scale reading + owner", "co-signature; capped at", "nameplate + top-ups"], "R3")
+    node(s, xs[2], Y, W, H, "teal", "RECOVERED lot", ["scale reading + owner", "co-signature; at most one", "charge per recovery"], "R3")
     for a, b in [(0, 1), (1, 2)]:
         s.line([(xs[a] + W, Y + H / 2), (xs[b] - 4, Y + H / 2)], "teal", sw=2)
 
@@ -109,7 +109,7 @@ def flow(theme):
     rows = [
         ("R1", "Minting beyond the quota document's allowance", "QuotaExceeded"),
         ("R3", "Recovery without the unit owner's co-signature", "NotUnitOwner"),
-        ("R3", "Recovery above the nameplate charge plus top-ups", "RecoveryCapExceeded"),
+        ("R3", "One recovery larger than the unit can hold", "RecoveryExceedsCharge"),
         ("R4", "Reclaimed output above input minus losses", "ReclaimExceedsInput"),
         ("R5", "Virgin or unknown gas fed into reclamation", "ClassNotReclaimable"),
         ("R6", "Destruction certified by the destroyer itself", "VerifierNotIndependent"),

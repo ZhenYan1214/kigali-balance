@@ -1,5 +1,7 @@
 > 交件版排版請見 [Kigali_Balance_Problem_Statement.pdf](Kigali_Balance_Problem_Statement.pdf)（A4 共 2 頁，由 [problem_statement.html](problem_statement.html) 產生）。這份 Markdown 和 PDF 的內容相同，只是第 5、6、7、9 節在 PDF 中排得比較緊湊。
 >
+> **2026-10-16 修訂（第十二輪反思）**：單次回收上限＝一次充填量；「獨立各方」改為「可追責的第二簽章者」；AI 新增「退役無回收紀錄」；公開測試網的保密說明。理由見 [05_第十二輪反思_概念層級的漏洞.md](05_第十二輪反思_概念層級的漏洞.md)。
+>
 > **2026-10-15 改版（第十輪反思）**：跨境情境改成「為銷毀而進口」（歐盟 2024/573 第 22(2) 條規定進口一律視為原生氣體，所以原本「土耳其再生冷媒賣到歐盟」的敘事不成立）；既有系統表補上美國 EPA、歐盟第 26 條申報、UNEP iPIC、Isometric 的單一註冊處對帳；拿掉「稀缺」改用有出處的價格溢價；加入 ACR 再生碳權；統一為 2030-01-01；隱私改為如實描述；實體錨點改成反映新的合約設計（回收需設備持有者共同簽章、銷毀證明由獨立查證者簽署、鋼瓶唯一性、回收上限計入補充量）。理由見 [03_第十輪反思_評審視角.md](03_第十輪反思_評審視角.md)。
 
 # Kigali Balance: Making Every Recovered, Reclaimed and Destroyed Kilogram of HFC Add Up
@@ -50,10 +52,10 @@ Kigali Balance is a reconciliation layer. It ingests existing national and regis
 
 > **Every kilogram claimed as "reclaimed" or "destroyed" must trace back to a kilogram recovered from a real, registered piece of equipment.**
 
-1. **Physical anchors from independent parties.** Signed weighings at recovery, receipt, reclamation and destruction, each bound to a cylinder ID that can hold only one open lot. Each recovery is co-signed by the unit's registered owner. Lab certificates and destruction certificates (DRE ≥ 99.99%) are signed by parties independent of the operator. Equipment IDs come from national registries.
+1. **Physical anchors from second parties.** Signed weighings at recovery, receipt, reclamation and destruction, each bound to a cylinder ID that can hold only one open lot. Each recovery is co-signed by the unit's registered owner. Lab certificates and destruction certificates (DRE ≥ 99.99%) are signed by parties independent of the operator. Equipment IDs come from national registries.
 2. **Conservation rules on a shared ledger.**
    - (a) A receiver re-weighs every transfer, and mass cannot appear in transit.
-   - (b) Kilograms recovered from a unit cannot exceed its registered charge plus recorded top-ups.
+   - (b) No single recovery can exceed what the unit holds (its registered charge), and lifetime recoveries cannot exceed that charge plus recorded top-ups.
    - (c) Reclaimed output cannot exceed documented recovered input minus losses.
    - (d) A party can only destroy what it holds.
    - (e) Each destruction event can be claimed by only one registry, without registries sharing their databases.
@@ -62,6 +64,7 @@ Kigali Balance is a reconciliation layer. It ingests existing national and regis
    - (a) Mass-balance anomalies, such as reclamation yields or sales that outrun documented inflows.
    - (b) Leakage gaps between expected and reported top-ups per unit, prompted by Japan's tenfold gap.
    - (c) Recoveries that do not match a unit's type, age and service history.
+   - (d) Registered units that leave service with no recovery on the ledger, the clearest sign of venting.
 
    The AI flags cases for human review and never sanctions anyone automatically.
 
@@ -72,12 +75,12 @@ Inside one country with a strong regulator, a central database is enough; Japan'
 - competing reclaimers,
 - recovered gas shipped across borders for destruction, the one import the EU exempts from quota [5].
 
-There, conservation is enforced when each record is written instead of in an annual audit. Lying requires collusion between independent parties, such as a technician and the unit's owner, or a destroyer and its verifier.
+There, conservation is enforced when each record is written instead of in an annual audit. Lying requires a second, accountable signer to collude, such as a technician and the unit's owner, or a destroyer and its verifier, and collusion leaves patterns the AI looks for.
 
 The ledger has three honest limits:
 - **It cannot see inside a cylinder.** Physical truth comes from weighing and lab sampling.
 - **It cannot catch gas that never enters it.** Instead it makes legitimate gas *provable* and closes the "reclaimed" label, illegal gas's most profitable exit.
-- **It is not confidential by default.** Consortium members can see lot quantities, and only state hashes are anchored publicly. A production version would store commitments instead of grams.
+- **It is not confidential by default.** Consortium members can see lot quantities, and the public testnet demo shows them to everyone. A production version would store commitments instead of grams.
 
 ## 8. Impact and alignment
 
@@ -145,10 +148,10 @@ Kigali Balance 是一層對帳機制。它匯入各國和各註冊處既有的�
 
 > **每一公斤被宣稱為「再生」或「銷毀」的冷媒，都必須追溯到從一台真實、已登錄的設備回收出來的一公斤。**
 
-1. **來自獨立各方的實體錨點**：回收、收貨、再生、銷毀時都有簽章秤重，每一筆都綁定一個鋼瓶 ID，每支鋼瓶同時只能有一個未結批次。每次回收都要由設備的登錄持有者共同簽章。實驗室成分報告和銷毀證明（破壞去除率 ≥ 99.99%）由獨立於業者的一方簽署。設備 ID 來自國家登錄系統。
+1. **來自第二方的實體錨點**：回收、收貨、再生、銷毀時都有簽章秤重，每一筆都綁定一個鋼瓶 ID，每支鋼瓶同時只能有一個未結批次。每次回收都要由設備的登錄持有者共同簽章。實驗室成分報告和銷毀證明（破壞去除率 ≥ 99.99%）由獨立於業者的一方簽署。設備 ID 來自國家登錄系統。
 2. **共享帳本上的守恆規則**：
    - (a) 每筆轉移都由收方重新秤重，運送途中不可能多出質量。
-   - (b) 從一台設備回收的公斤數，不能超過它登記的充填量加上帳本記錄的補充量。
+   - (b) 單次回收不能超過設備裝得下的量（登記的充填量）；一台設備終身的回收量，不能超過充填量加上帳本記錄的補充量。
    - (c) 再生產出量，不能超過有文件的回收進料量扣掉損耗。
    - (d) 只能銷毀自己持有的量。
    - (e) 每個銷毀事件只能被一個註冊處認領，各註冊處不需要分享自己的資料庫。
@@ -157,6 +160,7 @@ Kigali Balance 是一層對帳機制。它匯入各國和各註冊處既有的�
    - (a) 質量平衡異常，例如再生產率或銷售量超過有文件的進貨量。
    - (b) 每台設備預期與申報的補充灌注量之間的洩漏落差，動機是日本相差十倍的數據。
    - (c) 回收量和設備的類型、年齡、維修紀錄不相符。
+   - (d) 已登錄的設備退役時，帳本上沒有任何回收紀錄，這是排放最明顯的跡象。
 
    AI 只標記案件交由人工複核，絕不自動處罰任何人。
 
@@ -166,12 +170,12 @@ Kigali Balance 是一層對帳機制。它匯入各國和各註冊處既有的�
 - 互相競爭的再生業者
 - 跨境運送去銷毀的回收冷媒，這是歐盟唯一豁免配額的進口 [5]
 
-在這些情境下，守恆在每筆紀錄寫入時就被強制執行，而不是等每年一次的稽核。要說謊，必須讓彼此獨立的各方串通，例如技師和設備持有者，或銷毀廠和它的查證者。
+在這些情境下，守恆在每筆紀錄寫入時就被強制執行，而不是等每年一次的稽核。要說謊，必須讓一個可追責的第二簽章者一起串通，例如技師和設備持有者，或銷毀廠和它的查證者；而且串通會留下 AI 會去找的模式。
 
 帳本有三個要誠實說明的限制：
 - **它看不到鋼瓶裡裝的是什麼。** 物理上的真實性來自秤重和實驗室檢驗。
 - **它抓不到從沒進入帳本的冷媒。** 它改為讓合法冷媒**可以被證明**，並堵住非法冷媒最賺錢的出路：「再生」標籤。
-- **它預設不保密。** 聯盟成員看得到批次數量，只有狀態雜湊會公開錨定。正式版本要在鏈上存承諾值，而不是公克數。
+- **它預設不保密。** 聯盟成員看得到批次數量，公開測試網上的示範則人人都看得到。正式版本要在鏈上存承諾值，而不是公克數。
 
 ## 8. 影響與對齊
 - **如何減少排放**：只有當有人替回收的公斤付錢（碳權、生產者延伸責任、再生冷媒溢價），回收率才會提高；但除非這些公斤能被驗證，付錢就會引來造假。*示意：* 日本報廢回收率每提高 1 個百分點，約等於 120 噸 HFC，每年約 0.22 MtCO₂e [3]。

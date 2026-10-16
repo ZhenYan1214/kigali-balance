@@ -41,6 +41,7 @@ export function validate(result) {
     if (e.type === 'RECOVER') {
       recoveredPerUnit[e.equipment] = (recoveredPerUnit[e.equipment] ?? 0) + e.grams;
       check(recoveredPerUnit[e.equipment] <= ledger.recoveryCap(e.equipment), `R3 cap exceeded on ${e.equipment}`);
+      check(e.grams <= ledger.maxPerRecovery(e.equipment), `R3 single recovery above one charge on ${e.equipment} (seq ${e.seq})`);
     }
     if (e.type === 'RECLAIM') {
       check(e.outGrams <= Math.floor((e.inGrams * (10_000 - params.rules.minReclaimLossBps)) / 10_000), `R4 yield exceeded (seq ${e.seq})`);
@@ -83,7 +84,7 @@ export function validate(result) {
       check(ledger.verifiers.has(e.verifier) && e.verifier !== `scale:${e.actor}`, `destruction seq ${e.seq} not independently certified`);
     }
   }
-  for (const a of [...truth.fraud.unconsentedRecoveryAttempts, ...truth.fraud.cylinderReuseAttempts, ...truth.fraud.selfCertifiedDestructionAttempts]) {
+  for (const a of [...truth.fraud.unconsentedRecoveryAttempts, ...truth.fraud.cylinderReuseAttempts, ...truth.fraud.selfCertifiedDestructionAttempts, ...truth.fraud.paddedRecoveryAttempts]) {
     check(!a.accepted, `an attack was accepted: ${JSON.stringify(a)}`);
   }
 
@@ -169,6 +170,7 @@ export function summarize(result, validation) {
       phantomUnits: truth.fraud.phantomUnits.length,
       colludingTakeBackPoints: truth.fraud.colludingTakeBackPoints.length,
       unconsentedRecoveryAttempts: truth.fraud.unconsentedRecoveryAttempts.length,
+      paddedRecoveryAttempts: truth.fraud.paddedRecoveryAttempts.length,
       cylinderReuseAttempts: truth.fraud.cylinderReuseAttempts.length,
       selfCertifiedDestructionAttempts: truth.fraud.selfCertifiedDestructionAttempts.length,
       oversellingDistributors: truth.fraud.oversellingDistributors.length,

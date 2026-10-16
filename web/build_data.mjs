@@ -251,6 +251,18 @@ for (const m of ['a', 'b', 'c']) {
   };
 }
 
+// ------------------------------------------------------------------ end-of-life closure (registered units removed with no recovery)
+
+const closurePath = resolve(aiDir, 'closure', 'closure.json');
+if (!existsSync(closurePath)) throw new Error(`missing ${closurePath}; run ai/run_closure.py first`);
+const cl = JSON.parse(readFileSync(closurePath, 'utf8'));
+const closure = {
+  model: cl.model, version: cl.model_version, modelHash: cl.model_hash, inputSnapshot: cl.input_snapshot, note: cl.totals.note,
+  units: cl.units.map((u) => ({ id: u.equipment, service: u.service, category: u.category, gas: u.gas, removed: u.removed_at, nameplate: u.nameplate_g, status: u.status, recovered: u.recovered_g, low: u.missing_g_low, high: u.missing_g_high })),
+  companies: cl.companies.filter((c) => c.severity !== 'none'),
+  companiesAssessed: cl.companies.length,
+};
+
 // ------------------------------------------------------------------ equipment referenced by any lot
 
 const eqOut = {};
@@ -286,6 +298,7 @@ const bundle = {
   discrepancies,
   destructions: destructions.filter(Boolean),
   ai,
+  closure,
   equipment: eqOut,
   lots: [...lots.values()].map(({ status, ...l }) => ({ ...l, status: l.grams > 0 ? status : status === 'IN_TRANSIT' ? status : 'CLOSED' })),
 };

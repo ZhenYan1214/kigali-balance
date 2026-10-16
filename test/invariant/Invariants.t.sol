@@ -99,6 +99,12 @@ contract InvariantsTest is Fixture {
         }
     }
 
+    /// 3b. R3 per recovery (round 12): no single recovery takes more than one charge, however many
+    ///     top-ups a leaky unit has received.
+    function invariant_noRecoveryAboveOneCharge() public view {
+        assertEq(handler.ghostOverChargeRecoveriesAccepted(), 0);
+    }
+
     /// 4. R4 + R5: reclaimed lots descend only from RECOVERED lots, and the output at creation
     ///    never exceeds the input minus the minimum process loss.
     function invariant_reclaimedOnlyFromRecovered() public view {
@@ -162,8 +168,10 @@ contract InvariantsTest is Fixture {
         console.log("recover rejected (over cap)", handler.outcomes("recover.rejected"));
         console.log("unconsented recoveries rejected", handler.outcomes("recover.unconsented.rejected"));
         console.log("self-certified destructions rejected", handler.outcomes("destroy.selfcertified.rejected"));
+        console.log("recoveries above one charge rejected", handler.outcomes("recover.overCharge.rejected"));
         // columns: reclaim.ok, reclaim.rejected, destroy.ok, claim.ok, claim.rejected, recover.rejected,
-        //          recover.unconsented.rejected, destroy.selfcertified.rejected
+        //          recover.unconsented.rejected, destroy.selfcertified.rejected, recover.overCharge.rejected
+        //          (the ninth column was added on 2026-10-16; older rows have eight)
         vm.writeLine(
             "reports/invariant-metrics.csv",
             string.concat(
@@ -174,7 +182,8 @@ contract InvariantsTest is Fixture {
                 vm.toString(handler.outcomes("claim.rejected")), ",",
                 vm.toString(handler.outcomes("recover.rejected")), ",",
                 vm.toString(handler.outcomes("recover.unconsented.rejected")), ",",
-                vm.toString(handler.outcomes("destroy.selfcertified.rejected"))
+                vm.toString(handler.outcomes("destroy.selfcertified.rejected")), ",",
+                vm.toString(handler.outcomes("recover.overCharge.rejected"))
             )
         );
     }

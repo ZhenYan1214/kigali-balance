@@ -66,6 +66,9 @@ test('attacks on the second-party anchors happen and are all rejected for the ri
   assert.ok(f.selfCertifiedDestructionAttempts.every((a) => !a.accepted));
   assert.ok(reasonsOf('DESTROY', (e) => e.verifier?.startsWith('scale:')).every((x) => x === 'NotVerifier'));
   assert.ok(f.cylinderReuseAttempts.every((a) => !a.accepted));
+  assert.ok(f.paddedRecoveryAttempts.length > 0, 'padded recoveries attempted');
+  assert.ok(f.paddedRecoveryAttempts.every((a) => !a.accepted));
+  assert.ok(reasonsOf('RECOVER', (e) => String(e.cylinder).startsWith('cyl-probe-')).every((x) => x === 'RecoveryExceedsCharge'));
   // both phantom profiles are present: naive (~full model charge) and adaptive (honest-looking)
   assert.deepEqual(new Set(Object.values(f.phantomProfiles)), new Set(['naive', 'adaptive']));
   for (const u of f.phantomUnits) assert.ok(r.ledger.equipment.get(u.unit).owner === f.colludingTakeBackPoints[0]);
