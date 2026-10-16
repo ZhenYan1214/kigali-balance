@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Provenance Passport · Kigali Balance</title>
+  <meta name="description" content="Trace a cylinder of HFC refrigerant back to the registered equipment it was recovered from. Simulated data, plus live reads from OP Sepolia.">
+  <link rel="icon" href="assets/logo.svg">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .search { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .search input {
+      font: inherit; font-size: 15px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--ink); width: 150px;
+    }
+    .search button.go {
+      font: inherit; font-weight: 600; font-size: 14px; padding: 8px 14px; border-radius: 10px; border: 0;
+      background: var(--accent); color: var(--surface); cursor: pointer;
+    }
+    .examples { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .examples a { font-size: 12.5px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); }
+    .examples a:hover { text-decoration: none; background: var(--surface-2); }
+    .verdict { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: start; }
+    .verdict .cls { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+    .verdict .cls i { width: 10px; height: 10px; border-radius: 3px; }
+    .verdict .big { font-size: 34px; font-weight: 650; letter-spacing: -0.02em; margin: 4px 0 2px; }
+    .verdict .say { font-size: 15.5px; color: var(--ink-2); max-width: 680px; }
+    .qr { width: 132px; text-align: center; font-size: 11.5px; color: var(--muted); }
+    .qr svg, .qr img { width: 132px; height: 132px; background: #fff; border-radius: 10px; padding: 8px; border: 1px solid var(--border); }
+    .lineage { display: flex; flex-direction: column; gap: 0; }
+    .node { position: relative; border: 1px solid var(--border); border-left: 4px solid var(--c); border-radius: 11px; padding: 11px 14px; background: var(--surface); }
+    .node .t { font-weight: 650; }
+    .node .d { color: var(--ink-2); font-size: 13px; margin-top: 2px; }
+    .node a.t { color: var(--ink); }
+    .kids { margin-left: 22px; padding-left: 18px; border-left: 1px dashed var(--axis); display: flex; flex-direction: column; gap: 10px; padding-top: 10px; }
+    .edge { font-size: 12px; color: var(--muted); margin: 0 0 -4px 2px; }
+    .checks { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
+    .checks li { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; font-size: 13.5px; }
+    .checks .rule { font-family: var(--mono); font-size: 11.5px; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 1px 6px; border-radius: 5px; }
+    .caution { border: 1px solid color-mix(in srgb, var(--warning) 55%, transparent); background: color-mix(in srgb, var(--warning) 10%, var(--surface)); border-radius: 12px; padding: 12px 14px; }
+    .caution + .caution { margin-top: 8px; }
+    .verdict > div:first-child { min-width: 0; }
+    @media (max-width: 640px) { .verdict { grid-template-columns: 1fr; } .verdict .big { font-size: 26px; } .kids { margin-left: 8px; padding-left: 10px; } }
+  </style>
+</head>
+<body>
+<main>
+  <div class="page-head">
+    <div>
+      <h1>Provenance passport</h1>
+      <p class="lede">What a buyer, a registry or an inspector sees when they scan a cylinder: where the gas came from, which rules the ledger checked, and what happened to it. Nothing here is declared by the seller; every line is a signed ledger record.</p>
+    </div>
+  </div>
+
+  <section class="card" aria-label="Find a lot">
+    <form class="search" id="search">
+      <label for="lot-input" class="muted">Lot number</label>
+      <input id="lot-input" inputmode="numeric" autocomplete="off" placeholder="e.g. 598">
+      <div class="seg" id="source"></div>
+      <button class="go" type="submit">Trace</button>
+    </form>
+    <div class="examples" id="examples"></div>
+  </section>
+
+  <div id="out"></div>
+  <p class="foot-note">Simulated data (seed 42), or live reads from the OP Sepolia testnet deployment. AI notes are prompts for human review, never findings of wrongdoing.</p>
+</main>
+<script type="module" src="assets/passport.js"></script>
+</body>
+</html>

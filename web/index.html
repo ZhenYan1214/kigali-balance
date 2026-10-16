@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Regulator Dashboard · Kigali Balance</title>
+  <meta name="description" content="Kilogram reconciliation of HFC refrigerant across importers, service companies, reclaimers, destroyers and carbon registries. Simulated data.">
+  <link rel="icon" href="assets/logo.svg">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<main>
+  <div class="page-head">
+    <div>
+      <h1>Regulator dashboard</h1>
+      <p class="lede">Where every kilogram of HFC refrigerant went over 36 months of a simulated Turkish and EU market: what the shared ledger accepted, what its rules rejected, and what the AI sent for human review.</p>
+    </div>
+  </div>
+
+  <div class="filters" role="toolbar" aria-label="Filters">
+    <span class="label">Gas</span>
+    <div class="seg" id="gas-filter"></div>
+    <span class="label" id="period"></span>
+  </div>
+
+  <section class="tiles" id="tiles" aria-label="Headline figures"></section>
+
+  <section class="card section-gap" aria-labelledby="sankey-title">
+    <div class="card-head">
+      <h2 id="sankey-title">Where every kilogram went</h2>
+      <span class="sub">Width = kilograms. Colour = provenance class, which the contracts never let change.</span>
+      <span class="spacer"></span>
+      <div class="seg" id="sankey-scope"></div>
+      <button class="link-btn" id="sankey-table-btn" aria-expanded="false">Show as table</button>
+    </div>
+    <div class="legend" id="sankey-legend"></div>
+    <div class="chart" id="sankey" style="margin-top:10px"></div>
+    <div class="table-wrap" id="sankey-table" hidden></div>
+  </section>
+
+  <div class="grid cols-5-7 section-gap">
+    <section class="card" aria-labelledby="rules-title">
+      <div class="card-head">
+        <h2 id="rules-title">Rejected by the contracts</h2>
+        <span class="sub">Attempts that reverted on chain, by rule</span>
+      </div>
+      <div class="chart" id="rules"></div>
+      <div class="table-wrap" style="margin-top:12px">
+        <table id="rejections"></table>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="ai-title">
+      <div class="card-head">
+        <h2 id="ai-title">AI review queue</h2>
+        <span class="sub">Compliant on the ledger, but implausible. Flags go to a human reviewer; nothing is sanctioned automatically.</span>
+      </div>
+      <div class="seg" id="ai-filter" style="margin-bottom:12px"></div>
+      <div class="queue" id="queue"></div>
+      <p class="muted" style="font-size:12.5px;margin-top:10px" id="ai-meta"></p>
+    </section>
+  </div>
+
+  <section class="card section-gap" aria-labelledby="dest-title">
+    <div class="card-head">
+      <h2 id="dest-title">Destruction events and registry claims</h2>
+      <span class="sub">Each credit-eligible event can be claimed by one registry, once (rule R7)</span>
+    </div>
+    <div class="table-wrap"><table id="destructions"></table></div>
+    <p style="margin-top:10px"><button class="link-btn" id="more-dest">Show all events</button></p>
+  </section>
+
+  <section class="card section-gap" aria-labelledby="trend-title">
+    <div class="card-head">
+      <h2 id="trend-title">Monthly kilograms</h2>
+      <span class="sub">Recovered from registered equipment, reclaimed, and destroyed</span>
+    </div>
+    <div class="legend" id="trend-legend"></div>
+    <div class="chart" id="trend" style="margin-top:8px"></div>
+  </section>
+
+  <section class="card section-gap" aria-labelledby="live-title">
+    <div class="card-head">
+      <h2 id="live-title">Live on OP Sepolia</h2>
+      <span class="pill live" id="live-pill"><span class="dot"></span>reading the chain…</span>
+      <span class="sub">The same contracts, deployed and verified on a public testnet, read directly from the chain by your browser</span>
+    </div>
+    <div id="live"></div>
+  </section>
+
+  <p class="foot-note">All data is simulated (seed 42). The dashboard reads only what a regulator could observe: ledger events, the equipment register and the AI flags. The simulator's ground truth is used to evaluate the AI elsewhere and never appears here.</p>
+</main>
+<script type="module" src="assets/dashboard.js"></script>
+</body>
+</html>

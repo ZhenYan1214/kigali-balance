@@ -70,7 +70,8 @@
 | AI 模組 A（洩漏落差） | ✅ 完成，含評估報告（見 6.3） |
 | AI 模組 C（回收合理性） | ✅ 完成，含評估報告（見 6.3） |
 | OP Sepolia 部署（部署、角色、Demo 六步驟、Etherscan 驗證） | ✅ 2026-10-16 已部署，6 個合約都已驗證（見 8.6） |
-| 介面（三種角色）、英文 PDF 附件、影片、Devpost 說明 | ⏳ **下一步** |
+| 監管儀表板＋買家來源護照頁（`web/`，靜態網頁；可即時讀 OP Sepolia） | ✅ 2026-10-16 完成，本機預覽通過；**尚未對外託管**（GitHub Pages 要等 push 並開啟） |
+| AI 旗標寫回鏈上、英文 PDF 附件、影片、Devpost 說明 | ⏳ **下一步**（依第十一輪反思第八節） |
 
 ---
 
@@ -80,7 +81,9 @@
 - Devpost：https://ieee-climatechain-hack.devpost.com/（規則：`/rules`）。WebFetch 會被擋（403），要用瀏覽器工具讀。
 - IEEE 主辦方頁面：https://cmte.ieee.org/turkiye-blockchain/hackatlon/
 - 主辦：IEEE Blockchain Türkiye Group（第一次辦黑客松），協辦有 IEEE Blockchain Technical Community、IEEE Orange County Section/EMBS、伊斯坦堡商會等。
-- 截至 2026-10-14 報名 804 人。獎金 1,500／1,000／500 美元；所有有效參賽者都拿 IEEE 參賽證書。
+- **截止時間（2026-10-16 重讀）**：Devpost 是 **10/25 22:00（台北）**；Rules 頁寫「8 AM PT 前不要交」（＝台北 23:00，比截止還晚，自相矛盾）；IEEE 頁寫 10/25 23:59 UTC。討論區有人問，主辦方沒回。**以 10/25 22:00 為準，10/24 先送可編輯的版本。** 評審期 10/26–11/08，11/20 公布（IEEE 頁：在 COP31 會場公布）。
+- IEEE 頁另有「Submission Categories」：70% 技術創新與區塊鏈實作、20% 氣候影響、10% 擴展性。詳見 `docs/proposal/04_第十一輪反思_重讀比賽與評審模擬.md`。
+- 截至 2026-10-14 報名 804 人，10-16 為 857 人。獎金 1,500／1,000／500 美元；所有有效參賽者都拿 IEEE 參賽證書。
 - 參加資格：Devpost 側欄寫「Students only」，規則頁卻說研究人員、開發者也可以，兩邊矛盾。有國家限制，但沒列出是哪些。
 - 四個賽道：碳市場與排放透明、再生能源與能源交易、永續供應鏈、氣候數據與環境監測。
 - **Devpost 表單沒有賽道欄位**，標題和說明第一行要寫明「Track 3（兼 Track 1）」。表單要求上傳一個檔案，參賽者回報上限 35 MB。

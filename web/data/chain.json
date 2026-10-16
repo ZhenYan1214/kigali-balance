@@ -1,0 +1,37 @@
+{
+  "chainId": 11155420,
+  "rpc": "https://sepolia.optimism.io",
+  "explorer": "https://sepolia-optimism.etherscan.io",
+  "contracts": {
+    "KigaliLedger": "0xC2b8904E911BA41d270Df95e734D53808c4FA73A",
+    "EquipmentRegistry": "0x9EBc2C426299debb81B1C5796CdEBDd8A281c324",
+    "DestructionClaims": "0xcd1c1E9C0c35dfC5eB3548aca0B98802E1661083",
+    "IdentityRegistry": "0x411544fCD057701A0C7Ce4297C75d77821Ad52af",
+    "FlagRegistry": "0xa04C3c47F32099072fa654a9F58259a63B50309B",
+    "Governance": "0xaFa2E28071382a0144dE63eFFE79b8E2B32dC935"
+  },
+  "actors": {
+    "0x30314975118567471d1c6De8f63f3AAcbAAaEDaE": "Quota authority",
+    "0xBdD1be295823D37Ba4afe0976B2f4501bC23B3D8": "Equipment registrar",
+    "0x4729Ec192842c309b0419370F6Ba7E2b0da421BF": "Regulator",
+    "0x630b0AdAcd7F7b4B03C6e30b369d82f2B575c4ba": "AI oracle",
+    "0x732A66EA6d1a41a6F22307448BF067fD51837434": "Importer",
+    "0x3C173b1Ad29810CDAC8741d937F332196f746677": "Distributor",
+    "0x079Ba667EFB91c7d9Bf84268000c4BaaF295B82e": "Service company",
+    "0x93fd68B0BD442dfAD7a6B1Da223BaB7E657B474d": "Reclaimer",
+    "0x3bD9C0FE2AaA2045Fe253a0181B8517EF581c03d": "Destruction facility",
+    "0x349871B58666e6Ed0E369b4b9aB46a69bf497FAd": "Carbon registry (Taiwan, simulated)",
+    "0x6f8b89f6Ffd14a248a7B7B13F94F611F7FE78D31": "Carbon registry (international, simulated)",
+    "0x05cc078841A0144cb86fAaFf2987B663C5184f7C": "Equipment owner (supermarket)",
+    "0x360F18f46E407AA52A8b4999025eed97ff4b63B3": "Destruction verifier",
+    "0x65395d0FA945aa858a67C10f04227A90B9d22D9B": "Accredited lab",
+    "0x3C4960433663F844fa43D322AD8da9F56228f95E": "Deployer"
+  },
+  "labels": {
+    "demo/quota/TR/2026/importer/R-404A": "Import quota document (simulated, Türkiye 2026)",
+    "demo/EKOMVET/supermarket-freezer": "Supermarket freezer (Tier A, simulated EKOMVET record)",
+    "demo/EKOMVET/cold-room": "Cold room (Tier A, simulated EKOMVET record)",
+    "demo/EKOMVET/display-case": "Display case (Tier A, simulated EKOMVET record)"
+  },
+  "note": "Simulated demo actors; keys are derived from the deployer key. One person holds all four governance seats on this testnet."
+}

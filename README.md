@@ -14,7 +14,7 @@ A shared ledger that reconciles recovered, reclaimed and destroyed HFC refrigera
 [![Data](https://img.shields.io/badge/data-simulated-9a6700)](#honest-limits)
 [![License](https://img.shields.io/badge/license-MIT-59636e)](#license)
 
-[Problem](#the-problem) · [Gap](#what-already-exists) · [Solution](#the-solution) · [Architecture](#architecture) · [Results](#results) · [Live demo](#live-on-op-sepolia) · [Quick start](#quick-start) · [Limits](#honest-limits)
+[Problem](#the-problem) · [Gap](#what-already-exists) · [Solution](#the-solution) · [Architecture](#architecture) · [Results](#results) · [Dashboard](#dashboard-and-provenance-passport) · [Live demo](#live-on-op-sepolia) · [Quick start](#quick-start) · [Limits](#honest-limits)
 
 </div>
 
@@ -112,6 +112,30 @@ All results are on simulated data. Fraud in the simulator includes *adaptive* fr
 | [C · Recovery plausibility](ai/reports/module_c_evaluation.md) | Does a recovery match the unit? | 0.96 | 0.3% | 100% (and every colluding co-signer) | 35% | 6 kg of fake recoveries, vs 140 kg naive |
 
 The honest reading: **the AI mostly misses fraudsters who adapt, but adapting forces them to stay small.** Catching them needs evidence the ledger cannot see, such as site inspections. Each report states how it was evaluated, including the versions that failed first.
+
+## Dashboard and provenance passport
+
+A static web app in [`web/`](web/) with two views:
+
+- **Regulator dashboard** shows where every kilogram went, as a Sankey of provenance classes. The books balance to the gram. It also shows attempts the contracts rejected (by rule), the AI review queue with readable reasons, destruction events with their single registry claim, and a live panel that reads the OP Sepolia deployment from the browser.
+- **Provenance passport** is what a buyer or registry sees when they scan a cylinder. It traces any lot back through reclamation and splits to the registered units it was recovered from. It lists the owner's co-signature, the recovery cap, the yield, each check the ledger enforced, and AI notes about parties in the chain. A QR code links to the page. It works on simulated lots and on live lots read from OP Sepolia.
+
+```bash
+python -m http.server 8000 --directory web    # then open http://localhost:8000
+```
+
+<table>
+<tr>
+<td width="50%"><img src="docs/assets/dashboard.png" alt="Regulator dashboard: kilograms that entered the ledger, a Sankey of recovered kilograms by class and fate, attempts rejected by rule, and the AI review queue."></td>
+<td width="50%"><img src="docs/assets/passport.png" alt="Provenance passport for lot 64: a Tier B recovery traced to its unit, the checks the ledger enforced, and AI notes that flag the recovering company and its co-signer for review."></td>
+</tr>
+<tr>
+<td><sub>Regulator dashboard: the books balance to the gram; what the rules rejected; what the AI sent for review.</sub></td>
+<td><sub>Provenance passport: this destruction was credited once, yet the AI flags the company that recovered it, a case for a human reviewer.</sub></td>
+</tr>
+</table>
+
+The pages read only what a regulator could observe: ledger events, the equipment register and the AI flags. The simulator's ground truth never reaches them. To rebuild the data after re-running the simulator or the AI modules, run `node web/build_data.mjs`.
 
 ## Live on OP Sepolia
 
@@ -226,6 +250,7 @@ Addresses are written to `deployments/11155420.json`.
 | [`script/`](script/) | OP Sepolia deployment and on-chain demo |
 | [`simulator/`](simulator/) | Deterministic HFC-economy simulator with injected fraud, and the differential test |
 | [`ai/`](ai/) | Anomaly detection on observations only, with evaluation reports |
+| [`web/`](web/) | Regulator dashboard and provenance passport (static; live reads from OP Sepolia) |
 | [`docs/`](docs/) | Problem statement, proposal, research notes |
 
 ## License
