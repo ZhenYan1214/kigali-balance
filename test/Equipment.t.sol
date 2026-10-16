@@ -19,10 +19,11 @@ contract EquipmentTest is Fixture {
     function test_tierA_cumulativeRecoveryIsCapped() public {
         _recover(service, SCALE_SERVICE_PK, EQ_A, 6_000, false);
         _recover(service, SCALE_SERVICE_PK, EQ_A, 4_500, false); // total 10.5 kg: allowed
+        assertEq(equipment.bookedContent(EQ_A), 0, "the unit is booked empty");
         (RecoveryConsent memory c, bytes memory cs, ScaleReading memory r, bytes memory rs) =
             _recoveryArgs(SCALE_SERVICE_PK, service, EQ_A, bytes32("cyl-3"), 1, false);
         vm.prank(service);
-        vm.expectRevert(abi.encodeWithSelector(EquipmentRegistry.RecoveryCapExceeded.selector, 10_500, 10_501));
+        vm.expectRevert(abi.encodeWithSelector(EquipmentRegistry.RecoveryExceedsContent.selector, 0, 1));
         ledger.recover(c, cs, r, rs);
     }
 
@@ -30,7 +31,10 @@ contract EquipmentTest is Fixture {
     function test_tierA_capIncludesLedgerTopUps() public {
         uint256 repaired = _recover(service, SCALE_SERVICE_PK, EQ_A, 4_000, false);
         vm.prank(service);
+        assertEq(equipment.bookedContent(EQ_A), 6_500, "4 kg taken out of 10.5 kg");
+        vm.prank(service);
         ledger.charge(repaired, EQ_A, 4_000);
+        assertEq(equipment.bookedContent(EQ_A), 10_500, "recharged to a full charge");
         assertEq(equipment.recoveryCap(EQ_A), 14_500, "nameplate x 1.05 + 4 kg recharged");
 
         vm.warp(block.timestamp + 181 days); // the recharged gas has now been in service
@@ -40,7 +44,7 @@ contract EquipmentTest is Fixture {
     }
 
     /// Round 12: a leaky unit's top-ups replace gas that already leaked out. They raise the
-    /// lifetime total but never let a single recovery take more than one charge.
+    /// lifetime total but never refill the booked content above one charge.
     function test_tierA_singleRecoveryNeverExceedsOneCharge() public {
         uint256 v = _mint(30_000);
         uint256 atService = _move(v, importer, service, SCALE_SERVICE_PK, 30_000);
@@ -49,22 +53,58 @@ contract EquipmentTest is Fixture {
         ledger.charge(atService, EQ_A, 10_000);
         vm.stopPrank();
         assertEq(equipment.recoveryCap(EQ_A), 30_500, "lifetime: one charge + 20 kg of top-ups");
-        assertEq(equipment.maxPerRecovery(EQ_A), 10_500, "per recovery: one charge");
+        assertEq(equipment.bookedContent(EQ_A), 10_500, "booked content: one charge, top-ups cannot raise it");
 
         vm.warp(block.timestamp + 181 days);
         (RecoveryConsent memory c, bytes memory cs, ScaleReading memory r, bytes memory rs) =
             _recoveryArgs(SCALE_SERVICE_PK, service, EQ_A, bytes32("cyl-padded"), 10_501, true);
         vm.prank(service);
-        vm.expectRevert(abi.encodeWithSelector(EquipmentRegistry.RecoveryExceedsCharge.selector, 10_500, 10_501));
+        vm.expectRevert(abi.encodeWithSelector(EquipmentRegistry.RecoveryExceedsContent.selector, 10_500, 10_501));
         ledger.recover(c, cs, r, rs);
 
         _recover(service, SCALE_SERVICE_PK, EQ_A, 10_500, true); // a full charge is still accepted
         _assertConservation(R404A);
     }
 
-    function test_tierB_singleRecoveryCappedAtModelCharge() public {
+    /// Round 13 (laundering-capacity review): splitting the padding into several recoveries must
+    /// not get around the limit. Without a recorded top-up in between, two recoveries of one charge
+    /// each take more than the unit could hold, even though the lifetime total (30.5 kg) allows it.
+    function test_tierA_splitRecoveriesCannotExceedBookedContent() public {
+        uint256 v = _mint(20_000);
+        uint256 atService = _move(v, importer, service, SCALE_SERVICE_PK, 20_000);
+        vm.prank(service);
+        ledger.charge(atService, EQ_A, 20_000); // leaky unit: lifetime cap 30.5 kg
+        vm.warp(block.timestamp + 181 days);
+
+        _recover(service, SCALE_SERVICE_PK, EQ_A, 10_500, false); // one full charge, unit stays in service
+        assertEq(equipment.bookedContent(EQ_A), 0);
+        (RecoveryConsent memory c, bytes memory cs, ScaleReading memory r, bytes memory rs) =
+            _recoveryArgs(SCALE_SERVICE_PK, service, EQ_A, bytes32("cyl-split"), 10_500, true);
+        vm.prank(service);
+        vm.expectRevert(abi.encodeWithSelector(EquipmentRegistry.RecoveryExceedsContent.selector, 0, 10_500));
+        ledger.recover(c, cs, r, rs);
+        assertEq(equipment.equipment(EQ_A).recoveredGrams, 10_500, "only one charge came out");
+    }
+
+    /// A partial repair recovery leaves the rest of the charge recoverable, and a smaller recharge
+    /// refills only what was recorded.
+    function test_tierA_partialRechargeRefillsOnlyWhatWasRecorded() public {
+        uint256 repaired = _recover(service, SCALE_SERVICE_PK, EQ_A, 6_000, false);
+        vm.prank(service);
+        ledger.charge(repaired, EQ_A, 2_000);
+        assertEq(equipment.bookedContent(EQ_A), 6_500, "10.5 - 6 + 2");
+        vm.warp(block.timestamp + 181 days);
+        (RecoveryConsent memory c, bytes memory cs, ScaleReading memory r, bytes memory rs) =
+            _recoveryArgs(SCALE_SERVICE_PK, service, EQ_A, bytes32("cyl-p"), 6_501, true);
+        vm.prank(service);
+        vm.expectRevert(abi.encodeWithSelector(EquipmentRegistry.RecoveryExceedsContent.selector, 6_500, 6_501));
+        ledger.recover(c, cs, r, rs);
+        _recover(service, SCALE_SERVICE_PK, EQ_A, 6_500, true);
+    }
+
+    function test_tierB_bookedContentIsModelCharge() public {
         _registerB(EQ_B, service);
-        assertEq(equipment.maxPerRecovery(EQ_B), 1_200);
+        assertEq(equipment.bookedContent(EQ_B), 1_200);
     }
 
     function test_decommissionedUnitCannotYieldMore() public {

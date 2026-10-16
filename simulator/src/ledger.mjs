@@ -210,16 +210,22 @@ export class LedgerMirror {
   }
 
   _newUnit(u) {
-    return { ...u, charged: 0, recovered: 0, status: 'ACTIVE', charges: [] };
+    return { ...u, charged: 0, recovered: 0, drawn: 0, status: 'ACTIVE', charges: [] };
   }
 
-  /** Most a single recovery can take: one nameplate charge (Tier A with tolerance). */
+  /** What the unit can physically hold: one nameplate charge (Tier A with tolerance). */
   maxPerRecovery(id) {
     const e = this.equipment.get(id);
     return e.tier === 'A' ? Math.floor((e.nameplateGrams * (10_000 + this.rules.tierAToleranceBps)) / 10_000) : e.nameplateGrams;
   }
 
-  /** Lifetime cap: one charge plus every top-up charged through the ledger. */
+  /** What can still be recovered now: one charge, minus recoveries, plus recorded top-ups, capped at one charge. */
+  bookedContent(id) {
+    const full = this.maxPerRecovery(id);
+    return Math.max(0, full - this.equipment.get(id).drawn);
+  }
+
+  /** Lifetime cap: one charge plus every top-up charged through the ledger (coarser second check). */
   recoveryCap(id) {
     return this.maxPerRecovery(id) + this.equipment.get(id).charged;
   }
@@ -236,6 +242,7 @@ export class LedgerMirror {
     if (e.status !== 'ACTIVE') return this.reject(t, 'CHARGE', data, 'NotActive');
     if (e.gas !== lot.gas) return this.reject(t, 'CHARGE', data, 'GasMismatch');
     e.charged += grams;
+    e.drawn = Math.max(0, e.drawn - grams);
     e.charges.push({ at: t, grams });
     lot.grams -= grams;
     if (lot.grams === 0) this.closeLot(lot);
@@ -260,8 +267,8 @@ export class LedgerMirror {
     if (!e) return this.reject(t, 'RECOVER', data, 'UnknownEquipment');
     if (e.status !== 'ACTIVE') return this.reject(t, 'RECOVER', data, 'NotActive');
     if (grams <= 0) return this.reject(t, 'RECOVER', data, 'ZeroAmount');
-    const perRecovery = this.maxPerRecovery(eqId);
-    if (grams > perRecovery) return this.reject(t, 'RECOVER', { ...data, maxPerRecovery: perRecovery }, 'RecoveryExceedsCharge');
+    const content = this.bookedContent(eqId);
+    if (grams > content) return this.reject(t, 'RECOVER', { ...data, bookedContent: content }, 'RecoveryExceedsContent');
     const cap = this.recoveryCap(eqId);
     if (e.recovered + grams > cap) return this.reject(t, 'RECOVER', { ...data, cap }, 'RecoveryCapExceeded');
     const periodKey = `${service}|${Math.floor(t / PERIOD_SECONDS)}`;
@@ -278,6 +285,7 @@ export class LedgerMirror {
 
     if (e.tier === 'B') this.tierBUsage.set(periodKey, tierBUsed);
     e.recovered += grams;
+    e.drawn += grams;
     if (decommission) e.status = 'DECOMMISSIONED';
     const tot = this.totalsOf(e.gas);
     tot.recovered += grams;

@@ -142,6 +142,6 @@
     "unconsentedRecovery": { "_readme": "Off-ledger services book smuggled gas as recovered from someone else's unit, signing the consent with their own key (rejected: NotUnitOwner).", "attemptsPerYear": 6 },
     "cylinderReuse": { "_readme": "A phantom service books a recovery into a cylinder that still backs an open lot (rejected: CylinderInUse).", "attemptsPerYear": 3 },
     "selfCertifiedDestruction": { "_readme": "A facility signs its own destruction certificate (rejected: NotVerifier).", "attemptsPerYear": 2 },
-    "paddedRecovery": { "_readme": "A service company and a colluding owner book more than one nameplate charge from a leaky unit in one recovery. Allowed by the lifetime cap (charge + top-ups), rejected by the per-recovery cap (RecoveryExceedsCharge). Drawn from a separate random stream so the rest of the run is unchanged.", "attemptsPerYear": 3 }
+    "paddedRecovery": { "_readme": "A service company and a colluding owner book more than the unit can hold: either one recovery above one charge, or (split padding) a full charge from a unit already partly recovered with no recorded recharge. Both pass the lifetime cap (charge + top-ups); the booked-content rule rejects them (RecoveryExceedsContent). Drawn from a separate random stream so the rest of the run is unchanged; each kind is tried at this rate.", "attemptsPerYear": 3 }
   }
 }

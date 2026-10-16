@@ -186,7 +186,7 @@ contract LedgerTest is Fixture {
         (RecoveryConsent memory c, bytes memory cs) = _ownerConsentFor(EQ_A, cyl, 10_501, true);
         bytes memory sig = _signScale(SCALE_SERVICE_PK, r);
         vm.prank(service);
-        vm.expectRevert(); // RecoveryCapExceeded(10_500, 10_501)
+        vm.expectRevert(); // RecoveryExceedsContent(10_500, 10_501)
         ledger.recover(c, cs, r, sig);
     }
 

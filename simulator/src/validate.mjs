@@ -41,7 +41,7 @@ export function validate(result) {
     if (e.type === 'RECOVER') {
       recoveredPerUnit[e.equipment] = (recoveredPerUnit[e.equipment] ?? 0) + e.grams;
       check(recoveredPerUnit[e.equipment] <= ledger.recoveryCap(e.equipment), `R3 cap exceeded on ${e.equipment}`);
-      check(e.grams <= ledger.maxPerRecovery(e.equipment), `R3 single recovery above one charge on ${e.equipment} (seq ${e.seq})`);
+      check(e.grams <= ledger.maxPerRecovery(e.equipment), `R3 recovery above one charge on ${e.equipment} (seq ${e.seq})`);
     }
     if (e.type === 'RECLAIM') {
       check(e.outGrams <= Math.floor((e.inGrams * (10_000 - params.rules.minReclaimLossBps)) / 10_000), `R4 yield exceeded (seq ${e.seq})`);

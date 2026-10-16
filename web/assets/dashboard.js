@@ -231,7 +231,7 @@ const roundedBar = (x, y, w, h) => {
 function describeRejection(r) {
   const d = r.detail;
   switch (r.reason) {
-    case 'RecoveryExceedsCharge': return `Recover ${kg(d.grams)} kg from ${d.equipment} in one go, more than the unit can hold`;
+    case 'RecoveryExceedsContent': return `Recover ${kg(d.grams)} kg from ${d.equipment}, more than is booked inside it`;
     case 'NotUnitOwner': return `Recover ${kg(d.grams)} kg from ${d.equipment} signed by ${d.consent}, not the unit's owner`;
     case 'CylinderInUse': return `Recover into ${d.cylinder}, which already holds an open lot`;
     case 'ReclaimExceedsInput': return `Claim ${kg(d.outGrams, 2)} kg reclaimed from ${kg(d.inGrams, 2)} kg input (max ${kg(d.maxOut, 2)} kg)`;

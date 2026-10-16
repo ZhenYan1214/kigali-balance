@@ -12,7 +12,7 @@ export const RULES = {
   QuotaExceeded: ['R1', 'Minting beyond the quota document'],
   NotUnitOwner: ['R3', 'Recovery without the unit owner\'s co-signature'],
   OwnerNotIndependent: ['R3', 'Owner co-signature from the service company itself'],
-  RecoveryExceedsCharge: ['R3', 'One recovery larger than the unit can hold'],
+  RecoveryExceedsContent: ['R3', 'Recovering more than the unit could still hold'],
   RecoveryCapExceeded: ['R3', 'Lifetime recovery above one charge plus top-ups'],
   TierBMonthlyCapExceeded: ['R3', 'Tier B recoveries above the monthly cap'],
   CylinderInUse: ['M1', 'A second open lot in the same cylinder'],

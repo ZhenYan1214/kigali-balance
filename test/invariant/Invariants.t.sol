@@ -99,10 +99,11 @@ contract InvariantsTest is Fixture {
         }
     }
 
-    /// 3b. R3 per recovery (round 12): no single recovery takes more than one charge, however many
-    ///     top-ups a leaky unit has received.
-    function invariant_noRecoveryAboveOneCharge() public view {
-        assertEq(handler.ghostOverChargeRecoveriesAccepted(), 0);
+    /// 3b. R3 booked content (rounds 12-13): no recovery takes more than the unit could hold, i.e. one
+    ///     charge minus what was recovered since, plus recorded top-ups, never above one charge. Checked
+    ///     against the handler's own model, including padding split over several recoveries.
+    function invariant_noRecoveryAboveBookedContent() public view {
+        assertEq(handler.ghostOverContentRecoveriesAccepted(), 0);
     }
 
     /// 4. R4 + R5: reclaimed lots descend only from RECOVERED lots, and the output at creation
@@ -168,10 +169,11 @@ contract InvariantsTest is Fixture {
         console.log("recover rejected (over cap)", handler.outcomes("recover.rejected"));
         console.log("unconsented recoveries rejected", handler.outcomes("recover.unconsented.rejected"));
         console.log("self-certified destructions rejected", handler.outcomes("destroy.selfcertified.rejected"));
-        console.log("recoveries above one charge rejected", handler.outcomes("recover.overCharge.rejected"));
+        console.log("recoveries above booked content rejected", handler.outcomes("recover.overContent.rejected"));
         // columns: reclaim.ok, reclaim.rejected, destroy.ok, claim.ok, claim.rejected, recover.rejected,
-        //          recover.unconsented.rejected, destroy.selfcertified.rejected, recover.overCharge.rejected
-        //          (the ninth column was added on 2026-10-16; older rows have eight)
+        //          recover.unconsented.rejected, destroy.selfcertified.rejected, recover.overContent.rejected
+        //          (the ninth column was added on 2026-10-16, first counting single over-charge attempts,
+        //          from round 13 all attempts above booked content; older rows have eight)
         vm.writeLine(
             "reports/invariant-metrics.csv",
             string.concat(
@@ -183,7 +185,7 @@ contract InvariantsTest is Fixture {
                 vm.toString(handler.outcomes("recover.rejected")), ",",
                 vm.toString(handler.outcomes("recover.unconsented.rejected")), ",",
                 vm.toString(handler.outcomes("destroy.selfcertified.rejected")), ",",
-                vm.toString(handler.outcomes("recover.overCharge.rejected"))
+                vm.toString(handler.outcomes("recover.overContent.rejected"))
             )
         );
     }

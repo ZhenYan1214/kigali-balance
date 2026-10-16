@@ -41,7 +41,9 @@ contract Handler is Test {
     mapping(uint256 => bool) public ghostEligibleEventHadOnlyRecovered;
     uint256[] public eligibleEvents;
     uint256 public ghostUnconsentedRecoveriesAccepted;
-    uint256 public ghostOverChargeRecoveriesAccepted; // single recoveries above one nameplate charge
+    uint256 public ghostOverContentRecoveriesAccepted; // recoveries above what the unit could hold
+    /// @dev Independent model of each unit's booked content: grams below one full charge.
+    mapping(bytes32 => uint64) public ghostDrawn;
     uint256 public ghostSelfCertifiedDestructionsAccepted;
 
     // call counters, useful when tuning the fuzzer
@@ -155,7 +157,9 @@ contract Handler is Test {
         bytes32 eq = equipmentPool[eqSeed % equipmentPool.length];
         uint64 grams = uint64(bound(gramsSeed, 1, ledger.getLot(lotId).grams));
         vm.prank(service);
-        try ledger.charge(lotId, eq, grams) {} catch {}
+        try ledger.charge(lotId, eq, grams) {
+            ghostDrawn[eq] = ghostDrawn[eq] > grams ? ghostDrawn[eq] - grams : 0;
+        } catch {}
     }
 
     /// @dev Deliberately tries amounts up to 150 % of the lifetime cap (which includes top-ups), so
@@ -164,7 +168,7 @@ contract Handler is Test {
         calls["recover"]++;
         bytes32 eq = equipmentPool[eqSeed % equipmentPool.length];
         uint64 cap = equipment.recoveryCap(eq);
-        uint64 perRecovery = equipment.maxPerRecovery(eq);
+        uint64 content = _ghostContent(eq);
         uint64 grams = uint64(bound(gramsSeed, 1, (uint256(cap) * 15) / 10));
         bytes32 cyl = _id("rec");
         (RecoveryConsent memory c, bytes memory cs) = _consent(eq, cyl, grams, decommission, ownerKey[eq]);
@@ -174,10 +178,49 @@ contract Handler is Test {
         try ledger.recover(c, cs, r, sig) returns (uint256 id, uint256 qid) {
             if (id != 0) allLots.push(id);
             if (qid != 0) allLots.push(qid);
-            if (grams > perRecovery) ghostOverChargeRecoveriesAccepted++;
+            if (grams > content) ghostOverContentRecoveriesAccepted++;
+            ghostDrawn[eq] += grams;
         } catch {
             outcomes["recover.rejected"]++;
-            if (grams > perRecovery) outcomes["recover.overCharge.rejected"]++;
+            if (grams > content) outcomes["recover.overContent.rejected"]++;
+        }
+    }
+
+    /// @dev Padding split over two recoveries: take the whole booked content without
+    ///      decommissioning, then try to take a full charge again with no top-up in between.
+    function splitPadding(uint256 eqSeed) external {
+        calls["splitPadding"]++;
+        bytes32 eq = equipmentPool[eqSeed % equipmentPool.length];
+        if (equipment.equipment(eq).status != EquipmentRegistry.Status.ACTIVE) return;
+        uint64 first = _ghostContent(eq);
+        if (first > 0 && _tryRecover(eq, first, false)) ghostDrawn[eq] += first;
+        uint64 second = equipment.maxPerRecovery(eq);
+        uint64 content = _ghostContent(eq);
+        if (_tryRecover(eq, second, false)) {
+            if (second > content) ghostOverContentRecoveriesAccepted++;
+            ghostDrawn[eq] += second;
+        } else if (second > content) {
+            outcomes["recover.overContent.rejected"]++;
+        }
+    }
+
+    function _ghostContent(bytes32 eq) internal view returns (uint64) {
+        uint64 full = equipment.maxPerRecovery(eq);
+        return ghostDrawn[eq] >= full ? 0 : full - ghostDrawn[eq];
+    }
+
+    function _tryRecover(bytes32 eq, uint64 grams, bool decommission) internal returns (bool) {
+        bytes32 cyl = _id("rec");
+        (RecoveryConsent memory c, bytes memory cs) = _consent(eq, cyl, grams, decommission, ownerKey[eq]);
+        ScaleReading memory r = _reading(ledger.recoverySubject(eq, cyl), grams);
+        bytes memory sig = _signScale(scaleKey[service], r);
+        vm.prank(service);
+        try ledger.recover(c, cs, r, sig) returns (uint256 id, uint256 qid) {
+            if (id != 0) allLots.push(id);
+            if (qid != 0) allLots.push(qid);
+            return true;
+        } catch {
+            return false;
         }
     }
 
@@ -230,8 +273,8 @@ contract Handler is Test {
         bytes32 eq = equipmentPool[eqSeed % equipmentPool.length];
         if (equipment.equipment(eq).status != EquipmentRegistry.Status.ACTIVE) return;
         uint64 room = equipment.recoveryCap(eq) - equipment.equipment(eq).recoveredGrams;
-        uint64 perRecovery = equipment.maxPerRecovery(eq);
-        if (room > perRecovery) room = perRecovery;
+        uint64 content = _ghostContent(eq);
+        if (room > content) room = content;
         if (room == 0) return;
         uint64 grams = uint64(bound(gramsSeed, 1, room));
         bytes32 cyl = _id("rec");
@@ -240,6 +283,7 @@ contract Handler is Test {
         bytes memory sig = _signScale(scaleKey[service], r);
         vm.prank(service);
         try ledger.recover(c, cs, r, sig) returns (uint256 id, uint256 qid) {
+            ghostDrawn[eq] += grams;
             if (id != 0) {
                 allLots.push(id);
                 _sendAndReceive(id, service, facility, ledger.getLot(id).grams, 10_000);

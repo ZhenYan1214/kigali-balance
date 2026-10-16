@@ -395,7 +395,7 @@ export function simulate(params, overrides = {}) {
 
     // 2c) padded recovery: a service company and a colluding owner book more than one charge from a
     //     leaky unit in a single recovery. The lifetime cap (charge + top-ups) would allow it; the
-    //     per-recovery cap rejects it (RecoveryExceedsCharge).
+    //     booked-content rule rejects it (RecoveryExceedsContent).
     if (probe.chance(p.fraud.paddedRecovery.attemptsPerYear / 12)) {
       const candidates = units.filter((u) => {
         if (!u.active || !u.registered || u.tier !== 'A') return false;
@@ -407,7 +407,27 @@ export function simulate(params, overrides = {}) {
         const grams = Math.round(ledger.maxPerRecovery(target.id) * 1.2);
         const n = truth.fraud.paddedRecoveryAttempts.length + 1;
         const res = ledger.recover(t, target.service, target.id, grams, false, { cylinder: `cyl-probe-${n}` });
-        truth.fraud.paddedRecoveryAttempts.push({ unit: target.id, service: target.service, grams, month: m, accepted: Boolean(res) });
+        truth.fraud.paddedRecoveryAttempts.push({ unit: target.id, service: target.service, grams, month: m, accepted: Boolean(res), kind: 'oversized' });
+      }
+    }
+
+    // 2d) split padding: on a unit already partly recovered without a recorded recharge, book another
+    //     full charge. One charge per recovery and the lifetime cap would both allow it; the
+    //     booked-content rule rejects it (RecoveryExceedsContent).
+    if (probe.chance(p.fraud.paddedRecovery.attemptsPerYear / 12)) {
+      const candidates = units.filter((u) => {
+        if (!u.active || !u.registered || u.tier !== 'A') return false;
+        const e = ledger.equipment.get(u.id);
+        if (!e || e.status !== 'ACTIVE') return false;
+        const full = ledger.maxPerRecovery(u.id);
+        return ledger.bookedContent(u.id) < full && ledger.recoveryCap(u.id) - e.recovered >= full;
+      });
+      if (candidates.length) {
+        const target = probe.pick(candidates);
+        const grams = ledger.maxPerRecovery(target.id);
+        const n = truth.fraud.paddedRecoveryAttempts.length + 1;
+        const res = ledger.recover(t, target.service, target.id, grams, false, { cylinder: `cyl-probe-${n}` });
+        truth.fraud.paddedRecoveryAttempts.push({ unit: target.id, service: target.service, grams, month: m, accepted: Boolean(res), kind: 'split' });
       }
     }
 
