@@ -247,6 +247,8 @@ python -m venv .venv && .venv/Scripts/pip install -r requirements.lock.txt   # m
 
 ```bash
 cp .env.example .env    # a TEST-ONLY deployer key, an OP Sepolia RPC URL and an Etherscan API key
+bash script/check_env.sh                  # checks .env without printing any secret
+bash script/rehearse_op_sepolia.sh        # full rehearsal on a local fork; sends nothing
 forge script script/Deploy.s.sol --rpc-url op_sepolia --broadcast --verify
 ```
 

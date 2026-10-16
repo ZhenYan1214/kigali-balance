@@ -325,6 +325,9 @@ HFC 冷媒的紀錄分散在各自獨立的系統：海關配額、技師維修�
 | **第十輪**：誠實維修（回收後灌回）會被回收上限誤擋，且沒有測試 | 上限計入帳本補充量（M8），補測試 | 文件說「不受影響」的地方都要有測試 |
 | **第十輪**：批評別人沒有容器層級唯一性，自己也沒有 | 每支鋼瓶同時只有一個未結批次（M1），差異測試也比對鋼瓶 | 拿來批評別人的標準，自己要先做到 |
 | **第十輪**：「不揭露商業資料」和 EVM 公開狀態矛盾 | 改成如實描述，列入路線圖 | 做不到的事要直接說 |
+| **第十一輪**：重讀比賽發現截止時間三處矛盾、IEEE 頁「70% 區塊鏈實作」、4 位密碼學評審；介面與影片是零分起跳 | 以 10/25 22:00（台北）為準、10/24 先交；做監管儀表板與來源護照頁 | 比賽規則要在最後一週再讀一次，不要只信第一次的筆記 |
+| **第十二輪**：回收上限是「終身累計＋補充量」，愛漏的設備洗白額度最大（M8 修正引進的錯）；模擬器讓誠實設備幾乎滿載，AI 成績偏好看 | 改成單次上限（後來證明不夠）；退役結案訊號把機制接上「排放」 | 請沒看過前情的紅隊審查，並逐行查證它的指控 |
+| **第十三輪**：全部是模擬資料，沒有外部裁判 | 真實註冊處公開資料稽核（A）；洗白容量模型（C）抓到單次上限可被分次回收繞過 → 改成帳面內容量；一鍵重建與交件前檢查（F） | **不要讓模型評自己的作品**：C 的模型抓到我自己的修正錯誤；量化每道防線，而不是只列規則 |
 
 ---
 
@@ -406,36 +409,25 @@ forge script script/Deploy.s.sol --rpc-url op_sepolia --broadcast --verify
 
 ## 9. 下一步與時程
 
-### 9.1 AI 三個模組（立刻要做）
-**原則**：只用觀測資料；每個模組輸出分數＋人看得懂的理由；只標記不判定；不做聊天機器人、不用大型語言模型做判斷；用 `ground_truth.json` 評估準確率、召回率，但**只在評估時使用**，評估結果要說明「這是在模擬資料上的表現」。
+> 2026-10-16 晚上更新。**截止 2026-10-25 22:00（台北）**，10/24 先送出可編輯的版本。詳細理由見 `docs/proposal/04`–`06`。
 
-| 模組 | 要回答的問題 | 輸入 | 建議方法 | 對應的造假情境 |
-|---|---|---|---|---|
-| A 洩漏落差（✅ 已完成，見 6.3） | 這台設備的補充量合理嗎？ | `equipment.csv`（類別、充填量、安裝日期）＋ CHARGE 事件 | 以 IPCC 類別洩漏率區間建立物理基準，再對「實際÷基準」的殘差做 z 分數；同時找「高洩漏類別卻長期零補充」（可能在帳外補充） | 帳外補充的維修公司 |
-| B 質量平衡異常 | 這個業者的進出量、產率合理嗎？ | 帳本事件＋`invoices.csv` | 特徵：再生產率、發票量 vs 帳本轉出量（**AI 必須自己對帳**）、轉出／轉入比、月度波動、交易對手集中度；Isolation Forest＋SHAP 解釋 | 經銷商超賣走私、再生產率灌水 |
-| C 回收合理性（✅ 已完成，見 6.3） | 這次回收的量和設備條件相符嗎？ | RECOVER 事件＋設備資料 | 依設備歷史推估合理殘留量；看 B 級回收量占型號充填量的比例（誠實約 0.7–0.98；天真的幽靈 0.97–1.0，**會調整行為的幽靈 0.85–0.95，和誠實完全重疊，單靠比例抓不到**）、按維修公司集中度、**代簽同意的回收點集中度**（`equipment.csv` 的 owner 欄位） | 幽靈 B 級設備（兩種） |
+### 9.1 剩下的工作（依優先順序）
+| 優先 | 工作 | 備註 |
+|---|---|---|
+| 1 | **對外託管儀表板**（GitHub Pages） | 使用者要在 repo 設定開啟 Pages；之後加部署設定。專家信件要等這一步完成才寄 |
+| 2 | **OP Sepolia 重新部署**（帳面內容量規則） | **先問使用者**。先跑 `bash script/check_env.sh`、`bash script/rehearse_op_sepolia.sh`。2026-10-16 已在 fork 上演練新版合約：六步驟成功、四個應被擋的動作都被擋。部署錢包約 0.022 ETH 足夠：腳本只把 Demo 角色補到預算，上次轉給它們的 gas 還在，所以這次只需約 6×10⁻⁹ ETH |
+| 3 | AI 旗標寫回 `FlagRegistry`（模型雜湊、輸入雜湊） | 「AI＋區塊鏈」最直接的證據，約半天 |
+| 4 | 英文 PDF 附件：架構與規格、安全與資料完整性評估（含後量子遷移路徑、保密模型、威脅模型）、氣候影響、採用策略、路線圖，**放進稽核與洗白容量的結果** | IEEE 必交；約 1.5 天 |
+| 5 | 3 分鐘影片 | 從批次 64 講起：已被認領碳權，但回收公司被 AI 標記；用稽核的「68.6% 無法檢查」與洗白容量圖 |
+| 6 | Devpost 英文說明；10/24 先送出 | 交件前一定要跑 `python scripts/rebuild.py --full` 與 `python scripts/check_submission.py --online` |
+| 7（時間夠才做） | 第十二輪第 3 項：模擬器報廢剩餘量改用 IPCC 表 7.9 分布、加入 A 級灌水造假、A 級 AI 訊號，在新種子上重評 | C 的模型已顯示：在「接近滿載」假設下，偵測器會誤報 40% 的誠實 A 級設備 |
+| 7（時間夠才做） | 保密守恆展示（Pedersen 承諾值）、驗章抽成可替換介面（後量子） | 打中密碼學評審，風險高 |
 
-輸出：標記清單（CSV／JSON），並可寫入 `FlagRegistry`（記錄模型版本雜湊與輸入快照雜湊）。
-
-### 9.2 其他待辦（依計畫書第 13 節）
-| 項目 | 優先級 |
-|---|---|
-| AI 模組 B＋評估報告 | ✅ 完成 |
-| AI 模組 A＋評估報告 | ✅ 完成 |
-| AI 模組 C＋評估報告 | ✅ 完成 |
-| 監管儀表板：公斤 Sankey 圖、AI 異常清單 | 必做 |
-| 英文 PDF 附件：架構圖、安全與資料完整性評估、減碳推估、推廣與路線圖、需求驗證計畫 | 必做 |
-| 3 分鐘影片（腳本見計畫書 7.3） | 必做 |
-| Devpost 專案說明（英文） | 必做 |
-| 英文 README（給評審） | 必做 |
-| 查證者介面、買家掃碼介面 | 應做 |
-| 測試網部署：OP Sepolia | ✅ 已部署並驗證（見 8.6） |
-| 拆分 KigaliLedger 成 10 KB 以下的合約（才能部署到 Sepolia） | 路線圖 |
-| 本機 Besu QBFT 4 節點聯盟鏈（目前差異測試用 Anvil） | 路線圖 |
-| 從重播結果統計每種操作的 gas 成本（擴展性證據） | 可做 |
-| EPCIS 2.0 匯入格式、完整 VC 撤銷流程 | 可做 |
-
-**原時程**（台北時間）：10/16–17 合約（✅ 已提前完成）→ 10/18–19 AI 與儀表板 → 10/20 其他介面與錨定 → 10/21 端到端測試 → 10/22 英文 PDF 附件 → 10/23 錄影片與 README → 10/24 全部檢查、預先提交 → **10/25 上午送出**。
+### 9.2 只有使用者能做的事
+- 回覆／寄出專家信件（草稿在 `docs/outreach/letters_draft.md`，不進 git）。
+- 開啟 GitHub Pages、確認是否重新部署（廣播交易）、送出 Devpost。
+- 確認參賽資格：團隊成員是否都是學生、幾個人。
+- 重新產生外洩過的 Alchemy 金鑰。
 
 ### 9.3 減碳推估（已寫在計畫書第 8 節）
 - 路徑一（回收率提升）：ΔE = Σ（報廢殘留量 × 回收率提升 × GWP）× 歸因係數 α。日本示意：保守 0.11、中等 0.33、樂觀 0.77 MtCO₂e／年。
@@ -478,41 +470,45 @@ forge script script/Deploy.s.sol --rpc-url op_sepolia --broadcast --verify
 
 ```
 kigali-balance/
-├── HANDOFF.md                  ← 本檔：交接總覽
-├── README.md                   ← 英文簡介（給評審，之後要擴充）
-├── foundry.toml
-├── src/                        ← 智慧合約
-├── test/                       ← Foundry 測試（含 invariant/）
-├── lib/forge-std/              ← 子模組
-├── reports/                    ← 模糊測試統計輸出（CSV 不進 Git）
-├── simulator/
-│   ├── params.json             ← 參數（附出處與查證狀態）
-│   ├── run.mjs                 ← 產生模擬資料
-│   ├── replay.mjs              ← 差異測試（重播到真合約）
-│   ├── src/                    ← simulate、ledger 鏡像、validate、io、rng
-│   └── test/                   ← 20 個測試
+├── HANDOFF.md                  ← 本檔：交接總覽（中文）
+├── README.md                   ← 給評審的英文首頁
+├── src/                        ← 6 個智慧合約
+├── test/                       ← Foundry 測試（135 個單元測試＋invariant/ 10 條不變量）
+├── script/
+│   ├── Deploy.s.sol            ← OP Sepolia 部署＋鏈上 Demo
+│   ├── check_env.sh            ← 檢查 .env（不印出任何密鑰）
+│   └── rehearse_op_sepolia.sh  ← 在本機 fork 上演練部署（不送出任何交易）
+├── scripts/
+│   ├── rebuild.py              ← 一鍵重建全部（--full 含差異測試與 PDF）
+│   └── check_submission.py     ← 交件前檢查（數字一致、連結、密鑰、PDF 頁數）
+├── deployments/11155420.json   ← OP Sepolia 合約位址
+├── broadcast/                  ← 部署交易紀錄（公開資料）
+├── simulator/                  ← 模擬器、規則鏡像、差異測試（replay.mjs）、21 個測試
 ├── ai/
-│   ├── requirements.txt / requirements.lock.txt
-│   └── （AI 模組待寫）
+│   ├── kigali_ai/              ← 模組 A、B、C、退役結案檢查、只讀觀測資料的載入器
+│   ├── run_*.py / evaluate_*.py
+│   ├── reports/                ← 各模組評估報告（含失敗的舊版本）
+│   └── tests/                  ← 28 個測試
+├── web/                        ← 監管儀表板＋來源護照頁（靜態；build_data.mjs 產生資料）
+├── research/registry-audit/    ← 真實註冊處公開資料（每列附出處）與重建腳本
+├── analysis/laundering/        ← 洗白容量模型、結果、圖
 └── docs/
+    ├── README.md               ← 英文文件索引
+    ├── assets/                 ← logo、圖、截圖（make_diagrams.py 產生圖）
+    ├── outreach/               ← 專家信件草稿（不進 git）
     ├── proposal/
-    │   ├── 00_主題確認與反思紀錄.md      ← 九輪反思的完整紀錄
+    │   ├── 00–06_*.md          ← 設計紀錄：選題與第十到第十三輪反思
     │   ├── 01_問題陳述_Problem_Statement.md ← 英文交件版＋中文對照
-    │   ├── 02_計畫書.md                  ← 完整規格、威脅模型、Demo、推估、時程
+    │   ├── 02_計畫書.md         ← 規則、威脅模型、Demo、推估
     │   ├── Kigali_Balance_Problem_Statement.pdf ← 交件用（2 頁）
-    │   └── problem_statement.html         ← 產生 PDF 的原始檔
+    │   └── problem_statement.html ← 產生 PDF 的原始檔
     └── research/
-        ├── 01-landscape-report.md         ← 第一輪：比賽與四賽道現況、12 個候選題
-        ├── 01-landscape-notes/            ← 第一輪研究筆記（含出處連結）
-        ├── 02-validation-report.md        ← 第二輪：撤回原三題、改推冷媒
-        └── 02-validation-notes/           ← 第二輪驗證筆記（含 F-gas 完整驗證）
+        ├── 01-landscape-report.md / 02-validation-report.md ← 選題研究
+        ├── 03-registry-audit.md          ← 真實資料：跨註冊處稽核
+        └── 04-laundering-capacity.md     ← 每道防線能壓掉多少洗白量
 ```
 
-重新產生問題陳述 PDF（Windows，需要 Chrome）：
-```bash
-"C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --no-pdf-header-footer --print-to-pdf=docs/proposal/Kigali_Balance_Problem_Statement.pdf docs/proposal/problem_statement.html
-```
-改完內容後要確認仍是 2 頁。
+重新產生問題陳述 PDF：`python scripts/rebuild.py --full` 的最後一步會做，並確認仍是 2 頁（用 Edge 或 Chrome）。
 
 ---
 
