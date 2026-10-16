@@ -111,10 +111,11 @@ def markdown(payload: dict, df: pd.DataFrame) -> str:
         "honest companies at 12 months and 0.3 % at 36 months: signal A2 compared recorded top-ups with the full "
         "expected leakage, but top-ups are lumpy (a unit is refilled only once it is ~15 % low). 1.1.0 subtracts "
         "that part. Because seeds 1–20 had then been looked at, **1.1.0 is reported on fresh seeds 21–40**.",
-        "- **Short windows are still noisy.** At 12 months about 1 % of honest companies are flagged, all by A2, "
-        "all with only 20–35 kg of expected refills: too little volume to judge a company. Treat A2 flags before "
-        "about two years of data as a watch list, not a review request. This was found on the test seeds and has "
-        "not been fixed, to avoid tuning on them.",
+        "- **A2 alone produces the false positives.** Every honest company flagged so far was flagged by A2 "
+        "only, and had a small or unusual fleet (little expected refill volume, or a mix the IPCC mid-range does "
+        "not describe well). In the first run of 1.1.0 this was about 1 % of honest companies at 12 months and none "
+        "at 36; after company sizes were made to differ (0.4–2.5x, added for module C) it is 0.2–0.6 % at every "
+        "window. Treat an A2-only flag as a watch list, not a review request. Found on test seeds; not tuned away.",
         "- **The adaptive profile is mostly missed** (AUC barely above 0.5). Each of its units looks plausible and "
         "it buys smuggled gas for cash, so only the company-level leakage distribution can betray it, and honest "
         "maintenance differences hide that. It still put about 40 % as much smuggled gas into equipment as a naive "

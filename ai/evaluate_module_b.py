@@ -37,7 +37,7 @@ def parse_seeds(text: str) -> list[int]:
 
 
 def simulate(seed: int, cache: Path) -> Path:
-    out = cache / f"seed-{seed}"
+    out = (cache / f"seed-{seed}").resolve()  # the simulator runs in its own folder
     subprocess.run(["node", "run.mjs", "--seed", str(seed), "--out", str(out)], cwd=sim_dir, check=True,
                    capture_output=True)
     return out

@@ -1,0 +1,114 @@
+{
+  "note": "Simulated data only. Thresholds were fixed on development seeds before this evaluation; ground truth was used only to score.",
+  "model_version": "1.0.0",
+  "model_hash": "5ffdcd1703a464dacda3e031008c9a1b17a93aec927b03c8a29e0a58a4826cbd",
+  "params": {
+    "near_full_share": 0.97,
+    "near_full_z_floor": 2.0,
+    "near_full_z_span": 2.0,
+    "near_full_min_count": 3,
+    "volume_z_floor": 2.0,
+    "volume_z_span": 2.0,
+    "volume_trim": 0.1,
+    "volume_min_count": 8,
+    "pair_baseline_min_recoveries": 3,
+    "pair_z_floor": 3.0,
+    "pair_z_span": 3.0,
+    "pair_min_recoveries": 8,
+    "flag_threshold": 0.6,
+    "high_threshold": 0.85
+  },
+  "seeds": [
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60
+  ],
+  "months": [
+    12,
+    24,
+    36
+  ],
+  "results": [
+    {
+      "months": 12,
+      "entities": 860,
+      "flagged": 47,
+      "false_positives": 7,
+      "precision": 0.851,
+      "recall": 0.667,
+      "fpr_service": 0.0,
+      "fpr_cosigner": 0.175,
+      "flag_rate_phantom naive": 1.0,
+      "auc_phantom naive": 1.0,
+      "flag_rate_phantom adaptive": 0.0,
+      "auc_phantom adaptive": 0.593,
+      "flag_rate_colluding": 1.0,
+      "auc_colluding": 0.925
+    },
+    {
+      "months": 24,
+      "entities": 860,
+      "flagged": 43,
+      "false_positives": 0,
+      "precision": 1.0,
+      "recall": 0.717,
+      "fpr_service": 0.0,
+      "fpr_cosigner": 0.0,
+      "flag_rate_phantom naive": 1.0,
+      "auc_phantom naive": 1.0,
+      "flag_rate_phantom adaptive": 0.15,
+      "auc_phantom adaptive": 0.592,
+      "flag_rate_colluding": 1.0,
+      "auc_colluding": 1.0
+    },
+    {
+      "months": 36,
+      "entities": 860,
+      "flagged": 44,
+      "false_positives": 0,
+      "precision": 1.0,
+      "recall": 0.733,
+      "fpr_service": 0.0,
+      "fpr_cosigner": 0.0,
+      "flag_rate_phantom naive": 1.0,
+      "auc_phantom naive": 1.0,
+      "flag_rate_phantom adaptive": 0.2,
+      "auc_phantom adaptive": 0.741,
+      "flag_rate_colluding": 1.0,
+      "auc_colluding": 1.0
+    }
+  ],
+  "fake_volume": [
+    {
+      "label": "phantom adaptive",
+      "units": 5.05,
+      "mean": 7.5632,
+      "min": 1.463,
+      "max": 13.558
+    },
+    {
+      "label": "phantom naive",
+      "units": 92.55,
+      "mean": 145.51209999999998,
+      "min": 119.705,
+      "max": 162.642
+    }
+  ]
+}

@@ -67,61 +67,61 @@
     {
       "months": 12,
       "entities": 800,
-      "flagged": 108,
-      "false_positives": 7,
-      "precision": 0.935,
-      "recall_off_ledger": 0.508,
-      "false_positive_rate": 0.011,
-      "flag_rate_naive": 1.0,
-      "auc_naive": 0.998,
-      "flag_rate_adaptive": 0.017,
-      "auc_adaptive": 0.538,
-      "flag_rate_phantom": 1.0,
-      "auc_phantom": 0.998
+      "flagged": 88,
+      "false_positives": 1,
+      "precision": 0.989,
+      "recall_off_ledger": 0.517,
+      "false_positive_rate": 0.002,
+      "flag_rate_naive": 0.983,
+      "auc_naive": 0.999,
+      "flag_rate_adaptive": 0.05,
+      "auc_adaptive": 0.546,
+      "flag_rate_phantom": 0.625,
+      "auc_phantom": 0.961
     },
     {
       "months": 24,
       "entities": 800,
-      "flagged": 104,
+      "flagged": 94,
       "false_positives": 1,
-      "precision": 0.99,
-      "recall_off_ledger": 0.525,
+      "precision": 0.989,
+      "recall_off_ledger": 0.517,
       "false_positive_rate": 0.002,
       "flag_rate_naive": 1.0,
       "auc_naive": 1.0,
-      "flag_rate_adaptive": 0.05,
-      "auc_adaptive": 0.543,
-      "flag_rate_phantom": 1.0,
-      "auc_phantom": 1.0
+      "flag_rate_adaptive": 0.033,
+      "auc_adaptive": 0.535,
+      "flag_rate_phantom": 0.775,
+      "auc_phantom": 0.999
     },
     {
       "months": 36,
       "entities": 800,
-      "flagged": 103,
-      "false_positives": 0,
-      "precision": 1.0,
-      "recall_off_ledger": 0.525,
-      "false_positive_rate": 0.0,
+      "flagged": 97,
+      "false_positives": 4,
+      "precision": 0.959,
+      "recall_off_ledger": 0.517,
+      "false_positive_rate": 0.006,
       "flag_rate_naive": 1.0,
-      "auc_naive": 1.0,
-      "flag_rate_adaptive": 0.05,
-      "auc_adaptive": 0.574,
-      "flag_rate_phantom": 1.0,
-      "auc_phantom": 1.0
+      "auc_naive": 0.998,
+      "flag_rate_adaptive": 0.033,
+      "auc_adaptive": 0.556,
+      "flag_rate_phantom": 0.775,
+      "auc_phantom": 0.997
     }
   ],
   "off_ledger_kg_over_36_months": [
     {
       "label": "adaptive",
-      "mean": 157.7,
-      "min": 2.5,
-      "max": 573.9
+      "mean": 157.2,
+      "min": 1.2,
+      "max": 885.3
     },
     {
       "label": "naive",
-      "mean": 380.9,
-      "min": 10.7,
-      "max": 950.2
+      "mean": 445.9,
+      "min": 11.3,
+      "max": 1573.4
     }
   ]
 }

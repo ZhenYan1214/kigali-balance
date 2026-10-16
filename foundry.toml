@@ -7,7 +7,16 @@ evm_version = "cancun"
 optimizer = true
 optimizer_runs = 200
 via_ir = true
-fs_permissions = [{ access = "read-write", path = "./reports" }]
+fs_permissions = [{ access = "read-write", path = "./reports" }, { access = "read-write", path = "./deployments" }]
+
+# Values come from .env (see .env.example); they are only resolved when a command uses them.
+[rpc_endpoints]
+op_sepolia = "${OP_SEPOLIA_RPC_URL}"
+sepolia = "${SEPOLIA_RPC_URL}"
+
+[etherscan]
+op_sepolia = { key = "${ETHERSCAN_API_KEY}", chain = 11155420 }
+sepolia = { key = "${ETHERSCAN_API_KEY}" }
 
 [fuzz]
 runs = 512

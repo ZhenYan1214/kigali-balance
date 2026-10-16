@@ -10,8 +10,8 @@ Per run there are 5 distributors and 4 reclaimers. Fraud: one naive and one adap
 
 | months | variant | precision | recall | FPR | distributor naive | distributor adaptive | reclaimer naive | reclaimer adaptive |
 |---|---|---|---|---|---|---|---|---|
-| 12 | rules only | 1.0 | 0.475 | 0.0 | 1.0 | 0.0 | 0.9 | 0.0 |
-| 12 | rules+IF | 1.0 | 0.487 | 0.0 | 1.0 | 0.0 | 0.95 | 0.0 |
+| 12 | rules only | 1.0 | 0.45 | 0.0 | 1.0 | 0.0 | 0.8 | 0.0 |
+| 12 | rules+IF | 1.0 | 0.45 | 0.0 | 1.0 | 0.0 | 0.8 | 0.0 |
 | 24 | rules only | 1.0 | 0.5 | 0.0 | 1.0 | 0.0 | 1.0 | 0.0 |
 | 24 | rules+IF | 1.0 | 0.5 | 0.0 | 1.0 | 0.0 | 1.0 | 0.0 |
 | 36 | rules only | 1.0 | 0.5 | 0.0 | 1.0 | 0.0 | 1.0 | 0.0 |
@@ -21,12 +21,12 @@ Per run there are 5 distributors and 4 reclaimers. Fraud: one naive and one adap
 
 | months | variant | distributor naive | distributor adaptive | reclaimer naive | reclaimer adaptive |
 |---|---|---|---|---|---|
-| 12 | rules only | 1.0 | 0.6 | 1.0 | 0.55 |
-| 12 | rules+IF | 1.0 | 0.841 | 1.0 | 0.517 |
-| 24 | rules only | 1.0 | 0.75 | 1.0 | 0.55 |
-| 24 | rules+IF | 1.0 | 0.871 | 1.0 | 0.564 |
-| 36 | rules only | 1.0 | 0.8 | 1.0 | 0.5 |
-| 36 | rules+IF | 1.0 | 0.876 | 1.0 | 0.423 |
+| 12 | rules only | 1.0 | 0.591 | 0.923 | 0.539 |
+| 12 | rules+IF | 1.0 | 0.819 | 0.941 | 0.389 |
+| 24 | rules only | 1.0 | 0.632 | 1.0 | 0.575 |
+| 24 | rules+IF | 1.0 | 0.836 | 1.0 | 0.53 |
+| 36 | rules only | 1.0 | 0.633 | 1.0 | 0.575 |
+| 36 | rules+IF | 1.0 | 0.839 | 1.0 | 0.539 |
 
 ## How much fraudulent volume each profile moved (ground truth, full 36 months)
 
@@ -34,24 +34,24 @@ Distributors: smuggled gas sold. Reclaimers: reclaimed output above what the pla
 
 | role | profile | mean kg | min kg | max kg |
 |---|---|---|---|---|
-| DISTRIBUTOR | adaptive | 19.4 | 9.3 | 27.3 |
-| DISTRIBUTOR | naive | 1,419.4 | 847.3 | 2,145.6 |
-| RECLAIMER | adaptive | 14.1 | 2.9 | 40.0 |
-| RECLAIMER | naive | 27.6 | 5.8 | 56.9 |
+| DISTRIBUTOR | adaptive | 19.4 | 8.7 | 29.8 |
+| DISTRIBUTOR | naive | 1,269.6 | 672.6 | 2,330.7 |
+| RECLAIMER | adaptive | 17.2 | 1.2 | 36.5 |
+| RECLAIMER | naive | 34.1 | 3.8 | 71.0 |
 
 ## Score distribution at 36 months
 
 | variant | role | label | n | mean | min | max |
 |---|---|---|---|---|---|---|
-| rules only | DISTRIBUTOR | adaptive | 20 | 0.008 | 0.000 | 0.036 |
-| rules only | DISTRIBUTOR | honest | 60 | 0.000 | 0.000 | 0.000 |
+| rules only | DISTRIBUTOR | adaptive | 20 | 0.005 | 0.000 | 0.043 |
+| rules only | DISTRIBUTOR | honest | 60 | 0.000 | 0.000 | 0.007 |
 | rules only | DISTRIBUTOR | naive | 20 | 1.000 | 1.000 | 1.000 |
-| rules only | RECLAIMER | adaptive | 20 | 0.000 | 0.000 | 0.000 |
+| rules only | RECLAIMER | adaptive | 20 | 0.026 | 0.000 | 0.279 |
 | rules only | RECLAIMER | honest | 40 | 0.000 | 0.000 | 0.000 |
-| rules only | RECLAIMER | naive | 20 | 0.998 | 0.990 | 1.000 |
-| rules+IF | DISTRIBUTOR | adaptive | 20 | 0.037 | 0.000 | 0.085 |
-| rules+IF | DISTRIBUTOR | honest | 60 | 0.004 | 0.000 | 0.078 |
+| rules only | RECLAIMER | naive | 20 | 0.995 | 0.953 | 1.000 |
+| rules+IF | DISTRIBUTOR | adaptive | 20 | 0.029 | 0.000 | 0.103 |
+| rules+IF | DISTRIBUTOR | honest | 60 | 0.004 | 0.000 | 0.049 |
 | rules+IF | DISTRIBUTOR | naive | 20 | 1.000 | 1.000 | 1.000 |
-| rules+IF | RECLAIMER | adaptive | 20 | 0.001 | 0.000 | 0.026 |
-| rules+IF | RECLAIMER | honest | 40 | 0.009 | 0.000 | 0.090 |
-| rules+IF | RECLAIMER | naive | 20 | 0.998 | 0.992 | 1.000 |
+| rules+IF | RECLAIMER | adaptive | 20 | 0.031 | 0.000 | 0.279 |
+| rules+IF | RECLAIMER | honest | 40 | 0.009 | 0.000 | 0.067 |
+| rules+IF | RECLAIMER | naive | 20 | 0.995 | 0.957 | 1.000 |

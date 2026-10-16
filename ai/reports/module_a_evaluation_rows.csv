@@ -1,9 +1,9 @@
 seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
-21,12,service-01,naive,1.0,True,1.0,1.0,0.0,"7 invoiced purchases (114.4 kg, 62.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-21,12,service-04,phantom,1.0,True,1.0,0.0,0.0,"28 invoiced purchases (39.7 kg, 12.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-21,12,service-09,phantom,1.0,True,1.0,0.0,0.0,"26 invoiced purchases (43.7 kg, 38.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-21,12,service-22,naive,1.0,True,1.0,1.0,0.0,"10 invoiced purchases (261.3 kg, 92.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-21,12,service-34,naive,1.0,True,1.0,1.0,0.0,"10 invoiced purchases (131.0 kg, 83.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+21,12,service-01,naive,1.0,True,1.0,0.0,0.0,"8 invoiced purchases (31.6 kg, 55.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+21,12,service-09,phantom,1.0,True,1.0,0.0,0.0,"25 invoiced purchases (38.1 kg, 23.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+21,12,service-22,naive,1.0,True,1.0,0.0,0.0,"4 invoiced purchases (165.6 kg, 88.3% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+21,12,service-34,naive,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (216.7 kg, 82.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+21,12,service-04,phantom,0.2653,False,0.2652519893899204,0.0,0.0,"2 invoiced purchases (2.6 kg, 0.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 21,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 21,12,service-03,honest,0.0,False,0.0,0.0,0.0,
 21,12,service-05,honest,0.0,False,0.0,0.0,0.0,
@@ -39,11 +39,11 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 21,12,service-38,honest,0.0,False,0.0,0.0,0.0,
 21,12,service-39,honest,0.0,False,0.0,0.0,0.0,
 21,12,service-40,honest,0.0,False,0.0,0.0,0.0,
-21,24,service-01,naive,1.0,True,1.0,1.0,0.0,"14 invoiced purchases (174.5 kg, 65.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-21,24,service-04,phantom,1.0,True,1.0,0.0,0.0,"63 invoiced purchases (93.0 kg, 15.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-21,24,service-09,phantom,1.0,True,1.0,0.0,0.0,"55 invoiced purchases (85.8 kg, 31.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-21,24,service-22,naive,1.0,True,1.0,1.0,0.0,"19 invoiced purchases (426.7 kg, 84.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-21,24,service-34,naive,1.0,True,1.0,1.0,0.0,"17 invoiced purchases (174.7 kg, 87.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+21,24,service-01,naive,1.0,True,1.0,0.0,0.0,"8 invoiced purchases (31.6 kg, 55.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+21,24,service-09,phantom,1.0,True,1.0,0.0,0.0,"49 invoiced purchases (72.8 kg, 22.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+21,24,service-22,naive,1.0,True,1.0,0.0,0.0,"6 invoiced purchases (166.0 kg, 88.4% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+21,24,service-34,naive,1.0,True,1.0,0.0,0.0,"17 invoiced purchases (351.9 kg, 88.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+21,24,service-04,phantom,0.4846,False,0.48458078503705143,0.0,0.0,"4 invoiced purchases (6.0 kg, 1.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 21,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 21,24,service-03,honest,0.0,False,0.0,0.0,0.0,
 21,24,service-05,honest,0.0,False,0.0,0.0,0.0,
@@ -79,12 +79,12 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 21,24,service-38,honest,0.0,False,0.0,0.0,0.0,
 21,24,service-39,honest,0.0,False,0.0,0.0,0.0,
 21,24,service-40,honest,0.0,False,0.0,0.0,0.0,
-21,36,service-01,naive,1.0,True,1.0,1.0,0.5,"21 invoiced purchases (251.4 kg, 72.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-21,36,service-04,phantom,1.0,True,1.0,0.0,0.0,"89 invoiced purchases (127.0 kg, 16.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-21,36,service-09,phantom,1.0,True,1.0,0.0,0.0,"83 invoiced purchases (131.5 kg, 31.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-21,36,service-22,naive,1.0,True,1.0,1.0,1.0,"22 invoiced purchases (531.7 kg, 83.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-21,36,service-34,naive,1.0,True,1.0,1.0,0.5,"27 invoiced purchases (296.4 kg, 92.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-21,36,service-15,honest,0.2746,False,0.0,0.2746467333405933,0.0,"its 44 units recorded 164.9 kg of top-ups where IPCC mid-range leakage would call for about 220.0 kg (ratio 0.75; peer median 1.47, robust z -2.5)"
+21,36,service-01,naive,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (31.8 kg, 55.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+21,36,service-09,phantom,1.0,True,1.0,0.0,0.0,"77 invoiced purchases (119.9 kg, 26.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+21,36,service-22,naive,1.0,True,1.0,0.8370873255310896,0.5,"8 invoiced purchases (207.2 kg, 69.0% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+21,36,service-34,naive,1.0,True,1.0,0.0,0.0,"22 invoiced purchases (460.4 kg, 76.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+21,36,service-04,phantom,0.3722,False,0.3721902770517512,0.0,0.0,"5 invoiced purchases (7.1 kg, 0.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+21,36,service-17,honest,0.0441,False,0.0,0.04405137049005581,0.0,
 21,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 21,36,service-03,honest,0.0,False,0.0,0.0,0.0,
 21,36,service-05,honest,0.0,False,0.0,0.0,0.0,
@@ -96,8 +96,8 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 21,36,service-12,honest,0.0,False,0.0,0.0,0.0,
 21,36,service-13,honest,0.0,False,0.0,0.0,0.0,
 21,36,service-14,honest,0.0,False,0.0,0.0,0.0,
+21,36,service-15,honest,0.0,False,0.0,0.0,0.0,
 21,36,service-16,honest,0.0,False,0.0,0.0,0.0,
-21,36,service-17,honest,0.0,False,0.0,0.0,0.0,
 21,36,service-18,honest,0.0,False,0.0,0.0,0.0,
 21,36,service-19,honest,0.0,False,0.0,0.0,0.0,
 21,36,service-20,honest,0.0,False,0.0,0.0,0.0,
@@ -119,12 +119,11 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 21,36,service-38,honest,0.0,False,0.0,0.0,0.0,
 21,36,service-39,honest,0.0,False,0.0,0.0,0.0,
 21,36,service-40,honest,0.0,False,0.0,0.0,0.0,
-22,12,service-11,phantom,1.0,True,1.0,0.0,0.0,"31 invoiced purchases (42.0 kg, 26.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-22,12,service-17,naive,1.0,True,1.0,0.49387545645129394,0.0,"8 invoiced purchases (134.5 kg, 57.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-22,12,service-26,naive,1.0,True,1.0,0.28229000798508386,0.0,"6 invoiced purchases (89.2 kg, 69.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-22,12,service-29,naive,1.0,True,1.0,0.06757542190732813,0.0,"15 invoiced purchases (166.4 kg, 54.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-22,12,service-39,phantom,1.0,True,1.0,0.0,0.0,"28 invoiced purchases (48.7 kg, 20.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-22,12,service-37,honest,0.125,False,0.12500220540235357,0.0,0.0,
+22,12,service-17,naive,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (77.0 kg, 42.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+22,12,service-29,naive,1.0,True,1.0,1.0,0.0,"23 invoiced purchases (235.6 kg, 83.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+22,12,service-39,phantom,1.0,True,1.0,0.0,0.0,"28 invoiced purchases (41.3 kg, 27.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+22,12,service-11,phantom,0.3333,False,0.3333333333333333,0.0,0.0,"1 invoiced purchases (1.6 kg, 3.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+22,12,service-26,naive,0.2031,False,0.2030922431865828,0.0,0.0,"1 invoiced purchases (0.3 kg, 1.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 22,12,service-01,honest,0.0,False,0.0,0.0,0.0,
 22,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 22,12,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -157,14 +156,14 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 22,12,service-34,honest,0.0,False,0.0,0.0,0.0,
 22,12,service-35,adaptive,0.0,False,0.0,0.0,0.0,
 22,12,service-36,honest,0.0,False,0.0,0.0,0.0,
+22,12,service-37,honest,0.0,False,0.0,0.0,0.0,
 22,12,service-38,honest,0.0,False,0.0,0.0,0.0,
 22,12,service-40,honest,0.0,False,0.0,0.0,0.0,
-22,24,service-11,phantom,1.0,True,1.0,0.0,0.0,"61 invoiced purchases (88.9 kg, 20.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-22,24,service-17,naive,1.0,True,1.0,1.0,0.0,"24 invoiced purchases (402.5 kg, 77.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-22,24,service-26,naive,1.0,True,1.0,1.0,0.0,"13 invoiced purchases (175.7 kg, 82.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-22,24,service-29,naive,1.0,True,1.0,0.5260558476240311,0.0,"34 invoiced purchases (426.9 kg, 67.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-22,24,service-39,phantom,1.0,True,1.0,0.0,0.0,"56 invoiced purchases (97.2 kg, 17.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-22,24,service-37,honest,0.0776,False,0.07758431887866842,0.0,0.0,
+22,24,service-11,phantom,1.0,True,1.0,0.0,0.0,"4 invoiced purchases (6.5 kg, 7.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+22,24,service-17,naive,1.0,True,1.0,0.0,0.0,"16 invoiced purchases (180.0 kg, 56.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+22,24,service-26,naive,1.0,True,1.0,0.5794926964437419,0.0,"3 invoiced purchases (20.9 kg, 45.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+22,24,service-29,naive,1.0,True,1.0,1.0,0.0,"44 invoiced purchases (377.2 kg, 75.6% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+22,24,service-39,phantom,1.0,True,1.0,0.0,0.0,"61 invoiced purchases (89.7 kg, 26.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 22,24,service-01,honest,0.0,False,0.0,0.0,0.0,
 22,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 22,24,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -197,14 +196,14 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 22,24,service-34,honest,0.0,False,0.0,0.0,0.0,
 22,24,service-35,adaptive,0.0,False,0.0,0.0,0.0,
 22,24,service-36,honest,0.0,False,0.0,0.0,0.0,
+22,24,service-37,honest,0.0,False,0.0,0.0,0.0,
 22,24,service-38,honest,0.0,False,0.0,0.0,0.0,
 22,24,service-40,honest,0.0,False,0.0,0.0,0.0,
-22,36,service-11,phantom,1.0,True,1.0,0.0,0.0,"97 invoiced purchases (137.0 kg, 22.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-22,36,service-17,naive,1.0,True,1.0,1.0,1.0,"34 invoiced purchases (598.7 kg, 83.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-22,36,service-26,naive,1.0,True,1.0,1.0,1.0,"19 invoiced purchases (218.3 kg, 78.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-22,36,service-29,naive,1.0,True,1.0,1.0,1.0,"51 invoiced purchases (622.3 kg, 75.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-22,36,service-39,phantom,1.0,True,1.0,0.0,0.0,"86 invoiced purchases (146.8 kg, 18.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-22,36,service-37,honest,0.05,False,0.05001623674587375,0.0,0.0,
+22,36,service-11,phantom,1.0,True,1.0,0.0,0.0,"6 invoiced purchases (9.3 kg, 7.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+22,36,service-17,naive,1.0,True,1.0,0.7151446035509084,0.5,"27 invoiced purchases (312.9 kg, 66.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+22,36,service-26,naive,1.0,True,1.0,1.0,0.0,"6 invoiced purchases (41.7 kg, 62.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+22,36,service-29,naive,1.0,True,1.0,1.0,0.41666666666666663,"67 invoiced purchases (590.1 kg, 78.3% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+22,36,service-39,phantom,1.0,True,1.0,0.0,0.0,"93 invoiced purchases (137.9 kg, 28.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 22,36,service-01,honest,0.0,False,0.0,0.0,0.0,
 22,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 22,36,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -237,21 +236,21 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 22,36,service-34,honest,0.0,False,0.0,0.0,0.0,
 22,36,service-35,adaptive,0.0,False,0.0,0.0,0.0,
 22,36,service-36,honest,0.0,False,0.0,0.0,0.0,
+22,36,service-37,honest,0.0,False,0.0,0.0,0.0,
 22,36,service-38,honest,0.0,False,0.0,0.0,0.0,
 22,36,service-40,honest,0.0,False,0.0,0.0,0.0,
-23,12,service-07,honest,1.0,True,0.0,1.0,0.0,"its 47 units recorded 7.8 kg of top-ups where IPCC mid-range leakage would call for about 21.2 kg (ratio 0.37; peer median 3.97, robust z -5.9)"
-23,12,service-09,phantom,1.0,True,1.0,0.0,0.0,"34 invoiced purchases (59.3 kg, 17.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-23,12,service-11,naive,1.0,True,1.0,0.0,0.0,"8 invoiced purchases (80.8 kg, 76.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-23,12,service-23,naive,1.0,True,1.0,0.0,0.0,"10 invoiced purchases (67.7 kg, 61.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-23,12,service-31,naive,1.0,True,1.0,1.0,0.0,"10 invoiced purchases (133.1 kg, 83.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-23,12,service-35,phantom,1.0,True,1.0,0.0,0.0,"35 invoiced purchases (53.6 kg, 19.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-23,12,service-21,adaptive,0.5632,False,0.0,0.5631882518222047,0.0,"its 29 units recorded 29.7 kg of top-ups where IPCC mid-range leakage would call for about 25.0 kg (ratio 1.19; peer median 3.97, robust z -3.1)"
+23,12,service-09,phantom,1.0,True,1.0,0.0,0.0,"30 invoiced purchases (48.8 kg, 25.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+23,12,service-11,naive,1.0,True,1.0,0.0,0.0,"5 invoiced purchases (1.8 kg, 3.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+23,12,service-23,naive,1.0,True,1.0,1.0,0.0,"10 invoiced purchases (295.7 kg, 87.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+23,12,service-31,naive,1.0,True,1.0,1.0,0.0,"6 invoiced purchases (118.0 kg, 81.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+23,12,service-35,phantom,0.8249,True,0.824860924611548,0.0,0.0,"3 invoiced purchases (4.3 kg, 1.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+23,12,service-04,honest,0.0459,False,0.04593707274168125,0.0,0.0,
 23,12,service-01,honest,0.0,False,0.0,0.0,0.0,
 23,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 23,12,service-03,honest,0.0,False,0.0,0.0,0.0,
-23,12,service-04,honest,0.0,False,0.0,0.0,0.0,
 23,12,service-05,honest,0.0,False,0.0,0.0,0.0,
 23,12,service-06,honest,0.0,False,0.0,0.0,0.0,
+23,12,service-07,honest,0.0,False,0.0,0.0,0.0,
 23,12,service-08,honest,0.0,False,0.0,0.0,0.0,
 23,12,service-10,honest,0.0,False,0.0,0.0,0.0,
 23,12,service-12,honest,0.0,False,0.0,0.0,0.0,
@@ -263,6 +262,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 23,12,service-18,honest,0.0,False,0.0,0.0,0.0,
 23,12,service-19,honest,0.0,False,0.0,0.0,0.0,
 23,12,service-20,honest,0.0,False,0.0,0.0,0.0,
+23,12,service-21,adaptive,0.0,False,0.0,0.0,0.0,
 23,12,service-22,honest,0.0,False,0.0,0.0,0.0,
 23,12,service-24,adaptive,0.0,False,0.0,0.0,0.0,
 23,12,service-25,honest,0.0,False,0.0,0.0,0.0,
@@ -279,16 +279,15 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 23,12,service-38,honest,0.0,False,0.0,0.0,0.0,
 23,12,service-39,honest,0.0,False,0.0,0.0,0.0,
 23,12,service-40,honest,0.0,False,0.0,0.0,0.0,
-23,24,service-09,phantom,1.0,True,1.0,0.0,0.0,"67 invoiced purchases (113.5 kg, 17.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-23,24,service-11,naive,1.0,True,1.0,1.0,0.0,"22 invoiced purchases (157.9 kg, 86.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-23,24,service-23,naive,1.0,True,1.0,0.546312194403376,0.0,"21 invoiced purchases (111.7 kg, 62.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-23,24,service-31,naive,1.0,True,1.0,1.0,0.0,"23 invoiced purchases (220.6 kg, 82.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-23,24,service-35,phantom,1.0,True,1.0,0.0,0.0,"68 invoiced purchases (100.1 kg, 19.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-23,24,service-21,adaptive,0.5445,False,0.0,0.5444954514589269,0.0,"its 31 units recorded 59.0 kg of top-ups where IPCC mid-range leakage would call for about 99.7 kg (ratio 0.59; peer median 2.14, robust z -3.1)"
+23,24,service-09,phantom,1.0,True,1.0,0.0,0.0,"59 invoiced purchases (97.3 kg, 17.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+23,24,service-11,naive,1.0,True,1.0,0.95489351043526,0.0,"11 invoiced purchases (58.8 kg, 47.0% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+23,24,service-23,naive,1.0,True,1.0,1.0,0.0,"19 invoiced purchases (403.1 kg, 85.2% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+23,24,service-31,naive,1.0,True,1.0,1.0,0.0,"12 invoiced purchases (192.2 kg, 87.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+23,24,service-35,phantom,0.8365,True,0.8364740368509214,0.0,0.0,"6 invoiced purchases (8.0 kg, 1.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+23,24,service-04,honest,0.0255,False,0.025549000804006468,0.0,0.0,
 23,24,service-01,honest,0.0,False,0.0,0.0,0.0,
 23,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 23,24,service-03,honest,0.0,False,0.0,0.0,0.0,
-23,24,service-04,honest,0.0,False,0.0,0.0,0.0,
 23,24,service-05,honest,0.0,False,0.0,0.0,0.0,
 23,24,service-06,honest,0.0,False,0.0,0.0,0.0,
 23,24,service-07,honest,0.0,False,0.0,0.0,0.0,
@@ -303,6 +302,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 23,24,service-18,honest,0.0,False,0.0,0.0,0.0,
 23,24,service-19,honest,0.0,False,0.0,0.0,0.0,
 23,24,service-20,honest,0.0,False,0.0,0.0,0.0,
+23,24,service-21,adaptive,0.0,False,0.0,0.0,0.0,
 23,24,service-22,honest,0.0,False,0.0,0.0,0.0,
 23,24,service-24,adaptive,0.0,False,0.0,0.0,0.0,
 23,24,service-25,honest,0.0,False,0.0,0.0,0.0,
@@ -319,16 +319,15 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 23,24,service-38,honest,0.0,False,0.0,0.0,0.0,
 23,24,service-39,honest,0.0,False,0.0,0.0,0.0,
 23,24,service-40,honest,0.0,False,0.0,0.0,0.0,
-23,36,service-09,phantom,1.0,True,1.0,0.0,0.0,"98 invoiced purchases (163.0 kg, 17.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-23,36,service-11,naive,1.0,True,1.0,1.0,0.0,"26 invoiced purchases (260.0 kg, 91.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-23,36,service-23,naive,1.0,True,1.0,0.46537876119842014,0.5,"36 invoiced purchases (196.0 kg, 69.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-23,36,service-31,naive,1.0,True,1.0,1.0,1.0,"30 invoiced purchases (236.2 kg, 72.4% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-23,36,service-35,phantom,1.0,True,1.0,0.0,0.0,"97 invoiced purchases (144.6 kg, 20.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-23,36,service-21,adaptive,0.6038,True,0.0,0.20766562051115445,0.5,"1 of 3 units that must have been topped up at least once (even at the IPCC minimum rate) have no recorded top-up; e.g. eq-8306eb6c (medium_large_commercial, 154.8 kg charge, 3.0 years, minimum loss 46.5 kg)"
+23,36,service-09,phantom,1.0,True,1.0,0.0,0.0,"94 invoiced purchases (146.1 kg, 18.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+23,36,service-11,naive,1.0,True,1.0,1.0,0.5,"19 invoiced purchases (131.1 kg, 66.5% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+23,36,service-23,naive,1.0,True,1.0,1.0,1.0,"29 invoiced purchases (576.1 kg, 89.2% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+23,36,service-31,naive,1.0,True,1.0,1.0,1.0,"17 invoiced purchases (308.4 kg, 91.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+23,36,service-35,phantom,0.7348,True,0.7347554722067571,0.0,0.0,"7 invoiced purchases (10.0 kg, 1.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+23,36,service-04,honest,0.0168,False,0.01683936996814087,0.0,0.0,
 23,36,service-01,honest,0.0,False,0.0,0.0,0.0,
 23,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 23,36,service-03,honest,0.0,False,0.0,0.0,0.0,
-23,36,service-04,honest,0.0,False,0.0,0.0,0.0,
 23,36,service-05,honest,0.0,False,0.0,0.0,0.0,
 23,36,service-06,honest,0.0,False,0.0,0.0,0.0,
 23,36,service-07,honest,0.0,False,0.0,0.0,0.0,
@@ -343,6 +342,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 23,36,service-18,honest,0.0,False,0.0,0.0,0.0,
 23,36,service-19,honest,0.0,False,0.0,0.0,0.0,
 23,36,service-20,honest,0.0,False,0.0,0.0,0.0,
+23,36,service-21,adaptive,0.0,False,0.0,0.0,0.0,
 23,36,service-22,honest,0.0,False,0.0,0.0,0.0,
 23,36,service-24,adaptive,0.0,False,0.0,0.0,0.0,
 23,36,service-25,honest,0.0,False,0.0,0.0,0.0,
@@ -359,12 +359,12 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 23,36,service-38,honest,0.0,False,0.0,0.0,0.0,
 23,36,service-39,honest,0.0,False,0.0,0.0,0.0,
 23,36,service-40,honest,0.0,False,0.0,0.0,0.0,
-24,12,service-06,phantom,1.0,True,1.0,0.0,0.0,"27 invoiced purchases (38.7 kg, 14.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-24,12,service-13,naive,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (43.7 kg, 63.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-24,12,service-35,naive,1.0,True,1.0,0.0,0.0,"7 invoiced purchases (63.4 kg, 76.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-24,12,service-36,phantom,1.0,True,1.0,0.0,0.0,"28 invoiced purchases (49.0 kg, 38.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-24,12,service-37,naive,1.0,True,1.0,0.0,0.0,"12 invoiced purchases (166.1 kg, 65.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-24,12,service-31,honest,0.607,True,0.0,0.6070233925102047,0.0,"its 35 units recorded 25.5 kg of top-ups where IPCC mid-range leakage would call for about 29.6 kg (ratio 0.86; peer median 4.53, robust z -3.2)"
+24,12,service-13,naive,1.0,True,1.0,0.0,0.0,"6 invoiced purchases (183.5 kg, 79.9% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+24,12,service-35,naive,1.0,True,1.0,1.0,0.0,"7 invoiced purchases (72.9 kg, 77.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+24,12,service-36,phantom,1.0,True,1.0,0.0,0.0,"29 invoiced purchases (46.1 kg, 31.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+24,12,service-37,naive,1.0,True,1.0,1.0,0.0,"12 invoiced purchases (187.3 kg, 67.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+24,12,service-06,phantom,0.4659,False,0.46588144215881444,0.0,0.0,"2 invoiced purchases (3.4 kg, 1.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+24,12,service-40,adaptive,0.3923,False,0.0,0.3923475976622235,0.0,"its 20 units recorded 90.2 kg of top-ups where IPCC mid-range leakage would call for about 61.5 kg (ratio 1.47; peer median 3.47, robust z -2.8)"
 24,12,service-01,adaptive,0.0,False,0.0,0.0,0.0,
 24,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 24,12,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -393,18 +393,17 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 24,12,service-28,honest,0.0,False,0.0,0.0,0.0,
 24,12,service-29,honest,0.0,False,0.0,0.0,0.0,
 24,12,service-30,honest,0.0,False,0.0,0.0,0.0,
+24,12,service-31,honest,0.0,False,0.0,0.0,0.0,
 24,12,service-32,honest,0.0,False,0.0,0.0,0.0,
 24,12,service-33,honest,0.0,False,0.0,0.0,0.0,
 24,12,service-34,honest,0.0,False,0.0,0.0,0.0,
 24,12,service-38,honest,0.0,False,0.0,0.0,0.0,
 24,12,service-39,honest,0.0,False,0.0,0.0,0.0,
-24,12,service-40,adaptive,0.0,False,0.0,0.0,0.0,
-24,24,service-06,phantom,1.0,True,1.0,0.0,0.0,"53 invoiced purchases (74.8 kg, 13.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-24,24,service-13,naive,1.0,True,1.0,1.0,0.0,"16 invoiced purchases (86.4 kg, 77.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-24,24,service-35,naive,1.0,True,1.0,1.0,0.0,"21 invoiced purchases (170.2 kg, 78.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-24,24,service-36,phantom,1.0,True,1.0,0.0,0.0,"61 invoiced purchases (101.7 kg, 37.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-24,24,service-37,naive,1.0,True,1.0,0.2325840488967894,0.0,"24 invoiced purchases (385.0 kg, 69.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-24,24,service-31,honest,0.2898,False,0.0,0.28975592650773785,0.0,"its 41 units recorded 117.7 kg of top-ups where IPCC mid-range leakage would call for about 128.7 kg (ratio 0.91; peer median 2.28, robust z -2.6)"
+24,24,service-13,naive,1.0,True,1.0,1.0,0.0,"12 invoiced purchases (235.1 kg, 83.6% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+24,24,service-35,naive,1.0,True,1.0,1.0,0.0,"22 invoiced purchases (147.0 kg, 85.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+24,24,service-36,phantom,1.0,True,1.0,0.0,0.0,"61 invoiced purchases (97.4 kg, 37.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+24,24,service-37,naive,1.0,True,1.0,0.7919713746503108,0.0,"28 invoiced purchases (451.0 kg, 76.4% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+24,24,service-06,phantom,0.5825,False,0.5824950563150202,0.0,0.0,"3 invoiced purchases (5.4 kg, 1.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 24,24,service-01,adaptive,0.0,False,0.0,0.0,0.0,
 24,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 24,24,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -433,18 +432,19 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 24,24,service-28,honest,0.0,False,0.0,0.0,0.0,
 24,24,service-29,honest,0.0,False,0.0,0.0,0.0,
 24,24,service-30,honest,0.0,False,0.0,0.0,0.0,
+24,24,service-31,honest,0.0,False,0.0,0.0,0.0,
 24,24,service-32,honest,0.0,False,0.0,0.0,0.0,
 24,24,service-33,honest,0.0,False,0.0,0.0,0.0,
 24,24,service-34,honest,0.0,False,0.0,0.0,0.0,
 24,24,service-38,honest,0.0,False,0.0,0.0,0.0,
 24,24,service-39,honest,0.0,False,0.0,0.0,0.0,
 24,24,service-40,adaptive,0.0,False,0.0,0.0,0.0,
-24,36,service-06,phantom,1.0,True,1.0,0.0,0.0,"78 invoiced purchases (111.7 kg, 16.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-24,36,service-13,naive,1.0,True,1.0,1.0,0.5,"24 invoiced purchases (109.4 kg, 70.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-24,36,service-35,naive,1.0,True,1.0,1.0,0.0,"28 invoiced purchases (180.2 kg, 79.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-24,36,service-36,phantom,1.0,True,1.0,0.0,0.0,"91 invoiced purchases (154.3 kg, 36.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-24,36,service-37,naive,1.0,True,1.0,0.35705094818987293,0.0,"37 invoiced purchases (548.6 kg, 76.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-24,36,service-31,honest,0.1617,False,0.0,0.16174675152478946,0.0,
+24,36,service-13,naive,1.0,True,1.0,1.0,0.0,"22 invoiced purchases (298.6 kg, 86.6% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+24,36,service-35,naive,1.0,True,1.0,1.0,1.0,"30 invoiced purchases (225.7 kg, 83.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+24,36,service-36,phantom,1.0,True,1.0,0.0,0.0,"92 invoiced purchases (142.3 kg, 38.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+24,36,service-37,naive,1.0,True,1.0,1.0,1.0,"43 invoiced purchases (608.3 kg, 74.1% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+24,36,service-06,phantom,0.5464,False,0.5463744211127324,0.0,0.0,"4 invoiced purchases (6.9 kg, 1.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+24,36,service-40,adaptive,0.0347,False,0.0,0.034652295934444854,0.0,
 24,36,service-01,adaptive,0.0,False,0.0,0.0,0.0,
 24,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 24,36,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -473,17 +473,17 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 24,36,service-28,honest,0.0,False,0.0,0.0,0.0,
 24,36,service-29,honest,0.0,False,0.0,0.0,0.0,
 24,36,service-30,honest,0.0,False,0.0,0.0,0.0,
+24,36,service-31,honest,0.0,False,0.0,0.0,0.0,
 24,36,service-32,honest,0.0,False,0.0,0.0,0.0,
 24,36,service-33,honest,0.0,False,0.0,0.0,0.0,
 24,36,service-34,honest,0.0,False,0.0,0.0,0.0,
 24,36,service-38,honest,0.0,False,0.0,0.0,0.0,
 24,36,service-39,honest,0.0,False,0.0,0.0,0.0,
-24,36,service-40,adaptive,0.0,False,0.0,0.0,0.0,
-25,12,service-12,naive,1.0,True,1.0,1.0,0.0,"19 invoiced purchases (273.4 kg, 86.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-25,12,service-13,phantom,1.0,True,1.0,0.0,0.0,"23 invoiced purchases (35.9 kg, 12.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-25,12,service-35,naive,1.0,True,1.0,0.0,0.0,"10 invoiced purchases (75.6 kg, 74.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-25,12,service-38,phantom,1.0,True,1.0,0.0,0.0,"39 invoiced purchases (53.9 kg, 27.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-25,12,service-40,naive,1.0,True,1.0,0.04655256202879987,0.0,"14 invoiced purchases (313.8 kg, 85.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+25,12,service-12,naive,1.0,True,1.0,1.0,0.0,"8 invoiced purchases (161.7 kg, 78.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+25,12,service-13,phantom,1.0,True,1.0,0.0,0.0,"3 invoiced purchases (4.7 kg, 2.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+25,12,service-35,naive,1.0,True,1.0,0.0,0.0,"8 invoiced purchases (125.2 kg, 61.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+25,12,service-38,phantom,1.0,True,1.0,0.0,0.0,"35 invoiced purchases (53.3 kg, 68.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+25,12,service-40,naive,1.0,True,1.0,0.0,0.0,"17 invoiced purchases (184.7 kg, 58.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 25,12,service-01,honest,0.0,False,0.0,0.0,0.0,
 25,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 25,12,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -519,11 +519,12 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 25,12,service-36,honest,0.0,False,0.0,0.0,0.0,
 25,12,service-37,honest,0.0,False,0.0,0.0,0.0,
 25,12,service-39,honest,0.0,False,0.0,0.0,0.0,
-25,24,service-12,naive,1.0,True,1.0,1.0,0.0,"34 invoiced purchases (550.3 kg, 85.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-25,24,service-13,phantom,1.0,True,1.0,0.0,0.0,"59 invoiced purchases (87.3 kg, 14.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-25,24,service-35,naive,1.0,True,1.0,1.0,0.0,"16 invoiced purchases (127.2 kg, 73.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-25,24,service-38,phantom,1.0,True,1.0,0.0,0.0,"73 invoiced purchases (107.9 kg, 29.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-25,24,service-40,naive,1.0,True,1.0,0.4221244044752217,0.0,"27 invoiced purchases (483.9 kg, 74.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+25,24,service-12,naive,1.0,True,1.0,1.0,0.0,"27 invoiced purchases (331.4 kg, 88.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+25,24,service-13,phantom,1.0,True,1.0,0.0,0.0,"7 invoiced purchases (10.3 kg, 2.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+25,24,service-35,naive,1.0,True,1.0,0.0,0.0,"21 invoiced purchases (261.5 kg, 68.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+25,24,service-38,phantom,1.0,True,1.0,0.0,0.0,"64 invoiced purchases (98.8 kg, 59.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+25,24,service-40,naive,1.0,True,1.0,0.0,0.0,"35 invoiced purchases (370.5 kg, 65.1% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+25,24,service-29,honest,0.0008,False,0.0,0.0008437381658907839,0.0,
 25,24,service-01,honest,0.0,False,0.0,0.0,0.0,
 25,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 25,24,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -550,7 +551,6 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 25,24,service-26,honest,0.0,False,0.0,0.0,0.0,
 25,24,service-27,honest,0.0,False,0.0,0.0,0.0,
 25,24,service-28,honest,0.0,False,0.0,0.0,0.0,
-25,24,service-29,honest,0.0,False,0.0,0.0,0.0,
 25,24,service-30,honest,0.0,False,0.0,0.0,0.0,
 25,24,service-31,honest,0.0,False,0.0,0.0,0.0,
 25,24,service-32,honest,0.0,False,0.0,0.0,0.0,
@@ -559,13 +559,13 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 25,24,service-36,honest,0.0,False,0.0,0.0,0.0,
 25,24,service-37,honest,0.0,False,0.0,0.0,0.0,
 25,24,service-39,honest,0.0,False,0.0,0.0,0.0,
-25,36,service-12,naive,1.0,True,1.0,0.6354884460740655,0.5,"45 invoiced purchases (659.2 kg, 71.1% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-25,36,service-13,phantom,1.0,True,1.0,0.0,0.0,"95 invoiced purchases (138.8 kg, 15.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-25,36,service-35,naive,1.0,True,1.0,1.0,0.5,"23 invoiced purchases (156.4 kg, 77.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-25,36,service-38,phantom,1.0,True,1.0,0.0,0.0,"108 invoiced purchases (163.1 kg, 31.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-25,36,service-40,naive,1.0,True,1.0,0.7728694722985112,1.0,"39 invoiced purchases (696.3 kg, 74.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-25,36,service-09,adaptive,0.3849,False,0.0,0.3848904290799049,0.0,"its 35 units recorded 149.3 kg of top-ups where IPCC mid-range leakage would call for about 254.7 kg (ratio 0.59; peer median 1.55, robust z -2.8)"
-25,36,service-20,honest,0.1482,False,0.0,0.1482478184348368,0.0,
+25,36,service-12,naive,1.0,True,1.0,1.0,1.0,"41 invoiced purchases (540.0 kg, 92.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+25,36,service-13,phantom,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (13.6 kg, 3.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+25,36,service-35,naive,1.0,True,1.0,0.8259946513774472,0.5,"30 invoiced purchases (373.6 kg, 75.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+25,36,service-38,phantom,1.0,True,1.0,0.0,0.0,"91 invoiced purchases (142.3 kg, 67.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+25,36,service-40,naive,1.0,True,1.0,0.38492640835074576,0.5,"50 invoiced purchases (590.4 kg, 67.3% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+25,36,service-29,honest,0.6747,True,0.0,0.6746961142597019,0.0,"its 28 units recorded 123.5 kg of top-ups where IPCC mid-range leakage would call for about 235.9 kg (ratio 0.52; peer median 1.47, robust z -3.3)"
+25,36,service-19,honest,0.2549,False,0.0,0.2549377030352673,0.0,"its 36 units recorded 158.2 kg of top-ups where IPCC mid-range leakage would call for about 233.2 kg (ratio 0.68; peer median 1.47, robust z -2.5)"
 25,36,service-01,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -574,6 +574,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 25,36,service-06,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-07,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-08,honest,0.0,False,0.0,0.0,0.0,
+25,36,service-09,adaptive,0.0,False,0.0,0.0,0.0,
 25,36,service-10,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-11,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-14,adaptive,0.0,False,0.0,0.0,0.0,
@@ -581,7 +582,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 25,36,service-16,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-17,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-18,honest,0.0,False,0.0,0.0,0.0,
-25,36,service-19,honest,0.0,False,0.0,0.0,0.0,
+25,36,service-20,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-21,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-22,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-23,adaptive,0.0,False,0.0,0.0,0.0,
@@ -590,7 +591,6 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 25,36,service-26,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-27,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-28,honest,0.0,False,0.0,0.0,0.0,
-25,36,service-29,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-30,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-31,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-32,honest,0.0,False,0.0,0.0,0.0,
@@ -599,11 +599,13 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 25,36,service-36,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-37,honest,0.0,False,0.0,0.0,0.0,
 25,36,service-39,honest,0.0,False,0.0,0.0,0.0,
-26,12,service-05,naive,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (136.6 kg, 52.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-26,12,service-11,phantom,1.0,True,1.0,0.0,0.0,"31 invoiced purchases (46.3 kg, 24.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-26,12,service-18,phantom,1.0,True,1.0,0.0,0.0,"29 invoiced purchases (46.1 kg, 26.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-26,12,service-22,naive,1.0,True,1.0,0.0,0.0,"11 invoiced purchases (112.6 kg, 73.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-26,12,service-40,naive,1.0,True,1.0,0.8206448812177529,0.0,"14 invoiced purchases (246.9 kg, 70.5% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+26,12,service-05,naive,1.0,True,1.0,0.0,0.0,"14 invoiced purchases (94.9 kg, 55.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+26,12,service-18,phantom,1.0,True,1.0,0.0,0.0,"31 invoiced purchases (47.0 kg, 20.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+26,12,service-22,naive,1.0,True,1.0,0.0,0.0,"4 invoiced purchases (35.2 kg, 62.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+26,12,service-40,naive,1.0,True,1.0,1.0,0.0,"24 invoiced purchases (470.9 kg, 83.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+26,12,service-35,adaptive,0.1817,False,0.0,0.18166597804190387,0.0,
+26,12,service-11,phantom,0.0969,False,0.09688420399937993,0.0,0.0,
+26,12,service-16,honest,0.0843,False,0.08429338829014493,0.0,0.0,
 26,12,service-01,honest,0.0,False,0.0,0.0,0.0,
 26,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 26,12,service-03,adaptive,0.0,False,0.0,0.0,0.0,
@@ -617,7 +619,6 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 26,12,service-13,honest,0.0,False,0.0,0.0,0.0,
 26,12,service-14,honest,0.0,False,0.0,0.0,0.0,
 26,12,service-15,honest,0.0,False,0.0,0.0,0.0,
-26,12,service-16,honest,0.0,False,0.0,0.0,0.0,
 26,12,service-17,honest,0.0,False,0.0,0.0,0.0,
 26,12,service-19,honest,0.0,False,0.0,0.0,0.0,
 26,12,service-20,honest,0.0,False,0.0,0.0,0.0,
@@ -634,19 +635,17 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 26,12,service-32,honest,0.0,False,0.0,0.0,0.0,
 26,12,service-33,honest,0.0,False,0.0,0.0,0.0,
 26,12,service-34,honest,0.0,False,0.0,0.0,0.0,
-26,12,service-35,adaptive,0.0,False,0.0,0.0,0.0,
 26,12,service-36,honest,0.0,False,0.0,0.0,0.0,
 26,12,service-37,honest,0.0,False,0.0,0.0,0.0,
 26,12,service-38,honest,0.0,False,0.0,0.0,0.0,
 26,12,service-39,honest,0.0,False,0.0,0.0,0.0,
-26,24,service-05,naive,1.0,True,1.0,0.0,0.0,"18 invoiced purchases (153.9 kg, 51.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-26,24,service-11,phantom,1.0,True,1.0,0.0,0.0,"63 invoiced purchases (90.6 kg, 35.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-26,24,service-18,phantom,1.0,True,1.0,0.0,0.0,"55 invoiced purchases (84.2 kg, 25.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-26,24,service-22,naive,1.0,True,1.0,1.0,0.0,"21 invoiced purchases (173.2 kg, 79.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-26,24,service-40,naive,1.0,True,1.0,0.8176233321407576,0.0,"29 invoiced purchases (373.9 kg, 63.4% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-26,24,service-38,honest,0.6721,True,0.0,0.6721392343917734,0.0,"its 45 units recorded 213.4 kg of top-ups where IPCC mid-range leakage would call for about 310.5 kg (ratio 0.69; peer median 2.32, robust z -3.3)"
-26,24,service-19,honest,0.2313,False,0.0,0.2312656849265453,0.0,"its 42 units recorded 122.6 kg of top-ups where IPCC mid-range leakage would call for about 129.3 kg (ratio 0.95; peer median 2.32, robust z -2.5)"
-26,24,service-09,honest,0.1256,False,0.0,0.1256313548083694,0.0,
+26,24,service-05,naive,1.0,True,1.0,0.0,0.0,"23 invoiced purchases (127.6 kg, 46.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+26,24,service-18,phantom,1.0,True,1.0,0.0,0.0,"58 invoiced purchases (89.6 kg, 16.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+26,24,service-22,naive,1.0,True,1.0,1.0,0.0,"14 invoiced purchases (101.7 kg, 79.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+26,24,service-40,naive,1.0,True,1.0,1.0,0.0,"56 invoiced purchases (1,026.8 kg, 84.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+26,24,service-11,phantom,0.7644,True,0.7644460706165225,0.0,0.0,"4 invoiced purchases (5.8 kg, 1.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+26,24,service-35,adaptive,0.5806,False,0.0,0.5805791672127982,0.0,"its 40 units recorded 98.6 kg of top-ups where IPCC mid-range leakage would call for about 137.8 kg (ratio 0.72; peer median 2.01, robust z -3.2)"
+26,24,service-16,honest,0.0412,False,0.04122604097818903,0.0,0.0,
 26,24,service-01,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-03,adaptive,0.0,False,0.0,0.0,0.0,
@@ -654,13 +653,14 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 26,24,service-06,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-07,adaptive,0.0,False,0.0,0.0,0.0,
 26,24,service-08,honest,0.0,False,0.0,0.0,0.0,
+26,24,service-09,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-10,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-12,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-13,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-14,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-15,honest,0.0,False,0.0,0.0,0.0,
-26,24,service-16,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-17,honest,0.0,False,0.0,0.0,0.0,
+26,24,service-19,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-20,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-21,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-23,honest,0.0,False,0.0,0.0,0.0,
@@ -675,32 +675,32 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 26,24,service-32,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-33,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-34,honest,0.0,False,0.0,0.0,0.0,
-26,24,service-35,adaptive,0.0,False,0.0,0.0,0.0,
 26,24,service-36,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-37,honest,0.0,False,0.0,0.0,0.0,
+26,24,service-38,honest,0.0,False,0.0,0.0,0.0,
 26,24,service-39,honest,0.0,False,0.0,0.0,0.0,
-26,36,service-05,naive,1.0,True,1.0,0.46582334384262314,0.0,"26 invoiced purchases (275.0 kg, 65.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-26,36,service-11,phantom,1.0,True,1.0,0.0,0.0,"82 invoiced purchases (117.3 kg, 32.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-26,36,service-18,phantom,1.0,True,1.0,0.0,0.0,"90 invoiced purchases (135.7 kg, 29.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-26,36,service-22,naive,1.0,True,1.0,1.0,0.0,"28 invoiced purchases (275.4 kg, 79.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-26,36,service-40,naive,1.0,True,1.0,0.5955965105599148,0.0,"41 invoiced purchases (557.1 kg, 68.3% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-26,36,service-38,honest,0.0204,False,0.0,0.02038820514374251,0.0,
+26,36,service-05,naive,1.0,True,1.0,1.0,0.0,"37 invoiced purchases (290.4 kg, 66.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+26,36,service-08,honest,1.0,True,0.0,1.0,0.0,"its 46 units recorded 17.8 kg of top-ups where IPCC mid-range leakage would call for about 26.1 kg (ratio 0.68; peer median 1.55, robust z -4.1)"
+26,36,service-18,phantom,1.0,True,1.0,0.0,0.0,"92 invoiced purchases (139.7 kg, 17.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+26,36,service-22,naive,1.0,True,1.0,1.0,0.5,"20 invoiced purchases (176.1 kg, 87.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+26,36,service-40,naive,1.0,True,1.0,1.0,1.0,"80 invoiced purchases (1,436.4 kg, 80.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+26,36,service-35,adaptive,0.97,True,0.0,0.9700414661963104,0.0,"its 48 units recorded 179.9 kg of top-ups where IPCC mid-range leakage would call for about 251.1 kg (ratio 0.72; peer median 1.55, robust z -3.9)"
+26,36,service-11,phantom,0.8242,True,0.8242254086032286,0.0,0.0,"6 invoiced purchases (8.2 kg, 1.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+26,36,service-16,honest,0.0303,False,0.03030965657154658,0.0,0.0,
+26,36,service-19,honest,0.0231,False,0.0,0.023051127460012477,0.0,
 26,36,service-01,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-03,adaptive,0.0,False,0.0,0.0,0.0,
 26,36,service-04,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-06,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-07,adaptive,0.0,False,0.0,0.0,0.0,
-26,36,service-08,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-09,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-10,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-12,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-13,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-14,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-15,honest,0.0,False,0.0,0.0,0.0,
-26,36,service-16,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-17,honest,0.0,False,0.0,0.0,0.0,
-26,36,service-19,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-20,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-21,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-23,honest,0.0,False,0.0,0.0,0.0,
@@ -715,16 +715,17 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 26,36,service-32,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-33,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-34,honest,0.0,False,0.0,0.0,0.0,
-26,36,service-35,adaptive,0.0,False,0.0,0.0,0.0,
 26,36,service-36,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-37,honest,0.0,False,0.0,0.0,0.0,
+26,36,service-38,honest,0.0,False,0.0,0.0,0.0,
 26,36,service-39,honest,0.0,False,0.0,0.0,0.0,
-27,12,service-11,naive,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (105.3 kg, 53.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-27,12,service-23,naive,1.0,True,1.0,0.0,0.0,"8 invoiced purchases (107.5 kg, 61.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-27,12,service-27,phantom,1.0,True,1.0,0.0,0.0,"37 invoiced purchases (54.0 kg, 13.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-27,12,service-33,naive,1.0,True,1.0,0.4358708829785152,0.0,"14 invoiced purchases (105.6 kg, 63.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-27,12,service-36,phantom,1.0,True,1.0,0.0,0.0,"33 invoiced purchases (48.0 kg, 31.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-27,12,service-26,honest,0.7972,True,0.0,0.797188206952167,0.0,"its 31 units recorded 17.7 kg of top-ups where IPCC mid-range leakage would call for about 20.7 kg (ratio 0.85; peer median 3.70, robust z -3.6)"
+27,12,service-11,naive,1.0,True,1.0,0.5035832659290178,0.0,"9 invoiced purchases (111.4 kg, 56.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+27,12,service-23,naive,1.0,True,1.0,0.7439617020191265,0.0,"22 invoiced purchases (206.4 kg, 76.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+27,12,service-27,phantom,1.0,True,1.0,0.0,0.0,"34 invoiced purchases (56.7 kg, 19.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+27,12,service-33,naive,1.0,True,1.0,0.5428142329321826,0.0,"19 invoiced purchases (257.0 kg, 68.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+27,12,service-36,phantom,0.5085,False,0.5084516565246788,0.0,0.0,"2 invoiced purchases (1.9 kg, 1.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+27,12,service-09,honest,0.2362,False,0.0,0.23618677967317447,0.0,"its 39 units recorded 79.5 kg of top-ups where IPCC mid-range leakage would call for about 57.3 kg (ratio 1.39; peer median 4.02, robust z -2.5)"
+27,12,service-34,honest,0.1473,False,0.0,0.1472711419300703,0.0,
 27,12,service-01,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -733,7 +734,6 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 27,12,service-06,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-07,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-08,honest,0.0,False,0.0,0.0,0.0,
-27,12,service-09,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-10,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-12,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-13,honest,0.0,False,0.0,0.0,0.0,
@@ -748,23 +748,22 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 27,12,service-22,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-24,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-25,adaptive,0.0,False,0.0,0.0,0.0,
+27,12,service-26,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-28,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-29,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-30,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-31,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-32,adaptive,0.0,False,0.0,0.0,0.0,
-27,12,service-34,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-35,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-37,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-38,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-39,honest,0.0,False,0.0,0.0,0.0,
 27,12,service-40,honest,0.0,False,0.0,0.0,0.0,
-27,24,service-11,naive,1.0,True,1.0,0.0,0.0,"18 invoiced purchases (233.3 kg, 71.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-27,24,service-23,naive,1.0,True,1.0,0.0,0.0,"12 invoiced purchases (108.7 kg, 49.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-27,24,service-27,phantom,1.0,True,1.0,0.0,0.0,"75 invoiced purchases (113.8 kg, 15.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-27,24,service-33,naive,1.0,True,1.0,0.7243852936715258,0.0,"31 invoiced purchases (184.8 kg, 69.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-27,24,service-36,phantom,1.0,True,1.0,0.0,0.0,"60 invoiced purchases (86.5 kg, 31.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-27,24,service-26,honest,0.0618,False,0.0,0.061769045916577614,0.0,
+27,24,service-11,naive,1.0,True,1.0,0.6456782756165249,0.0,"16 invoiced purchases (213.7 kg, 62.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+27,24,service-23,naive,1.0,True,1.0,0.7225508126048068,0.0,"47 invoiced purchases (388.9 kg, 75.6% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+27,24,service-27,phantom,1.0,True,1.0,0.0,0.0,"60 invoiced purchases (97.6 kg, 19.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+27,24,service-33,naive,1.0,True,1.0,0.19341068480708334,0.0,"40 invoiced purchases (439.4 kg, 65.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+27,24,service-36,phantom,1.0,True,1.0,0.0,0.0,"6 invoiced purchases (9.6 kg, 3.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 27,24,service-01,honest,0.0,False,0.0,0.0,0.0,
 27,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 27,24,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -788,6 +787,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 27,24,service-22,honest,0.0,False,0.0,0.0,0.0,
 27,24,service-24,honest,0.0,False,0.0,0.0,0.0,
 27,24,service-25,adaptive,0.0,False,0.0,0.0,0.0,
+27,24,service-26,honest,0.0,False,0.0,0.0,0.0,
 27,24,service-28,honest,0.0,False,0.0,0.0,0.0,
 27,24,service-29,honest,0.0,False,0.0,0.0,0.0,
 27,24,service-30,honest,0.0,False,0.0,0.0,0.0,
@@ -799,14 +799,15 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 27,24,service-38,honest,0.0,False,0.0,0.0,0.0,
 27,24,service-39,honest,0.0,False,0.0,0.0,0.0,
 27,24,service-40,honest,0.0,False,0.0,0.0,0.0,
-27,36,service-11,naive,1.0,True,1.0,0.6843321117839005,0.0,"23 invoiced purchases (234.7 kg, 71.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-27,36,service-23,naive,1.0,True,1.0,0.0,0.0,"20 invoiced purchases (122.2 kg, 34.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-27,36,service-27,phantom,1.0,True,1.0,0.0,0.0,"102 invoiced purchases (158.5 kg, 15.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-27,36,service-33,naive,1.0,True,1.0,0.47967156651113285,0.0,"42 invoiced purchases (257.8 kg, 69.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-27,36,service-36,phantom,1.0,True,1.0,0.0,0.0,"87 invoiced purchases (126.0 kg, 32.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-27,36,service-32,adaptive,0.6809,True,0.0,0.680852735867018,0.0,"its 45 units recorded 91.0 kg of top-ups where IPCC mid-range leakage would call for about 236.7 kg (ratio 0.38; peer median 1.20, robust z -3.4)"
-27,36,service-26,honest,0.1685,False,0.0,0.16852192251512776,0.0,
-27,36,service-12,honest,0.1041,False,0.0,0.10414638970260515,0.0,
+27,36,service-11,naive,1.0,True,1.0,1.0,0.5,"25 invoiced purchases (365.4 kg, 73.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+27,36,service-23,naive,1.0,True,1.0,1.0,1.0,"74 invoiced purchases (600.2 kg, 78.2% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+27,36,service-27,phantom,1.0,True,1.0,0.0,0.0,"91 invoiced purchases (143.3 kg, 19.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+27,36,service-33,naive,1.0,True,1.0,1.0,0.5,"55 invoiced purchases (613.4 kg, 69.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+27,36,service-36,phantom,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (14.6 kg, 4.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+27,36,service-13,honest,0.4181,False,0.0,0.41809368420466386,0.0,"its 38 units recorded 308.7 kg of top-ups where IPCC mid-range leakage would call for about 432.1 kg (ratio 0.71; peer median 1.52, robust z -2.8)"
+27,36,service-34,honest,0.2943,False,0.0,0.2943035918199004,0.0,"its 20 units recorded 156.6 kg of top-ups where IPCC mid-range leakage would call for about 205.3 kg (ratio 0.76; peer median 1.52, robust z -2.6)"
+27,36,service-21,adaptive,0.1402,False,0.0,0.14017427658383874,0.0,
+27,36,service-32,adaptive,0.0683,False,0.0,0.0683487560160072,0.0,
 27,36,service-01,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -817,7 +818,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 27,36,service-08,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-09,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-10,honest,0.0,False,0.0,0.0,0.0,
-27,36,service-13,honest,0.0,False,0.0,0.0,0.0,
+27,36,service-12,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-14,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-15,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-16,honest,0.0,False,0.0,0.0,0.0,
@@ -825,26 +826,24 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 27,36,service-18,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-19,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-20,honest,0.0,False,0.0,0.0,0.0,
-27,36,service-21,adaptive,0.0,False,0.0,0.0,0.0,
 27,36,service-22,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-24,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-25,adaptive,0.0,False,0.0,0.0,0.0,
+27,36,service-26,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-28,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-29,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-30,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-31,honest,0.0,False,0.0,0.0,0.0,
-27,36,service-34,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-35,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-37,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-38,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-39,honest,0.0,False,0.0,0.0,0.0,
 27,36,service-40,honest,0.0,False,0.0,0.0,0.0,
-28,12,service-06,phantom,1.0,True,1.0,0.0,0.0,"34 invoiced purchases (46.9 kg, 21.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-28,12,service-12,naive,1.0,True,1.0,0.0,0.0,"10 invoiced purchases (152.1 kg, 45.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-28,12,service-17,naive,1.0,True,1.0,0.9700996461350162,0.0,"14 invoiced purchases (156.0 kg, 87.0% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-28,12,service-33,naive,1.0,True,1.0,0.5380609524651931,0.0,"13 invoiced purchases (238.2 kg, 76.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-28,12,service-40,phantom,1.0,True,1.0,0.0,0.0,"36 invoiced purchases (60.2 kg, 26.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-28,12,service-34,honest,0.7486,True,0.0,0.7485701076891313,0.0,"its 26 units recorded 13.5 kg of top-ups where IPCC mid-range leakage would call for about 23.9 kg (ratio 0.56; peer median 3.17, robust z -3.5)"
+28,12,service-12,naive,1.0,True,1.0,1.0,0.0,"13 invoiced purchases (112.1 kg, 84.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+28,12,service-17,naive,1.0,True,1.0,0.39960434461926053,0.0,"16 invoiced purchases (215.8 kg, 65.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+28,12,service-33,naive,1.0,True,1.0,0.0,0.0,"12 invoiced purchases (165.9 kg, 53.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+28,12,service-40,phantom,1.0,True,1.0,0.0,0.0,"28 invoiced purchases (48.4 kg, 17.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+28,12,service-06,phantom,0.1393,False,0.1392854053118782,0.0,0.0,
 28,12,service-01,adaptive,0.0,False,0.0,0.0,0.0,
 28,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 28,12,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -874,16 +873,17 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 28,12,service-30,honest,0.0,False,0.0,0.0,0.0,
 28,12,service-31,honest,0.0,False,0.0,0.0,0.0,
 28,12,service-32,honest,0.0,False,0.0,0.0,0.0,
+28,12,service-34,honest,0.0,False,0.0,0.0,0.0,
 28,12,service-35,honest,0.0,False,0.0,0.0,0.0,
 28,12,service-36,honest,0.0,False,0.0,0.0,0.0,
 28,12,service-37,honest,0.0,False,0.0,0.0,0.0,
 28,12,service-38,honest,0.0,False,0.0,0.0,0.0,
 28,12,service-39,honest,0.0,False,0.0,0.0,0.0,
-28,24,service-06,phantom,1.0,True,1.0,0.0,0.0,"63 invoiced purchases (89.1 kg, 20.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-28,24,service-12,naive,1.0,True,1.0,0.0,0.0,"20 invoiced purchases (359.1 kg, 64.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-28,24,service-17,naive,1.0,True,1.0,0.8631335872816845,0.0,"26 invoiced purchases (312.0 kg, 81.3% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-28,24,service-33,naive,1.0,True,1.0,0.6141114153042211,0.0,"27 invoiced purchases (368.0 kg, 78.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-28,24,service-40,phantom,1.0,True,1.0,0.0,0.0,"66 invoiced purchases (103.7 kg, 28.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+28,24,service-12,naive,1.0,True,1.0,0.5746354500747142,0.0,"24 invoiced purchases (218.1 kg, 67.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+28,24,service-17,naive,1.0,True,1.0,0.5703713173199927,0.0,"42 invoiced purchases (412.4 kg, 72.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+28,24,service-33,naive,1.0,True,1.0,0.0,0.0,"29 invoiced purchases (382.1 kg, 62.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+28,24,service-40,phantom,1.0,True,1.0,0.0,0.0,"58 invoiced purchases (93.1 kg, 20.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+28,24,service-06,phantom,0.067,False,0.06697784323024569,0.0,0.0,
 28,24,service-01,adaptive,0.0,False,0.0,0.0,0.0,
 28,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 28,24,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -919,13 +919,13 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 28,24,service-37,honest,0.0,False,0.0,0.0,0.0,
 28,24,service-38,honest,0.0,False,0.0,0.0,0.0,
 28,24,service-39,honest,0.0,False,0.0,0.0,0.0,
-28,36,service-06,phantom,1.0,True,1.0,0.0,0.0,"95 invoiced purchases (136.1 kg, 20.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-28,36,service-12,naive,1.0,True,1.0,0.0,0.5,"32 invoiced purchases (447.8 kg, 60.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-28,36,service-17,naive,1.0,True,1.0,1.0,1.0,"39 invoiced purchases (493.2 kg, 80.7% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-28,36,service-33,naive,1.0,True,1.0,0.47151136993448084,0.5,"35 invoiced purchases (524.9 kg, 72.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-28,36,service-40,phantom,1.0,True,1.0,0.0,0.0,"97 invoiced purchases (151.7 kg, 25.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-28,36,service-14,honest,0.0136,False,0.0,0.01357700843442533,0.0,
-28,36,service-01,adaptive,0.0,False,0.0,0.0,0.0,
+28,36,service-12,naive,1.0,True,1.0,1.0,0.5,"32 invoiced purchases (287.5 kg, 73.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+28,36,service-17,naive,1.0,True,1.0,0.7855145759821207,0.0,"63 invoiced purchases (654.2 kg, 71.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+28,36,service-33,naive,1.0,True,1.0,0.17488206687963737,0.5,"42 invoiced purchases (559.6 kg, 65.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+28,36,service-34,honest,1.0,True,0.0,1.0,0.0,"its 14 units recorded 6.3 kg of top-ups where IPCC mid-range leakage would call for about 71.8 kg (ratio 0.09; peer median 1.47, robust z -7.7)"
+28,36,service-40,phantom,1.0,True,1.0,0.0,0.0,"87 invoiced purchases (137.9 kg, 22.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+28,36,service-06,phantom,0.1937,False,0.19368486857895587,0.0,0.0,
+28,36,service-01,adaptive,0.1147,False,0.0,0.11473189643452253,0.0,
 28,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 28,36,service-03,honest,0.0,False,0.0,0.0,0.0,
 28,36,service-04,honest,0.0,False,0.0,0.0,0.0,
@@ -936,6 +936,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 28,36,service-10,honest,0.0,False,0.0,0.0,0.0,
 28,36,service-11,adaptive,0.0,False,0.0,0.0,0.0,
 28,36,service-13,honest,0.0,False,0.0,0.0,0.0,
+28,36,service-14,honest,0.0,False,0.0,0.0,0.0,
 28,36,service-15,honest,0.0,False,0.0,0.0,0.0,
 28,36,service-16,honest,0.0,False,0.0,0.0,0.0,
 28,36,service-18,honest,0.0,False,0.0,0.0,0.0,
@@ -953,21 +954,21 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 28,36,service-30,honest,0.0,False,0.0,0.0,0.0,
 28,36,service-31,honest,0.0,False,0.0,0.0,0.0,
 28,36,service-32,honest,0.0,False,0.0,0.0,0.0,
-28,36,service-34,honest,0.0,False,0.0,0.0,0.0,
 28,36,service-35,honest,0.0,False,0.0,0.0,0.0,
 28,36,service-36,honest,0.0,False,0.0,0.0,0.0,
 28,36,service-37,honest,0.0,False,0.0,0.0,0.0,
 28,36,service-38,honest,0.0,False,0.0,0.0,0.0,
 28,36,service-39,honest,0.0,False,0.0,0.0,0.0,
-29,12,service-19,phantom,1.0,True,1.0,0.0,0.0,"31 invoiced purchases (44.1 kg, 14.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-29,12,service-27,naive,1.0,True,1.0,1.0,0.0,"10 invoiced purchases (129.9 kg, 86.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-29,12,service-29,naive,1.0,True,1.0,0.0,0.0,"5 invoiced purchases (69.6 kg, 39.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-29,12,service-37,naive,1.0,True,1.0,1.0,0.0,"13 invoiced purchases (71.8 kg, 56.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-29,12,service-40,phantom,1.0,True,1.0,0.0,0.0,"28 invoiced purchases (41.5 kg, 12.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-29,12,service-04,honest,0.0792,False,0.0,0.07924060813651912,0.0,
+29,12,service-27,naive,1.0,True,1.0,0.5034780733466493,0.0,"12 invoiced purchases (104.4 kg, 66.1% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+29,12,service-29,naive,1.0,True,1.0,1.0,0.0,"8 invoiced purchases (84.4 kg, 66.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+29,12,service-37,naive,1.0,True,1.0,0.12586887254613144,0.0,"16 invoiced purchases (242.8 kg, 60.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+29,12,service-40,phantom,1.0,True,1.0,0.0,0.0,"25 invoiced purchases (38.1 kg, 20.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+29,12,service-22,adaptive,0.761,True,0.0,0.7609752276993857,0.0,"its 23 units recorded 25.6 kg of top-ups where IPCC mid-range leakage would call for about 41.2 kg (ratio 0.62; peer median 4.34, robust z -3.5)"
+29,12,service-30,honest,0.0895,False,0.08946308814314094,0.0,0.0,
 29,12,service-01,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-03,honest,0.0,False,0.0,0.0,0.0,
+29,12,service-04,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-05,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-06,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-07,adaptive,0.0,False,0.0,0.0,0.0,
@@ -982,15 +983,14 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 29,12,service-16,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-17,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-18,honest,0.0,False,0.0,0.0,0.0,
+29,12,service-19,phantom,0.0,False,0.0,0.0,0.0,
 29,12,service-20,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-21,honest,0.0,False,0.0,0.0,0.0,
-29,12,service-22,adaptive,0.0,False,0.0,0.0,0.0,
 29,12,service-23,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-24,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-25,adaptive,0.0,False,0.0,0.0,0.0,
 29,12,service-26,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-28,honest,0.0,False,0.0,0.0,0.0,
-29,12,service-30,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-31,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-32,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-33,honest,0.0,False,0.0,0.0,0.0,
@@ -999,18 +999,19 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 29,12,service-36,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-38,honest,0.0,False,0.0,0.0,0.0,
 29,12,service-39,honest,0.0,False,0.0,0.0,0.0,
-29,24,service-07,adaptive,1.0,True,0.0,1.0,0.0,"its 26 units recorded 15.9 kg of top-ups where IPCC mid-range leakage would call for about 76.5 kg (ratio 0.21; peer median 1.85, robust z -6.2)"
-29,24,service-19,phantom,1.0,True,1.0,0.0,0.0,"64 invoiced purchases (92.8 kg, 15.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-29,24,service-27,naive,1.0,True,1.0,1.0,0.0,"19 invoiced purchases (255.8 kg, 80.9% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-29,24,service-29,naive,1.0,True,1.0,0.0,0.0,"11 invoiced purchases (130.5 kg, 42.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-29,24,service-37,naive,1.0,True,1.0,0.31578053834428355,0.0,"27 invoiced purchases (208.1 kg, 54.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-29,24,service-40,phantom,1.0,True,1.0,0.0,0.0,"55 invoiced purchases (82.4 kg, 15.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+29,24,service-27,naive,1.0,True,1.0,0.42685701477696925,0.0,"20 invoiced purchases (279.4 kg, 69.1% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+29,24,service-29,naive,1.0,True,1.0,0.8000605454449552,0.0,"13 invoiced purchases (150.2 kg, 63.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+29,24,service-37,naive,1.0,True,1.0,0.5438673307184136,0.0,"32 invoiced purchases (524.8 kg, 68.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+29,24,service-40,phantom,1.0,True,1.0,0.0,0.0,"54 invoiced purchases (76.9 kg, 20.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+29,24,service-19,phantom,0.1376,False,0.13762230993754065,0.0,0.0,
+29,24,service-30,honest,0.0346,False,0.03461046463646117,0.0,0.0,
 29,24,service-01,honest,0.0,False,0.0,0.0,0.0,
 29,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 29,24,service-03,honest,0.0,False,0.0,0.0,0.0,
 29,24,service-04,honest,0.0,False,0.0,0.0,0.0,
 29,24,service-05,honest,0.0,False,0.0,0.0,0.0,
 29,24,service-06,honest,0.0,False,0.0,0.0,0.0,
+29,24,service-07,adaptive,0.0,False,0.0,0.0,0.0,
 29,24,service-08,honest,0.0,False,0.0,0.0,0.0,
 29,24,service-09,honest,0.0,False,0.0,0.0,0.0,
 29,24,service-10,honest,0.0,False,0.0,0.0,0.0,
@@ -1030,7 +1031,6 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 29,24,service-25,adaptive,0.0,False,0.0,0.0,0.0,
 29,24,service-26,honest,0.0,False,0.0,0.0,0.0,
 29,24,service-28,honest,0.0,False,0.0,0.0,0.0,
-29,24,service-30,honest,0.0,False,0.0,0.0,0.0,
 29,24,service-31,honest,0.0,False,0.0,0.0,0.0,
 29,24,service-32,honest,0.0,False,0.0,0.0,0.0,
 29,24,service-33,honest,0.0,False,0.0,0.0,0.0,
@@ -1039,18 +1039,19 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 29,24,service-36,honest,0.0,False,0.0,0.0,0.0,
 29,24,service-38,honest,0.0,False,0.0,0.0,0.0,
 29,24,service-39,honest,0.0,False,0.0,0.0,0.0,
-29,36,service-07,adaptive,1.0,True,0.0,1.0,0.5,"its 30 units recorded 18.6 kg of top-ups where IPCC mid-range leakage would call for about 125.8 kg (ratio 0.15; peer median 1.36, robust z -5.8)"
-29,36,service-19,phantom,1.0,True,1.0,0.0,0.0,"96 invoiced purchases (138.7 kg, 15.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-29,36,service-27,naive,1.0,True,1.0,1.0,0.0,"29 invoiced purchases (428.2 kg, 82.6% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-29,36,service-29,naive,1.0,True,1.0,0.0,0.0,"15 invoiced purchases (197.8 kg, 50.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-29,36,service-37,naive,1.0,True,1.0,0.5418509144721793,0.5,"39 invoiced purchases (360.9 kg, 63.9% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-29,36,service-40,phantom,1.0,True,1.0,0.0,0.0,"92 invoiced purchases (133.4 kg, 16.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+29,36,service-27,naive,1.0,True,1.0,1.0,0.0,"27 invoiced purchases (359.8 kg, 71.2% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+29,36,service-29,naive,1.0,True,1.0,1.0,0.5,"18 invoiced purchases (192.0 kg, 69.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+29,36,service-37,naive,1.0,True,1.0,0.7551426569060162,0.0,"42 invoiced purchases (665.6 kg, 63.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+29,36,service-40,phantom,1.0,True,1.0,0.0,0.0,"86 invoiced purchases (130.9 kg, 23.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+29,36,service-19,phantom,0.6756,True,0.675551188355954,0.0,0.0,"3 invoiced purchases (4.4 kg, 1.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+29,36,service-30,honest,0.0273,False,0.027265450083096637,0.0,0.0,
 29,36,service-01,honest,0.0,False,0.0,0.0,0.0,
 29,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 29,36,service-03,honest,0.0,False,0.0,0.0,0.0,
 29,36,service-04,honest,0.0,False,0.0,0.0,0.0,
 29,36,service-05,honest,0.0,False,0.0,0.0,0.0,
 29,36,service-06,honest,0.0,False,0.0,0.0,0.0,
+29,36,service-07,adaptive,0.0,False,0.0,0.0,0.0,
 29,36,service-08,honest,0.0,False,0.0,0.0,0.0,
 29,36,service-09,honest,0.0,False,0.0,0.0,0.0,
 29,36,service-10,honest,0.0,False,0.0,0.0,0.0,
@@ -1070,7 +1071,6 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 29,36,service-25,adaptive,0.0,False,0.0,0.0,0.0,
 29,36,service-26,honest,0.0,False,0.0,0.0,0.0,
 29,36,service-28,honest,0.0,False,0.0,0.0,0.0,
-29,36,service-30,honest,0.0,False,0.0,0.0,0.0,
 29,36,service-31,honest,0.0,False,0.0,0.0,0.0,
 29,36,service-32,honest,0.0,False,0.0,0.0,0.0,
 29,36,service-33,honest,0.0,False,0.0,0.0,0.0,
@@ -1079,20 +1079,20 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 29,36,service-36,honest,0.0,False,0.0,0.0,0.0,
 29,36,service-38,honest,0.0,False,0.0,0.0,0.0,
 29,36,service-39,honest,0.0,False,0.0,0.0,0.0,
-30,12,service-08,phantom,1.0,True,1.0,0.0,0.0,"27 invoiced purchases (38.9 kg, 8.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-30,12,service-11,naive,1.0,True,1.0,0.0,0.0,"8 invoiced purchases (163.3 kg, 59.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-30,12,service-19,naive,1.0,True,1.0,0.14412351890584474,0.0,"19 invoiced purchases (199.5 kg, 60.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-30,12,service-22,naive,1.0,True,1.0,1.0,0.0,"22 invoiced purchases (316.7 kg, 82.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-30,12,service-28,phantom,1.0,True,1.0,0.0,0.0,"23 invoiced purchases (38.3 kg, 24.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-30,12,service-10,honest,0.134,False,0.0,0.13398760100266505,0.0,
-30,12,service-02,adaptive,0.0244,False,0.0,0.02442169665873739,0.0,
+30,12,service-02,adaptive,1.0,True,0.0,1.0,0.0,"its 13 units recorded 75.4 kg of top-ups where IPCC mid-range leakage would call for about 76.0 kg (ratio 0.99; peer median 3.88, robust z -4.3)"
+30,12,service-11,naive,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (55.4 kg, 26.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+30,12,service-19,naive,1.0,True,1.0,1.0,0.0,"16 invoiced purchases (170.0 kg, 79.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+30,12,service-22,naive,1.0,True,1.0,1.0,0.0,"12 invoiced purchases (156.7 kg, 65.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+30,12,service-28,phantom,1.0,True,1.0,0.0,0.0,"28 invoiced purchases (42.2 kg, 15.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 30,12,service-01,honest,0.0,False,0.0,0.0,0.0,
 30,12,service-03,honest,0.0,False,0.0,0.0,0.0,
 30,12,service-04,adaptive,0.0,False,0.0,0.0,0.0,
 30,12,service-05,honest,0.0,False,0.0,0.0,0.0,
 30,12,service-06,honest,0.0,False,0.0,0.0,0.0,
 30,12,service-07,honest,0.0,False,0.0,0.0,0.0,
+30,12,service-08,phantom,0.0,False,0.0,0.0,0.0,
 30,12,service-09,honest,0.0,False,0.0,0.0,0.0,
+30,12,service-10,honest,0.0,False,0.0,0.0,0.0,
 30,12,service-12,honest,0.0,False,0.0,0.0,0.0,
 30,12,service-13,honest,0.0,False,0.0,0.0,0.0,
 30,12,service-14,honest,0.0,False,0.0,0.0,0.0,
@@ -1119,13 +1119,13 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 30,12,service-38,honest,0.0,False,0.0,0.0,0.0,
 30,12,service-39,honest,0.0,False,0.0,0.0,0.0,
 30,12,service-40,honest,0.0,False,0.0,0.0,0.0,
-30,24,service-08,phantom,1.0,True,1.0,0.0,0.0,"57 invoiced purchases (80.1 kg, 10.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-30,24,service-11,naive,1.0,True,1.0,0.04546106273569861,0.0,"16 invoiced purchases (249.4 kg, 67.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-30,24,service-19,naive,1.0,True,1.0,0.5281162620254047,0.0,"36 invoiced purchases (369.6 kg, 73.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-30,24,service-22,naive,1.0,True,1.0,1.0,0.0,"33 invoiced purchases (517.9 kg, 87.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-30,24,service-28,phantom,1.0,True,1.0,0.0,0.0,"56 invoiced purchases (93.7 kg, 30.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+30,24,service-11,naive,1.0,True,1.0,0.0,0.0,"24 invoiced purchases (195.2 kg, 46.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+30,24,service-19,naive,1.0,True,1.0,1.0,0.0,"31 invoiced purchases (248.5 kg, 74.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+30,24,service-22,naive,1.0,True,1.0,0.6101195904340166,0.0,"28 invoiced purchases (422.5 kg, 71.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+30,24,service-28,phantom,1.0,True,1.0,0.0,0.0,"56 invoiced purchases (85.4 kg, 22.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+30,24,service-02,adaptive,0.9061,True,0.0,0.9060618854187017,0.0,"its 16 units recorded 162.4 kg of top-ups where IPCC mid-range leakage would call for about 291.9 kg (ratio 0.56; peer median 1.92, robust z -3.8)"
+30,24,service-08,phantom,0.895,True,0.8950415919099657,0.0,0.0,"3 invoiced purchases (4.4 kg, 1.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 30,24,service-01,honest,0.0,False,0.0,0.0,0.0,
-30,24,service-02,adaptive,0.0,False,0.0,0.0,0.0,
 30,24,service-03,honest,0.0,False,0.0,0.0,0.0,
 30,24,service-04,adaptive,0.0,False,0.0,0.0,0.0,
 30,24,service-05,honest,0.0,False,0.0,0.0,0.0,
@@ -1159,13 +1159,13 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 30,24,service-38,honest,0.0,False,0.0,0.0,0.0,
 30,24,service-39,honest,0.0,False,0.0,0.0,0.0,
 30,24,service-40,honest,0.0,False,0.0,0.0,0.0,
-30,36,service-08,phantom,1.0,True,1.0,0.0,0.0,"81 invoiced purchases (113.8 kg, 10.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-30,36,service-11,naive,1.0,True,1.0,0.0,0.0,"20 invoiced purchases (292.0 kg, 55.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-30,36,service-19,naive,1.0,True,1.0,0.8274333981025954,0.5,"54 invoiced purchases (542.6 kg, 76.8% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-30,36,service-22,naive,1.0,True,1.0,1.0,1.0,"45 invoiced purchases (713.7 kg, 87.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-30,36,service-28,phantom,1.0,True,1.0,0.0,0.0,"81 invoiced purchases (133.8 kg, 31.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+30,36,service-08,phantom,1.0,True,1.0,0.0,0.0,"6 invoiced purchases (9.1 kg, 2.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+30,36,service-11,naive,1.0,True,1.0,0.02221589074389474,0.0,"37 invoiced purchases (267.6 kg, 44.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+30,36,service-19,naive,1.0,True,1.0,1.0,1.0,"50 invoiced purchases (454.8 kg, 83.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+30,36,service-22,naive,1.0,True,1.0,1.0,1.0,"38 invoiced purchases (522.1 kg, 76.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+30,36,service-28,phantom,1.0,True,1.0,0.0,0.0,"81 invoiced purchases (125.4 kg, 21.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+30,36,service-02,adaptive,0.9448,True,0.0,0.9447676260048825,0.0,"its 16 units recorded 238.9 kg of top-ups where IPCC mid-range leakage would call for about 508.2 kg (ratio 0.47; peer median 1.46, robust z -3.9)"
 30,36,service-01,honest,0.0,False,0.0,0.0,0.0,
-30,36,service-02,adaptive,0.0,False,0.0,0.0,0.0,
 30,36,service-03,honest,0.0,False,0.0,0.0,0.0,
 30,36,service-04,adaptive,0.0,False,0.0,0.0,0.0,
 30,36,service-05,honest,0.0,False,0.0,0.0,0.0,
@@ -1199,11 +1199,10 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 30,36,service-38,honest,0.0,False,0.0,0.0,0.0,
 30,36,service-39,honest,0.0,False,0.0,0.0,0.0,
 30,36,service-40,honest,0.0,False,0.0,0.0,0.0,
-31,12,service-05,phantom,1.0,True,1.0,0.0,0.0,"25 invoiced purchases (42.7 kg, 17.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-31,12,service-11,naive,1.0,True,1.0,0.7638539128982933,0.0,"13 invoiced purchases (92.6 kg, 59.0% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-31,12,service-15,naive,1.0,True,1.0,1.0,0.0,"7 invoiced purchases (53.8 kg, 73.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-31,12,service-28,phantom,1.0,True,1.0,0.0,0.0,"27 invoiced purchases (33.8 kg, 12.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-31,12,service-35,naive,1.0,True,1.0,0.0,0.0,"6 invoiced purchases (16.5 kg, 43.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+31,12,service-05,phantom,1.0,True,1.0,0.0,0.0,"28 invoiced purchases (46.6 kg, 20.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+31,12,service-11,naive,1.0,True,1.0,0.0,0.0,"25 invoiced purchases (189.6 kg, 66.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+31,12,service-15,naive,1.0,True,1.0,0.07940742887658381,0.0,"17 invoiced purchases (301.4 kg, 67.0% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+31,12,service-35,naive,1.0,True,1.0,0.0,0.0,"6 invoiced purchases (85.6 kg, 62.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 31,12,service-01,honest,0.0,False,0.0,0.0,0.0,
 31,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 31,12,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -1228,6 +1227,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 31,12,service-25,honest,0.0,False,0.0,0.0,0.0,
 31,12,service-26,honest,0.0,False,0.0,0.0,0.0,
 31,12,service-27,honest,0.0,False,0.0,0.0,0.0,
+31,12,service-28,phantom,0.0,False,0.0,0.0,0.0,
 31,12,service-29,honest,0.0,False,0.0,0.0,0.0,
 31,12,service-30,honest,0.0,False,0.0,0.0,0.0,
 31,12,service-31,honest,0.0,False,0.0,0.0,0.0,
@@ -1239,12 +1239,11 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 31,12,service-38,honest,0.0,False,0.0,0.0,0.0,
 31,12,service-39,adaptive,0.0,False,0.0,0.0,0.0,
 31,12,service-40,honest,0.0,False,0.0,0.0,0.0,
-31,24,service-05,phantom,1.0,True,1.0,0.0,0.0,"57 invoiced purchases (97.6 kg, 27.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-31,24,service-11,naive,1.0,True,1.0,1.0,0.0,"25 invoiced purchases (142.9 kg, 68.9% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-31,24,service-15,naive,1.0,True,1.0,1.0,0.0,"19 invoiced purchases (150.5 kg, 85.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-31,24,service-28,phantom,1.0,True,1.0,0.0,0.0,"54 invoiced purchases (70.9 kg, 15.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-31,24,service-35,naive,1.0,True,1.0,1.0,0.0,"14 invoiced purchases (18.8 kg, 47.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-31,24,service-21,honest,0.0322,False,0.0,0.032204908319510395,0.0,
+31,24,service-05,phantom,1.0,True,1.0,0.0,0.0,"66 invoiced purchases (108.8 kg, 22.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+31,24,service-11,naive,1.0,True,1.0,0.03481550658415489,0.0,"42 invoiced purchases (288.6 kg, 64.0% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+31,24,service-15,naive,1.0,True,1.0,0.7864159759155709,0.0,"35 invoiced purchases (532.7 kg, 77.6% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+31,24,service-35,naive,1.0,True,1.0,0.26842260853611677,0.0,"8 invoiced purchases (99.2 kg, 50.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+31,24,service-28,phantom,0.1631,False,0.16305677093241297,0.0,0.0,
 31,24,service-01,honest,0.0,False,0.0,0.0,0.0,
 31,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 31,24,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -1262,6 +1261,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 31,24,service-18,honest,0.0,False,0.0,0.0,0.0,
 31,24,service-19,honest,0.0,False,0.0,0.0,0.0,
 31,24,service-20,honest,0.0,False,0.0,0.0,0.0,
+31,24,service-21,honest,0.0,False,0.0,0.0,0.0,
 31,24,service-22,honest,0.0,False,0.0,0.0,0.0,
 31,24,service-23,honest,0.0,False,0.0,0.0,0.0,
 31,24,service-24,honest,0.0,False,0.0,0.0,0.0,
@@ -1279,19 +1279,17 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 31,24,service-38,honest,0.0,False,0.0,0.0,0.0,
 31,24,service-39,adaptive,0.0,False,0.0,0.0,0.0,
 31,24,service-40,honest,0.0,False,0.0,0.0,0.0,
-31,36,service-05,phantom,1.0,True,1.0,0.0,0.0,"94 invoiced purchases (153.9 kg, 30.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-31,36,service-11,naive,1.0,True,1.0,1.0,0.0,"39 invoiced purchases (229.5 kg, 71.7% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-31,36,service-15,naive,1.0,True,1.0,1.0,0.5,"27 invoiced purchases (205.6 kg, 75.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-31,36,service-28,phantom,1.0,True,1.0,0.0,0.0,"74 invoiced purchases (98.7 kg, 13.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-31,36,service-35,naive,1.0,True,1.0,1.0,0.5,"17 invoiced purchases (34.2 kg, 42.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-31,36,service-07,adaptive,0.292,False,0.0,0.29201524789451194,0.0,"its 40 units recorded 184.5 kg of top-ups where IPCC mid-range leakage would call for about 220.3 kg (ratio 0.84; peer median 1.65, robust z -2.6)"
-31,36,service-19,honest,0.2197,False,0.0,0.2197040904785199,0.0,"its 38 units recorded 364.9 kg of top-ups where IPCC mid-range leakage would call for about 419.3 kg (ratio 0.87; peer median 1.65, robust z -2.4)"
-31,36,service-21,honest,0.1876,False,0.0,0.18761252623925673,0.0,
-31,36,service-04,adaptive,0.1525,False,0.0,0.15254018865786634,0.0,
+31,36,service-05,phantom,1.0,True,1.0,0.0,0.0,"93 invoiced purchases (152.9 kg, 21.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+31,36,service-11,naive,1.0,True,1.0,0.5165725262314615,0.5,"61 invoiced purchases (522.2 kg, 70.2% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+31,36,service-15,naive,1.0,True,1.0,1.0,1.0,"53 invoiced purchases (814.9 kg, 80.4% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+31,36,service-35,naive,1.0,True,1.0,1.0,0.5,"11 invoiced purchases (159.7 kg, 62.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+31,36,service-28,phantom,0.384,False,0.3839508542906508,0.0,0.0,"6 invoiced purchases (8.0 kg, 0.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 31,36,service-01,honest,0.0,False,0.0,0.0,0.0,
 31,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 31,36,service-03,honest,0.0,False,0.0,0.0,0.0,
+31,36,service-04,adaptive,0.0,False,0.0,0.0,0.0,
 31,36,service-06,honest,0.0,False,0.0,0.0,0.0,
+31,36,service-07,adaptive,0.0,False,0.0,0.0,0.0,
 31,36,service-08,honest,0.0,False,0.0,0.0,0.0,
 31,36,service-09,honest,0.0,False,0.0,0.0,0.0,
 31,36,service-10,honest,0.0,False,0.0,0.0,0.0,
@@ -1301,7 +1299,9 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 31,36,service-16,honest,0.0,False,0.0,0.0,0.0,
 31,36,service-17,honest,0.0,False,0.0,0.0,0.0,
 31,36,service-18,honest,0.0,False,0.0,0.0,0.0,
+31,36,service-19,honest,0.0,False,0.0,0.0,0.0,
 31,36,service-20,honest,0.0,False,0.0,0.0,0.0,
+31,36,service-21,honest,0.0,False,0.0,0.0,0.0,
 31,36,service-22,honest,0.0,False,0.0,0.0,0.0,
 31,36,service-23,honest,0.0,False,0.0,0.0,0.0,
 31,36,service-24,honest,0.0,False,0.0,0.0,0.0,
@@ -1319,21 +1319,22 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 31,36,service-38,honest,0.0,False,0.0,0.0,0.0,
 31,36,service-39,adaptive,0.0,False,0.0,0.0,0.0,
 31,36,service-40,honest,0.0,False,0.0,0.0,0.0,
-32,12,service-03,naive,1.0,True,1.0,1.0,0.0,"11 invoiced purchases (180.0 kg, 87.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-32,12,service-09,honest,1.0,True,0.0,1.0,0.0,"its 34 units recorded 5.7 kg of top-ups where IPCC mid-range leakage would call for about 20.2 kg (ratio 0.28; peer median 4.04, robust z -6.9)"
-32,12,service-11,honest,1.0,True,0.0,1.0,0.0,"its 31 units recorded 16.9 kg of top-ups where IPCC mid-range leakage would call for about 23.3 kg (ratio 0.73; peer median 4.04, robust z -4.6)"
-32,12,service-34,naive,1.0,True,1.0,0.40716734317082515,0.0,"16 invoiced purchases (289.5 kg, 61.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-32,12,service-35,phantom,1.0,True,1.0,0.0,0.0,"34 invoiced purchases (48.4 kg, 27.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-32,12,service-36,phantom,1.0,True,1.0,0.0,0.0,"26 invoiced purchases (40.0 kg, 11.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-32,12,service-39,naive,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (71.1 kg, 74.0% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-32,12,service-08,honest,0.4873,False,0.0,0.4873366889997468,0.0,"its 30 units recorded 29.7 kg of top-ups where IPCC mid-range leakage would call for about 21.9 kg (ratio 1.35; peer median 4.04, robust z -3.0)"
+32,12,service-03,naive,1.0,True,1.0,0.3475171929890022,0.0,"14 invoiced purchases (272.6 kg, 72.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+32,12,service-28,adaptive,1.0,True,0.0,1.0,0.0,"its 16 units recorded 3.4 kg of top-ups where IPCC mid-range leakage would call for about 38.6 kg (ratio 0.09; peer median 3.96, robust z -7.0)"
+32,12,service-34,naive,1.0,True,1.0,1.0,0.0,"19 invoiced purchases (265.9 kg, 86.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+32,12,service-36,phantom,1.0,True,1.0,0.0,0.0,"27 invoiced purchases (42.7 kg, 12.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+32,12,service-39,naive,1.0,True,1.0,1.0,0.0,"10 invoiced purchases (189.8 kg, 97.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+32,12,service-35,phantom,0.2978,False,0.2978186794022162,0.0,0.0,"2 invoiced purchases (3.3 kg, 0.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 32,12,service-01,honest,0.0,False,0.0,0.0,0.0,
 32,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 32,12,service-04,honest,0.0,False,0.0,0.0,0.0,
 32,12,service-05,adaptive,0.0,False,0.0,0.0,0.0,
 32,12,service-06,honest,0.0,False,0.0,0.0,0.0,
 32,12,service-07,honest,0.0,False,0.0,0.0,0.0,
+32,12,service-08,honest,0.0,False,0.0,0.0,0.0,
+32,12,service-09,honest,0.0,False,0.0,0.0,0.0,
 32,12,service-10,honest,0.0,False,0.0,0.0,0.0,
+32,12,service-11,honest,0.0,False,0.0,0.0,0.0,
 32,12,service-12,honest,0.0,False,0.0,0.0,0.0,
 32,12,service-13,honest,0.0,False,0.0,0.0,0.0,
 32,12,service-14,honest,0.0,False,0.0,0.0,0.0,
@@ -1350,7 +1351,6 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 32,12,service-25,honest,0.0,False,0.0,0.0,0.0,
 32,12,service-26,honest,0.0,False,0.0,0.0,0.0,
 32,12,service-27,honest,0.0,False,0.0,0.0,0.0,
-32,12,service-28,adaptive,0.0,False,0.0,0.0,0.0,
 32,12,service-29,honest,0.0,False,0.0,0.0,0.0,
 32,12,service-30,honest,0.0,False,0.0,0.0,0.0,
 32,12,service-31,honest,0.0,False,0.0,0.0,0.0,
@@ -1359,12 +1359,14 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 32,12,service-37,honest,0.0,False,0.0,0.0,0.0,
 32,12,service-38,honest,0.0,False,0.0,0.0,0.0,
 32,12,service-40,honest,0.0,False,0.0,0.0,0.0,
-32,24,service-03,naive,1.0,True,1.0,1.0,0.0,"26 invoiced purchases (474.6 kg, 90.9% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-32,24,service-34,naive,1.0,True,1.0,0.5571065531981911,0.0,"35 invoiced purchases (495.1 kg, 69.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-32,24,service-35,phantom,1.0,True,1.0,0.0,0.0,"68 invoiced purchases (97.3 kg, 26.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-32,24,service-36,phantom,1.0,True,1.0,0.0,0.0,"58 invoiced purchases (87.8 kg, 14.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-32,24,service-39,naive,1.0,True,1.0,1.0,0.0,"20 invoiced purchases (157.5 kg, 86.3% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-32,24,service-09,honest,0.1616,False,0.0,0.1616035119459489,0.0,
+32,24,service-03,naive,1.0,True,1.0,1.0,0.0,"22 invoiced purchases (422.8 kg, 72.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+32,24,service-34,naive,1.0,True,1.0,1.0,0.0,"44 invoiced purchases (462.5 kg, 82.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+32,24,service-36,phantom,1.0,True,1.0,0.0,0.0,"57 invoiced purchases (92.7 kg, 13.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+32,24,service-39,naive,1.0,True,1.0,1.0,0.0,"22 invoiced purchases (416.5 kg, 87.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+32,24,service-28,adaptive,0.8904,True,0.0,0.8903849210276602,0.0,"its 22 units recorded 85.6 kg of top-ups where IPCC mid-range leakage would call for about 154.0 kg (ratio 0.56; peer median 2.16, robust z -3.8)"
+32,24,service-32,honest,0.7348,True,0.0,0.7348446100418098,0.0,"its 26 units recorded 38.1 kg of top-ups where IPCC mid-range leakage would call for about 61.7 kg (ratio 0.62; peer median 2.16, robust z -3.5)"
+32,24,service-35,phantom,0.4013,False,0.40133308298911,0.0,0.0,"3 invoiced purchases (5.1 kg, 0.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+32,24,service-11,honest,0.0174,False,0.0,0.01744082291960014,0.0,
 32,24,service-01,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-04,honest,0.0,False,0.0,0.0,0.0,
@@ -1372,8 +1374,8 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 32,24,service-06,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-07,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-08,honest,0.0,False,0.0,0.0,0.0,
+32,24,service-09,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-10,honest,0.0,False,0.0,0.0,0.0,
-32,24,service-11,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-12,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-13,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-14,honest,0.0,False,0.0,0.0,0.0,
@@ -1390,20 +1392,19 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 32,24,service-25,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-26,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-27,honest,0.0,False,0.0,0.0,0.0,
-32,24,service-28,adaptive,0.0,False,0.0,0.0,0.0,
 32,24,service-29,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-30,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-31,honest,0.0,False,0.0,0.0,0.0,
-32,24,service-32,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-33,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-37,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-38,honest,0.0,False,0.0,0.0,0.0,
 32,24,service-40,honest,0.0,False,0.0,0.0,0.0,
-32,36,service-03,naive,1.0,True,1.0,1.0,1.0,"36 invoiced purchases (563.3 kg, 83.7% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-32,36,service-34,naive,1.0,True,1.0,1.0,1.0,"52 invoiced purchases (778.7 kg, 78.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-32,36,service-35,phantom,1.0,True,1.0,0.0,0.0,"99 invoiced purchases (145.4 kg, 27.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-32,36,service-36,phantom,1.0,True,1.0,0.0,0.0,"88 invoiced purchases (133.1 kg, 14.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-32,36,service-39,naive,1.0,True,1.0,1.0,0.0,"29 invoiced purchases (247.1 kg, 90.8% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+32,36,service-03,naive,1.0,True,1.0,1.0,1.0,"38 invoiced purchases (656.1 kg, 80.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+32,36,service-34,naive,1.0,True,1.0,0.7543022367960435,0.5,"65 invoiced purchases (583.3 kg, 76.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+32,36,service-36,phantom,1.0,True,1.0,0.0,0.0,"87 invoiced purchases (146.2 kg, 15.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+32,36,service-39,naive,1.0,True,1.0,1.0,0.5,"33 invoiced purchases (641.0 kg, 87.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+32,36,service-35,phantom,0.4028,False,0.40280264213840355,0.0,0.0,"5 invoiced purchases (7.8 kg, 0.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+32,36,service-28,adaptive,0.122,False,0.0,0.12201189082305164,0.0,
 32,36,service-01,honest,0.0,False,0.0,0.0,0.0,
 32,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 32,36,service-04,honest,0.0,False,0.0,0.0,0.0,
@@ -1430,7 +1431,6 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 32,36,service-25,honest,0.0,False,0.0,0.0,0.0,
 32,36,service-26,honest,0.0,False,0.0,0.0,0.0,
 32,36,service-27,honest,0.0,False,0.0,0.0,0.0,
-32,36,service-28,adaptive,0.0,False,0.0,0.0,0.0,
 32,36,service-29,honest,0.0,False,0.0,0.0,0.0,
 32,36,service-30,honest,0.0,False,0.0,0.0,0.0,
 32,36,service-31,honest,0.0,False,0.0,0.0,0.0,
@@ -1439,15 +1439,12 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 32,36,service-37,honest,0.0,False,0.0,0.0,0.0,
 32,36,service-38,honest,0.0,False,0.0,0.0,0.0,
 32,36,service-40,honest,0.0,False,0.0,0.0,0.0,
-33,12,service-04,naive,1.0,True,1.0,0.0,0.0,"4 invoiced purchases (73.3 kg, 35.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-33,12,service-15,phantom,1.0,True,1.0,0.0,0.0,"25 invoiced purchases (37.1 kg, 8.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-33,12,service-19,adaptive,1.0,True,0.0,1.0,0.0,"its 28 units recorded 12.6 kg of top-ups where IPCC mid-range leakage would call for about 21.1 kg (ratio 0.60; peer median 4.49, robust z -7.5)"
-33,12,service-32,phantom,1.0,True,1.0,0.0,0.0,"26 invoiced purchases (38.8 kg, 5.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-33,12,service-37,naive,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (187.5 kg, 97.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-33,12,service-22,naive,0.6667,True,0.6666666666666666,0.0,0.0,"2 invoiced purchases (6.6 kg, 20.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-33,12,service-17,honest,0.493,False,0.0,0.4930293866403219,0.0,"its 21 units recorded 45.3 kg of top-ups where IPCC mid-range leakage would call for about 21.7 kg (ratio 2.09; peer median 4.49, robust z -3.0)"
-33,12,service-23,honest,0.4068,False,0.0,0.4068474984633268,0.0,"its 27 units recorded 79.5 kg of top-ups where IPCC mid-range leakage would call for about 36.7 kg (ratio 2.17; peer median 4.49, robust z -2.8)"
-33,12,service-18,adaptive,0.1213,False,0.0,0.12131719926340323,0.0,
+33,12,service-04,naive,1.0,True,1.0,0.0,0.0,"7 invoiced purchases (131.4 kg, 60.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+33,12,service-15,phantom,1.0,True,1.0,0.0,0.0,"31 invoiced purchases (50.3 kg, 14.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+33,12,service-22,naive,1.0,True,1.0,0.04888047721666933,0.0,"3 invoiced purchases (80.9 kg, 60.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+33,12,service-37,naive,1.0,True,1.0,0.0,0.0,"11 invoiced purchases (2.8 kg, 3.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+33,12,service-32,phantom,0.2587,False,0.2586785323304022,0.0,0.0,"2 invoiced purchases (2.9 kg, 0.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+33,12,service-19,adaptive,0.0648,False,0.06476768467762986,0.0,0.0,
 33,12,service-01,honest,0.0,False,0.0,0.0,0.0,
 33,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 33,12,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -1462,8 +1459,11 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 33,12,service-13,honest,0.0,False,0.0,0.0,0.0,
 33,12,service-14,honest,0.0,False,0.0,0.0,0.0,
 33,12,service-16,honest,0.0,False,0.0,0.0,0.0,
+33,12,service-17,honest,0.0,False,0.0,0.0,0.0,
+33,12,service-18,adaptive,0.0,False,0.0,0.0,0.0,
 33,12,service-20,honest,0.0,False,0.0,0.0,0.0,
 33,12,service-21,honest,0.0,False,0.0,0.0,0.0,
+33,12,service-23,honest,0.0,False,0.0,0.0,0.0,
 33,12,service-24,honest,0.0,False,0.0,0.0,0.0,
 33,12,service-25,honest,0.0,False,0.0,0.0,0.0,
 33,12,service-26,honest,0.0,False,0.0,0.0,0.0,
@@ -1479,13 +1479,12 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 33,12,service-38,honest,0.0,False,0.0,0.0,0.0,
 33,12,service-39,honest,0.0,False,0.0,0.0,0.0,
 33,12,service-40,honest,0.0,False,0.0,0.0,0.0,
-33,24,service-04,naive,1.0,True,1.0,0.0,0.0,"17 invoiced purchases (190.2 kg, 54.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-33,24,service-15,phantom,1.0,True,1.0,0.0,0.0,"60 invoiced purchases (95.0 kg, 10.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-33,24,service-19,adaptive,1.0,True,0.0,1.0,0.0,"its 32 units recorded 61.1 kg of top-ups where IPCC mid-range leakage would call for about 105.6 kg (ratio 0.58; peer median 2.18, robust z -4.4)"
-33,24,service-22,naive,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (8.7 kg, 15.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-33,24,service-32,phantom,1.0,True,1.0,0.0,0.0,"56 invoiced purchases (82.6 kg, 7.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-33,24,service-37,naive,1.0,True,1.0,1.0,0.0,"23 invoiced purchases (307.0 kg, 86.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-33,24,service-18,adaptive,0.6962,True,0.0,0.6962440350624719,0.0,"its 37 units recorded 112.2 kg of top-ups where IPCC mid-range leakage would call for about 143.4 kg (ratio 0.78; peer median 2.18, robust z -3.4)"
+33,24,service-04,naive,1.0,True,1.0,0.2188149707307716,0.0,"13 invoiced purchases (247.4 kg, 58.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+33,24,service-15,phantom,1.0,True,1.0,0.0,0.0,"56 invoiced purchases (90.4 kg, 12.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+33,24,service-22,naive,1.0,True,1.0,0.6907769936748112,0.0,"6 invoiced purchases (145.8 kg, 54.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+33,24,service-37,naive,1.0,True,1.0,0.0,0.0,"21 invoiced purchases (15.8 kg, 12.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+33,24,service-32,phantom,0.5238,False,0.5238426484575744,0.0,0.0,"5 invoiced purchases (7.4 kg, 1.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+33,24,service-19,adaptive,0.0347,False,0.03469006134111602,0.0,0.0,
 33,24,service-01,honest,0.0,False,0.0,0.0,0.0,
 33,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 33,24,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -1501,6 +1500,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 33,24,service-14,honest,0.0,False,0.0,0.0,0.0,
 33,24,service-16,honest,0.0,False,0.0,0.0,0.0,
 33,24,service-17,honest,0.0,False,0.0,0.0,0.0,
+33,24,service-18,adaptive,0.0,False,0.0,0.0,0.0,
 33,24,service-20,honest,0.0,False,0.0,0.0,0.0,
 33,24,service-21,honest,0.0,False,0.0,0.0,0.0,
 33,24,service-23,honest,0.0,False,0.0,0.0,0.0,
@@ -1519,13 +1519,12 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 33,24,service-38,honest,0.0,False,0.0,0.0,0.0,
 33,24,service-39,honest,0.0,False,0.0,0.0,0.0,
 33,24,service-40,honest,0.0,False,0.0,0.0,0.0,
-33,36,service-04,naive,1.0,True,1.0,0.6704910781627058,0.0,"25 invoiced purchases (226.9 kg, 58.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-33,36,service-15,phantom,1.0,True,1.0,0.0,0.0,"90 invoiced purchases (141.5 kg, 11.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-33,36,service-22,naive,1.0,True,1.0,1.0,0.0,"12 invoiced purchases (9.7 kg, 17.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-33,36,service-32,phantom,1.0,True,1.0,0.0,0.0,"82 invoiced purchases (120.9 kg, 7.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-33,36,service-37,naive,1.0,True,1.0,1.0,0.5,"35 invoiced purchases (427.7 kg, 90.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-33,36,service-18,adaptive,0.4132,False,0.0,0.41323833642428265,0.0,"its 44 units recorded 200.9 kg of top-ups where IPCC mid-range leakage would call for about 305.1 kg (ratio 0.66; peer median 1.59, robust z -2.8)"
-33,36,service-19,adaptive,0.2135,False,0.0,0.2134550890000102,0.0,"its 35 units recorded 181.8 kg of top-ups where IPCC mid-range leakage would call for about 243.8 kg (ratio 0.75; peer median 1.59, robust z -2.4)"
+33,36,service-04,naive,1.0,True,1.0,0.0,0.5,"22 invoiced purchases (396.7 kg, 58.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+33,36,service-15,phantom,1.0,True,1.0,0.0,0.0,"81 invoiced purchases (129.0 kg, 13.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+33,36,service-22,naive,1.0,True,1.0,0.7794395074206242,0.5,"13 invoiced purchases (259.9 kg, 64.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+33,36,service-37,naive,1.0,True,1.0,0.0,0.0,"31 invoiced purchases (95.7 kg, 46.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+33,36,service-32,phantom,0.4901,False,0.4900856793145654,0.0,0.0,"7 invoiced purchases (10.0 kg, 1.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+33,36,service-19,adaptive,0.0323,False,0.03230846856231384,0.0,0.0,
 33,36,service-01,honest,0.0,False,0.0,0.0,0.0,
 33,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 33,36,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -1541,6 +1540,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 33,36,service-14,honest,0.0,False,0.0,0.0,0.0,
 33,36,service-16,honest,0.0,False,0.0,0.0,0.0,
 33,36,service-17,honest,0.0,False,0.0,0.0,0.0,
+33,36,service-18,adaptive,0.0,False,0.0,0.0,0.0,
 33,36,service-20,honest,0.0,False,0.0,0.0,0.0,
 33,36,service-21,honest,0.0,False,0.0,0.0,0.0,
 33,36,service-23,honest,0.0,False,0.0,0.0,0.0,
@@ -1559,11 +1559,11 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 33,36,service-38,honest,0.0,False,0.0,0.0,0.0,
 33,36,service-39,honest,0.0,False,0.0,0.0,0.0,
 33,36,service-40,honest,0.0,False,0.0,0.0,0.0,
-34,12,service-02,naive,1.0,True,1.0,1.0,0.0,"9 invoiced purchases (48.4 kg, 51.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-34,12,service-18,naive,1.0,True,1.0,0.0,0.0,"14 invoiced purchases (73.6 kg, 43.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-34,12,service-32,phantom,1.0,True,1.0,0.0,0.0,"28 invoiced purchases (41.5 kg, 22.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-34,12,service-37,phantom,1.0,True,1.0,0.0,0.0,"33 invoiced purchases (49.0 kg, 27.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-34,12,service-39,naive,1.0,True,1.0,0.29116419511064473,0.0,"11 invoiced purchases (177.8 kg, 72.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,12,service-02,naive,1.0,True,1.0,0.2242069836536087,0.0,"10 invoiced purchases (40.0 kg, 37.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,12,service-18,naive,1.0,True,1.0,0.5753228205065766,0.0,"18 invoiced purchases (102.5 kg, 58.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,12,service-32,phantom,1.0,True,1.0,0.0,0.0,"24 invoiced purchases (40.5 kg, 20.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,12,service-39,naive,1.0,True,1.0,0.24827815061015368,0.0,"17 invoiced purchases (121.9 kg, 62.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,12,service-37,phantom,0.4256,False,0.4256224728665673,0.0,0.0,"2 invoiced purchases (2.4 kg, 1.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 34,12,service-01,honest,0.0,False,0.0,0.0,0.0,
 34,12,service-03,honest,0.0,False,0.0,0.0,0.0,
 34,12,service-04,honest,0.0,False,0.0,0.0,0.0,
@@ -1599,11 +1599,12 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 34,12,service-36,honest,0.0,False,0.0,0.0,0.0,
 34,12,service-38,honest,0.0,False,0.0,0.0,0.0,
 34,12,service-40,honest,0.0,False,0.0,0.0,0.0,
-34,24,service-02,naive,1.0,True,1.0,0.4858366775458669,0.0,"17 invoiced purchases (129.6 kg, 63.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-34,24,service-18,naive,1.0,True,1.0,0.0,0.0,"30 invoiced purchases (249.8 kg, 72.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-34,24,service-32,phantom,1.0,True,1.0,0.0,0.0,"56 invoiced purchases (84.7 kg, 27.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-34,24,service-37,phantom,1.0,True,1.0,0.0,0.0,"67 invoiced purchases (95.9 kg, 24.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-34,24,service-39,naive,1.0,True,1.0,0.6945942481877376,0.0,"30 invoiced purchases (337.2 kg, 79.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,24,service-02,naive,1.0,True,1.0,0.2419091186676514,0.0,"14 invoiced purchases (100.5 kg, 43.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,24,service-18,naive,1.0,True,1.0,1.0,0.0,"25 invoiced purchases (347.2 kg, 81.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,24,service-32,phantom,1.0,True,1.0,0.0,0.0,"49 invoiced purchases (81.2 kg, 21.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,24,service-37,phantom,1.0,True,1.0,0.0,0.0,"6 invoiced purchases (8.2 kg, 2.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,24,service-39,naive,1.0,True,1.0,1.0,0.0,"36 invoiced purchases (232.5 kg, 76.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,24,service-24,honest,0.0551,False,0.0,0.05507302063056052,0.0,
 34,24,service-01,honest,0.0,False,0.0,0.0,0.0,
 34,24,service-03,honest,0.0,False,0.0,0.0,0.0,
 34,24,service-04,honest,0.0,False,0.0,0.0,0.0,
@@ -1625,7 +1626,6 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 34,24,service-21,honest,0.0,False,0.0,0.0,0.0,
 34,24,service-22,honest,0.0,False,0.0,0.0,0.0,
 34,24,service-23,honest,0.0,False,0.0,0.0,0.0,
-34,24,service-24,honest,0.0,False,0.0,0.0,0.0,
 34,24,service-25,honest,0.0,False,0.0,0.0,0.0,
 34,24,service-26,honest,0.0,False,0.0,0.0,0.0,
 34,24,service-27,honest,0.0,False,0.0,0.0,0.0,
@@ -1639,11 +1639,11 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 34,24,service-36,honest,0.0,False,0.0,0.0,0.0,
 34,24,service-38,honest,0.0,False,0.0,0.0,0.0,
 34,24,service-40,honest,0.0,False,0.0,0.0,0.0,
-34,36,service-02,naive,1.0,True,1.0,1.0,1.0,"29 invoiced purchases (185.8 kg, 71.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-34,36,service-18,naive,1.0,True,1.0,0.0,0.0,"40 invoiced purchases (267.6 kg, 59.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-34,36,service-32,phantom,1.0,True,1.0,0.0,0.0,"81 invoiced purchases (124.2 kg, 31.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-34,36,service-37,phantom,1.0,True,1.0,0.0,0.0,"96 invoiced purchases (133.8 kg, 26.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-34,36,service-39,naive,1.0,True,1.0,0.7317116841436639,1.0,"46 invoiced purchases (472.7 kg, 73.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,36,service-02,naive,1.0,True,1.0,0.3939273931868812,0.0,"24 invoiced purchases (145.5 kg, 49.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,36,service-18,naive,1.0,True,1.0,1.0,1.0,"37 invoiced purchases (483.2 kg, 86.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,36,service-32,phantom,1.0,True,1.0,0.0,0.0,"77 invoiced purchases (128.2 kg, 23.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,36,service-37,phantom,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (13.6 kg, 2.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+34,36,service-39,naive,1.0,True,1.0,0.9105557247920386,0.0,"52 invoiced purchases (319.3 kg, 73.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 34,36,service-01,honest,0.0,False,0.0,0.0,0.0,
 34,36,service-03,honest,0.0,False,0.0,0.0,0.0,
 34,36,service-04,honest,0.0,False,0.0,0.0,0.0,
@@ -1679,14 +1679,11 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 34,36,service-36,honest,0.0,False,0.0,0.0,0.0,
 34,36,service-38,honest,0.0,False,0.0,0.0,0.0,
 34,36,service-40,honest,0.0,False,0.0,0.0,0.0,
-35,12,service-04,naive,1.0,True,1.0,1.0,0.0,"14 invoiced purchases (178.9 kg, 79.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-35,12,service-09,naive,1.0,True,1.0,0.6847904704150507,0.0,"10 invoiced purchases (85.5 kg, 61.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-35,12,service-24,naive,1.0,True,1.0,0.0,0.0,"5 invoiced purchases (79.0 kg, 77.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-35,12,service-32,phantom,1.0,True,1.0,0.0,0.0,"34 invoiced purchases (52.3 kg, 38.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-35,12,service-39,phantom,1.0,True,1.0,0.0,0.0,"24 invoiced purchases (39.1 kg, 16.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-35,12,service-31,adaptive,0.3814,False,0.0,0.38136579910171764,0.0,"its 19 units recorded 118.8 kg of top-ups where IPCC mid-range leakage would call for about 55.8 kg (ratio 2.13; peer median 4.58, robust z -2.8)"
-35,12,service-15,honest,0.3711,False,0.0,0.37108447051719384,0.0,"its 34 units recorded 108.5 kg of top-ups where IPCC mid-range leakage would call for about 50.7 kg (ratio 2.14; peer median 4.58, robust z -2.7)"
-35,12,service-29,honest,0.057,False,0.0,0.057016024351253414,0.0,
+35,12,service-04,naive,1.0,True,1.0,0.9852910043463958,0.0,"26 invoiced purchases (543.0 kg, 81.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+35,12,service-09,naive,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (108.3 kg, 41.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+35,12,service-39,phantom,1.0,True,1.0,0.0,0.0,"34 invoiced purchases (56.5 kg, 21.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+35,12,service-24,naive,0.6667,True,0.6666666666666666,0.0,0.0,"2 invoiced purchases (77.0 kg, 100.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+35,12,service-32,phantom,0.1536,False,0.1535953858692245,0.0,0.0,
 35,12,service-01,honest,0.0,False,0.0,0.0,0.0,
 35,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 35,12,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -1699,6 +1696,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 35,12,service-12,honest,0.0,False,0.0,0.0,0.0,
 35,12,service-13,honest,0.0,False,0.0,0.0,0.0,
 35,12,service-14,honest,0.0,False,0.0,0.0,0.0,
+35,12,service-15,honest,0.0,False,0.0,0.0,0.0,
 35,12,service-16,honest,0.0,False,0.0,0.0,0.0,
 35,12,service-17,honest,0.0,False,0.0,0.0,0.0,
 35,12,service-18,honest,0.0,False,0.0,0.0,0.0,
@@ -1711,7 +1709,9 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 35,12,service-26,honest,0.0,False,0.0,0.0,0.0,
 35,12,service-27,honest,0.0,False,0.0,0.0,0.0,
 35,12,service-28,honest,0.0,False,0.0,0.0,0.0,
+35,12,service-29,honest,0.0,False,0.0,0.0,0.0,
 35,12,service-30,honest,0.0,False,0.0,0.0,0.0,
+35,12,service-31,adaptive,0.0,False,0.0,0.0,0.0,
 35,12,service-33,honest,0.0,False,0.0,0.0,0.0,
 35,12,service-34,honest,0.0,False,0.0,0.0,0.0,
 35,12,service-35,honest,0.0,False,0.0,0.0,0.0,
@@ -1719,15 +1719,15 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 35,12,service-37,honest,0.0,False,0.0,0.0,0.0,
 35,12,service-38,honest,0.0,False,0.0,0.0,0.0,
 35,12,service-40,honest,0.0,False,0.0,0.0,0.0,
-35,24,service-04,naive,1.0,True,1.0,1.0,0.0,"26 invoiced purchases (351.7 kg, 83.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-35,24,service-09,naive,1.0,True,1.0,0.06218119204091055,0.0,"21 invoiced purchases (185.0 kg, 64.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-35,24,service-24,naive,1.0,True,1.0,1.0,0.0,"14 invoiced purchases (120.0 kg, 73.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-35,24,service-32,phantom,1.0,True,1.0,0.0,0.0,"68 invoiced purchases (101.9 kg, 44.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-35,24,service-39,phantom,1.0,True,1.0,0.0,0.0,"53 invoiced purchases (86.0 kg, 20.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-35,24,service-05,adaptive,0.0218,False,0.0,0.021840510485326314,0.0,
+35,24,service-04,naive,1.0,True,1.0,1.0,0.0,"49 invoiced purchases (953.5 kg, 83.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+35,24,service-09,naive,1.0,True,1.0,0.0,0.0,"20 invoiced purchases (229.1 kg, 57.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+35,24,service-24,naive,1.0,True,1.0,0.0,0.0,"4 invoiced purchases (156.9 kg, 96.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+35,24,service-39,phantom,1.0,True,1.0,0.0,0.0,"69 invoiced purchases (105.4 kg, 19.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+35,24,service-32,phantom,0.6807,True,0.6806930693069306,0.0,0.0,"3 invoiced purchases (4.5 kg, 1.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 35,24,service-01,honest,0.0,False,0.0,0.0,0.0,
 35,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 35,24,service-03,honest,0.0,False,0.0,0.0,0.0,
+35,24,service-05,adaptive,0.0,False,0.0,0.0,0.0,
 35,24,service-06,honest,0.0,False,0.0,0.0,0.0,
 35,24,service-07,honest,0.0,False,0.0,0.0,0.0,
 35,24,service-08,honest,0.0,False,0.0,0.0,0.0,
@@ -1759,15 +1759,15 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 35,24,service-37,honest,0.0,False,0.0,0.0,0.0,
 35,24,service-38,honest,0.0,False,0.0,0.0,0.0,
 35,24,service-40,honest,0.0,False,0.0,0.0,0.0,
-35,36,service-04,naive,1.0,True,1.0,1.0,1.0,"44 invoiced purchases (588.4 kg, 89.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-35,36,service-09,naive,1.0,True,1.0,1.0,0.5,"34 invoiced purchases (285.2 kg, 73.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-35,36,service-24,naive,1.0,True,1.0,1.0,0.5,"20 invoiced purchases (209.6 kg, 82.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-35,36,service-32,phantom,1.0,True,1.0,0.0,0.0,"94 invoiced purchases (141.0 kg, 43.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-35,36,service-39,phantom,1.0,True,1.0,0.0,0.0,"82 invoiced purchases (132.9 kg, 20.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-35,36,service-05,adaptive,0.1172,False,0.0,0.11721889222096271,0.0,
+35,36,service-04,naive,1.0,True,1.0,1.0,1.0,"78 invoiced purchases (1,566.8 kg, 89.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+35,36,service-09,naive,1.0,True,1.0,0.3113402567265875,0.0,"32 invoiced purchases (415.7 kg, 70.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+35,36,service-24,naive,1.0,True,1.0,0.0,0.0,"6 invoiced purchases (157.6 kg, 64.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+35,36,service-39,phantom,1.0,True,1.0,0.0,0.0,"104 invoiced purchases (160.4 kg, 21.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+35,36,service-32,phantom,0.5672,False,0.5671543646227191,0.0,0.0,"4 invoiced purchases (5.5 kg, 1.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 35,36,service-01,honest,0.0,False,0.0,0.0,0.0,
 35,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 35,36,service-03,honest,0.0,False,0.0,0.0,0.0,
+35,36,service-05,adaptive,0.0,False,0.0,0.0,0.0,
 35,36,service-06,honest,0.0,False,0.0,0.0,0.0,
 35,36,service-07,honest,0.0,False,0.0,0.0,0.0,
 35,36,service-08,honest,0.0,False,0.0,0.0,0.0,
@@ -1799,12 +1799,12 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 35,36,service-37,honest,0.0,False,0.0,0.0,0.0,
 35,36,service-38,honest,0.0,False,0.0,0.0,0.0,
 35,36,service-40,honest,0.0,False,0.0,0.0,0.0,
-36,12,service-05,naive,1.0,True,1.0,0.9636863382191538,0.0,"23 invoiced purchases (211.4 kg, 83.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-36,12,service-09,naive,1.0,True,1.0,0.10074661453201883,0.0,"9 invoiced purchases (209.4 kg, 63.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-36,12,service-17,phantom,1.0,True,1.0,0.0,0.0,"20 invoiced purchases (28.1 kg, 20.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-36,12,service-18,naive,1.0,True,1.0,0.0,0.0,"7 invoiced purchases (71.8 kg, 41.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-36,12,service-38,phantom,1.0,True,1.0,0.0,0.0,"31 invoiced purchases (51.5 kg, 14.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-36,12,service-01,honest,0.0,False,0.0,0.0,0.0,
+36,12,service-01,honest,1.0,True,0.0,1.0,0.0,"its 16 units recorded 11.5 kg of top-ups where IPCC mid-range leakage would call for about 26.2 kg (ratio 0.44; peer median 3.90, robust z -5.7)"
+36,12,service-05,naive,1.0,True,1.0,0.46550169604978775,0.0,"7 invoiced purchases (125.3 kg, 62.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+36,12,service-09,naive,1.0,True,1.0,0.0,0.0,"13 invoiced purchases (118.5 kg, 82.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+36,12,service-18,naive,1.0,True,1.0,1.0,0.0,"26 invoiced purchases (298.8 kg, 88.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+36,12,service-38,phantom,1.0,True,1.0,0.0,0.0,"24 invoiced purchases (38.4 kg, 15.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+36,12,service-17,phantom,0.766,True,0.7660017221584386,0.0,0.0,"3 invoiced purchases (4.3 kg, 1.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 36,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 36,12,service-03,honest,0.0,False,0.0,0.0,0.0,
 36,12,service-04,honest,0.0,False,0.0,0.0,0.0,
@@ -1839,12 +1839,13 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 36,12,service-37,honest,0.0,False,0.0,0.0,0.0,
 36,12,service-39,honest,0.0,False,0.0,0.0,0.0,
 36,12,service-40,honest,0.0,False,0.0,0.0,0.0,
-36,24,service-05,naive,1.0,True,1.0,0.8811614160746111,0.0,"34 invoiced purchases (347.5 kg, 74.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-36,24,service-09,naive,1.0,True,1.0,0.8781181831716038,0.0,"24 invoiced purchases (462.8 kg, 75.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-36,24,service-17,phantom,1.0,True,1.0,0.0,0.0,"51 invoiced purchases (70.7 kg, 31.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-36,24,service-18,naive,1.0,True,1.0,0.0,0.0,"22 invoiced purchases (223.8 kg, 69.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-36,24,service-38,phantom,1.0,True,1.0,0.0,0.0,"59 invoiced purchases (100.1 kg, 13.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-36,24,service-01,honest,0.0,False,0.0,0.0,0.0,
+36,24,service-05,naive,1.0,True,1.0,1.0,0.0,"18 invoiced purchases (278.4 kg, 77.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+36,24,service-09,naive,1.0,True,1.0,1.0,0.0,"25 invoiced purchases (167.8 kg, 86.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+36,24,service-18,naive,1.0,True,1.0,1.0,0.0,"43 invoiced purchases (646.8 kg, 90.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+36,24,service-38,phantom,1.0,True,1.0,0.0,0.0,"53 invoiced purchases (85.5 kg, 21.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+36,24,service-17,phantom,0.3375,False,0.33753339762540907,0.0,0.0,"3 invoiced purchases (4.3 kg, 0.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+36,24,service-01,honest,0.2648,False,0.0,0.26480344555500346,0.0,"its 22 units recorded 67.1 kg of top-ups where IPCC mid-range leakage would call for about 106.5 kg (ratio 0.63; peer median 1.73, robust z -2.5)"
+36,24,service-29,adaptive,0.01,False,0.0,0.009986157510518012,0.0,
 36,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 36,24,service-03,honest,0.0,False,0.0,0.0,0.0,
 36,24,service-04,honest,0.0,False,0.0,0.0,0.0,
@@ -1868,7 +1869,6 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 36,24,service-26,honest,0.0,False,0.0,0.0,0.0,
 36,24,service-27,honest,0.0,False,0.0,0.0,0.0,
 36,24,service-28,honest,0.0,False,0.0,0.0,0.0,
-36,24,service-29,adaptive,0.0,False,0.0,0.0,0.0,
 36,24,service-30,honest,0.0,False,0.0,0.0,0.0,
 36,24,service-31,honest,0.0,False,0.0,0.0,0.0,
 36,24,service-32,honest,0.0,False,0.0,0.0,0.0,
@@ -1879,12 +1879,12 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 36,24,service-37,honest,0.0,False,0.0,0.0,0.0,
 36,24,service-39,honest,0.0,False,0.0,0.0,0.0,
 36,24,service-40,honest,0.0,False,0.0,0.0,0.0,
-36,36,service-05,naive,1.0,True,1.0,0.741110870265943,0.41666666666666663,"50 invoiced purchases (488.5 kg, 68.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-36,36,service-09,naive,1.0,True,1.0,0.9329026163476843,0.0,"38 invoiced purchases (632.9 kg, 72.5% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-36,36,service-17,phantom,1.0,True,1.0,0.0,0.0,"84 invoiced purchases (117.4 kg, 31.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-36,36,service-18,naive,1.0,True,1.0,0.8853802876287618,0.5,"28 invoiced purchases (302.0 kg, 71.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-36,36,service-38,phantom,1.0,True,1.0,0.0,0.0,"86 invoiced purchases (144.5 kg, 14.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-36,36,service-01,honest,0.0,False,0.0,0.0,0.0,
+36,36,service-05,naive,1.0,True,1.0,1.0,0.0,"26 invoiced purchases (413.9 kg, 80.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+36,36,service-09,naive,1.0,True,1.0,0.8807501423328046,0.5,"33 invoiced purchases (288.8 kg, 77.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+36,36,service-18,naive,1.0,True,1.0,1.0,1.0,"57 invoiced purchases (817.7 kg, 85.7% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+36,36,service-38,phantom,1.0,True,1.0,0.0,0.0,"85 invoiced purchases (134.2 kg, 21.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+36,36,service-01,honest,0.6381,True,0.0,0.6380597336004405,0.0,"its 25 units recorded 77.1 kg of top-ups where IPCC mid-range leakage would call for about 194.7 kg (ratio 0.40; peer median 1.36, robust z -3.3)"
+36,36,service-17,phantom,0.34,False,0.3399675792507204,0.0,0.0,"5 invoiced purchases (6.0 kg, 0.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 36,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 36,36,service-03,honest,0.0,False,0.0,0.0,0.0,
 36,36,service-04,honest,0.0,False,0.0,0.0,0.0,
@@ -1919,11 +1919,11 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 36,36,service-37,honest,0.0,False,0.0,0.0,0.0,
 36,36,service-39,honest,0.0,False,0.0,0.0,0.0,
 36,36,service-40,honest,0.0,False,0.0,0.0,0.0,
-37,12,service-02,naive,1.0,True,1.0,1.0,0.0,"9 invoiced purchases (133.3 kg, 84.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-37,12,service-13,phantom,1.0,True,1.0,0.0,0.0,"29 invoiced purchases (47.5 kg, 16.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-37,12,service-15,naive,1.0,True,1.0,1.0,0.0,"17 invoiced purchases (385.4 kg, 93.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-37,12,service-30,phantom,1.0,True,1.0,0.0,0.0,"30 invoiced purchases (43.8 kg, 16.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-37,12,service-36,naive,1.0,True,1.0,0.0,0.0,"10 invoiced purchases (168.6 kg, 82.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+37,12,service-02,naive,1.0,True,1.0,1.0,0.0,"25 invoiced purchases (213.7 kg, 90.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+37,12,service-13,phantom,1.0,True,1.0,0.0,0.0,"33 invoiced purchases (52.0 kg, 31.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+37,12,service-15,naive,1.0,True,1.0,1.0,0.0,"7 invoiced purchases (109.4 kg, 70.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+37,12,service-36,naive,1.0,True,1.0,1.0,0.0,"11 invoiced purchases (311.5 kg, 77.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+37,12,service-30,phantom,0.4208,False,0.4208477271481055,0.0,0.0,"2 invoiced purchases (3.1 kg, 1.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 37,12,service-01,honest,0.0,False,0.0,0.0,0.0,
 37,12,service-03,honest,0.0,False,0.0,0.0,0.0,
 37,12,service-04,honest,0.0,False,0.0,0.0,0.0,
@@ -1959,12 +1959,12 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 37,12,service-38,adaptive,0.0,False,0.0,0.0,0.0,
 37,12,service-39,honest,0.0,False,0.0,0.0,0.0,
 37,12,service-40,honest,0.0,False,0.0,0.0,0.0,
-37,24,service-02,naive,1.0,True,1.0,1.0,0.0,"19 invoiced purchases (207.4 kg, 81.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-37,24,service-13,phantom,1.0,True,1.0,0.0,0.0,"58 invoiced purchases (93.4 kg, 20.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-37,24,service-15,naive,1.0,True,1.0,1.0,0.0,"31 invoiced purchases (728.1 kg, 87.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-37,24,service-30,phantom,1.0,True,1.0,0.0,0.0,"64 invoiced purchases (88.5 kg, 16.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-37,24,service-36,naive,1.0,True,1.0,0.897207532191336,0.0,"20 invoiced purchases (232.2 kg, 74.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-37,24,service-38,adaptive,0.1342,False,0.0,0.13417413788860988,0.0,
+37,24,service-02,naive,1.0,True,1.0,0.8195659970375984,0.0,"41 invoiced purchases (423.9 kg, 78.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+37,24,service-13,phantom,1.0,True,1.0,0.0,0.0,"69 invoiced purchases (109.4 kg, 37.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+37,24,service-15,naive,1.0,True,1.0,1.0,0.0,"18 invoiced purchases (177.6 kg, 67.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+37,24,service-36,naive,1.0,True,1.0,1.0,0.0,"29 invoiced purchases (653.9 kg, 84.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+37,24,service-30,phantom,0.9791,True,0.9791004675915161,0.0,0.0,"5 invoiced purchases (7.6 kg, 2.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+37,24,service-32,honest,0.1496,False,0.0,0.14963226378980088,0.0,
 37,24,service-01,honest,0.0,False,0.0,0.0,0.0,
 37,24,service-03,honest,0.0,False,0.0,0.0,0.0,
 37,24,service-04,honest,0.0,False,0.0,0.0,0.0,
@@ -1992,23 +1992,21 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 37,24,service-28,honest,0.0,False,0.0,0.0,0.0,
 37,24,service-29,honest,0.0,False,0.0,0.0,0.0,
 37,24,service-31,honest,0.0,False,0.0,0.0,0.0,
-37,24,service-32,honest,0.0,False,0.0,0.0,0.0,
 37,24,service-33,honest,0.0,False,0.0,0.0,0.0,
 37,24,service-34,honest,0.0,False,0.0,0.0,0.0,
 37,24,service-35,honest,0.0,False,0.0,0.0,0.0,
 37,24,service-37,honest,0.0,False,0.0,0.0,0.0,
+37,24,service-38,adaptive,0.0,False,0.0,0.0,0.0,
 37,24,service-39,honest,0.0,False,0.0,0.0,0.0,
 37,24,service-40,honest,0.0,False,0.0,0.0,0.0,
-37,36,service-02,naive,1.0,True,1.0,0.4523240978965726,0.5,"25 invoiced purchases (308.6 kg, 58.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-37,36,service-13,phantom,1.0,True,1.0,0.0,0.0,"85 invoiced purchases (137.2 kg, 21.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-37,36,service-15,naive,1.0,True,1.0,1.0,1.0,"48 invoiced purchases (941.8 kg, 86.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-37,36,service-30,phantom,1.0,True,1.0,0.0,0.0,"91 invoiced purchases (129.0 kg, 18.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-37,36,service-36,naive,1.0,True,1.0,1.0,0.0,"31 invoiced purchases (370.9 kg, 72.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-37,36,service-38,adaptive,0.2587,False,0.0,0.25871535911904564,0.0,"its 37 units recorded 371.4 kg of top-ups where IPCC mid-range leakage would call for about 464.0 kg (ratio 0.80; peer median 1.43, robust z -2.5)"
-37,36,service-03,honest,0.1732,False,0.0,0.1732237923554052,0.0,
-37,36,service-27,honest,0.045,False,0.0,0.044962167161836986,0.0,
-37,36,service-28,honest,0.0041,False,0.0,0.004114129108206743,0.0,
+37,36,service-02,naive,1.0,True,1.0,1.0,0.5,"59 invoiced purchases (598.8 kg, 77.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+37,36,service-13,phantom,1.0,True,1.0,0.0,0.0,"97 invoiced purchases (150.6 kg, 37.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+37,36,service-15,naive,1.0,True,1.0,1.0,1.0,"29 invoiced purchases (268.5 kg, 68.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+37,36,service-36,naive,1.0,True,1.0,1.0,1.0,"49 invoiced purchases (1,041.6 kg, 88.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+37,36,service-30,phantom,0.8049,True,0.8048718839847082,0.0,0.0,"7 invoiced purchases (10.2 kg, 1.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+37,36,service-32,honest,0.32,False,0.0,0.31999154099608274,0.0,"its 29 units recorded 85.4 kg of top-ups where IPCC mid-range leakage would call for about 133.7 kg (ratio 0.64; peer median 1.46, robust z -2.6)"
 37,36,service-01,honest,0.0,False,0.0,0.0,0.0,
+37,36,service-03,honest,0.0,False,0.0,0.0,0.0,
 37,36,service-04,honest,0.0,False,0.0,0.0,0.0,
 37,36,service-05,honest,0.0,False,0.0,0.0,0.0,
 37,36,service-06,honest,0.0,False,0.0,0.0,0.0,
@@ -2030,21 +2028,22 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 37,36,service-24,honest,0.0,False,0.0,0.0,0.0,
 37,36,service-25,honest,0.0,False,0.0,0.0,0.0,
 37,36,service-26,honest,0.0,False,0.0,0.0,0.0,
+37,36,service-27,honest,0.0,False,0.0,0.0,0.0,
+37,36,service-28,honest,0.0,False,0.0,0.0,0.0,
 37,36,service-29,honest,0.0,False,0.0,0.0,0.0,
 37,36,service-31,honest,0.0,False,0.0,0.0,0.0,
-37,36,service-32,honest,0.0,False,0.0,0.0,0.0,
 37,36,service-33,honest,0.0,False,0.0,0.0,0.0,
 37,36,service-34,honest,0.0,False,0.0,0.0,0.0,
 37,36,service-35,honest,0.0,False,0.0,0.0,0.0,
 37,36,service-37,honest,0.0,False,0.0,0.0,0.0,
+37,36,service-38,adaptive,0.0,False,0.0,0.0,0.0,
 37,36,service-39,honest,0.0,False,0.0,0.0,0.0,
 37,36,service-40,honest,0.0,False,0.0,0.0,0.0,
-38,12,service-01,naive,1.0,True,1.0,0.0,0.0,"8 invoiced purchases (111.4 kg, 71.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-38,12,service-07,phantom,1.0,True,1.0,0.0,0.0,"27 invoiced purchases (44.6 kg, 19.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-38,12,service-17,phantom,1.0,True,1.0,0.0,0.0,"34 invoiced purchases (49.4 kg, 28.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-38,12,service-25,naive,1.0,True,1.0,1.0,0.0,"12 invoiced purchases (195.9 kg, 90.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-38,12,service-40,naive,1.0,True,1.0,0.0,0.0,"4 invoiced purchases (1.4 kg, 5.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-38,12,service-29,honest,0.859,True,0.0,0.8590349395296548,0.0,"its 42 units recorded 34.6 kg of top-ups where IPCC mid-range leakage would call for about 33.6 kg (ratio 1.03; peer median 3.78, robust z -3.7)"
+38,12,service-01,naive,1.0,True,1.0,1.0,0.0,"16 invoiced purchases (144.2 kg, 69.6% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+38,12,service-07,phantom,1.0,True,1.0,0.0,0.0,"29 invoiced purchases (48.9 kg, 8.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+38,12,service-17,phantom,1.0,True,1.0,0.0,0.0,"3 invoiced purchases (4.6 kg, 4.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+38,12,service-25,naive,1.0,True,1.0,0.0,0.0,"4 invoiced purchases (1.4 kg, 21.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+38,12,service-40,naive,1.0,True,1.0,0.0,0.0,"4 invoiced purchases (27.0 kg, 100.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 38,12,service-02,adaptive,0.0,False,0.0,0.0,0.0,
 38,12,service-03,honest,0.0,False,0.0,0.0,0.0,
 38,12,service-04,honest,0.0,False,0.0,0.0,0.0,
@@ -2069,6 +2068,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 38,12,service-26,honest,0.0,False,0.0,0.0,0.0,
 38,12,service-27,honest,0.0,False,0.0,0.0,0.0,
 38,12,service-28,honest,0.0,False,0.0,0.0,0.0,
+38,12,service-29,honest,0.0,False,0.0,0.0,0.0,
 38,12,service-30,honest,0.0,False,0.0,0.0,0.0,
 38,12,service-31,honest,0.0,False,0.0,0.0,0.0,
 38,12,service-32,honest,0.0,False,0.0,0.0,0.0,
@@ -2079,13 +2079,11 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 38,12,service-37,honest,0.0,False,0.0,0.0,0.0,
 38,12,service-38,honest,0.0,False,0.0,0.0,0.0,
 38,12,service-39,honest,0.0,False,0.0,0.0,0.0,
-38,24,service-01,naive,1.0,True,1.0,0.0,0.0,"15 invoiced purchases (185.2 kg, 58.8% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-38,24,service-07,phantom,1.0,True,1.0,0.0,0.0,"58 invoiced purchases (88.5 kg, 19.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-38,24,service-17,phantom,1.0,True,1.0,0.0,0.0,"59 invoiced purchases (87.4 kg, 30.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-38,24,service-25,naive,1.0,True,1.0,1.0,0.0,"21 invoiced purchases (334.9 kg, 87.9% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-38,24,service-40,naive,1.0,True,1.0,0.0,0.0,"13 invoiced purchases (4.3 kg, 14.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-38,24,service-19,honest,0.4293,False,0.0,0.4293192570128852,0.0,"its 35 units recorded 44.8 kg of top-ups where IPCC mid-range leakage would call for about 60.0 kg (ratio 0.75; peer median 1.85, robust z -2.9)"
-38,24,service-29,honest,0.0762,False,0.0,0.07615242467014816,0.0,
+38,24,service-01,naive,1.0,True,1.0,1.0,0.0,"28 invoiced purchases (330.8 kg, 79.9% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+38,24,service-07,phantom,1.0,True,1.0,0.0,0.0,"54 invoiced purchases (92.8 kg, 9.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+38,24,service-17,phantom,1.0,True,1.0,0.0,0.0,"4 invoiced purchases (6.0 kg, 4.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+38,24,service-25,naive,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (2.7 kg, 35.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+38,24,service-40,naive,1.0,True,1.0,1.0,0.0,"11 invoiced purchases (71.2 kg, 78.1% of what it bought) from 2 distributor(s) have no matching ledger delivery"
 38,24,service-02,adaptive,0.0,False,0.0,0.0,0.0,
 38,24,service-03,honest,0.0,False,0.0,0.0,0.0,
 38,24,service-04,honest,0.0,False,0.0,0.0,0.0,
@@ -2101,6 +2099,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 38,24,service-15,honest,0.0,False,0.0,0.0,0.0,
 38,24,service-16,honest,0.0,False,0.0,0.0,0.0,
 38,24,service-18,honest,0.0,False,0.0,0.0,0.0,
+38,24,service-19,honest,0.0,False,0.0,0.0,0.0,
 38,24,service-20,honest,0.0,False,0.0,0.0,0.0,
 38,24,service-21,honest,0.0,False,0.0,0.0,0.0,
 38,24,service-22,honest,0.0,False,0.0,0.0,0.0,
@@ -2109,6 +2108,7 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 38,24,service-26,honest,0.0,False,0.0,0.0,0.0,
 38,24,service-27,honest,0.0,False,0.0,0.0,0.0,
 38,24,service-28,honest,0.0,False,0.0,0.0,0.0,
+38,24,service-29,honest,0.0,False,0.0,0.0,0.0,
 38,24,service-30,honest,0.0,False,0.0,0.0,0.0,
 38,24,service-31,honest,0.0,False,0.0,0.0,0.0,
 38,24,service-32,honest,0.0,False,0.0,0.0,0.0,
@@ -2119,11 +2119,11 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 38,24,service-37,honest,0.0,False,0.0,0.0,0.0,
 38,24,service-38,honest,0.0,False,0.0,0.0,0.0,
 38,24,service-39,honest,0.0,False,0.0,0.0,0.0,
-38,36,service-01,naive,1.0,True,1.0,0.4849273794713993,0.0,"23 invoiced purchases (187.3 kg, 59.1% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-38,36,service-07,phantom,1.0,True,1.0,0.0,0.0,"90 invoiced purchases (141.1 kg, 21.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-38,36,service-17,phantom,1.0,True,1.0,0.0,0.0,"87 invoiced purchases (128.6 kg, 29.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-38,36,service-25,naive,1.0,True,1.0,1.0,1.0,"29 invoiced purchases (494.5 kg, 85.5% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-38,36,service-40,naive,1.0,True,1.0,1.0,0.0,"22 invoiced purchases (7.7 kg, 23.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+38,36,service-01,naive,1.0,True,1.0,1.0,0.0,"36 invoiced purchases (409.5 kg, 72.8% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+38,36,service-07,phantom,1.0,True,1.0,0.0,0.0,"78 invoiced purchases (129.2 kg, 8.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+38,36,service-17,phantom,1.0,True,1.0,0.0,0.0,"7 invoiced purchases (10.0 kg, 4.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+38,36,service-25,naive,1.0,True,1.0,0.0,0.0,"19 invoiced purchases (7.0 kg, 13.3% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+38,36,service-40,naive,1.0,True,1.0,1.0,0.5,"16 invoiced purchases (113.6 kg, 82.0% of what it bought) from 2 distributor(s) have no matching ledger delivery"
 38,36,service-02,adaptive,0.0,False,0.0,0.0,0.0,
 38,36,service-03,honest,0.0,False,0.0,0.0,0.0,
 38,36,service-04,honest,0.0,False,0.0,0.0,0.0,
@@ -2159,12 +2159,11 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 38,36,service-37,honest,0.0,False,0.0,0.0,0.0,
 38,36,service-38,honest,0.0,False,0.0,0.0,0.0,
 38,36,service-39,honest,0.0,False,0.0,0.0,0.0,
-39,12,service-11,phantom,1.0,True,1.0,0.0,0.0,"35 invoiced purchases (51.6 kg, 32.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-39,12,service-12,naive,1.0,True,1.0,1.0,0.0,"8 invoiced purchases (64.7 kg, 56.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-39,12,service-16,naive,1.0,True,1.0,0.20235709394265267,0.0,"9 invoiced purchases (205.4 kg, 73.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-39,12,service-26,naive,1.0,True,1.0,1.0,0.0,"13 invoiced purchases (201.8 kg, 71.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-39,12,service-33,phantom,1.0,True,1.0,0.0,0.0,"30 invoiced purchases (39.9 kg, 15.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-39,12,service-38,adaptive,0.2574,False,0.0,0.25739400456225137,0.0,"its 28 units recorded 50.5 kg of top-ups where IPCC mid-range leakage would call for about 34.8 kg (ratio 1.45; peer median 4.13, robust z -2.5)"
+39,12,service-11,phantom,1.0,True,1.0,0.0,0.0,"29 invoiced purchases (42.4 kg, 19.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+39,12,service-12,naive,1.0,True,1.0,0.0,0.0,"5 invoiced purchases (49.3 kg, 35.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+39,12,service-16,naive,1.0,True,1.0,0.0,0.0,"10 invoiced purchases (89.4 kg, 78.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+39,12,service-26,naive,1.0,True,1.0,0.0,0.0,"9 invoiced purchases (89.1 kg, 51.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+39,12,service-33,phantom,0.6978,True,0.6977871103214344,0.0,0.0,"3 invoiced purchases (4.3 kg, 1.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 39,12,service-01,honest,0.0,False,0.0,0.0,0.0,
 39,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 39,12,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -2197,13 +2196,14 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 39,12,service-35,honest,0.0,False,0.0,0.0,0.0,
 39,12,service-36,honest,0.0,False,0.0,0.0,0.0,
 39,12,service-37,honest,0.0,False,0.0,0.0,0.0,
+39,12,service-38,adaptive,0.0,False,0.0,0.0,0.0,
 39,12,service-39,honest,0.0,False,0.0,0.0,0.0,
 39,12,service-40,honest,0.0,False,0.0,0.0,0.0,
-39,24,service-11,phantom,1.0,True,1.0,0.0,0.0,"64 invoiced purchases (99.0 kg, 37.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-39,24,service-12,naive,1.0,True,1.0,0.0674189592114014,0.0,"12 invoiced purchases (100.8 kg, 38.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-39,24,service-16,naive,1.0,True,1.0,0.26170549503548135,0.0,"22 invoiced purchases (389.1 kg, 83.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-39,24,service-26,naive,1.0,True,1.0,0.38234474631462056,0.0,"26 invoiced purchases (381.4 kg, 75.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-39,24,service-33,phantom,1.0,True,1.0,0.0,0.0,"57 invoiced purchases (79.8 kg, 16.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+39,24,service-11,phantom,1.0,True,1.0,0.0,0.0,"64 invoiced purchases (99.1 kg, 25.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+39,24,service-12,naive,1.0,True,1.0,0.0,0.0,"10 invoiced purchases (163.8 kg, 64.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+39,24,service-16,naive,1.0,True,1.0,1.0,0.0,"24 invoiced purchases (149.5 kg, 76.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+39,24,service-26,naive,1.0,True,1.0,0.0,0.0,"24 invoiced purchases (191.7 kg, 65.1% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+39,24,service-33,phantom,0.5661,False,0.5661005661005661,0.0,0.0,"5 invoiced purchases (7.1 kg, 1.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 39,24,service-01,honest,0.0,False,0.0,0.0,0.0,
 39,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 39,24,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -2239,11 +2239,11 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 39,24,service-38,adaptive,0.0,False,0.0,0.0,0.0,
 39,24,service-39,honest,0.0,False,0.0,0.0,0.0,
 39,24,service-40,honest,0.0,False,0.0,0.0,0.0,
-39,36,service-11,phantom,1.0,True,1.0,0.0,0.0,"97 invoiced purchases (148.3 kg, 38.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-39,36,service-12,naive,1.0,True,1.0,0.779926631474281,0.5,"21 invoiced purchases (204.8 kg, 55.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-39,36,service-16,naive,1.0,True,1.0,0.9680453955835722,0.5,"28 invoiced purchases (471.7 kg, 80.3% of what it bought) from 2 distributor(s) have no matching ledger delivery"
-39,36,service-26,naive,1.0,True,1.0,0.8200659227408442,1.0,"44 invoiced purchases (584.0 kg, 77.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-39,36,service-33,phantom,1.0,True,1.0,0.0,0.0,"90 invoiced purchases (123.5 kg, 21.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+39,36,service-11,phantom,1.0,True,1.0,0.0,0.0,"95 invoiced purchases (149.4 kg, 26.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+39,36,service-12,naive,1.0,True,1.0,0.7386411025242323,1.0,"12 invoiced purchases (178.9 kg, 66.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+39,36,service-16,naive,1.0,True,1.0,0.9986037571923927,0.5,"30 invoiced purchases (167.1 kg, 64.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+39,36,service-26,naive,1.0,True,1.0,0.3552455319667436,0.5,"37 invoiced purchases (332.3 kg, 73.0% of what it bought) from 2 distributor(s) have no matching ledger delivery"
+39,36,service-33,phantom,0.5291,False,0.5291244573082489,0.0,0.0,"6 invoiced purchases (8.2 kg, 1.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 39,36,service-01,honest,0.0,False,0.0,0.0,0.0,
 39,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 39,36,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -2279,11 +2279,11 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 39,36,service-38,adaptive,0.0,False,0.0,0.0,0.0,
 39,36,service-39,honest,0.0,False,0.0,0.0,0.0,
 39,36,service-40,honest,0.0,False,0.0,0.0,0.0,
-40,12,service-19,phantom,1.0,True,1.0,0.0,0.0,"31 invoiced purchases (45.9 kg, 28.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-40,12,service-25,naive,1.0,True,1.0,1.0,0.0,"8 invoiced purchases (187.7 kg, 97.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-40,12,service-28,naive,1.0,True,1.0,0.0,0.0,"15 invoiced purchases (144.4 kg, 65.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-40,12,service-36,phantom,1.0,True,1.0,0.0,0.0,"26 invoiced purchases (38.6 kg, 20.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-40,12,service-38,naive,1.0,True,1.0,0.0,0.0,"13 invoiced purchases (148.1 kg, 67.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+40,12,service-25,naive,1.0,True,1.0,0.599347406407569,0.0,"4 invoiced purchases (83.4 kg, 67.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+40,12,service-28,naive,1.0,True,1.0,0.4887731404932285,0.0,"8 invoiced purchases (123.2 kg, 57.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+40,12,service-36,phantom,1.0,True,1.0,0.0,0.0,"30 invoiced purchases (44.8 kg, 24.5% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+40,12,service-38,naive,1.0,True,1.0,0.0,0.0,"16 invoiced purchases (257.6 kg, 54.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+40,12,service-19,phantom,0.364,False,0.3639510320429614,0.0,0.0,"2 invoiced purchases (2.9 kg, 1.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 40,12,service-01,honest,0.0,False,0.0,0.0,0.0,
 40,12,service-02,honest,0.0,False,0.0,0.0,0.0,
 40,12,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -2319,11 +2319,11 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 40,12,service-37,honest,0.0,False,0.0,0.0,0.0,
 40,12,service-39,honest,0.0,False,0.0,0.0,0.0,
 40,12,service-40,honest,0.0,False,0.0,0.0,0.0,
-40,24,service-19,phantom,1.0,True,1.0,0.0,0.0,"61 invoiced purchases (86.0 kg, 29.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-40,24,service-25,naive,1.0,True,1.0,1.0,0.0,"17 invoiced purchases (241.2 kg, 83.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-40,24,service-28,naive,1.0,True,1.0,0.6022093160661433,0.0,"27 invoiced purchases (330.8 kg, 76.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-40,24,service-36,phantom,1.0,True,1.0,0.0,0.0,"56 invoiced purchases (86.9 kg, 18.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-40,24,service-38,naive,1.0,True,1.0,0.0,0.0,"27 invoiced purchases (311.4 kg, 68.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+40,24,service-25,naive,1.0,True,1.0,1.0,0.0,"10 invoiced purchases (261.4 kg, 85.0% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+40,24,service-28,naive,1.0,True,1.0,1.0,0.0,"28 invoiced purchases (386.6 kg, 77.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+40,24,service-36,phantom,1.0,True,1.0,0.0,0.0,"59 invoiced purchases (91.2 kg, 24.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+40,24,service-38,naive,1.0,True,1.0,0.4724191249292715,0.0,"32 invoiced purchases (516.8 kg, 68.9% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+40,24,service-19,phantom,0.9115,True,0.9114701866181155,0.0,0.0,"5 invoiced purchases (8.0 kg, 1.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 40,24,service-01,honest,0.0,False,0.0,0.0,0.0,
 40,24,service-02,honest,0.0,False,0.0,0.0,0.0,
 40,24,service-03,honest,0.0,False,0.0,0.0,0.0,
@@ -2359,11 +2359,11 @@ seed,months,actor,label,score,flagged,A1,A2,A3,top_reason
 40,24,service-37,honest,0.0,False,0.0,0.0,0.0,
 40,24,service-39,honest,0.0,False,0.0,0.0,0.0,
 40,24,service-40,honest,0.0,False,0.0,0.0,0.0,
-40,36,service-19,phantom,1.0,True,1.0,0.0,0.0,"91 invoiced purchases (124.6 kg, 28.2% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-40,36,service-25,naive,1.0,True,1.0,0.6298615121325959,0.0,"24 invoiced purchases (305.7 kg, 70.7% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-40,36,service-28,naive,1.0,True,1.0,0.526534336957672,0.5,"37 invoiced purchases (423.3 kg, 71.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-40,36,service-36,phantom,1.0,True,1.0,0.0,0.0,"89 invoiced purchases (140.9 kg, 21.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
-40,36,service-38,naive,1.0,True,1.0,0.0,0.0,"42 invoiced purchases (482.4 kg, 68.8% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+40,36,service-19,phantom,1.0,True,1.0,0.0,0.0,"8 invoiced purchases (12.5 kg, 2.4% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+40,36,service-25,naive,1.0,True,1.0,1.0,0.0,"16 invoiced purchases (386.9 kg, 78.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+40,36,service-28,naive,1.0,True,1.0,1.0,1.0,"43 invoiced purchases (592.6 kg, 68.1% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+40,36,service-36,phantom,1.0,True,1.0,0.0,0.0,"88 invoiced purchases (132.2 kg, 25.3% of what it bought) from 1 distributor(s) have no matching ledger delivery"
+40,36,service-38,naive,1.0,True,1.0,0.8255547513049846,1.0,"50 invoiced purchases (681.0 kg, 62.6% of what it bought) from 1 distributor(s) have no matching ledger delivery"
 40,36,service-01,honest,0.0,False,0.0,0.0,0.0,
 40,36,service-02,honest,0.0,False,0.0,0.0,0.0,
 40,36,service-03,honest,0.0,False,0.0,0.0,0.0,

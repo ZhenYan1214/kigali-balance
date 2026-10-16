@@ -1,3 +1,8 @@
+# Secrets: never commit. Copy .env.example to .env and fill it in locally.
+.env
+.env.*
+!.env.example
+
 # Foundry
 out/
 cache/
@@ -18,3 +23,7 @@ ai/out/
 ai/**/__pycache__/
 ai/.pytest_cache/
 simulator/out-dev/
+
+# local rehearsals (Anvil chain id 31337); testnet (OP Sepolia) deployment records are committed
+deployments/31337.json
+broadcast/**/*.lock

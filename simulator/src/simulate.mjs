@@ -64,6 +64,9 @@ export function simulate(params, overrides = {}) {
   truth.fraud.offLedgerProfiles = Object.fromEntries(truth.fraud.offLedgerTopUpServices.map(
     (s, i) => [s, i < p.fraud.offLedgerTopUps.serviceCompanies - p.fraud.offLedgerTopUps.adaptive ? 'naive' : 'adaptive'],
   ));
+  const serviceSize = Object.fromEntries(services.map(
+    (s) => [s, rng.uniform(p.service.companySizeWeight[0], p.service.companySizeWeight[1])],
+  ));
   truth.serviceLeakFactor = Object.fromEntries(services.map(
     (s) => [s, Number(rng.uniform(p.service.companyLeakFactor[0], p.service.companyLeakFactor[1]).toFixed(4))],
   ));
@@ -77,7 +80,6 @@ export function simulate(params, overrides = {}) {
   const ledgerSalesByDistributor = {};
   const smugglingCustomers = new Set([...truth.fraud.offLedgerTopUpServices, ...truth.fraud.phantomTierBServices]);
   truth.fraud.phantomTierBServices.forEach((svc, i) => { truth.fraud.phantomProfiles[svc] = i === 0 ? 'naive' : 'adaptive'; });
-  const honestTakeBacks = takeBacks.filter((tb) => !colludingTakeBacks.includes(tb));
 
   const actors = [
     ...importers.map((id) => ({ id, role: 'IMPORTER', country: 'TR' })),
@@ -142,10 +144,10 @@ export function simulate(params, overrides = {}) {
         eolMonth: lifetimeMonths - ageMonths, // month index when it is scrapped
         leakRate: rng.uniform(c.leakRatePerYear[0], c.leakRatePerYear[1]),
         charge: Math.round(nameplate * rng.uniform(p.fleet.initialChargeFraction[0], p.fleet.initialChargeFraction[1])),
-        service: rng.pick(services),
+        service: rng.weighted(serviceSize),
         leakBand: c.leakRatePerYear,
         // Tier A: the operator in the national registry; Tier B: the take-back point at scrapping
-        owner: tier === 'A' ? rng.pick(owners) : rng.pick(honestTakeBacks),
+        owner: tier === 'A' ? rng.pick(owners) : rng.pick(takeBacks),
         registered: false,
         active: true,
       };
@@ -411,7 +413,9 @@ export function simulate(params, overrides = {}) {
     //    A colluding take-back point co-signs as the owner; the adaptive company mimics honest
     //    recovery efficiency instead of booking the full model charge.
     for (const svc of truth.fraud.phantomTierBServices) {
-      const n = rng.int(p.fraud.phantomTierB.unitsPerMonth[0], p.fraud.phantomTierB.unitsPerMonth[1]);
+      const n = truth.fraud.phantomProfiles[svc] === 'adaptive'
+        ? Number(rng.chance(p.fraud.phantomTierB.adaptiveUnitChancePerMonth))
+        : rng.int(p.fraud.phantomTierB.unitsPerMonth[0], p.fraud.phantomTierB.unitsPerMonth[1]);
       const range = truth.fraud.phantomProfiles[svc] === 'adaptive'
         ? p.fraud.phantomTierB.adaptiveFractionOfModelCharge
         : p.fraud.phantomTierB.fractionOfModelCharge;
