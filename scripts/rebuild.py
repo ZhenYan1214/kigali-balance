@@ -143,8 +143,11 @@ def ai_test() -> dict:
 
 def web_data() -> dict:
     run([tool("node"), "web/build_data.mjs"])
+    # GS1 EPCIS 2.0 exports of the passport's example lots (reads the example list from sim.json)
+    run([tool("node"), "simulator/epcis/export_epcis.mjs"])
     meta = json.loads((ROOT / "web" / "data" / "sim.json").read_text(encoding="utf-8"))["meta"]
-    return {"web_events": meta["events"]}
+    epcis = json.loads((ROOT / "web" / "data" / "epcis" / "index.json").read_text(encoding="utf-8"))
+    return {"web_events": meta["events"], "epcis_examples": len(epcis["examples"])}
 
 
 def diagrams() -> dict:

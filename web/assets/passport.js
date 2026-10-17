@@ -32,6 +32,9 @@ document.getElementById('search').addEventListener('submit', (e) => {
   if (Number.isFinite(id)) location.search = `${state.source === 'chain' ? 'source=chain&' : ''}lot=${id}`;
 });
 const data = await loadSim();
+// lots with a GS1 EPCIS 2.0 export (simulator/epcis/export_epcis.mjs); a missing index just hides the link
+const epcisFiles = await fetch('data/epcis/index.json').then((r) => (r.ok ? r.json() : { examples: [] })).catch(() => ({ examples: [] }))
+  .then((ix) => new Map(ix.examples.map((x) => [x.lot, x.file])));
 document.getElementById('examples').append(
   el('span', { class: 'muted', style: { fontSize: '12.5px', alignSelf: 'center' } }, 'Try:'),
   ...(data.examples ?? []).map(({ lot, label }) => link('sim', lot, label)),
@@ -105,6 +108,7 @@ function verdictCard(lot, root, recoveries, reclaim) {
       el('div', { style: { marginTop: '10px', display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' } },
         lot.tier === 'C' ? status('review', 'Not reclaimable, not creditable') : checkMark(lot.cls === 'VIRGIN' ? 'Backed by a quota document' : `Traces to ${new Set(recoveries.map((r) => r.origin)).size} registered unit(s)`),
         el('span', { class: 'chip' }, fate),
+        ...(epcisFiles.has(lot.id) ? [el('a', { href: `data/epcis/${epcisFiles.get(lot.id)}`, download: '', style: { fontSize: '13px' } }, 'GS1 EPCIS 2.0 export')] : []),
       ),
     ),
     qrBox,
@@ -179,7 +183,7 @@ function checksList(lot, lineage, recoveries, reclaim) {
     add('R5', `Every input was RECOVERED gas from registered equipment; virgin, unknown and tier C gas cannot enter reclamation.`);
   }
   const cyls = new Set(lineage.map((l) => l.cyl));
-  add('M1', `${cyls.size} cylinder ID${cyls.size > 1 ? 's' : ''}, each holding one open lot at a time.`);
+  add('CYL', `${cyls.size} cylinder ID${cyls.size > 1 ? 's' : ''}, each holding one open lot at a time.`);
   if (lot.consumedBy?.kind === 'destroy') {
     const d = data.destructions.find((x) => x.id === lot.consumedBy.event);
     add('R6', `Destroyed by ${d.facility}; ${kg(d.grams, 2)} kg and DRE ${(d.dreBps / 100).toFixed(2)}% certified by ${d.verifier}, independent of the facility.`);
@@ -202,6 +206,9 @@ function aiNotes(lineage) {
     card.append(el('div', { class: 'caution' },
       el('div', {}, n.severity === 'high' ? status('high', 'Flagged for review') : status('review', 'Review'), el('span', { class: 'mono', style: { marginLeft: '8px' } }, n.a), el('span', { class: 'muted' }, ` · ${roleLabel(n.role)} · Module ${MODULES[n.m].short}`)),
       el('div', { class: 'ink2', style: { fontSize: '13px', marginTop: '6px' } }, n.reasons[0]),
+      // the same hashes are written with the flag to FlagRegistry, so anyone can re-run the model on the same data
+      el('div', { class: 'muted mono', style: { fontSize: '11.5px', marginTop: '6px' } },
+        `${data.ai[n.m].version} · model ${data.ai[n.m].modelHash.slice(0, 12)}… · input ${data.ai[n.m].inputSnapshot.slice(0, 12)}…`),
     ));
   }
   card.append(el('p', { class: 'muted', style: { fontSize: '12px', marginTop: '10px' } }, 'A flag is a reason to look closer, not a finding. The ledger accepted every record above; the AI only says the pattern is unusual.'));

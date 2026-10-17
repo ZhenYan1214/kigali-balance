@@ -9,7 +9,7 @@ Gas sold as "reclaimed" and gas credited as "destroyed" must both trace back to 
 
 [![Track 3](https://img.shields.io/badge/IEEE_ClimateChain_2026-Track_3%3A_Supply_Chains-0f766e)](https://ieee-climatechain-hack.devpost.com/)
 [![Contracts](https://img.shields.io/badge/Solidity-0.8.28-363636?logo=solidity)](src/)
-[![Tests](https://img.shields.io/badge/tests-143_unit_%2B_10_invariants-1a7f37)](test/)
+[![Tests](https://img.shields.io/badge/tests-162_unit_%2B_10_invariants-1a7f37)](test/)
 [![verify](https://github.com/ZhenYan1214/kigali-balance/actions/workflows/verify.yml/badge.svg)](https://github.com/ZhenYan1214/kigali-balance/actions/workflows/verify.yml)
 [![OP Sepolia](https://img.shields.io/badge/OP_Sepolia-deployed_(earlier_build)-ff0420?logo=optimism&logoColor=white)](#live-on-op-sepolia)
 [![Data](https://img.shields.io/badge/data-simulated-9a6700)](#honest-limits)
@@ -106,9 +106,9 @@ All results are on simulated data and measure our own fraud generator: naive fra
 
 | Check | Result |
 |---|---|
-| Foundry unit tests | 143 passing, including the demo scenario, attacks on every signature, and a regression test for each finding of an outside red-team review |
+| Foundry unit tests | 162 passing, including the demo scenario, attacks on every signature, and a regression test for each fixed finding of two rounds of outside security review (each found a High-severity laundering path; the second found that our fix of the first could be bypassed; both fixed) |
 | Fuzzed invariants (256 runs × 128 steps, `FOUNDRY_PROFILE=deep`) | 10 passing; about 2,160 unconsented recoveries, 1,700 self-certified destructions and 3,300 recoveries above what the unit could still hold (including padding split over several recoveries) attempted per campaign, none succeeded |
-| Differential test | 7,219 simulated events replayed against the compiled contracts: every accept/reject decision, reason, lot ID and gas total matches the simulator's separately written rule mirror. The AI's flags are then written to `FlagRegistry` and read back |
+| Differential test | 7,359 simulated events (twelve kinds of injected fraud) replayed against the compiled contracts: every accept/reject decision, reason, lot ID and gas total matches the simulator's separately written rule mirror. The AI's flags are then written to `FlagRegistry` and read back |
 | Static analysis | Slither, 102 detectors: 0 High, 0 Medium ([triage](docs/security/static-analysis.md)); rerun on every push |
 
 **AI modules** (20 held-out simulated runs per module, never used for design; 36 months; threshold fixed in advance; precision and "honest flagged" are per company)
@@ -147,7 +147,7 @@ Kigali Balance recovers no gas and claims no credits; it makes paid-for recovery
 A static web app in [`web/`](web/) with two views:
 
 - **Regulator dashboard** shows where every kilogram went, as a Sankey of provenance classes. The books balance to the gram. It also shows attempts the contracts rejected (by rule), the AI review queue with readable reasons, destruction events with their single registry claim, and a live panel that reads the OP Sepolia deployment from the browser.
-- **Provenance passport** is what a buyer or registry sees when they scan a cylinder. It traces any lot back through reclamation and splits to the registered units it was recovered from. It lists the owner's co-signature, the recovery cap, the yield, each check the ledger enforced, and AI notes about parties in the chain. A QR code links to the page. It works on simulated lots and on live lots read from OP Sepolia.
+- **Provenance passport** is what a buyer or registry sees when they scan a cylinder. It traces any lot back through reclamation and splits to the registered units it was recovered from. It lists the owner's co-signature, the recovery cap, the yield, each check the ledger enforced, and AI notes about parties in the chain. A QR code links to the page. It works on simulated lots and on live lots read from OP Sepolia. Each example lot also downloads as a GS1 EPCIS 2.0 document; every lot's chain exports to EPCIS and is validated against GS1's official schema in the simulator tests ([`simulator/epcis/`](simulator/epcis/)).
 
 ```bash
 python -m http.server 8000 --directory web    # then open http://localhost:8000
@@ -222,7 +222,7 @@ python scripts/rebuild.py --full      # contracts + invariants, simulator, diffe
 python scripts/check_submission.py    # numbers consistent across documents, links, no secrets, PDF still 2 pages
 ```
 
-`forge test` prints 144 tests: the 143 unit tests plus the invariant suite, which runs all 10 invariants as one test. A rebuild rewrites generated files in place; all of them come out byte-identical to the commit except the PDFs. `HANDOFF.md` is the maintainers' working notes (in Chinese); everything a judge needs is in this README and [docs/](docs/README.md).
+`forge test` prints 163 tests: the 162 unit tests plus the invariant suite, which runs all 10 invariants as one test. A rebuild rewrites generated files in place; all of them come out byte-identical to the commit except the PDFs. `HANDOFF.md` is the maintainers' working notes (in Chinese); everything a judge needs is in this README and [docs/](docs/README.md).
 
 <details>
 <summary><b>Simulator and differential test</b></summary>
@@ -282,7 +282,7 @@ Addresses are written to `deployments/11155420.json`.
 - Split `KigaliLedger` into contracts below about 10 KB, so it fits Sepolia and a permissioned consortium chain (Hyperledger Besu, QBFT).
 - Commitments instead of plain grams for lot-level confidentiality.
 - Write AI flags to `FlagRegistry` on the public deployment (done on the local replay chain).
-- Import existing records (GS1 EPCIS 2.0) instead of asking technicians to re-enter data.
+- Import existing records (GS1 EPCIS 2.0; the export side is built and schema-validated) instead of asking technicians to re-enter data.
 
 ## Repository
 

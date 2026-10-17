@@ -16,8 +16,10 @@ function setup() {
   L.addOwner('own'); // operator of eqA
   L.addOwner('tb'); // take-back point owning scrapped Tier B units
   L.addVerifier('ver');
+  L.addService('svc');
+  L.addService('rival');
   L.registerQuota(T0, 'q', 'imp', 'R-404A', 100_000);
-  L.registerTierA(T0, 'eqA', 'R-404A', 10_000, OLD, 'medium_large_commercial', 'own');
+  L.registerTierA(T0, 'eqA', 'R-404A', 10_000, OLD, 'medium_large_commercial', 'own', 'svc');
   L.setModel(T0, 'm', 'R-404A', 1_200);
   return L;
 }
@@ -120,9 +122,28 @@ test('R6 eligibility and R7 single claim with registry tier policy', () => {
   const f = move(L, T0, 'svc', inService, 'fac', 5_000);
   const ev = L.destroy(T0, 'fac', [f], 5_000, 9_999, { verifier: 'ver' });
   assert.equal(L.destructionEvents[ev].eligible, true);
+  assert.equal(L.claim(T0, 'registry-tw', 'B', ev), null, 'nothing designated yet');
+  assert.equal(lastReason(L), 'NotDesignated');
+  assert.ok(L.designate(T0, 'fac', ev, 'registry-tw'));
+  assert.equal(L.claim(T0, 'registry-intl', 'A', ev), null, 'a registry that was not designated');
+  assert.equal(lastReason(L), 'NotDesignated');
   assert.ok(L.claim(T0, 'registry-tw', 'B', ev));
   assert.equal(L.claim(T0, 'registry-intl', 'A', ev), null);
   assert.equal(lastReason(L), 'AlreadyClaimed');
+  assert.equal(L.designate(T0, 'fac', ev, 'registry-intl'), null, 'a claimed event cannot be moved');
+  assert.equal(lastReason(L), 'AlreadyClaimed');
+  assert.equal(L.designate(T0, 'svc', ev, 'registry-intl'), null);
+  assert.equal(lastReason(L), 'NotFacility');
+});
+
+test('only the service company of record charges a unit (red-team F2)', () => {
+  const L = setup();
+  const v = move(L, T0, 'imp', L.mintVirgin(T0, 'imp', 'q', 4_000), 'rival', 4_000);
+  assert.equal(L.charge(T0, 'rival', v, 'eqA', 2_000), null);
+  assert.equal(lastReason(L), 'ServiceNotAuthorized');
+  assert.equal(L.equipment.get('eqA').charged, 0, 'a rejected charge changes nothing');
+  const w = move(L, T0, 'imp', L.mintVirgin(T0, 'imp', 'q', 2_000), 'svc', 2_000);
+  assert.ok(L.charge(T0, 'svc', w, 'eqA', 2_000));
 });
 
 test('ledger identity holds after a mixed sequence', () => {

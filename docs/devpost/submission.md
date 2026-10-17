@@ -44,8 +44,8 @@ Kigali Balance enforces one rule on chain:
 ### How we built it
 
 - **Contracts.** Six Solidity contracts (Foundry), with EIP-712 attestations verified on chain and a 3-of-4 governance multisig. Deployed and verified on OP Sepolia.
-- **Simulator.** A deterministic three-year HFC market with nine kinds of injected fraud, including *adaptive* fraudsters who keep every number inside honest ranges. Leak rates follow IPCC 2006, maintenance follows EU leak-check rules, and the end-of-life recovery rate is calibrated to Japan's 2024 figure (43%).
-- **Differential test.** All 7,219 simulated events are replayed against the real contracts. Every accept or reject decision, error, lot ID and gas total matches an independently written rule mirror.
+- **Simulator.** A deterministic three-year HFC market with twelve kinds of injected fraud, including *adaptive* fraudsters who keep every number inside honest ranges. Leak rates follow IPCC 2006, maintenance follows EU leak-check rules, and the end-of-life recovery rate is calibrated to Japan's 2024 figure (43%).
+- **Differential test.** All 7,359 simulated events are replayed against the real contracts. Every accept or reject decision, error, lot ID and gas total matches the simulator's separately written rule mirror.
 - **AI.** Python modules that read only what a regulator could observe, never the simulator's ground truth. They were scored on held-out simulated runs never used for design. Every flag is written to an on-chain `FlagRegistry` with the model's hash and the hash of the exact data it scored, and only a regulator can close it.
 - **Outside judges.** Every push is rebuilt from scratch on a clean Linux machine (GitHub Actions) and must reproduce every committed file byte for byte. A second job runs the Slither static analyser.
 - **Real data.** A public-record audit of the ACR, CAR and Verra registries and the California ARB issuance table.
@@ -58,8 +58,8 @@ Kigali Balance enforces one rule on chain:
 
 ### Accomplishments that we're proud of
 
-- 143 unit tests and 10 fuzzed invariants. Thousands of forged recoveries in each fuzz campaign, none accepted.
-- **We hired our own attackers.** Three outside reviewers (a security pre-audit, a forensic check of every number, an editor) attacked the submission. The security review found a High-severity hole: undocumented gas could be laundered into creditable gas after 180 days. We fixed it and two Medium findings, and turned every proof of concept into a regression test. The forensic review cut our climate estimate by about three quarters and corrected our audit headline. We publish the corrected numbers.
+- 162 unit tests and 10 fuzzed invariants. Thousands of forged recoveries in each fuzz campaign, none accepted.
+- **We hired our own attackers.** Three outside reviewers (a security pre-audit, a forensic check of every number, an editor) attacked the submission. The security review found a High-severity hole: undocumented gas could be laundered into creditable gas after 180 days. We fixed it and all three Medium findings, turned every proof of concept into a regression test, and taught the simulator the new attacks so the differential test checks them too. Then a second, independent reviewer attacked the fixed code and found that our fix could itself be bypassed by charging the quarantined gas back in. We fixed that too: the gas now stays marked for good. The forensic review cut our climate estimate by about three quarters and corrected our audit headline. We publish the corrected numbers.
 - A technical annex where each security claim names the test that proves it.
 - A climate-impact model with its uncertainty and a sensitivity analysis, rather than one big number. It also says how a pilot would measure the assumption that matters most.
 - A finding we did not expect: where two ledgers share a key (California ARB and the registries), the public record reconciles. Where they don't, outsiders cannot check.

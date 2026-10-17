@@ -238,6 +238,8 @@ function describeRejection(r) {
     case 'NotVerifier': return `Destroy ${kg(d.grams, 2)} kg with a certificate signed by ${d.verifier}`;
     case 'AlreadyClaimed': return `Claim destruction event #${d.eventId} a second time`;
     case 'TierNotAccepted': return `Claim event #${d.eventId}; its evidence tier is below this registry's policy`;
+    case 'ServiceNotAuthorized': return `${d.actor} charges ${kg(d.grams, 2)} kg into ${d.equipment}, a unit it does not service`;
+    case 'NotDesignated': return `${d.actor} claims event #${d.eventId}, designated to ${d.designated}`;
     default: return (RULES[r.reason] ?? [, r.reason])[1];
   }
 }

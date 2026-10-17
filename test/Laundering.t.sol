@@ -129,6 +129,6 @@ contract LaunderingTest is Fixture {
         address owner = vm.addr(OWNER_PK);
         vm.prank(registrar);
         vm.expectRevert(EquipmentRegistry.InstalledInFuture.selector);
-        equipment.registerTierA(NEW_UNIT, R404A, 5_000, uint64(block.timestamp + 1 days), bytes32("rec"), owner);
+        equipment.registerTierA(NEW_UNIT, R404A, 5_000, uint64(block.timestamp + 1 days), bytes32("rec"), owner, service);
     }
 }

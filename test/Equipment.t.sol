@@ -130,20 +130,20 @@ contract EquipmentTest is Fixture {
         address owner = vm.addr(OWNER_PK);
         vm.prank(service);
         vm.expectRevert(abi.encodeWithSelector(EquipmentRegistry.NotRole.selector, Roles.EQUIPMENT_REGISTRAR));
-        equipment.registerTierA(keccak256("fake"), R404A, 50_000, 0, bytes32(0), owner);
+        equipment.registerTierA(keccak256("fake"), R404A, 50_000, 0, bytes32(0), owner, service);
     }
 
     function test_revert_cannotRegisterTwice() public {
         address owner = vm.addr(OWNER_PK);
         vm.prank(registrar);
         vm.expectRevert(EquipmentRegistry.AlreadyRegistered.selector);
-        equipment.registerTierA(EQ_A, R404A, NAMEPLATE, 0, bytes32(0), owner);
+        equipment.registerTierA(EQ_A, R404A, NAMEPLATE, INSTALLED_LONG_AGO, bytes32(0), owner, service);
     }
 
     function test_revert_tierAOwnerNeedsOwnerRole() public {
         vm.prank(registrar);
         vm.expectRevert(abi.encodeWithSelector(EquipmentRegistry.NotEquipmentOwner.selector, service));
-        equipment.registerTierA(keccak256("unit"), R404A, 5_000, INSTALLED_LONG_AGO, bytes32("rec"), service);
+        equipment.registerTierA(keccak256("unit"), R404A, 5_000, INSTALLED_LONG_AGO, bytes32("rec"), service, service2);
     }
 
     function test_unitIsBoundToItsOwner() public view {

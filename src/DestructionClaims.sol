@@ -9,6 +9,9 @@ import {IdentityRegistry} from "./IdentityRegistry.sol";
 ///         destruction facility that held the lots, and it can be claimed by exactly one carbon
 ///         registry. Unlike comparing hashes submitted by each registry, this cannot be dodged by
 ///         editing a field of a lab report: there is only one event to claim.
+///         The facility that destroyed the gas designates which registry may claim it, so a rogue
+///         or stolen registry key cannot lock someone else's event first. It can re-designate
+///         until the event is claimed (for example when a registry refuses the event's tier).
 contract DestructionClaims is Governed {
     struct DestructionEvent {
         address facility;
@@ -30,11 +33,15 @@ contract DestructionClaims is Governed {
     DestructionEvent[] internal _events;
     /// @notice Weakest equipment tier each registry accepts (registry-defined policy). NONE = not configured.
     mapping(address => Tier) public acceptedTier;
+    /// @notice The registry the facility has designated to claim each event (kept outside the
+    ///         struct so `destructionEvent()` keeps its layout).
+    mapping(uint256 => address) public designatedRegistry;
 
     event LedgerSet(address ledger);
     event DestructionRecorded(uint256 indexed eventId, address indexed facility, bytes32 gas, uint64 grams, bool creditEligible, Tier worstTier);
     event AcceptedTierSet(address indexed registry, Tier tier);
     event Claimed(uint256 indexed eventId, address indexed registry, bytes32 creditBatchRef);
+    event Designated(uint256 indexed eventId, address indexed registry);
 
     error NotLedger();
     error LedgerAlreadySet();
@@ -45,6 +52,9 @@ contract DestructionClaims is Governed {
     error AlreadyClaimed(address by);
     error TierNotAccepted(Tier eventTier, Tier accepted);
     error BadTier();
+    error NotFacility(address account);
+    error NotRegistry(address account);
+    error NotDesignated(address designated);
 
     constructor(address governance_, IdentityRegistry identity_) Governed(governance_) {
         identity = identity_;
@@ -94,6 +104,30 @@ contract DestructionClaims is Governed {
         emit AcceptedTierSet(msg.sender, tier);
     }
 
+    /// @notice The facility that destroyed the gas names the registry that may claim the event.
+    function designate(uint256 eventId, address registry) external {
+        if (eventId >= _events.length) revert UnknownEvent();
+        // a revoked facility key can no longer steer its events
+        if (msg.sender != _events[eventId].facility || !identity.hasRole(msg.sender, Roles.DESTRUCTION)) {
+            revert NotFacility(msg.sender);
+        }
+        _designate(eventId, registry);
+    }
+
+    /// @notice Governance designates for a facility that lost its key.
+    function designateByGovernance(uint256 eventId, address registry) external onlyGovernance {
+        if (eventId >= _events.length) revert UnknownEvent();
+        _designate(eventId, registry);
+    }
+
+    function _designate(uint256 eventId, address registry) internal {
+        DestructionEvent storage ev = _events[eventId];
+        if (ev.claimedBy != address(0)) revert AlreadyClaimed(ev.claimedBy);
+        if (!identity.hasRole(registry, Roles.REGISTRY)) revert NotRegistry(registry);
+        designatedRegistry[eventId] = registry;
+        emit Designated(eventId, registry);
+    }
+
     /// @notice Rule R7: lock a destruction event to one registry before it issues credits.
     function claim(uint256 eventId, bytes32 creditBatchRef) external {
         if (!identity.hasRole(msg.sender, Roles.REGISTRY)) revert NotRole(Roles.REGISTRY);
@@ -101,6 +135,7 @@ contract DestructionClaims is Governed {
         DestructionEvent storage ev = _events[eventId];
         if (!ev.creditEligible) revert NotCreditEligible();
         if (ev.claimedBy != address(0)) revert AlreadyClaimed(ev.claimedBy);
+        if (designatedRegistry[eventId] != msg.sender) revert NotDesignated(designatedRegistry[eventId]);
         Tier accepted = acceptedTier[msg.sender];
         if (accepted == Tier.NONE) accepted = Tier.A; // default policy: strongest evidence only
         if (uint8(ev.worstTier) > uint8(accepted)) revert TierNotAccepted(ev.worstTier, accepted);

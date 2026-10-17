@@ -5,6 +5,7 @@ import {Fixture} from "./utils/Fixture.sol";
 import {Roles, Tier, LotClass} from "../src/Types.sol";
 import {KigaliLedger} from "../src/KigaliLedger.sol";
 import {EquipmentRegistry} from "../src/EquipmentRegistry.sol";
+import {DestructionClaims} from "../src/DestructionClaims.sol";
 import {ScaleReading, LabCertificate, RecoveryConsent} from "../src/Attestations.sol";
 
 /// @notice Regression tests for the findings of the 2026-10-17 red-team review (a pre-audit review of
@@ -117,5 +118,164 @@ contract RedTeamTest is Fixture {
         vm.prank(service);
         vm.expectRevert(EquipmentRegistry.DuplicateNameplatePhoto.selector);
         equipment.registerTierB(keccak256("unit-2"), MODEL_SPLIT_AC, photo, vm.addr(TAKEBACK_PK));
+    }
+
+    /// F2 (Medium): any service company could charge its gas into a competitor's unit and so
+    /// quarantine the competitor's next recovery. Only the unit's service company of record can
+    /// charge it now; the owner can change that company.
+    function test_F2_onlyTheServiceCompanyOfRecordCharges() public {
+        uint256 v = _mint(2_000);
+        uint256 atRival = _move(v, importer, service2, SCALE_SERVICE2_PK, 2_000);
+        vm.prank(service2);
+        vm.expectRevert(abi.encodeWithSelector(EquipmentRegistry.ServiceNotAuthorized.selector, service2));
+        ledger.charge(atRival, EQ_A, 2_000);
+
+        // a new maintenance contract: the owner names service2, which can then charge
+        vm.prank(vm.addr(OWNER_PK));
+        equipment.setServiceCompany(EQ_A, service2);
+        vm.prank(service2);
+        ledger.charge(atRival, EQ_A, 2_000);
+        assertEq(equipment.serviceCompanyOf(EQ_A), service2);
+    }
+
+    function test_F2_revert_onlyTheOwnerChangesTheServiceCompany() public {
+        vm.prank(service2);
+        vm.expectRevert(abi.encodeWithSelector(EquipmentRegistry.NotEquipmentOwner.selector, service2));
+        equipment.setServiceCompany(EQ_A, service2);
+    }
+
+    /// F10 (Low/Medium): a rogue or stolen registry key could claim any eligible event first. The
+    /// facility now designates the registry, and may re-designate until the event is claimed.
+    function test_F10_onlyTheDesignatedRegistryClaims() public {
+        uint256 rec = _recover(service, SCALE_SERVICE_PK, EQ_A, 5_000, true);
+        uint256 ev = _destroy(_one(_move(rec, service, facility, SCALE_FACILITY_PK, 5_000)), 5_000);
+        _designate(ev, registryTW);
+        vm.prank(registryIntl);
+        vm.expectRevert(abi.encodeWithSelector(DestructionClaims.NotDesignated.selector, registryTW));
+        claims.claim(ev, bytes32("front-run"));
+        vm.prank(registryTW);
+        claims.claim(ev, bytes32("TW-1"));
+        // once claimed, the facility cannot move it
+        vm.prank(facility);
+        vm.expectRevert(abi.encodeWithSelector(DestructionClaims.AlreadyClaimed.selector, registryTW));
+        claims.designate(ev, registryIntl);
+    }
+
+    function test_F10_revert_onlyTheFacilityDesignates() public {
+        uint256 rec = _recover(service, SCALE_SERVICE_PK, EQ_A, 5_000, true);
+        uint256 ev = _destroy(_one(_move(rec, service, facility, SCALE_FACILITY_PK, 5_000)), 5_000);
+        vm.prank(registryIntl);
+        vm.expectRevert(abi.encodeWithSelector(DestructionClaims.NotFacility.selector, registryIntl));
+        claims.designate(ev, registryIntl);
+    }
+
+    /// F12 (Low): a unit's owner could never change. The owner can hand it over, and the old
+    /// owner's consent then no longer counts.
+    function test_F12_ownershipTransferMovesTheConsent() public {
+        address newOwner = vm.addr(TAKEBACK_PK);
+        vm.prank(vm.addr(OWNER_PK));
+        equipment.transferOwnership(EQ_A, newOwner);
+        assertEq(equipment.equipment(EQ_A).owner, newOwner);
+        // the old owner's consent is now rejected
+        (RecoveryConsent memory c, bytes memory cs, ScaleReading memory r, bytes memory rs) =
+            _recoveryArgs(SCALE_SERVICE_PK, service, EQ_A, bytes32("after-sale"), 4_000, false);
+        cs = _signConsent(OWNER_PK, c);
+        vm.prank(service);
+        vm.expectRevert(abi.encodeWithSelector(KigaliLedger.NotUnitOwner.selector, vm.addr(OWNER_PK)));
+        ledger.recover(c, cs, r, rs);
+    }
+
+    function test_F12_governanceReassignsALostOwner() public {
+        equipment.reassignOwner(EQ_A, vm.addr(TAKEBACK_PK)); // this test contract is governance
+        assertEq(equipment.equipment(EQ_A).owner, vm.addr(TAKEBACK_PK));
+        vm.prank(vm.addr(OWNER_PK));
+        vm.expectRevert(); // only governance
+        equipment.reassignOwner(EQ_A, vm.addr(OWNER_PK));
+    }
+
+    // ================================================================ second review (2026-10-17)
+
+    /// S1 (High): the F1 fix could be bypassed. Undocumented gas came out as an ordinary Tier C lot;
+    /// charging that lot back and waiting 180 days turned it into credit-eligible Tier A. The lot now
+    /// stays marked, and charging it marks the grams in the unit again.
+    function test_S1_undocumentedGasStaysMarkedThroughARecharge() public {
+        uint256 u = _unknownAtService(5_000);
+        vm.prank(service);
+        ledger.charge(u, EQ_A, 5_000);
+        vm.warp(block.timestamp + 1 days);
+        // a "repair": the gas is taken out (the unit stays in service) ...
+        (RecoveryConsent memory c, bytes memory cs, ScaleReading memory r, bytes memory rs) =
+            _recoveryArgs(SCALE_SERVICE_PK, service, EQ_A, bytes32("s1-repair"), 5_000, false);
+        vm.prank(service);
+        (uint256 inService, uint256 tierC) = ledger.recover(c, cs, r, rs);
+        assertEq(inService, 0);
+        assertTrue(ledger.untraceable(tierC), "the lot holding undocumented gas is marked");
+
+        // charge the marked lot back, wait well past the residence period, recover again
+        vm.prank(service);
+        ledger.charge(tierC, EQ_A, 5_000);
+        assertEq(equipment.untraceableGrams(EQ_A), 5_000, "the grams are untraceable in the unit again");
+        vm.warp(block.timestamp + 400 days);
+        (inService, tierC) = _recoverSplit(service, SCALE_SERVICE_PK, EQ_A, 5_000);
+        assertEq(inService, 0, "still never Tier A");
+        assertEq(uint8(ledger.getLot(tierC).tier), uint8(Tier.C));
+    }
+
+    function test_S1_markSurvivesASplitAndAnotherUnit() public {
+        bytes32 eqB = keccak256("second-freezer");
+        _registerA(eqB, R404A, NAMEPLATE, INSTALLED_LONG_AGO);
+        uint256 u = _unknownAtService(4_000);
+        vm.prank(service);
+        ledger.charge(u, EQ_A, 4_000);
+        (, uint256 tierC) = _recoverSplit(service, SCALE_SERVICE_PK, EQ_A, 4_000);
+        // split the marked lot by sending part of it away and back
+        uint256 part = _move(tierC, service, distributor, SCALE_DIST_PK, 1_500);
+        assertTrue(ledger.untraceable(part), "a split-off child inherits the mark");
+        uint256 back = _move(part, distributor, service, SCALE_SERVICE_PK, 1_500);
+        vm.prank(service);
+        ledger.charge(back, eqB, 1_500);
+        assertEq(equipment.untraceableGrams(eqB), 1_500);
+    }
+
+    /// S2 (Low): a revoked owner key could still hand the unit over or switch its service company.
+    function test_S2_revokedOwnerLosesControlOfTheUnit() public {
+        address owner = vm.addr(OWNER_PK);
+        identity.revokeRole(owner, Roles.EQUIPMENT_OWNER, keccak256("key stolen"));
+        vm.prank(owner);
+        vm.expectRevert(abi.encodeWithSelector(EquipmentRegistry.NotEquipmentOwner.selector, owner));
+        equipment.transferOwnership(EQ_A, vm.addr(TAKEBACK_PK));
+        vm.prank(owner);
+        vm.expectRevert(abi.encodeWithSelector(EquipmentRegistry.NotEquipmentOwner.selector, owner));
+        equipment.setServiceCompany(EQ_A, service2);
+    }
+
+    /// S2 (Low): a revoked facility key could still steer its events; governance can step in.
+    function test_S2_revokedFacilityCannotDesignate() public {
+        uint256 rec = _recover(service, SCALE_SERVICE_PK, EQ_A, 5_000, true);
+        uint256 ev = _destroy(_one(_move(rec, service, facility, SCALE_FACILITY_PK, 5_000)), 5_000);
+        identity.revokeRole(facility, Roles.DESTRUCTION, keccak256("key stolen"));
+        vm.prank(facility);
+        vm.expectRevert(abi.encodeWithSelector(DestructionClaims.NotFacility.selector, facility));
+        claims.designate(ev, registryIntl);
+        claims.designateByGovernance(ev, registryTW); // this test contract is governance
+        vm.prank(registryTW);
+        claims.claim(ev, bytes32("TW-1"));
+    }
+
+    /// S3 (Low): a Tier A record without an installation date skipped the recently-installed quarantine.
+    function test_S3_tierANeedsAnInstallationDate() public {
+        vm.prank(registrar);
+        vm.expectRevert(EquipmentRegistry.UnknownInstallDate.selector);
+        equipment.registerTierA(keccak256("no-date"), R404A, 5_000, 0, bytes32("rec"), vm.addr(OWNER_PK), service);
+    }
+
+    /// S6 (Info): governance could set parameters that switch rules off.
+    function test_S6_parametersCannotSwitchRulesOff() public {
+        vm.expectRevert(EquipmentRegistry.BadParams.selector);
+        equipment.setParams(500, 50_000, 0); // no residence period
+        vm.expectRevert(KigaliLedger.BadParams.selector);
+        ledger.setParams(100, 0, 9_950, 9_999, 7 days); // no reclamation loss
+        vm.expectRevert(KigaliLedger.BadParams.selector);
+        ledger.setParams(100, 200, 9_950, 0, 7 days); // no destruction efficiency
     }
 }

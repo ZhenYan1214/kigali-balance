@@ -31,6 +31,7 @@ The numbered documents record how the design changed. Each round of review found
 | [06 Round 13: more ambitious](proposal/06_第十三輪反思_更有野心.md) | Touch real data, outside judges, quantify each defence layer |
 | [07 Round 14: outside judges](proposal/07_第十四輪反思_外部裁判與真正的結果.md) | A no-context reader and clean-machine CI; simulator corrected to IPCC end-of-life data; AI re-evaluated on fresh runs |
 | [08 Round 15: expert instruments](proposal/08_第十五輪反思_專業工具與紅隊.md) | Static analysis, gas and cost measurement, climate Monte Carlo, AI flags on chain, three red-team reviews of the submission |
+| [09 Round 16: fixes get reviewed too](proposal/09_第十六輪反思_修正也要被審查.md) | A second, independent security review found our round-15 fix bypassable; remaining contract risks fixed; GS1 EPCIS 2.0 export validated against the official schema |
 | [Video script](video/video_script.md), [Devpost text](devpost/submission.md) | Submission drafts (English; recording notes in zh-TW) |
 | [HANDOFF](../HANDOFF.md) | Full project state, how to run everything, risks |
 

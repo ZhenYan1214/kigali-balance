@@ -15,7 +15,8 @@ export const RULES = {
   RecoveryExceedsContent: ['R3', 'Recovering more than the unit could still hold'],
   RecoveryCapExceeded: ['R3', 'Lifetime recovery above one charge plus top-ups'],
   TierBMonthlyCapExceeded: ['R3', 'Tier B recoveries above the monthly cap'],
-  CylinderInUse: ['M1', 'A second open lot in the same cylinder'],
+  ServiceNotAuthorized: ['R3', 'Charging a unit the company does not service'],
+  CylinderInUse: ['CYL', 'A second open lot in the same cylinder'],
   ReclaimExceedsInput: ['R4', 'Reclaimed output above input minus losses'],
   ClassNotReclaimable: ['R5', 'Virgin or unknown gas fed into reclamation'],
   TierNotReclaimable: ['R5', 'Quarantined (tier C) gas fed into reclamation'],
@@ -23,6 +24,7 @@ export const RULES = {
   VerifierNotIndependent: ['R6', 'Destruction certified by the destroyer itself'],
   AlreadyClaimed: ['R7', 'A second registry claiming the same destruction'],
   TierNotAccepted: ['R7', 'Registry policy: evidence tier below what it accepts'],
+  NotDesignated: ['R7', 'A registry claiming an event designated to another'],
 };
 
 export const MODULES = {

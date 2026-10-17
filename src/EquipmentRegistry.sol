@@ -17,6 +17,11 @@ import {IdentityRegistry} from "./IdentityRegistry.sol";
 ///              never was.) The lifetime total is kept as a second, coarser check.
 ///   Owner      Every unit is bound to an EQUIPMENT_OWNER who must co-sign each recovery (checked
 ///              by the ledger), so a service company alone cannot book gas as recovered from it.
+///              The owner can hand the unit to a new owner; governance can reassign a lost owner.
+///   Service    Each unit has a service company of record (Tier A: from the national register;
+///              Tier B: the company that registered it). Only that company can charge the unit, so
+///              a competitor cannot charge gas into someone else's unit to quarantine its recovery.
+///              The owner can change the service company.
 ///   Residence  Gas recovered too soon after the unit was installed or last charged through the
 ///              ledger is stamped Tier C. Otherwise virgin gas could be "laundered" by charging it
 ///              into a registered unit and recovering it the next day as RECOVERED.
@@ -82,12 +87,17 @@ contract EquipmentRegistry is Governed {
     mapping(bytes32 => uint64) internal _untraceableGrams;
     /// @dev Nameplate photos already used for a Tier B registration: one photo, one unit.
     mapping(bytes32 => bool) public nameplatePhotoUsed;
+    /// @notice The only service company that may charge each unit (kept outside `Equipment`, like
+    ///         `_drawnBelowFull`, so the struct and the `equipment()` view keep their layout).
+    mapping(bytes32 => address) public serviceCompanyOf;
 
     event LedgerSet(address ledger);
     event ParamsSet(uint16 toleranceBps, uint64 tierBMonthlyCapGrams, uint32 minResidence);
     event ModelSet(bytes32 indexed modelId, bytes32 gas, uint64 chargeGrams);
     event EquipmentRegistered(bytes32 indexed id, Tier tier, bytes32 gas, uint64 nameplateGrams, bytes32 sourceRef, address registeredBy, address owner);
     event Charged(bytes32 indexed id, address indexed by, uint64 grams, uint64 chargedTotal);
+    event ServiceCompanySet(bytes32 indexed id, address indexed serviceCompany);
+    event OwnerChanged(bytes32 indexed id, address indexed previousOwner, address indexed newOwner, bool byGovernance);
     event Recovered(bytes32 indexed id, address indexed by, uint64 grams, uint64 recoveredTotal, Tier tier, uint64 quarantinedGrams, bool decommissioned);
 
     error NotRole(bytes32 role);
@@ -108,6 +118,9 @@ contract EquipmentRegistry is Governed {
     error NotEquipmentOwner(address account);
     error OwnerNotIndependent(address owner);
     error DuplicateNameplatePhoto();
+    error NotServiceCompany(address account);
+    error ServiceNotAuthorized(address by);
+    error UnknownInstallDate();
 
     constructor(address governance_, IdentityRegistry identity_) Governed(governance_) {
         identity = identity_;
@@ -133,7 +146,10 @@ contract EquipmentRegistry is Governed {
     }
 
     function setParams(uint16 toleranceBps_, uint64 tierBMonthlyCapGrams_, uint32 minResidence_) external onlyGovernance {
-        if (toleranceBps_ > 2_000 || tierBMonthlyCapGrams_ == 0) revert BadParams();
+        // the residence period stays between 30 days and 2 years: 0 would disable the quarantine
+        if (toleranceBps_ > 2_000 || tierBMonthlyCapGrams_ == 0 || minResidence_ < 30 days || minResidence_ > 730 days) {
+            revert BadParams();
+        }
         toleranceBps = toleranceBps_;
         tierBMonthlyCapGrams = tierBMonthlyCapGrams_;
         minResidence = minResidence_;
@@ -143,19 +159,25 @@ contract EquipmentRegistry is Governed {
     // ---------------------------------------------------------------- registration
 
     /// @notice Register a Tier A unit imported from a national registry, bound to the operator
-    ///         recorded there as its owner.
+    ///         recorded there as its owner and to its service company of record.
     function registerTierA(
         bytes32 id,
         bytes32 gas,
         uint64 nameplateGrams,
         uint64 installedAt,
         bytes32 registryRecordHash,
-        address owner
+        address owner,
+        address serviceCompany
     ) external onlyRole(Roles.EQUIPMENT_REGISTRAR) {
         if (nameplateGrams == 0) revert ZeroAmount();
         if (installedAt > block.timestamp) revert InstalledInFuture();
+        if (installedAt == 0) revert UnknownInstallDate();
         _requireOwner(owner);
+        _requireService(serviceCompany);
+        if (owner == serviceCompany) revert OwnerNotIndependent(owner);
         _register(id, Tier.A, gas, nameplateGrams, installedAt, registryRecordHash, bytes32(0), owner);
+        serviceCompanyOf[id] = serviceCompany;
+        emit ServiceCompanySet(id, serviceCompany);
     }
 
     /// @notice Maintain the model database used to look up Tier B nameplate charges.
@@ -179,6 +201,36 @@ contract EquipmentRegistry is Governed {
         if (nameplatePhotoUsed[nameplatePhotoHash]) revert DuplicateNameplatePhoto();
         nameplatePhotoUsed[nameplatePhotoHash] = true;
         _register(id, Tier.B, m.gas, m.chargeGrams, 0, nameplatePhotoHash, modelId, owner);
+        serviceCompanyOf[id] = msg.sender;
+        emit ServiceCompanySet(id, msg.sender);
+    }
+
+    // ---------------------------------------------------------------- owner and service company
+
+    /// @notice The owner names a new service company of record (a new maintenance contract).
+    function setServiceCompany(bytes32 id, address serviceCompany) external {
+        Equipment storage e = _equipment[id];
+        if (e.status == Status.NONE) revert UnknownEquipment();
+        if (msg.sender != e.owner || !identity.hasRole(msg.sender, Roles.EQUIPMENT_OWNER)) revert NotEquipmentOwner(msg.sender);
+        _requireService(serviceCompany);
+        if (serviceCompany == e.owner) revert OwnerNotIndependent(serviceCompany);
+        serviceCompanyOf[id] = serviceCompany;
+        emit ServiceCompanySet(id, serviceCompany);
+    }
+
+    /// @notice The owner hands the unit to a new owner (sale, change of operator).
+    function transferOwnership(bytes32 id, address newOwner) external {
+        Equipment storage e = _equipment[id];
+        if (e.status == Status.NONE) revert UnknownEquipment();
+        if (msg.sender != e.owner || !identity.hasRole(msg.sender, Roles.EQUIPMENT_OWNER)) revert NotEquipmentOwner(msg.sender);
+        _setOwner(id, e, newOwner, false);
+    }
+
+    /// @notice Governance reassigns a unit whose owner lost its key or was revoked.
+    function reassignOwner(bytes32 id, address newOwner) external onlyGovernance {
+        Equipment storage e = _equipment[id];
+        if (e.status == Status.NONE) revert UnknownEquipment();
+        _setOwner(id, e, newOwner, true);
     }
 
     // ---------------------------------------------------------------- ledger hooks
@@ -187,6 +239,7 @@ contract EquipmentRegistry is Governed {
     ///        quarantined whenever they come back out, however long they were in service.
     function recordCharge(bytes32 id, bytes32 gas, uint64 grams, address by, bool untraceable) external onlyLedger {
         Equipment storage e = _activeUnit(id, gas);
+        if (by != serviceCompanyOf[id]) revert ServiceNotAuthorized(by);
         e.chargedGrams = _addCapped(e.chargedGrams, grams);
         e.lastChargeAt = uint64(block.timestamp);
         // a recorded top-up refills the booked content, never above one charge
@@ -216,10 +269,13 @@ contract EquipmentRegistry is Governed {
     /// @return quarantined   grams that must be stamped Tier C: everything if the unit was installed
     ///                       less than `minResidence` ago, otherwise up to the grams charged through
     ///                       the ledger within the last `minResidence`
+    /// @return fromUnknown   of the quarantined grams, how many were undocumented (UNKNOWN) gas; the
+    ///                       ledger marks the lot holding them so they can never be laundered by a
+    ///                       second charge-and-wait round trip
     function recordRecovery(bytes32 id, bytes32 gas, uint64 grams, address by, bool decommission)
         external
         onlyLedger
-        returns (Tier tier, uint64 quarantined)
+        returns (Tier tier, uint64 quarantined, uint64 fromUnknown)
     {
         if (grams == 0) revert ZeroAmount();
         Equipment storage e = _activeUnit(id, gas);
@@ -244,7 +300,7 @@ contract EquipmentRegistry is Governed {
         // undocumented gas charged into the unit is assumed to come out first and stays Tier C
         uint64 untraceable = _untraceableGrams[id];
         if (untraceable > 0) {
-            uint64 fromUnknown = untraceable < grams ? untraceable : grams;
+            fromUnknown = untraceable < grams ? untraceable : grams;
             _untraceableGrams[id] = untraceable - fromUnknown;
             uint256 q = uint256(quarantined) + fromUnknown;
             quarantined = q > grams ? grams : uint64(q);
@@ -258,9 +314,9 @@ contract EquipmentRegistry is Governed {
     ///         overcharging, Tier B the model charge).
     function maxPerRecovery(bytes32 id) public view returns (uint64) {
         Equipment storage e = _equipment[id];
-        return e.tier == Tier.A
-            ? uint64((uint256(e.nameplateGrams) * (10_000 + toleranceBps)) / 10_000)
-            : e.nameplateGrams;
+        if (e.tier != Tier.A) return e.nameplateGrams;
+        uint256 withTolerance = (uint256(e.nameplateGrams) * (10_000 + toleranceBps)) / 10_000;
+        return withTolerance > type(uint64).max ? type(uint64).max : uint64(withTolerance);
     }
 
     /// @notice What can still be recovered from the unit now: one charge, minus everything
@@ -336,6 +392,18 @@ contract EquipmentRegistry is Governed {
     function _addCapped(uint64 a, uint64 b) internal pure returns (uint64) {
         uint256 s = uint256(a) + b;
         return s > type(uint64).max ? type(uint64).max : uint64(s);
+    }
+
+    function _setOwner(bytes32 id, Equipment storage e, address newOwner, bool byGovernance) internal {
+        _requireOwner(newOwner);
+        if (newOwner == serviceCompanyOf[id]) revert OwnerNotIndependent(newOwner);
+        address previous = e.owner;
+        e.owner = newOwner;
+        emit OwnerChanged(id, previous, newOwner, byGovernance);
+    }
+
+    function _requireService(address account) internal view {
+        if (!identity.hasRole(account, Roles.SERVICE)) revert NotServiceCompany(account);
     }
 
     function _requireOwner(address owner) internal view {

@@ -389,6 +389,9 @@ contract Handler is Test {
         if (n == 0) return;
         uint256 eventId = eventSeed % n;
         address registry = registries[registrySeed % registries.length];
+        // the facility designates the registry (re-designation is allowed until the event is claimed)
+        vm.prank(claims.destructionEvent(eventId).facility);
+        try claims.designate(eventId, registry) {} catch {}
         vm.prank(registry);
         try claims.claim(eventId, _id("batch")) {
             ghostSuccessfulClaims[eventId]++;

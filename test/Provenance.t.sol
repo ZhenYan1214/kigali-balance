@@ -95,7 +95,7 @@ contract ProvenanceTest is Fixture {
         ledger.bindDevice(vm.addr(0xC0FFEE), service);
         bytes32 own2 = keccak256("service-company-own-freezer");
         vm.prank(registrar);
-        equipment.registerTierA(own2, R404A, 5_000, INSTALLED_LONG_AGO, bytes32("rec2"), vm.addr(0xC0FFEE));
+        equipment.registerTierA(own2, R404A, 5_000, INSTALLED_LONG_AGO, bytes32("rec2"), vm.addr(0xC0FFEE), service);
         RecoveryConsent memory c = _consent(own2, bytes32("cyl"), service, 4_000, true);
         bytes memory cs = _signConsent(0xC0FFEE, c);
         ScaleReading memory r = _reading(ledger.recoverySubject(own2, bytes32("cyl")), 4_000);

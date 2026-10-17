@@ -26,6 +26,7 @@ export class LedgerMirror {
     this.now = 0;
     this.owners = new Set(); // accounts holding EQUIPMENT_OWNER
     this.verifiers = new Set(); // accounts holding VERIFIER
+    this.services = new Set(); // accounts holding SERVICE
     this.cylinders = new Map(); // cylinderId => open (ACTIVE or IN_TRANSIT) lots
     this.nextCylinder = 1;
   }
@@ -38,6 +39,10 @@ export class LedgerMirror {
 
   addVerifier(id) {
     this.verifiers.add(id);
+  }
+
+  addService(id) {
+    this.services.add(id);
   }
 
   // ------------------------------------------------------------------ bookkeeping
@@ -184,14 +189,17 @@ export class LedgerMirror {
     this.log(t, 'MODEL', { modelId, gas, chargeGrams });
   }
 
-  registerTierA(t, id, gas, nameplateGrams, installedAt, category, owner) {
+  registerTierA(t, id, gas, nameplateGrams, installedAt, category, owner, serviceCompany) {
     t = this.tick(t);
-    const data = { equipment: id, tier: 'A', gas, nameplateGrams, installedAt: new Date(installedAt * 1000).toISOString(), owner };
+    const data = { equipment: id, tier: 'A', gas, nameplateGrams, installedAt: new Date(installedAt * 1000).toISOString(), owner, serviceCompany };
     if (nameplateGrams <= 0) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'ZeroAmount');
     if (installedAt > t) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'InstalledInFuture');
+    if (installedAt === 0) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'UnknownInstallDate');
     if (!this.owners.has(owner)) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'NotEquipmentOwner');
+    if (!this.services.has(serviceCompany)) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'NotServiceCompany');
+    if (owner === serviceCompany) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'OwnerNotIndependent');
     if (this.equipment.has(id)) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'AlreadyRegistered');
-    this.equipment.set(id, this._newUnit({ tier: 'A', gas, nameplateGrams, installedAt, category, registeredAt: t, registeredBy: 'registrar', owner }));
+    this.equipment.set(id, this._newUnit({ tier: 'A', gas, nameplateGrams, installedAt, category, registeredAt: t, registeredBy: 'registrar', owner, serviceCompany }));
     this.log(t, 'REGISTER_EQUIPMENT', data);
     return id;
   }
@@ -204,7 +212,7 @@ export class LedgerMirror {
     if (!this.owners.has(owner)) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'NotEquipmentOwner');
     if (owner === service) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'OwnerNotIndependent');
     if (this.equipment.has(id)) return this.reject(t, 'REGISTER_EQUIPMENT', data, 'AlreadyRegistered');
-    this.equipment.set(id, this._newUnit({ tier: 'B', gas: m.gas, nameplateGrams: m.chargeGrams, installedAt: 0, category, registeredAt: t, registeredBy: service, modelId, owner }));
+    this.equipment.set(id, this._newUnit({ tier: 'B', gas: m.gas, nameplateGrams: m.chargeGrams, installedAt: 0, category, registeredAt: t, registeredBy: service, modelId, owner, serviceCompany: service }));
     this.log(t, 'REGISTER_EQUIPMENT', { ...data, gas: m.gas, nameplateGrams: m.chargeGrams });
     return id;
   }
@@ -241,6 +249,8 @@ export class LedgerMirror {
     if (!e) return this.reject(t, 'CHARGE', data, 'UnknownEquipment');
     if (e.status !== 'ACTIVE') return this.reject(t, 'CHARGE', data, 'NotActive');
     if (e.gas !== lot.gas) return this.reject(t, 'CHARGE', data, 'GasMismatch');
+    // EquipmentRegistry: only the unit's service company of record may charge it
+    if (e.serviceCompany !== service) return this.reject(t, 'CHARGE', data, 'ServiceNotAuthorized');
     e.charged += grams;
     e.drawn = Math.max(0, e.drawn - grams);
     // EquipmentRegistry.recordCharge: charges on the same (UTC) day share one record, stamped with the
@@ -393,6 +403,19 @@ export class LedgerMirror {
     return eventId;
   }
 
+  /** DestructionClaims.designate: the facility names the registry that may claim the event. */
+  designate(t, facility, eventId, registry) {
+    t = this.tick(t);
+    const ev = this.destructionEvents[eventId];
+    const data = { actor: facility, eventId, registry };
+    if (!ev) return this.reject(t, 'DESIGNATE', data, 'UnknownEvent');
+    if (ev.facility !== facility) return this.reject(t, 'DESIGNATE', data, 'NotFacility');
+    if (ev.claimedBy) return this.reject(t, 'DESIGNATE', data, 'AlreadyClaimed');
+    ev.designated = registry;
+    this.log(t, 'DESIGNATE', data);
+    return true;
+  }
+
   claim(t, registry, acceptsTier, eventId) {
     t = this.tick(t);
     const ev = this.destructionEvents[eventId];
@@ -400,6 +423,7 @@ export class LedgerMirror {
     if (!ev) return this.reject(t, 'CLAIM', data, 'UnknownEvent');
     if (!ev.eligible) return this.reject(t, 'CLAIM', data, 'NotCreditEligible');
     if (ev.claimedBy) return this.reject(t, 'CLAIM', { ...data, claimedBy: ev.claimedBy }, 'AlreadyClaimed');
+    if (ev.designated !== registry) return this.reject(t, 'CLAIM', { ...data, designated: ev.designated ?? null }, 'NotDesignated');
     if (TIER_RANK[ev.worstTier] > TIER_RANK[acceptsTier]) return this.reject(t, 'CLAIM', data, 'TierNotAccepted');
     ev.claimedBy = registry;
     this.log(t, 'CLAIM', { ...data, gas: ev.gas, grams: ev.grams });

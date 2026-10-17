@@ -88,6 +88,10 @@ contract KigaliLedger is Governed {
     mapping(bytes32 => Totals) internal _totals;
     mapping(address => address) public deviceOperator; // scale key => operator that owns the scale
     mapping(address => mapping(bytes32 => bool)) public nonceUsed; // signer => nonce => used
+    /// @notice Lots that hold undocumented (UNKNOWN-origin) gas recovered from equipment. Charging
+    ///         such a lot marks the grams as untraceable in the unit again, so they come out Tier C
+    ///         every time and can never be reclaimed or credited.
+    mapping(uint256 => bool) public untraceable;
     mapping(bytes32 => uint32) public openLotsInCylinder; // cylinderId => ACTIVE or IN_TRANSIT lots
 
     // ------------------------------------------------------------------ events
@@ -168,8 +172,11 @@ contract KigaliLedger is Governed {
         uint16 minDreBps_,
         uint32 maxAttestationAge_
     ) external onlyGovernance {
+        // floors keep the rules meaningful: at least 1 % reclamation loss, AHRI-grade purity (95 %+)
+        // and a destruction efficiency of at least 99 %
         if (
-            transferToleranceBps_ > 1_000 || minReclaimLossBps_ >= 10_000 || minReclaimPurityBps_ > 10_000
+            transferToleranceBps_ > 1_000 || minReclaimLossBps_ < 100 || minReclaimLossBps_ >= 10_000
+                || minReclaimPurityBps_ < 9_500 || minReclaimPurityBps_ > 10_000 || minDreBps_ < 9_900
                 || minDreBps_ > 10_000 || maxAttestationAge_ == 0
         ) revert BadParams();
         transferToleranceBps = transferToleranceBps_;
@@ -302,7 +309,7 @@ contract KigaliLedger is Governed {
         Lot storage lot = _activeLotOf(lotId, msg.sender);
         if (grams == 0) revert ZeroAmount();
         if (grams > lot.grams) revert InsufficientGrams(lotId, lot.grams, grams);
-        equipmentRegistry.recordCharge(equipmentId, lot.gas, grams, msg.sender, lot.cls == LotClass.UNKNOWN);
+        equipmentRegistry.recordCharge(equipmentId, lot.gas, grams, msg.sender, lot.cls == LotClass.UNKNOWN || untraceable[lotId]);
 
         lot.grams -= grams;
         if (lot.grams == 0) _close(lot);
@@ -333,7 +340,7 @@ contract KigaliLedger is Governed {
         // calls, so no outside code runs before the consent nonce is spent. The order (unit rules, then
         // consent) fixes which error a rejected attempt reports and is mirrored by simulator/src/ledger.mjs.
         // slither-disable-next-line reentrancy-no-eth,reentrancy-benign,reentrancy-events
-        (Tier tier, uint64 quarantined) =
+        (Tier tier, uint64 quarantined, uint64 fromUnknown) =
             equipmentRegistry.recordRecovery(equipmentId, unit.gas, reading.grams, msg.sender, consent.decommission);
         _verifyConsent(consent, consentSig, reading.grams, unit.owner);
 
@@ -347,6 +354,10 @@ contract KigaliLedger is Governed {
             quarantinedLotId = _create(
                 unit.gas, quarantined, LotClass.RECOVERED, Tier.C, msg.sender, consent.cylinderId, equipmentId, inService > 0
             );
+            // undocumented gas stays marked through every later charge, recovery and split. The whole
+            // quarantined lot is marked, which can over-mark recently charged documented grams in the
+            // same lot: the conservative direction.
+            if (fromUnknown > 0) untraceable[quarantinedLotId] = true;
         }
     }
 
@@ -541,9 +552,10 @@ contract KigaliLedger is Governed {
     }
 
     /// @dev Split child inherits gas, class, tier and origin; mass moves from parent to child.
-    function _createChild(uint256 parentId, uint64 grams, bytes32 cylinderId) internal returns (uint256) {
+    function _createChild(uint256 parentId, uint64 grams, bytes32 cylinderId) internal returns (uint256 child) {
         Lot storage p = _lots[parentId];
-        return _createRaw(p.gas, grams, p.cls, p.tier, p.holder, cylinderId, p.origin, parentId, false);
+        child = _createRaw(p.gas, grams, p.cls, p.tier, p.holder, cylinderId, p.origin, parentId, false);
+        if (untraceable[parentId]) untraceable[child] = true;
     }
 
     function _consumeReclaimInputs(uint256[] calldata inputs)

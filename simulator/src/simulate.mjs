@@ -35,6 +35,7 @@ export function simulate(params, overrides = {}) {
   const registries = p.actors.registries;
   for (const o of [...owners, ...takeBacks]) ledger.addOwner(o);
   for (const v of verifiers) ledger.addVerifier(v);
+  for (const s of services) ledger.addService(s);
 
   const shuffledServices = rng.shuffle(services);
   const colludingTakeBacks = rng.shuffle(takeBacks).slice(0, p.fraud.phantomTierB.colludingTakeBackPoints);
@@ -56,6 +57,8 @@ export function simulate(params, overrides = {}) {
       unconsentedRecoveryAttempts: [],
       cylinderReuseAttempts: [],
       paddedRecoveryAttempts: [],
+      competitorChargeAttempts: [],
+      rogueRegistryClaimAttempts: [],
       selfCertifiedDestructionAttempts: [],
     },
     units: {},
@@ -169,7 +172,7 @@ export function simulate(params, overrides = {}) {
       truth.units[id] = { leakRatePerYear: Number(unit.leakRate.toFixed(4)), serviceCompany: unit.service, category, nameplate, tier };
       units.push(unit);
       if (tier === 'A') {
-        ledger.registerTierA(t0, id, gas, nameplate, installedAt, category, unit.owner);
+        ledger.registerTierA(t0, id, gas, nameplate, installedAt, category, unit.owner, unit.service);
         unit.registered = true;
       }
     }
@@ -410,6 +413,20 @@ export function simulate(params, overrides = {}) {
       }
     }
 
+    // 2b') competitor charge: a service company charges its own gas into a unit it does not service,
+    //      which would quarantine the rightful company's next recovery (rejected: ServiceNotAuthorized)
+    if (probe.chance(p.fraud.competitorCharge.attemptsPerYear / 12)) {
+      const target = probe.pick(units.filter((u) => u.active && u.registered && u.tier === 'A'));
+      const rivals = target ? services.filter((s) => s !== target.service && ledger.activeLotsOf(s, (l) => l.gas === target.gas).length) : [];
+      if (rivals.length) {
+        const rival = probe.pick(rivals);
+        const lot = ledger.activeLotsOf(rival, (l) => l.gas === target.gas)[0];
+        const grams = Math.min(lot.grams, Math.round(target.nameplate * 0.2));
+        const res = ledger.charge(t, rival, lot.id, target.id, grams);
+        truth.fraud.competitorChargeAttempts.push({ unit: target.id, service: rival, grams, month: m, accepted: Boolean(res) });
+      }
+    }
+
     // 2c) padded recovery: a service company and a colluding owner book more than one charge from a
     //     leaky unit in a single recovery. The lifetime cap (charge + top-ups) would allow it; the
     //     booked-content rule rejects it (RecoveryExceedsContent).
@@ -555,12 +572,21 @@ export function simulate(params, overrides = {}) {
         if (eventId === null) continue;
         const ev = ledger.destructionEvents[eventId];
         if (!ev.eligible) continue;
-        // a registry claims it; the international registry only accepts Tier A
+        // the facility designates a registry, which claims it; the international registry only
+        // accepts Tier A, so on a refusal the facility re-designates the other one
         const first = rng.pick(registries);
-        const ok = ledger.claim(t + 3 * DAY, first.id, first.acceptsTier, eventId);
         const other = registries.find((r) => r.id !== first.id);
-        if (!ok) ledger.claim(t + 3 * DAY, other.id, other.acceptsTier, eventId);
-        else if (rng.chance(p.fraud.duplicateClaims.probabilityPerEligibleEvent)) {
+        ledger.designate(t + 3 * DAY, fac, eventId, first.id);
+        if (probe.chance(p.fraud.rogueRegistryClaim.probabilityPerEligibleEvent)) {
+          // a registry key tries to claim an event designated to another (rejected: NotDesignated)
+          const res = ledger.claim(t + 3 * DAY, other.id, other.acceptsTier, eventId);
+          truth.fraud.rogueRegistryClaimAttempts.push({ eventId, registry: other.id, month: m, accepted: Boolean(res) });
+        }
+        let ok = ledger.claim(t + 3 * DAY, first.id, first.acceptsTier, eventId);
+        if (!ok) {
+          ledger.designate(t + 3 * DAY, fac, eventId, other.id);
+          ok = ledger.claim(t + 3 * DAY, other.id, other.acceptsTier, eventId);
+        } else if (rng.chance(p.fraud.duplicateClaims.probabilityPerEligibleEvent)) {
           ledger.claim(t + 4 * DAY, other.id, other.acceptsTier, eventId); // rejected: AlreadyClaimed
         }
       }

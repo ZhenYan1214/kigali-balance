@@ -14,6 +14,7 @@ contract ClaimsTest is Fixture {
 
     function test_R7_firstRegistryClaims() public {
         uint256 ev = _destroyRecovered(EQ_A, 5_000);
+        _designate(ev, registryTW);
         vm.prank(registryTW);
         claims.claim(ev, bytes32("TW-VER-2026-0001"));
         DestructionClaims.DestructionEvent memory e = claims.destructionEvent(ev);
@@ -23,6 +24,7 @@ contract ClaimsTest is Fixture {
 
     function test_R7_revert_secondRegistryCannotClaimSameEvent() public {
         uint256 ev = _destroyRecovered(EQ_A, 5_000);
+        _designate(ev, registryTW);
         vm.prank(registryTW);
         claims.claim(ev, bytes32("TW-VER-2026-0001"));
         vm.prank(registryIntl);
@@ -32,6 +34,7 @@ contract ClaimsTest is Fixture {
 
     function test_R7_revert_sameRegistryCannotClaimTwice() public {
         uint256 ev = _destroyRecovered(EQ_A, 5_000);
+        _designate(ev, registryTW);
         vm.prank(registryTW);
         claims.claim(ev, bytes32("a"));
         vm.prank(registryTW);
@@ -69,13 +72,15 @@ contract ClaimsTest is Fixture {
         uint256 ev = _destroyRecovered(eqB, 1_000);
         assertEq(uint8(claims.destructionEvent(ev).worstTier), uint8(Tier.B));
 
+        _designate(ev, registryIntl);
         vm.prank(registryIntl);
         vm.expectRevert(abi.encodeWithSelector(DestructionClaims.TierNotAccepted.selector, Tier.B, Tier.A));
         claims.claim(ev, bytes32("x"));
 
-        // a registry that explicitly accepts Tier B evidence can claim it
+        // a registry that explicitly accepts Tier B evidence can claim it, once re-designated
         vm.prank(registryTW);
         claims.setAcceptedTier(Tier.B);
+        _designate(ev, registryTW);
         vm.prank(registryTW);
         claims.claim(ev, bytes32("TW-B-1"));
     }

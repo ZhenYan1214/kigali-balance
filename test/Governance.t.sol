@@ -127,6 +127,78 @@ contract GovernanceTest is Test {
         gov.execute(r);
         assertFalse(identity.hasRole(newReclaimer, Roles.RECLAIMER));
     }
+
+    // ---------------------------------------------------------------- seat rotation (red-team F11)
+
+    function _passed(address target, bytes memory data) internal returns (uint256 id) {
+        vm.prank(industrySeat);
+        id = gov.propose(target, data);
+        vm.prank(regulatorSeat);
+        gov.approve(id);
+        vm.prank(civilSeat);
+        gov.approve(id);
+    }
+
+    function test_F11_lostSeatIsRotatedByTheOthers() public {
+        address newRegistrySeat = makeAddr("newRegistrySeat");
+        uint256 id = _passed(address(gov), abi.encodeCall(Governance.replaceMember, (registrySeat, newRegistrySeat)));
+        vm.prank(industrySeat);
+        gov.execute(id);
+        assertFalse(gov.isMember(registrySeat));
+        assertTrue(gov.isMember(newRegistrySeat));
+        assertEq(gov.membershipEpoch(), 1);
+    }
+
+    function test_F11_rotationVoidsOpenProposals() public {
+        // the old key approved a proposal before it was rotated out: that approval must not count
+        vm.prank(registrySeat);
+        uint256 stale = gov.propose(address(identity), _grantCall());
+        uint256 rotate = _passed(address(gov), abi.encodeCall(Governance.replaceMember, (registrySeat, makeAddr("n"))));
+        vm.prank(industrySeat);
+        gov.execute(rotate);
+        vm.prank(regulatorSeat);
+        vm.expectRevert(Governance.MembershipChanged.selector);
+        gov.approve(stale);
+    }
+
+    function test_F11_revert_replaceMemberOnlyThroughGovernance() public {
+        vm.prank(regulatorSeat);
+        vm.expectRevert(Governance.OnlyThroughGovernance.selector);
+        gov.replaceMember(registrySeat, regulatorSeat);
+    }
+
+    function test_F11_proposalsExpire() public {
+        uint256 id = _passed(address(identity), _grantCall());
+        vm.warp(block.timestamp + 31 days);
+        vm.prank(industrySeat);
+        vm.expectRevert(Governance.ProposalExpired.selector);
+        gov.execute(id);
+    }
+
+    /// S4 (Low): governance could seat itself, which loses a seat for good.
+    function test_S4_contractCannotHoldASeat() public {
+        uint256 id = _passed(address(gov), abi.encodeCall(Governance.replaceMember, (registrySeat, address(gov))));
+        vm.prank(industrySeat);
+        vm.expectRevert(); // CallFailed(BadMember)
+        gov.execute(id);
+    }
+
+    /// S5 (Info): a proposal to an address without code looked executed.
+    function test_S5_emptyTargetIsRejected() public {
+        uint256 id = _passed(makeAddr("typo"), hex"");
+        vm.prank(industrySeat);
+        vm.expectRevert(abi.encodeWithSelector(Governance.NoCode.selector, makeAddr("typo")));
+        gov.execute(id);
+    }
+
+    function test_F11_approvalCanBeWithdrawn() public {
+        uint256 id = _passed(address(identity), _grantCall());
+        vm.prank(civilSeat);
+        gov.withdrawApproval(id);
+        vm.prank(industrySeat);
+        vm.expectRevert(Governance.NotEnoughApprovals.selector);
+        gov.execute(id);
+    }
 }
 
 /// @notice AI findings are audit-trailed and only humans close them.

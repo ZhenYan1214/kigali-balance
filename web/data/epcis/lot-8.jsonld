@@ -1,0 +1,358 @@
+{
+  "@context": [
+    "https://ref.gs1.org/standards/epcis/2.0.1/epcis-context.jsonld",
+    {
+      "kb": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#"
+    }
+  ],
+  "type": "EPCISDocument",
+  "schemaVersion": "2.0",
+  "creationDate": "2026-09-04T07:39:00.000Z",
+  "epcisHeader": {
+    "epcisMasterData": {
+      "vocabularyList": [
+        {
+          "type": "urn:epcglobal:epcis:vtype:EPCClass",
+          "vocabularyElementList": [
+            {
+              "id": "https://zhenyan1214.github.io/kigali-balance/id/sim/lot/8",
+              "attributes": [
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#lot",
+                  "attribute": 8
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#gas",
+                  "attribute": "R-410A"
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#provenanceClass",
+                  "attribute": "RECOVERED"
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#tier",
+                  "attribute": "C"
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#cylinder",
+                  "attribute": "https://zhenyan1214.github.io/kigali-balance/id/sim/cylinder/cyl-000010"
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#createdAtLedgerSeq",
+                  "attribute": 1063
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#recoveredFrom",
+                  "attribute": "https://zhenyan1214.github.io/kigali-balance/id/sim/equipment/eq-853d101e"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#vtype-Equipment",
+          "vocabularyElementList": [
+            {
+              "id": "https://zhenyan1214.github.io/kigali-balance/id/sim/equipment/eq-853d101e",
+              "attributes": [
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#tier",
+                  "attribute": "A"
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#gas",
+                  "attribute": "R-410A"
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#category",
+                  "attribute": "split_ac"
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#nameplateKg",
+                  "attribute": 2.937
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#installedAt",
+                  "attribute": "2016-07-31"
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#owner",
+                  "attribute": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/owner-18"
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#serviceCompany",
+                  "attribute": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/service-27"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#vtype-Party",
+          "vocabularyElementList": [
+            {
+              "id": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/facility-02",
+              "attributes": [
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#role",
+                  "attribute": "DESTRUCTION"
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#country",
+                  "attribute": "TR"
+                }
+              ]
+            },
+            {
+              "id": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/owner-18",
+              "attributes": [
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#role",
+                  "attribute": "EQUIPMENT_OWNER"
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#country",
+                  "attribute": "TR"
+                }
+              ]
+            },
+            {
+              "id": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/service-27",
+              "attributes": [
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#role",
+                  "attribute": "SERVICE"
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#country",
+                  "attribute": "TR"
+                }
+              ]
+            },
+            {
+              "id": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/verifier-02",
+              "attributes": [
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#role",
+                  "attribute": "VERIFIER"
+                },
+                {
+                  "id": "https://zhenyan1214.github.io/kigali-balance/ns/epcis#country",
+                  "attribute": "TR"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "epcisBody": {
+    "eventList": [
+      {
+        "type": "AggregationEvent",
+        "eventTime": "2023-10-03T00:00:00.000Z",
+        "eventTimeZoneOffset": "+00:00",
+        "eventID": "https://zhenyan1214.github.io/kigali-balance/id/sim/event/1063",
+        "parentID": "https://zhenyan1214.github.io/kigali-balance/id/sim/equipment/eq-853d101e",
+        "childQuantityList": [
+          {
+            "epcClass": "https://zhenyan1214.github.io/kigali-balance/id/sim/lot/8",
+            "quantity": 0.587,
+            "uom": "KGM"
+          }
+        ],
+        "action": "DELETE",
+        "bizStep": "removing",
+        "kb:ledgerSeq": 1063,
+        "kb:ledgerEventType": "RECOVER",
+        "kb:actor": {
+          "kb:party": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/service-27",
+          "kb:role": "SERVICE"
+        },
+        "kb:recoveredLots": [
+          {
+            "kb:lot": 8,
+            "kb:gas": "R-410A",
+            "kb:provenanceClass": "RECOVERED",
+            "kb:tier": "C",
+            "kb:cylinder": "https://zhenyan1214.github.io/kigali-balance/id/sim/cylinder/cyl-000010",
+            "kb:createdAtLedgerSeq": 1063,
+            "kb:recoveredFrom": "https://zhenyan1214.github.io/kigali-balance/id/sim/equipment/eq-853d101e"
+          }
+        ],
+        "kb:attestations": [
+          {
+            "kb:attests": "ownerConsent",
+            "kb:party": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/owner-18",
+            "kb:role": "EQUIPMENT_OWNER"
+          }
+        ],
+        "kb:unitTier": "A",
+        "kb:quarantinedQuantityKg": 0.587,
+        "kb:decommission": false
+      },
+      {
+        "type": "ObjectEvent",
+        "eventTime": "2023-10-03T00:06:00.000Z",
+        "eventTimeZoneOffset": "+00:00",
+        "eventID": "https://zhenyan1214.github.io/kigali-balance/id/sim/event/1069",
+        "epcList": [
+          "https://zhenyan1214.github.io/kigali-balance/id/sim/cylinder/cyl-000010"
+        ],
+        "quantityList": [
+          {
+            "epcClass": "https://zhenyan1214.github.io/kigali-balance/id/sim/lot/8",
+            "quantity": 0.587,
+            "uom": "KGM"
+          }
+        ],
+        "action": "OBSERVE",
+        "bizStep": "shipping",
+        "disposition": "in_transit",
+        "sourceList": [
+          {
+            "type": "possessing_party",
+            "source": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/service-27"
+          }
+        ],
+        "destinationList": [
+          {
+            "type": "possessing_party",
+            "destination": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/facility-02"
+          }
+        ],
+        "kb:ledgerSeq": 1069,
+        "kb:ledgerEventType": "SEND",
+        "kb:actor": {
+          "kb:party": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/service-27",
+          "kb:role": "SERVICE"
+        }
+      },
+      {
+        "type": "ObjectEvent",
+        "eventTime": "2023-10-03T00:07:00.000Z",
+        "eventTimeZoneOffset": "+00:00",
+        "eventID": "https://zhenyan1214.github.io/kigali-balance/id/sim/event/1070",
+        "epcList": [
+          "https://zhenyan1214.github.io/kigali-balance/id/sim/cylinder/cyl-000010"
+        ],
+        "quantityList": [
+          {
+            "epcClass": "https://zhenyan1214.github.io/kigali-balance/id/sim/lot/8",
+            "quantity": 0.587,
+            "uom": "KGM"
+          }
+        ],
+        "action": "OBSERVE",
+        "bizStep": "receiving",
+        "disposition": "in_progress",
+        "sourceList": [
+          {
+            "type": "possessing_party",
+            "source": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/service-27"
+          }
+        ],
+        "destinationList": [
+          {
+            "type": "possessing_party",
+            "destination": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/facility-02"
+          }
+        ],
+        "sensorElementList": [
+          {
+            "sensorReport": [
+              {
+                "type": "Mass",
+                "value": 0.587,
+                "uom": "KGM"
+              }
+            ]
+          }
+        ],
+        "kb:ledgerSeq": 1070,
+        "kb:ledgerEventType": "RECEIVE",
+        "kb:actor": {
+          "kb:party": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/facility-02",
+          "kb:role": "DESTRUCTION"
+        },
+        "kb:sentQuantityKg": 0.587,
+        "kb:bookedQuantityKg": 0.587
+      },
+      {
+        "type": "ObjectEvent",
+        "eventTime": "2023-10-04T00:00:00.000Z",
+        "eventTimeZoneOffset": "+00:00",
+        "eventID": "https://zhenyan1214.github.io/kigali-balance/id/sim/event/1081",
+        "certificationInfo": "https://zhenyan1214.github.io/kigali-balance/id/sim/destruction/0",
+        "quantityList": [
+          {
+            "epcClass": "https://zhenyan1214.github.io/kigali-balance/id/sim/lot/8",
+            "quantity": 0.587,
+            "uom": "KGM"
+          }
+        ],
+        "action": "DELETE",
+        "bizStep": "destroying",
+        "disposition": "destroyed",
+        "sensorElementList": [
+          {
+            "sensorReport": [
+              {
+                "type": "Mass",
+                "value": 0.587,
+                "uom": "KGM"
+              }
+            ]
+          }
+        ],
+        "kb:ledgerSeq": 1081,
+        "kb:ledgerEventType": "DESTROY",
+        "kb:actor": {
+          "kb:party": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/facility-02",
+          "kb:role": "DESTRUCTION"
+        },
+        "kb:destruction": {
+          "kb:destructionEventId": 0,
+          "kb:certificate": "https://zhenyan1214.github.io/kigali-balance/id/sim/destruction/0",
+          "kb:intakeQuantityKg": 0.587,
+          "kb:heldQuantityKg": 0.587,
+          "kb:handlingLossKg": 0,
+          "kb:dreBps": 9999,
+          "kb:creditEligible": false,
+          "kb:worstTier": null
+        },
+        "kb:attestations": [
+          {
+            "kb:attests": "destructionCertificate",
+            "kb:party": "https://zhenyan1214.github.io/kigali-balance/id/sim/party/verifier-02",
+            "kb:role": "VERIFIER"
+          }
+        ]
+      }
+    ]
+  },
+  "kb:export": {
+    "kb:note": "Simulated data. Exported from the Kigali Balance observation files; accepted ledger events only.",
+    "kb:ledger": "sim",
+    "kb:subjectLot": "https://zhenyan1214.github.io/kigali-balance/id/sim/lot/8",
+    "kb:label": "Lot 8: Recovered, Tier C R-410A, destroyed (event 0), not claimed",
+    "kb:subjectStatus": {
+      "kb:provenanceClass": "RECOVERED",
+      "kb:tier": "C",
+      "kb:remainingQuantityKg": 0,
+      "kb:status": "CLOSED"
+    },
+    "kb:lotsWithFullHistory": [
+      "https://zhenyan1214.github.io/kigali-balance/id/sim/lot/8"
+    ],
+    "kb:remainingQuantityKg": [
+      {
+        "kb:lot": "https://zhenyan1214.github.io/kigali-balance/id/sim/lot/8",
+        "kb:quantityKg": 0
+      }
+    ],
+    "kb:snapshotLedgerSeq": 7359,
+    "kb:ledgerEventsExported": 4
+  }
+}

@@ -8,15 +8,15 @@ slither .                 # full report
 slither . --fail-medium   # what CI enforces
 ```
 
-## Result (2026-10-17, after the red-team fixes)
+## Result (2026-10-17, after both rounds of red-team fixes)
 
 | Severity | Count | Notes |
 |---|---:|---|
 | High | 0 | One transient false positive came up while fixing the red-team findings (see below) |
 | Medium | 0 | Three on the first run: two false positives, initialised explicitly for clarity, and one reentrancy shown to be unexploitable and documented in place. One transient finding came up during the red-team fixes and was rewritten |
-| Low | 17 | Triaged below |
+| Low | 20 | Triaged below |
 | Informational | 5 | Reviewed below |
-| Optimization | 1 | Not changed |
+| Optimization | 0 | `Governance.memberCount` is now `immutable` |
 
 Slither looks for known code patterns. The most serious issues in this code base came from a manual red-team review, not from Slither: undocumented gas could be laundered into creditable gas, and lab certificates could be reused. Those are listed in the [technical annex](../proposal/technical_annex.html), section B.3. Every one of them has a regression test in [`test/RedTeam.t.sol`](../../test/RedTeam.t.sol).
 
@@ -30,12 +30,11 @@ Slither looks for known code patterns. The most serious issues in this code base
 | `incorrect-equality` (Medium, transient) | Same-day test in `recordCharge` | **Rewritten** | `==` on day numbers became `>=`. Timestamps never go backwards, so the two are equivalent. |
 | `reentrancy-benign`, `reentrancy-events` (Low) | `KigaliLedger.charge` → `recordCharge`; `KigaliLedger.destroy` → `DestructionClaims.record` | **Not exploitable** | Both callees are immutable system contracts restricted to the ledger. A revert in either reverts the whole call. |
 | `reentrancy-events` (Low) | `Governance.execute` | **By design** | `executed` is set before the call (checks-effects-interactions). The call was approved by 3 of 4 members. |
-| `timestamp` (Low ×13) | various | **5 real uses, accepted; 8 false positives** | The real uses: the 7-day attestation validity window; the 180-day residence rule; rejecting installation dates in the future; the one-record-per-day merge of charges; and the 30-day Tier B period. Sequencer timestamp drift is seconds, against windows of days. The Tier B period is a fixed bucket, so a company can recover up to twice the cap across a boundary; the annex lists this. The 8 false positives compare array indices or gram amounts in functions that also read the clock. |
+| `timestamp` (Low ×16) | various | **6 real uses, accepted; 10 false positives** | The real uses: the 7-day attestation validity window; the 180-day residence rule; rejecting installation dates in the future; the one-record-per-day merge of charges; the 30-day Tier B period; and the 30-day expiry of governance proposals. Sequencer timestamp drift is seconds, against windows of days. The Tier B period is a fixed bucket, so a company can recover up to twice the cap across a boundary; the annex lists this. The 10 false positives compare array indices or gram amounts in functions that also read the clock. |
 | `assembly` (Info) | `Attestations.recover` | **Reviewed** | Reads `r, s, v` from a 65-byte signature (`memory-safe`). Rejects high-`s` (malleable) signatures, `v ∉ {27, 28}` and the zero address. Tests: `test_sec_revert_malleableHighS`, `test_revert_signatureBadV`, `test_revert_signatureWrongLength`. |
 | `low-level-calls` (Info) | `Governance.execute` | **By design** | The multisig executes approved calls; a failure bubbles up as `CallFailed`. |
 | `cyclomatic-complexity` (Info) | `KigaliLedger.destroy` (13) | **Noted** | A candidate for the planned split of `KigaliLedger` into contracts below about 10 KB. |
 | `unindexed-event-address` (Info ×2) | `LedgerSet` events | **Cosmetic** | Emitted once, at deployment. |
-| `immutable-states` (Optimization) | `Governance.memberCount` | **Noted** | Gas only. |
 
 ## What static analysis does not cover
 

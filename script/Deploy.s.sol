@@ -163,9 +163,9 @@ contract Deploy is Script {
         vm.broadcast(quotaAuthority.pk);
         ledger.registerQuota(QUOTA_ID, importer.addr, R404A, 100_000);
         vm.startBroadcast(registrar.pk);
-        equipment.registerTierA(FREEZER, R404A, 9_000, nowTs - 6 * 365 days, keccak256("ekomvet-demo-1"), owner.addr);
-        equipment.registerTierA(COLD_ROOM, R404A, 6_000, nowTs - 9 * 365 days, keccak256("ekomvet-demo-2"), owner.addr);
-        equipment.registerTierA(DISPLAY_CASE, R404A, 4_000, nowTs - 4 * 365 days, keccak256("ekomvet-demo-3"), owner.addr);
+        equipment.registerTierA(FREEZER, R404A, 9_000, nowTs - 6 * 365 days, keccak256("ekomvet-demo-1"), owner.addr, service.addr);
+        equipment.registerTierA(COLD_ROOM, R404A, 6_000, nowTs - 9 * 365 days, keccak256("ekomvet-demo-2"), owner.addr, service.addr);
+        equipment.registerTierA(DISPLAY_CASE, R404A, 4_000, nowTs - 4 * 365 days, keccak256("ekomvet-demo-3"), owner.addr, service.addr);
         vm.stopBroadcast();
 
         // Step 1: the importer mints 100 kg of R-404A against its quota
@@ -211,6 +211,8 @@ contract Deploy is Script {
         uint256 fromColdRoom = _recover(COLD_ROOM, 5_000);
         uint256 atFacility = _move(fromColdRoom, service, facility, scaleFacility, 5_000);
         uint256 eventId = _destroy(_one(atFacility), 5_000);
+        vm.broadcast(facility.pk);
+        claims.designate(eventId, registryTW.addr); // the facility names the registry that may claim
         vm.broadcast(registryTW.pk);
         claims.claim(eventId, bytes32("TW-HFC-DESTRUCTION-0001"));
         console.log("step 6  destruction event", eventId, "claimed by the Taiwan registry");

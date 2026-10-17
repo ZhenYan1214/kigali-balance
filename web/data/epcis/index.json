@@ -1,0 +1,64 @@
+{
+  "note": "Simulated data. GS1 EPCIS 2.0 JSON-LD exports of example lot provenance chains; see simulator/epcis/README.md.",
+  "schema": "https://ref.gs1.org/standards/epcis/2.0.1/epcis-json-schema.json",
+  "context": "https://ref.gs1.org/standards/epcis/2.0.1/epcis-context.jsonld",
+  "creationDate": "2026-09-04T07:39:00.000Z",
+  "examples": [
+    {
+      "lot": 2,
+      "label": "Lot 2: Virgin R-404A, charged into 1 unit",
+      "why": "virgin gas from import to equipment",
+      "file": "lot-2.jsonld",
+      "events": 13,
+      "lots": 2
+    },
+    {
+      "lot": 8,
+      "label": "Lot 8: Recovered, Tier C R-410A, destroyed (event 0), not claimed",
+      "why": "dashboard passport example; quarantined (Tier C) recovery",
+      "file": "lot-8.jsonld",
+      "events": 4,
+      "lots": 1
+    },
+    {
+      "lot": 12,
+      "label": "Lot 12: Reclaimed, Tier B R-410A, charged into 3 units",
+      "why": "dashboard passport example",
+      "file": "lot-12.jsonld",
+      "events": 12,
+      "lots": 2
+    },
+    {
+      "lot": 37,
+      "label": "Lot 37: Recovered, Tier A R-404A, destroyed (event 1), claimed by registry-tw",
+      "why": "dashboard passport example; recovered, destroyed and claimed",
+      "file": "lot-37.jsonld",
+      "events": 7,
+      "lots": 1
+    },
+    {
+      "lot": 42,
+      "label": "Lot 42: Recovered, Tier B R-410A, destroyed (event 2), claimed by registry-tw",
+      "why": "dashboard passport example",
+      "file": "lot-42.jsonld",
+      "events": 8,
+      "lots": 1
+    },
+    {
+      "lot": 43,
+      "label": "Lot 43: Reclaimed, Tier A R-134a, charged into 2 units",
+      "why": "dashboard passport example; reclaimed lot with its recovered inputs",
+      "file": "lot-43.jsonld",
+      "events": 11,
+      "lots": 2
+    },
+    {
+      "lot": 52,
+      "label": "Lot 52: Reclaimed, Tier A R-404A, charged into 2 units",
+      "why": "reclaimed gas charged into equipment",
+      "file": "lot-52.jsonld",
+      "events": 17,
+      "lots": 3
+    }
+  ]
+}

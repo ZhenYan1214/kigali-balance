@@ -212,7 +212,7 @@ async function build(ev, t) {
     case 'REGISTER_EQUIPMENT':
       if (ev.tier === 'A') {
         const installed = BigInt(Math.floor(Date.parse(ev.installedAt) / 1000));
-        return [registrar, equipment, call('EquipmentRegistry', 'registerTierA', [h(ev.equipment), gasId(ev.gas), BigInt(ev.nameplateGrams), installed, h(`ekomvet:${ev.equipment}`), acct(ev.owner).address])];
+        return [registrar, equipment, call('EquipmentRegistry', 'registerTierA', [h(ev.equipment), gasId(ev.gas), BigInt(ev.nameplateGrams), installed, h(`ekomvet:${ev.equipment}`), acct(ev.owner).address, acct(ev.serviceCompany).address])];
       }
       return [acct(a), equipment, call('EquipmentRegistry', 'registerTierB', [h(ev.equipment), h(ev.modelId), h(`photo:${ev.equipment}`), acct(ev.owner).address])];
     case 'MINT':
@@ -245,6 +245,8 @@ async function build(ev, t) {
       const [d, ds] = await destructionCert(ev.verifier, subject, ev.certGrams, ev.dreBps, t, ev.seq);
       return [acct(a), ledger, call('KigaliLedger', 'destroy', [ev.inputs.map(BigInt), r, sig, d, ds])];
     }
+    case 'DESIGNATE':
+      return [acct(a), claims, call('DestructionClaims', 'designate', [BigInt(ev.eventId), acct(ev.registry).address])];
     case 'CLAIM':
       return [acct(a), claims, call('DestructionClaims', 'claim', [BigInt(ev.eventId), h(`batch:${ev.seq}`)])];
     default:

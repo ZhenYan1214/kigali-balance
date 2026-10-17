@@ -192,7 +192,8 @@ function rejectionDetail(e) {
     case 'RECOVER': return { equipment: e.equipment, grams: e.grams, consent: e.consentSigner, cylinder: e.cylinder };
     case 'RECLAIM': return { inputs: e.inputs, inGrams: e.inGrams ?? null, outGrams: e.outGrams, maxOut: e.maxOut ?? null };
     case 'DESTROY': return { inputs: e.inputs, grams: e.intakeGrams, verifier: e.verifier };
-    case 'CLAIM': return { eventId: e.eventId };
+    case 'CLAIM': return { eventId: e.eventId, designated: e.designated ?? null };
+    case 'CHARGE': return { equipment: e.equipment, grams: e.grams };
     default: return {};
   }
 }

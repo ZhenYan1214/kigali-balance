@@ -85,6 +85,7 @@ contract DemoScenarioTest is Fixture {
         assertTrue(ev.creditEligible);
         assertEq(uint8(ev.worstTier), uint8(Tier.A));
 
+        _designate(eventId, registryTW);
         vm.prank(registryTW);
         claims.claim(eventId, bytes32("TW-HFC-DESTRUCTION-0001"));
         vm.prank(registryIntl);

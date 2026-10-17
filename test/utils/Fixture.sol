@@ -118,7 +118,7 @@ abstract contract Fixture is Test {
     function _registerA(bytes32 id, bytes32 gas, uint64 nameplateGrams, uint64 installedAt) internal {
         vm.prank(registrar);
         equipment.registerTierA(
-            id, gas, nameplateGrams, installedAt, keccak256(abi.encode("registry-record", id)), vm.addr(OWNER_PK)
+            id, gas, nameplateGrams, installedAt, keccak256(abi.encode("registry-record", id)), vm.addr(OWNER_PK), service
         );
         ownerPkOf[id] = OWNER_PK;
     }
@@ -290,6 +290,12 @@ abstract contract Fixture is Test {
         bytes memory ds = _signDestruction(VERIFIER_PK, d);
         vm.prank(facility);
         return ledger.destroy(inputs, r, sig, d, ds);
+    }
+
+    /// @dev The destruction facility designates which registry may claim the event.
+    function _designate(uint256 eventId, address registry) internal {
+        vm.prank(facility);
+        claims.designate(eventId, registry);
     }
 
     function _one(uint256 a) internal pure returns (uint256[] memory arr) {
