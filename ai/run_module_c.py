@@ -26,8 +26,8 @@ def main() -> None:
     report = run_module_c(load_observations(args.data, args.cutoff))
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    (out / "flags.json").write_text(json.dumps(report.to_dict(), indent=2, default=str), encoding="utf-8")
-    report.to_frame().to_csv(out / "flags.csv", index=False)
+    (out / "flags.json").write_text(json.dumps(report.to_dict(), indent=2, default=str), encoding="utf-8", newline="\n")
+    report.to_frame().to_csv(out / "flags.csv", index=False, lineterminator="\n")
 
     print(f"{report.model} {report.model_version}  model {report.model_hash[:12]}  input {report.input_snapshot[:12]}")
     for e in report.entities:

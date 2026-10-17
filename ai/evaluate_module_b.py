@@ -189,9 +189,9 @@ def main() -> None:
         "seeds": seeds, "months": months, "results": results,
         "fraud_volume_kg_over_36_months": [{"role": r, "label": l, **v} for (r, l), v in vol.to_dict("index").items()],
     }
-    report_path.with_suffix(".json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    report_path.with_suffix(".md").write_text(markdown(payload, df), encoding="utf-8")
-    df.to_csv(report_path.with_name(report_path.name + "_rows.csv"), index=False)
+    report_path.with_suffix(".json").write_text(json.dumps(payload, indent=2), encoding="utf-8", newline="\n")
+    report_path.with_suffix(".md").write_text(markdown(payload, df), encoding="utf-8", newline="\n")
+    df.to_csv(report_path.with_name(report_path.name + "_rows.csv"), index=False, lineterminator="\n")
 
     print(markdown(payload, df))
 

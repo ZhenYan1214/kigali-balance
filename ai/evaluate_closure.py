@@ -55,7 +55,7 @@ def main() -> None:
     df["truth_within_range"] = (df["true_kg"] >= df["est_low_kg"]) & (df["true_kg"] <= df["est_high_kg"])
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    df.to_csv(out / "closure_evaluation_rows.csv", index=False)
+    df.to_csv(out / "closure_evaluation_rows.csv", index=False, lineterminator="\n")
     s = df.sum(numeric_only=True)
     lines = [
         "# End-of-life closure check: evaluation on simulated data",
@@ -90,7 +90,7 @@ def main() -> None:
         "so the true unaccounted mass sits near the top of the IPCC range. That is a limitation of the simulator found in the twelfth review, not evidence that the upper bound is right in reality.",
         "- **Units below the registration threshold (Tier B) are invisible** until someone recovers them, so their venting cannot be seen by this check.",
     ]
-    (out / "closure_evaluation.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (out / "closure_evaluation.md").write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
     print("\n".join(lines))
 
 

@@ -62,7 +62,7 @@ class Svg:
         body = "".join(self.parts)
         svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.w}" height="{self.h}" '
                f'viewBox="0 0 {self.w} {self.h}" role="img" aria-label="{escape(title)}"><title>{escape(title)}</title>{body}</svg>\n')
-        (OUT / name).write_text(svg, encoding="utf-8")
+        (OUT / name).write_text(svg, encoding="utf-8", newline="\n")
 
 
 def node(s, x, y, w, h, color, title, lines, tag=None):
@@ -240,7 +240,7 @@ def logo():
         p.append(f'<path d="M{cx-17},84 Q{cx},100 {cx+17},84 Z" fill="{col}"/>')
     svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" '
            'aria-label="Kigali Balance logo"><title>Kigali Balance</title>' + "".join(p) + "</svg>\n")
-    (OUT / "logo.svg").write_text(svg, encoding="utf-8")
+    (OUT / "logo.svg").write_text(svg, encoding="utf-8", newline="\n")
 
 
 if __name__ == "__main__":

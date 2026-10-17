@@ -165,9 +165,9 @@ def main() -> None:
     }
     path = Path(args.report)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.with_suffix(".json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    path.with_suffix(".md").write_text(markdown(payload, df), encoding="utf-8")
-    df.to_csv(path.with_name(path.name + "_rows.csv"), index=False)
+    path.with_suffix(".json").write_text(json.dumps(payload, indent=2), encoding="utf-8", newline="\n")
+    path.with_suffix(".md").write_text(markdown(payload, df), encoding="utf-8", newline="\n")
+    df.to_csv(path.with_name(path.name + "_rows.csv"), index=False, lineterminator="\n")
     print(markdown(payload, df))
 
 

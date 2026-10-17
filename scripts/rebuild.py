@@ -68,7 +68,7 @@ class Steps:
     def save(self) -> None:
         path = ROOT / "reports" / "rebuild-latest.json"
         path.parent.mkdir(exist_ok=True)
-        path.write_text(json.dumps({"at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "steps": self.results}, indent=2), encoding="utf-8")
+        path.write_text(json.dumps({"at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "steps": self.results}, indent=2), encoding="utf-8", newline="\n")
 
 
 # ---------------------------------------------------------------------------- steps

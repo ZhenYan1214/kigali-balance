@@ -478,7 +478,7 @@ def main() -> None:
                       "can name nonexistent units or the same unit twice",
     }
     (OUT / "results.json").write_text(json.dumps({"meta": meta, "main": main_res, "sensitivity": sens}, indent=2),
-                                      encoding="utf-8")
+                                      encoding="utf-8", newline="\n")
     with (OUT / "per_category.csv").open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(main_res["per_category"][0]))
         w.writeheader()
@@ -489,7 +489,7 @@ def main() -> None:
         w.writeheader()
         w.writerows({k: (round(v, 4) if isinstance(v, float) else v) for k, v in r.items()} for r in sens)
     for theme in THEMES:
-        (OUT / f"chart-{theme}.svg").write_text(chart_svg(main_res, theme), encoding="utf-8")
+        (OUT / f"chart-{theme}.svg").write_text(chart_svg(main_res, theme), encoding="utf-8", newline="\n")
 
     h = main_res["honest"]
     print(f"honest recovered: {h['recovered_kg']['mean']:,.0f} kg = {h['recovered_tco2e']['mean']:,.0f} tCO2e "

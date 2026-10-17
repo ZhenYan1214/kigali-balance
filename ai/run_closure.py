@@ -25,7 +25,7 @@ def main() -> None:
     report = run_closure(load_observations(args.data, args.cutoff))
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    (out / "closure.json").write_text(json.dumps(report.to_dict(), indent=2, default=str), encoding="utf-8")
+    (out / "closure.json").write_text(json.dumps(report.to_dict(), indent=2, default=str), encoding="utf-8", newline="\n")
 
     t = report.totals
     print(f"{report.model} {report.model_version}  model {report.model_hash[:12]}  input {report.input_snapshot[:12]}")
