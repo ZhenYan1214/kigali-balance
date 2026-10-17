@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -149,16 +150,36 @@ def diagrams() -> dict:
     return {}
 
 
+def find_browser() -> Path | None:
+    """Edge or Chrome on Windows, Chrome/Edge apps on macOS, or a Chromium-family binary on PATH.
+    Set KB_BROWSER to override."""
+    if os.environ.get("KB_BROWSER"):
+        return Path(os.environ["KB_BROWSER"])
+    fixed = [EDGE, CHROME,
+             Path("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"),
+             Path("/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge")]
+    for p in fixed:
+        if p.exists():
+            return p
+    for name in ("chromium", "chromium-browser", "google-chrome", "google-chrome-stable", "microsoft-edge", "msedge", "chrome"):
+        if shutil.which(name):
+            return Path(shutil.which(name))
+    return None
+
+
 def problem_statement_pdf() -> dict:
-    browser = EDGE if EDGE.exists() else CHROME if CHROME.exists() else None
+    browser = find_browser()
     if not browser:
-        raise RuntimeError("needs Microsoft Edge or Google Chrome to print the PDF")
+        raise RuntimeError("needs Microsoft Edge, Google Chrome or Chromium to print the PDF (or set KB_BROWSER)")
     html = ROOT / "docs" / "proposal" / "problem_statement.html"
     pdf = ROOT / "docs" / "proposal" / "Kigali_Balance_Problem_Statement.pdf"
     profile = ROOT / "reports" / ".pdf-profile"
     before = pdf.stat().st_mtime if pdf.exists() else 0
-    subprocess.run([str(browser), "--headless=new", "--disable-gpu", "--no-first-run", f"--user-data-dir={profile}",
-                    "--no-pdf-header-footer", f"--print-to-pdf={pdf}", html.as_uri()], capture_output=True, timeout=120)
+    flags = ["--headless=new", "--disable-gpu", "--no-first-run", f"--user-data-dir={profile}",
+             "--no-pdf-header-footer", f"--print-to-pdf={pdf}"]
+    if hasattr(os, "geteuid") and os.geteuid() == 0:
+        flags.append("--no-sandbox")  # Chromium refuses to run as root (e.g. in a CI container) without it
+    subprocess.run([str(browser), *flags, html.as_uri()], capture_output=True, timeout=120)
     for _ in range(30):  # the browser may return before the file is flushed
         if pdf.exists() and pdf.stat().st_mtime > before:
             break
