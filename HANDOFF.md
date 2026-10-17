@@ -468,6 +468,10 @@ forge script script/Deploy.s.sol --rpc-url op_sepolia --broadcast --verify
 - **兩台電腦的 Node 測試輸出格式不同**：舊版 Node 印 `# pass N`，Node 24 印 `ℹ pass N`。`rebuild.py` 兩種都接受。
 - **重建後還原產生物時要小心**：`docs/assets/` 裡同時有產生的圖檔和產生器 `make_diagrams.py`，不要用 `git checkout -- docs/assets` 整個資料夾還原，會把產生器的修改一起還原掉（曾經發生過）。只還原 `docs/assets/*.svg`。
 - **問題陳述 PDF 每次重建的位元組都不同**（瀏覽器版本與時間戳），內容不變。只有改了 HTML 才需要提交新的 PDF。
+- **CI 上的 Chrome 要加 `--no-sandbox`**（2026-10-17 發現）：GitHub 的 Ubuntu 執行環境限制了 Chrome 沙箱需要的使用者命名空間，瀏覽器根本沒寫出 PDF。舊的檢查會去數「已提交的 PDF」頁數，所以一直誤判為通過。現在 `rebuild.py` 在 Linux CI 上自動加 `--no-sandbox`；如果沒有寫出 PDF，會連同瀏覽器的輸出一起報錯。
+- **PDF 的字型**：版面是照 Calibri 排的。CI 會安裝度量相同的 Carlito（`fonts-crosextra-carlito`），否則 Linux 換成較寬的字型，2 頁的問題陳述可能會變 3 頁。問題陳述已經排到剛好 2 頁，**改內容後一定要重建、確認頁數**。
+- **看 CI 為什麼失敗**：不登入看不到工作日誌。`scripts/ci_check.sh` 會把失敗原因寫成 annotation，可以從公開 API 讀：`/repos/ZhenYan1214/kigali-balance/check-runs/<job id>/annotations`。未登入的 API 每小時上限 60 次，輪詢不要太頻繁。
+- **不要用 sed、perl 或 bash heredoc 寫含 `\n` 的程式字串**：反斜線會被轉成真的換行，弄壞程式碼（發生過三次）。這種修改用 Edit 工具，或先把 Python 修改腳本寫成檔案再執行。
 
 ---
 
