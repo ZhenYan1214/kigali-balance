@@ -1,0 +1,45 @@
+# Outside judge: on every push, a fresh GitHub-hosted Linux machine rebuilds everything from scratch
+# (contracts + invariants, simulator, differential replay against the contracts, AI modules, web data,
+# diagrams, problem-statement PDF) and fails if any committed file does not reproduce byte for byte.
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.8.5
+
+      - name: Rebuild everything and check it reproduces
+        run: bash scripts/ci_check.sh
+
+      - name: Keep the measured numbers
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rebuild-latest
+          path: reports/rebuild-latest.json
+          if-no-files-found: ignore
