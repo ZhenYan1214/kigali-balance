@@ -180,6 +180,8 @@ def check_git(files: list[str]) -> None:
 
 
 def main() -> None:
+    if hasattr(sys.stdout, "reconfigure"):  # cp950 consoles garble en dashes and CJK otherwise
+        sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--online", action="store_true", help="also fetch external links")
     args = ap.parse_args()

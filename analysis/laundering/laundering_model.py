@@ -6,7 +6,7 @@ when a registered unit is decommissioned, and how much does each defence layer r
 Headroom of one unit = what the rules would accept from it minus what was really inside it.
 This is a CAPACITY (every decommissioning padded to the limit), not an estimate of actual fraud.
 
-Population: the simulator's equipment register (simulator/out/equipment.csv, seed 42), using only
+Population: the simulator's equipment register (seed 42), pinned in analysis/laundering/population_seed42.csv; using only
 tier, category, gas and nameplate charge. Nothing from ground_truth.json is read.
 Per unit and per Monte Carlo draw we draw the true charge left at end of life from IPCC 2006
 Guidelines Vol. 3 Ch. 7 Table 7.9 (p. 7.52), a leak rate from simulator/params.json (IPCC-sourced),
@@ -39,7 +39,10 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = Path(__file__).resolve().parent
-EQUIPMENT_CSV = ROOT / "simulator" / "out" / "equipment.csv"
+# Pinned input: the seed-42 register as the simulator produced it on 2026-10-16. The analysis draws
+# remaining charge from IPCC itself, so later simulator changes (round 14) do not affect it; pinning
+# keeps its numbers reproducible.
+EQUIPMENT_CSV = OUT / "population_seed42.csv"
 PARAMS_JSON = ROOT / "simulator" / "params.json"
 
 SEED = 42
@@ -480,12 +483,12 @@ def main() -> None:
     (OUT / "results.json").write_text(json.dumps({"meta": meta, "main": main_res, "sensitivity": sens}, indent=2),
                                       encoding="utf-8", newline="\n")
     with (OUT / "per_category.csv").open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=list(main_res["per_category"][0]))
+        w = csv.DictWriter(f, fieldnames=list(main_res["per_category"][0]), lineterminator="\n")
         w.writeheader()
         w.writerows({k: (round(v, 4) if isinstance(v, float) else v) for k, v in r.items()}
                     for r in main_res["per_category"])
     with (OUT / "sensitivity.csv").open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=list(sens[0]))
+        w = csv.DictWriter(f, fieldnames=list(sens[0]), lineterminator="\n")
         w.writeheader()
         w.writerows({k: (round(v, 4) if isinstance(v, float) else v) for k, v in r.items()} for r in sens)
     for theme in THEMES:

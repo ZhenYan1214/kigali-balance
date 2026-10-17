@@ -116,6 +116,25 @@ export function validate(result) {
   );
   calibration.overallEolMassRecoveryRate = all.rem ? round(all.rec / all.rem) : null;
 
+  // End-of-life remaining charge emerges from maintenance behaviour; compare it with IPCC 2006
+  // Table 7.9 "initial charge remaining" ranges per category.
+  calibration.eolRemainingVsIpcc = {};
+  const byCat = {};
+  for (const u of Object.values(truth.units)) {
+    if (u.eolCharge === undefined || !u.nameplate) continue;
+    (byCat[`${u.category}/${u.tier}`] ??= []).push(u.eolCharge / u.nameplate);
+  }
+  for (const [cat, xs] of Object.entries(byCat)) {
+    const [lo, hi] = params.fleet.categories[cat.split('/')[0]].ipccEolRemaining;
+    const s = [...xs].sort((a, b) => a - b);
+    const q = (f) => s[Math.min(s.length - 1, Math.floor(f * s.length))];
+    calibration.eolRemainingVsIpcc[cat] = {
+      units: s.length, ipccRange: [lo, hi],
+      p10: round(q(0.1)), median: round(q(0.5)), p90: round(q(0.9)),
+      shareInsideIpccRange: round(s.filter((x) => x >= lo - 1e-9 && x <= hi + 1e-9).length / s.length),
+    };
+  }
+
   if (failures.length) {
     const err = new Error(`Simulation failed ${failures.length} self-check(s):\n - ${failures.slice(0, 20).join('\n - ')}`);
     err.failures = failures;

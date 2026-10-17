@@ -1,6 +1,6 @@
 """Evaluate the end-of-life closure check on simulated runs.
 
-  python evaluate_closure.py [--seeds 81-90]
+  python evaluate_closure.py [--seeds 181-190]
 
 The check is a reconciliation with no tuned threshold for its unit list, so there is nothing to
 overfit; the question is whether its estimate of the unaccounted mass is honest. Ground truth
@@ -8,6 +8,7 @@ overfit; the question is whether its estimate of the unaccounted mass is honest.
 """
 
 from __future__ import annotations
+import sys
 
 import argparse
 import json
@@ -45,8 +46,10 @@ def evaluate(seed: int, cache: Path) -> dict:
 
 
 def main() -> None:
+    if hasattr(sys.stdout, "reconfigure"):  # cp950 consoles garble en dashes and CJK otherwise
+        sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--seeds", default="81-90")
+    ap.add_argument("--seeds", default="181-190")
     ap.add_argument("--cache", default=str(here / ".cache" / "sim"))
     ap.add_argument("--out", default=str(here / "reports"))
     args = ap.parse_args()

@@ -1,1081 +1,1081 @@
 seed,months,variant,actor,role,label,score,flagged,top_reason
-1,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,85 invoices to 5 buyers bill 545.1 kg (37.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 373.4 kg
-1,12,rules+IF,reclaimer-02,RECLAIMER,naive,0.9882,True,mean reclamation yield 95.5% over 11 batches is above 93% of peer batches (peer median 92.4%)
-1,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.125,False,
-1,12,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.078,False,
-1,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0673,False,
-1,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-1,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-1,12,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-1,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-1,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,85 invoices to 5 buyers bill 545.1 kg (37.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 373.4 kg
-1,12,rules only,reclaimer-02,RECLAIMER,naive,0.9855,True,mean reclamation yield 95.5% over 11 batches is above 93% of peer batches (peer median 92.4%)
-1,12,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0115,False,
-1,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-1,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-1,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-1,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-1,12,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-1,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-1,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,"161 invoices to 5 buyers bill 1,174.5 kg (42.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 657.9 kg"
-1,24,rules+IF,reclaimer-02,RECLAIMER,naive,0.9363,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-1,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0724,False,
-1,24,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0068,False,
-1,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-1,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-1,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-1,24,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-1,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-1,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,"161 invoices to 5 buyers bill 1,174.5 kg (42.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 657.9 kg"
-1,24,rules only,reclaimer-02,RECLAIMER,naive,0.9285,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-1,24,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0068,False,
-1,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-1,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-1,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-1,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-1,24,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-1,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-1,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,"221 invoices to 5 buyers bill 1,569.0 kg (39.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 946.0 kg"
-1,36,rules+IF,reclaimer-02,RECLAIMER,naive,0.9566,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-1,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.0673,False,
-1,36,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0047,False,
-1,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-1,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-1,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-1,36,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-1,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-1,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,"221 invoices to 5 buyers bill 1,569.0 kg (39.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 946.0 kg"
-1,36,rules only,reclaimer-02,RECLAIMER,naive,0.9531,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-1,36,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0047,False,
-1,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-1,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-1,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-1,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-1,36,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-1,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-2,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,61 invoices to 5 buyers bill 400.9 kg (18.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 226.5 kg
-2,12,rules+IF,reclaimer-04,RECLAIMER,naive,0.5938,False,1 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-2,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.1875,False,
-2,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0833,False,
-2,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0673,False,
-2,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-2,12,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
-2,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
-2,12,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-2,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,61 invoices to 5 buyers bill 400.9 kg (18.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 226.5 kg
-2,12,rules only,reclaimer-04,RECLAIMER,naive,0.5,False,1 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-2,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-2,12,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
-2,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-2,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-2,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-2,12,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-2,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-2,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,128 invoices to 5 buyers bill 900.7 kg (23.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 474.6 kg
-2,24,rules+IF,reclaimer-04,RECLAIMER,naive,0.9903,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-2,24,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.4808,False,mean reclamation yield 95.1% over 16 batches is above 85% of peer batches (peer median 89.2%)
-2,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0536,False,
-2,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0312,False,
-2,24,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.025,False,
-2,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-2,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-2,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
-2,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,128 invoices to 5 buyers bill 900.7 kg (23.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 474.6 kg
-2,24,rules only,reclaimer-04,RECLAIMER,naive,0.9863,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-2,24,rules only,reclaimer-02,RECLAIMER,adaptive,0.4808,False,mean reclamation yield 95.1% over 16 batches is above 85% of peer batches (peer median 89.2%)
-2,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-2,24,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
-2,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-2,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-2,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-2,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-2,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,"183 invoices to 5 buyers bill 1,388.5 kg (27.1% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 704.9 kg"
-2,36,rules+IF,reclaimer-04,RECLAIMER,naive,0.9963,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-2,36,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.2791,False,mean reclamation yield 95.1% over 29 batches is above 81% of peer batches (peer median 90.8%)
-2,36,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0101,False,
-2,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-2,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-2,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-2,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
-2,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-2,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,"183 invoices to 5 buyers bill 1,388.5 kg (27.1% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 704.9 kg"
-2,36,rules only,reclaimer-04,RECLAIMER,naive,0.9945,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-2,36,rules only,reclaimer-02,RECLAIMER,adaptive,0.2791,False,mean reclamation yield 95.1% over 29 batches is above 81% of peer batches (peer median 90.8%)
-2,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-2,36,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
-2,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-2,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-2,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-2,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-3,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,67 invoices to 5 buyers bill 356.3 kg (18.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 219.1 kg
-3,12,rules+IF,reclaimer-03,RECLAIMER,naive,0.99,True,mean reclamation yield 95.5% over 10 batches is above 95% of peer batches (peer median 90.0%)
-3,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.2917,False,"33% of its active months are among the most unusual 10 % for reclaimers; most unusual month 2024-09, driven by input_g = 2.18e+05 (role median 3.56e+03)"
-3,12,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.1635,False,
-3,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-3,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-3,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-3,12,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-3,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-3,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,67 invoices to 5 buyers bill 356.3 kg (18.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 219.1 kg
-3,12,rules only,reclaimer-03,RECLAIMER,naive,0.9899,True,mean reclamation yield 95.5% over 10 batches is above 95% of peer batches (peer median 90.0%)
-3,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-3,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-3,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-3,12,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-3,12,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-3,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-3,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-3,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,139 invoices to 5 buyers bill 638.4 kg (16.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 364.8 kg
-3,24,rules+IF,reclaimer-03,RECLAIMER,naive,0.9985,True,mean reclamation yield 95.3% over 27 batches is above 94% of peer batches (peer median 89.9%)
-3,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0625,False,
-3,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.025,False,
-3,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-3,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-3,24,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-3,24,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-3,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-3,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,139 invoices to 5 buyers bill 638.4 kg (16.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 364.8 kg
-3,24,rules only,reclaimer-03,RECLAIMER,naive,0.9983,True,mean reclamation yield 95.3% over 27 batches is above 94% of peer batches (peer median 89.9%)
-3,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-3,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-3,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-3,24,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-3,24,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-3,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-3,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-3,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,201 invoices to 5 buyers bill 886.2 kg (17.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 529.1 kg
-3,36,rules+IF,reclaimer-03,RECLAIMER,naive,0.999,True,5 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-3,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0439,False,
-3,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0043,False,
-3,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-3,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-3,36,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-3,36,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-3,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-3,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,201 invoices to 5 buyers bill 886.2 kg (17.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 529.1 kg
-3,36,rules only,reclaimer-03,RECLAIMER,naive,0.9989,True,5 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-3,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-3,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-3,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-3,36,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-3,36,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-3,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-3,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-4,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,64 invoices to 5 buyers bill 476.0 kg (26.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 339.2 kg
-4,12,rules+IF,reclaimer-03,RECLAIMER,naive,0.7954,True,2 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-4,12,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0955,False,
-4,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0673,False,
-4,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0312,False,
-4,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0305,False,
-4,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-4,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-4,12,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-4,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,64 invoices to 5 buyers bill 476.0 kg (26.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 339.2 kg
-4,12,rules only,reclaimer-03,RECLAIMER,naive,0.7584,True,2 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-4,12,rules only,reclaimer-04,RECLAIMER,honest,0.0305,False,
-4,12,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0303,False,
-4,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-4,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-4,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-4,12,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-4,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-4,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,"140 invoices to 5 buyers bill 1,039.0 kg (31.1% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 758.5 kg"
-4,24,rules+IF,reclaimer-03,RECLAIMER,naive,0.9923,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-4,24,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0909,False,
-4,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0833,False,
-4,24,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0221,False,
-4,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-4,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-4,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-4,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-4,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,"140 invoices to 5 buyers bill 1,039.0 kg (31.1% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 758.5 kg"
-4,24,rules only,reclaimer-03,RECLAIMER,naive,0.9916,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-4,24,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0172,False,
-4,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-4,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-4,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-4,24,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-4,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-4,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-4,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,"201 invoices to 5 buyers bill 1,598.4 kg (32.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 1,093.3 kg"
-4,36,rules+IF,reclaimer-03,RECLAIMER,naive,0.9931,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-4,36,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.1029,False,
-4,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0602,False,
-4,36,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0192,False,
-4,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-4,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-4,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-4,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-4,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,"201 invoices to 5 buyers bill 1,598.4 kg (32.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 1,093.3 kg"
-4,36,rules only,reclaimer-03,RECLAIMER,naive,0.9923,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-4,36,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0273,False,
-4,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-4,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-4,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-4,36,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-4,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-4,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-5,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,43 invoices to 5 buyers bill 234.5 kg (17.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 144.6 kg
-5,12,rules+IF,reclaimer-04,RECLAIMER,naive,0.8527,True,2 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-5,12,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.2596,False,"31% of its active months are among the most unusual 10 % for distributors; most unusual month 2024-03, driven by invoiced_g = 4.45e+05 (role median 9.66e+04)"
-5,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.0139,False,
-5,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-5,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-5,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-5,12,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-5,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-5,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,43 invoices to 5 buyers bill 234.5 kg (17.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 144.6 kg
-5,12,rules only,reclaimer-04,RECLAIMER,naive,0.75,True,2 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-5,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-5,12,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
-5,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-5,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-5,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-5,12,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-5,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-5,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,87 invoices to 5 buyers bill 539.0 kg (18.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 325.8 kg
-5,24,rules+IF,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 96.2% over 20 batches is above 100% of peer batches (peer median 91.1%)
-5,24,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.179,False,
-5,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.025,False,
-5,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-5,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-5,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
-5,24,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-5,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-5,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,87 invoices to 5 buyers bill 539.0 kg (18.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 325.8 kg
-5,24,rules only,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 96.2% over 20 batches is above 100% of peer batches (peer median 91.1%)
-5,24,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0049,False,
-5,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-5,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-5,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-5,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-5,24,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-5,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-5,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,132 invoices to 5 buyers bill 790.4 kg (18.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 464.4 kg
-5,36,rules+IF,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.7% over 32 batches is above 100% of peer batches (peer median 90.6%)
-5,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0221,False,
-5,36,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0134,False,
-5,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-5,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-5,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
-5,36,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-5,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-5,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,132 invoices to 5 buyers bill 790.4 kg (18.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 464.4 kg
-5,36,rules only,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.7% over 32 batches is above 100% of peer batches (peer median 90.6%)
-5,36,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0033,False,
-5,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-5,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-5,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-5,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-5,36,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-5,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-6,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,55 invoices to 5 buyers bill 161.2 kg (12.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 70.4 kg
-6,12,rules+IF,reclaimer-02,RECLAIMER,naive,0.9946,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-6,12,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.3041,False,mean reclamation yield 95.4% over 10 batches is above 81% of peer batches (peer median 92.5%)
-6,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0833,False,
-6,12,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0673,False,
-6,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0312,False,
-6,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-6,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-6,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-6,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,55 invoices to 5 buyers bill 161.2 kg (12.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 70.4 kg
-6,12,rules only,reclaimer-02,RECLAIMER,naive,0.9924,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-6,12,rules only,reclaimer-01,RECLAIMER,adaptive,0.3041,False,mean reclamation yield 95.4% over 10 batches is above 81% of peer batches (peer median 92.5%)
-6,12,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
-6,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-6,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-6,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-6,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-6,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-6,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,111 invoices to 5 buyers bill 423.2 kg (19.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 207.5 kg
-6,24,rules+IF,reclaimer-02,RECLAIMER,naive,0.9967,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-6,24,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.3409,False,mean reclamation yield 94.9% over 19 batches is above 82% of peer batches (peer median 91.2%)
-6,24,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.125,False,
-6,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-6,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-6,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-6,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-6,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-6,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,111 invoices to 5 buyers bill 423.2 kg (19.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 207.5 kg
-6,24,rules only,reclaimer-02,RECLAIMER,naive,0.9944,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-6,24,rules only,reclaimer-01,RECLAIMER,adaptive,0.3409,False,mean reclamation yield 94.9% over 19 batches is above 82% of peer batches (peer median 91.2%)
-6,24,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
-6,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-6,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-6,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-6,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-6,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-6,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,171 invoices to 5 buyers bill 696.2 kg (20.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 319.6 kg
-6,36,rules+IF,reclaimer-02,RECLAIMER,naive,0.9993,True,9 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-6,36,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.1752,False,
-6,36,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0439,False,
-6,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0221,False,
-6,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-6,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-6,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-6,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-6,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,171 invoices to 5 buyers bill 696.2 kg (20.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 319.6 kg
-6,36,rules only,reclaimer-02,RECLAIMER,naive,0.9991,True,9 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-6,36,rules only,reclaimer-01,RECLAIMER,adaptive,0.1752,False,
-6,36,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
-6,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-6,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-6,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-6,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-6,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-7,12,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,57 invoices to 5 buyers bill 527.1 kg (22.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 381.1 kg
-7,12,rules+IF,reclaimer-01,RECLAIMER,naive,0.9505,True,mean reclamation yield 95.3% over 11 batches is above 91% of peer batches (peer median 92.2%)
-7,12,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.2596,False,"31% of its active months are among the most unusual 10 % for distributors; most unusual month 2023-12, driven by invoiced_g = 4.32e+05 (role median 1.41e+05)"
-7,12,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.125,False,
-7,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0312,False,
-7,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-7,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-7,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-7,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-7,12,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,57 invoices to 5 buyers bill 527.1 kg (22.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 381.1 kg
-7,12,rules only,reclaimer-01,RECLAIMER,naive,0.9489,True,mean reclamation yield 95.3% over 11 batches is above 91% of peer batches (peer median 92.2%)
-7,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-7,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-7,12,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0,False,
-7,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-7,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-7,12,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-7,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-7,24,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,103 invoices to 5 buyers bill 868.2 kg (22.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 518.5 kg
-7,24,rules+IF,reclaimer-01,RECLAIMER,naive,0.9941,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-7,24,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.075,False,
-7,24,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0724,False,
-7,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-7,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-7,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-7,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-7,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-7,24,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,103 invoices to 5 buyers bill 868.2 kg (22.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 518.5 kg
-7,24,rules only,reclaimer-01,RECLAIMER,naive,0.993,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-7,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-7,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-7,24,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0,False,
-7,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-7,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-7,24,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-7,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-7,36,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,"154 invoices to 5 buyers bill 1,119.0 kg (22.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 644.4 kg"
-7,36,rules+IF,reclaimer-01,RECLAIMER,naive,0.9986,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-7,36,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0312,False,
-7,36,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.0101,False,
-7,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-7,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-7,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-7,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-7,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-7,36,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,"154 invoices to 5 buyers bill 1,119.0 kg (22.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 644.4 kg"
-7,36,rules only,reclaimer-01,RECLAIMER,naive,0.9985,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-7,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-7,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-7,36,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0,False,
-7,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-7,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-7,36,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-7,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-8,12,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,60 invoices to 5 buyers bill 416.6 kg (23.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 193.2 kg
-8,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.1528,False,
-8,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0833,False,
-8,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.0833,False,
-8,12,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.0673,False,
-8,12,rules+IF,reclaimer-04,RECLAIMER,naive,0.0312,False,
-8,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-8,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-8,12,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-8,12,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,60 invoices to 5 buyers bill 416.6 kg (23.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 193.2 kg
-8,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-8,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-8,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-8,12,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0,False,
-8,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-8,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-8,12,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-8,12,rules only,reclaimer-04,RECLAIMER,naive,0.0,False,
-8,24,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,117 invoices to 5 buyers bill 833.1 kg (24.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 383.9 kg
-8,24,rules+IF,reclaimer-04,RECLAIMER,naive,0.9786,True,mean reclamation yield 95.2% over 19 batches is above 94% of peer batches (peer median 90.3%)
-8,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0221,False,
-8,24,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0066,False,
-8,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-8,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-8,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-8,24,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.0,False,
-8,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
-8,24,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,117 invoices to 5 buyers bill 833.1 kg (24.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 383.9 kg
-8,24,rules only,reclaimer-04,RECLAIMER,naive,0.9779,True,mean reclamation yield 95.2% over 19 batches is above 94% of peer batches (peer median 90.3%)
-8,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-8,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-8,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-8,24,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0,False,
-8,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-8,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-8,24,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-8,36,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,"176 invoices to 5 buyers bill 1,129.6 kg (23.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 507.3 kg"
-8,36,rules+IF,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.3% over 27 batches is above 96% of peer batches (peer median 89.9%)
-8,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.0312,False,
-8,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-8,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-8,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-8,36,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.0,False,
-8,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-8,36,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-8,36,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,"176 invoices to 5 buyers bill 1,129.6 kg (23.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 507.3 kg"
-8,36,rules only,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.3% over 27 batches is above 96% of peer batches (peer median 89.9%)
-8,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-8,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-8,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-8,36,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0,False,
-8,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-8,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-8,36,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-9,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,71 invoices to 5 buyers bill 486.8 kg (28.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 364.4 kg
-9,12,rules+IF,reclaimer-01,RECLAIMER,naive,0.9275,True,mean reclamation yield 96.0% over 11 batches is above 91% of peer batches (peer median 91.1%)
-9,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.2321,False,"29% of its active months are among the most unusual 10 % for reclaimers; most unusual month 2023-12, driven by input_g = 2.28e+05 (role median 2.9e+03)"
-9,12,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0673,False,
-9,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-9,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-9,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-9,12,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-9,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-9,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,71 invoices to 5 buyers bill 486.8 kg (28.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 364.4 kg
-9,12,rules only,reclaimer-01,RECLAIMER,naive,0.9107,True,mean reclamation yield 96.0% over 11 batches is above 91% of peer batches (peer median 91.1%)
-9,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-9,12,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
-9,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-9,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-9,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-9,12,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-9,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-9,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,136 invoices to 5 buyers bill 967.8 kg (32.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 630.0 kg
-9,24,rules+IF,reclaimer-01,RECLAIMER,naive,0.9936,True,mean reclamation yield 95.8% over 23 batches is above 94% of peer batches (peer median 90.7%)
-9,24,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0792,False,
-9,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0417,False,
-9,24,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0312,False,
-9,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-9,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-9,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-9,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-9,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,136 invoices to 5 buyers bill 967.8 kg (32.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 630.0 kg
-9,24,rules only,reclaimer-01,RECLAIMER,naive,0.9928,True,mean reclamation yield 95.8% over 23 batches is above 94% of peer batches (peer median 90.7%)
-9,24,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0045,False,
-9,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-9,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-9,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-9,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-9,24,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-9,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-9,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,"196 invoices to 5 buyers bill 1,225.9 kg (30.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 819.9 kg"
-9,36,rules+IF,reclaimer-01,RECLAIMER,naive,0.9992,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-9,36,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0561,False,
-9,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-9,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-9,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-9,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-9,36,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-9,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-9,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,"196 invoices to 5 buyers bill 1,225.9 kg (30.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 819.9 kg"
-9,36,rules only,reclaimer-01,RECLAIMER,naive,0.999,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-9,36,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0127,False,
-9,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-9,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-9,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-9,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-9,36,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-9,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-10,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,59 invoices to 4 buyers bill 451.4 kg (26.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 200.6 kg
-10,12,rules+IF,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.5% over 10 batches is above 100% of peer batches (peer median 90.7%)
-10,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.1875,False,
-10,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.125,False,
-10,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-10,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-10,12,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-10,12,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-10,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-10,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,59 invoices to 4 buyers bill 451.4 kg (26.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 200.6 kg
-10,12,rules only,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.5% over 10 batches is above 100% of peer batches (peer median 90.7%)
-10,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-10,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-10,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-10,12,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-10,12,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-10,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-10,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-10,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,116 invoices to 5 buyers bill 815.6 kg (25.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 432.3 kg
-10,24,rules+IF,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.3% over 20 batches is above 100% of peer batches (peer median 90.9%)
-10,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0724,False,
-10,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-10,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-10,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-10,24,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-10,24,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-10,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-10,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,116 invoices to 5 buyers bill 815.6 kg (25.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 432.3 kg
-10,24,rules only,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.3% over 20 batches is above 100% of peer batches (peer median 90.9%)
-10,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-10,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-10,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-10,24,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-10,24,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-10,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-10,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-10,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,"175 invoices to 5 buyers bill 1,231.7 kg (29.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 542.7 kg"
-10,36,rules+IF,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.7% over 34 batches is above 100% of peer batches (peer median 91.0%)
-10,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0474,False,
-10,36,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0439,False,
-10,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-10,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-10,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-10,36,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-10,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-10,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,"175 invoices to 5 buyers bill 1,231.7 kg (29.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 542.7 kg"
-10,36,rules only,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.7% over 34 batches is above 100% of peer batches (peer median 91.0%)
-10,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-10,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-10,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-10,36,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-10,36,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-10,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-10,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-11,12,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,65 invoices to 5 buyers bill 422.1 kg (21.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 241.1 kg
-11,12,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 96.2% over 14 batches is above 100% of peer batches (peer median 92.3%)
-11,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0673,False,
-11,12,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0673,False,
-11,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-11,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
-11,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
-11,12,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-11,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-11,12,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,65 invoices to 5 buyers bill 422.1 kg (21.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 241.1 kg
-11,12,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 96.2% over 14 batches is above 100% of peer batches (peer median 92.3%)
-11,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-11,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-11,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
-11,12,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-11,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-11,12,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-11,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-11,24,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,120 invoices to 5 buyers bill 707.7 kg (19.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 439.3 kg
-11,24,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 96.1% over 25 batches is above 99% of peer batches (peer median 92.2%)
-11,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-11,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-11,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
-11,24,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-11,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
-11,24,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-11,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-11,24,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,120 invoices to 5 buyers bill 707.7 kg (19.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 439.3 kg
-11,24,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 96.1% over 25 batches is above 99% of peer batches (peer median 92.2%)
-11,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-11,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-11,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
-11,24,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-11,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-11,24,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-11,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-11,36,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,"176 invoices to 5 buyers bill 1,022.3 kg (22.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 604.4 kg"
-11,36,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.9% over 34 batches is above 98% of peer batches (peer median 91.6%)
-11,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-11,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-11,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
-11,36,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-11,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
-11,36,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-11,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-11,36,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,"176 invoices to 5 buyers bill 1,022.3 kg (22.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 604.4 kg"
-11,36,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.9% over 34 batches is above 98% of peer batches (peer median 91.6%)
-11,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-11,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-11,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
-11,36,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-11,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-11,36,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-11,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-12,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,68 invoices to 5 buyers bill 407.8 kg (23.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 294.6 kg
-12,12,rules+IF,reclaimer-02,RECLAIMER,naive,0.8933,True,mean reclamation yield 95.4% over 16 batches is above 90% of peer batches (peer median 91.3%)
-12,12,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0673,False,
-12,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.0139,False,
-12,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0139,False,
-12,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-12,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-12,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-12,12,rules+IF,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-12,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,68 invoices to 5 buyers bill 407.8 kg (23.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 294.6 kg
-12,12,rules only,reclaimer-02,RECLAIMER,naive,0.8811,True,mean reclamation yield 95.4% over 16 batches is above 90% of peer batches (peer median 91.3%)
-12,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-12,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-12,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-12,12,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-12,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-12,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-12,12,rules only,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-12,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,137 invoices to 5 buyers bill 881.0 kg (26.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 560.0 kg
-12,24,rules+IF,reclaimer-02,RECLAIMER,naive,0.9937,True,5 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-12,24,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.075,False,
-12,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-12,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-12,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-12,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
-12,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-12,24,rules+IF,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-12,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,137 invoices to 5 buyers bill 881.0 kg (26.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 560.0 kg
-12,24,rules only,reclaimer-02,RECLAIMER,naive,0.9922,True,5 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-12,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-12,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-12,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-12,24,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-12,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-12,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-12,24,rules only,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-12,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,"206 invoices to 5 buyers bill 1,283.2 kg (26.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 764.2 kg"
-12,36,rules+IF,reclaimer-02,RECLAIMER,naive,0.9988,True,8 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-12,36,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0439,False,
-12,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0089,False,
-12,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-12,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-12,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-12,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
-12,36,rules+IF,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-12,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,"206 invoices to 5 buyers bill 1,283.2 kg (26.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 764.2 kg"
-12,36,rules only,reclaimer-02,RECLAIMER,naive,0.9987,True,8 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-12,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-12,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-12,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-12,36,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-12,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-12,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-12,36,rules only,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-13,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,59 invoices to 5 buyers bill 227.6 kg (14.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 106.2 kg
-13,12,rules+IF,reclaimer-04,RECLAIMER,naive,0.9704,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-13,12,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.1635,False,
-13,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0536,False,
-13,12,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0312,False,
-13,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-13,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-13,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-13,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-13,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,59 invoices to 5 buyers bill 227.6 kg (14.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 106.2 kg
-13,12,rules only,reclaimer-04,RECLAIMER,naive,0.9635,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-13,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-13,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-13,12,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
-13,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-13,12,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-13,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-13,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-13,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,113 invoices to 5 buyers bill 493.7 kg (16.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 213.4 kg
-13,24,rules+IF,reclaimer-04,RECLAIMER,naive,0.9909,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-13,24,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.125,False,
-13,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-13,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-13,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-13,24,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-13,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-13,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-13,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,113 invoices to 5 buyers bill 493.7 kg (16.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 213.4 kg
-13,24,rules only,reclaimer-04,RECLAIMER,naive,0.9872,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-13,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-13,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-13,24,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
-13,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-13,24,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-13,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-13,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-13,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,167 invoices to 5 buyers bill 673.1 kg (16.1% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 282.3 kg
-13,36,rules+IF,reclaimer-04,RECLAIMER,naive,0.9965,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-13,36,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.0777,False,
-13,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-13,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-13,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-13,36,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-13,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-13,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-13,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,167 invoices to 5 buyers bill 673.1 kg (16.1% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 282.3 kg
-13,36,rules only,reclaimer-04,RECLAIMER,naive,0.9952,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-13,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-13,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-13,36,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
-13,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-13,36,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-13,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-13,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-14,12,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,76 invoices to 5 buyers bill 527.6 kg (28.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 299.1 kg
-14,12,rules+IF,reclaimer-02,RECLAIMER,naive,0.8964,True,mean reclamation yield 95.8% over 13 batches is above 89% of peer batches (peer median 92.2%)
-14,12,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.1635,False,
-14,12,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0139,False,
-14,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-14,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-14,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-14,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-14,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-14,12,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,76 invoices to 5 buyers bill 527.6 kg (28.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 299.1 kg
-14,12,rules only,reclaimer-02,RECLAIMER,naive,0.8618,True,mean reclamation yield 95.8% over 13 batches is above 89% of peer batches (peer median 92.2%)
-14,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-14,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-14,12,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0,False,
-14,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-14,12,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-14,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-14,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-14,24,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,"134 invoices to 5 buyers bill 1,107.7 kg (31.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 649.1 kg"
-14,24,rules+IF,reclaimer-02,RECLAIMER,naive,0.9569,True,mean reclamation yield 95.5% over 26 batches is above 91% of peer batches (peer median 92.5%)
-14,24,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.175,False,
-14,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-14,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-14,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-14,24,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-14,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-14,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-14,24,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,"134 invoices to 5 buyers bill 1,107.7 kg (31.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 649.1 kg"
-14,24,rules only,reclaimer-02,RECLAIMER,naive,0.9458,True,mean reclamation yield 95.5% over 26 batches is above 91% of peer batches (peer median 92.5%)
-14,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-14,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-14,24,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0,False,
-14,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-14,24,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-14,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-14,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-14,36,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,"194 invoices to 5 buyers bill 1,436.3 kg (30.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 891.4 kg"
-14,36,rules+IF,reclaimer-02,RECLAIMER,naive,0.9776,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-14,36,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.0777,False,
-14,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-14,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-14,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-14,36,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-14,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-14,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-14,36,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,"194 invoices to 5 buyers bill 1,436.3 kg (30.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 891.4 kg"
-14,36,rules only,reclaimer-02,RECLAIMER,naive,0.9728,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-14,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-14,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-14,36,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0,False,
-14,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-14,36,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-14,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-14,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-15,12,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,48 invoices to 5 buyers bill 310.4 kg (17.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 196.3 kg
-15,12,rules+IF,reclaimer-03,RECLAIMER,naive,0.8867,True,mean reclamation yield 95.6% over 10 batches is above 90% of peer batches (peer median 92.0%)
-15,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.1875,False,
-15,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0673,False,
-15,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0139,False,
-15,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-15,12,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
-15,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-15,12,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-15,12,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,48 invoices to 5 buyers bill 310.4 kg (17.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 196.3 kg
-15,12,rules only,reclaimer-03,RECLAIMER,naive,0.8831,True,mean reclamation yield 95.6% over 10 batches is above 90% of peer batches (peer median 92.0%)
-15,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-15,12,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
-15,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
-15,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-15,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-15,12,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-15,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-15,24,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,96 invoices to 5 buyers bill 577.0 kg (18.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 308.9 kg
-15,24,rules+IF,reclaimer-03,RECLAIMER,naive,0.9674,True,mean reclamation yield 95.7% over 19 batches is above 92% of peer batches (peer median 91.0%)
-15,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0833,False,
-15,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.075,False,
-15,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0312,False,
-15,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0066,False,
-15,24,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
-15,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-15,24,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-15,24,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,96 invoices to 5 buyers bill 577.0 kg (18.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 308.9 kg
-15,24,rules only,reclaimer-03,RECLAIMER,naive,0.9663,True,mean reclamation yield 95.7% over 19 batches is above 92% of peer batches (peer median 91.0%)
-15,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-15,24,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
-15,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
-15,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-15,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-15,24,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-15,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-15,36,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,156 invoices to 5 buyers bill 900.1 kg (19.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 505.8 kg
-15,36,rules+IF,reclaimer-03,RECLAIMER,naive,0.9969,True,mean reclamation yield 95.5% over 31 batches is above 94% of peer batches (peer median 91.0%)
-15,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.0673,False,
-15,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0486,False,
-15,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0139,False,
-15,36,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
-15,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-15,36,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-15,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-15,36,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,156 invoices to 5 buyers bill 900.1 kg (19.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 505.8 kg
-15,36,rules only,reclaimer-03,RECLAIMER,naive,0.9967,True,mean reclamation yield 95.5% over 31 batches is above 94% of peer batches (peer median 91.0%)
-15,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-15,36,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
-15,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
-15,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-15,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-15,36,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
-15,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-16,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,78 invoices to 5 buyers bill 794.2 kg (35.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 459.2 kg
-16,12,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.2155,False,mean reclamation yield 94.7% over 12 batches is above 79% of peer batches (peer median 88.4%)
-16,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.1528,False,
-16,12,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0673,False,
-16,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0536,False,
-16,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0173,False,
-16,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-16,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-16,12,rules+IF,reclaimer-04,RECLAIMER,naive,0.0,False,
-16,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,78 invoices to 5 buyers bill 794.2 kg (35.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 459.2 kg
-16,12,rules only,reclaimer-02,RECLAIMER,adaptive,0.2155,False,mean reclamation yield 94.7% over 12 batches is above 79% of peer batches (peer median 88.4%)
-16,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0173,False,
-16,12,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
-16,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-16,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-16,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-16,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-16,12,rules only,reclaimer-04,RECLAIMER,naive,0.0,False,
-16,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,"143 invoices to 5 buyers bill 1,297.3 kg (36.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 848.9 kg"
-16,24,rules+IF,reclaimer-04,RECLAIMER,naive,0.9907,True,mean reclamation yield 95.4% over 18 batches is above 93% of peer batches (peer median 90.0%)
-16,24,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.125,False,
-16,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0724,False,
-16,24,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0379,False,
-16,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0088,False,
-16,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-16,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-16,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-16,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,"143 invoices to 5 buyers bill 1,297.3 kg (36.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 848.9 kg"
-16,24,rules only,reclaimer-04,RECLAIMER,naive,0.9878,True,mean reclamation yield 95.4% over 18 batches is above 93% of peer batches (peer median 90.0%)
-16,24,rules only,reclaimer-02,RECLAIMER,adaptive,0.0379,False,
-16,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0088,False,
-16,24,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
-16,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-16,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-16,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-16,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-16,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,"226 invoices to 5 buyers bill 2,073.0 kg (42.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 1,330.3 kg"
-16,36,rules+IF,reclaimer-04,RECLAIMER,naive,0.998,True,7 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-16,36,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.1025,False,
-16,36,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0101,False,
-16,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.0089,False,
-16,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0068,False,
-16,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-16,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-16,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-16,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,"226 invoices to 5 buyers bill 2,073.0 kg (42.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 1,330.3 kg"
-16,36,rules only,reclaimer-04,RECLAIMER,naive,0.9977,True,7 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-16,36,rules only,reclaimer-02,RECLAIMER,adaptive,0.0735,False,
-16,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0068,False,
-16,36,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
-16,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-16,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-16,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-16,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-17,12,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,64 invoices to 5 buyers bill 358.8 kg (19.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 181.5 kg
-17,12,rules+IF,reclaimer-02,RECLAIMER,naive,0.9744,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-17,12,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.1875,False,
-17,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0833,False,
-17,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-17,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-17,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
-17,12,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-17,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-17,12,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,64 invoices to 5 buyers bill 358.8 kg (19.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 181.5 kg
-17,12,rules only,reclaimer-02,RECLAIMER,naive,0.9744,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
-17,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-17,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-17,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
-17,12,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-17,12,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-17,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-17,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-17,24,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,120 invoices to 5 buyers bill 727.0 kg (21.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 360.4 kg
-17,24,rules+IF,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.4% over 28 batches is above 97% of peer batches (peer median 91.6%)
-17,24,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.075,False,
-17,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0086,False,
-17,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-17,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
-17,24,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-17,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-17,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-17,24,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,120 invoices to 5 buyers bill 727.0 kg (21.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 360.4 kg
-17,24,rules only,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.4% over 28 batches is above 97% of peer batches (peer median 91.6%)
-17,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0086,False,
-17,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-17,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
-17,24,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-17,24,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-17,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-17,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-17,36,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,"173 invoices to 5 buyers bill 1,018.7 kg (20.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 543.2 kg"
-17,36,rules+IF,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.5% over 38 batches is above 96% of peer batches (peer median 91.6%)
-17,36,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0192,False,
-17,36,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0101,False,
-17,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0069,False,
-17,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-17,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
-17,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
-17,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
-17,36,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,"173 invoices to 5 buyers bill 1,018.7 kg (20.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 543.2 kg"
-17,36,rules only,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.5% over 38 batches is above 96% of peer batches (peer median 91.6%)
-17,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0069,False,
-17,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-17,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
-17,36,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
-17,36,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
-17,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
-17,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
-18,12,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,86 invoices to 5 buyers bill 637.6 kg (30.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 432.5 kg
-18,12,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 10 batches is above 100% of peer batches (peer median 90.7%)
-18,12,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.174,False,
-18,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.0536,False,
-18,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-18,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-18,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-18,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-18,12,rules+IF,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-18,12,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,86 invoices to 5 buyers bill 637.6 kg (30.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 432.5 kg
-18,12,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 10 batches is above 100% of peer batches (peer median 90.7%)
-18,12,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0126,False,
-18,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-18,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-18,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-18,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-18,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-18,12,rules only,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-18,24,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,"180 invoices to 5 buyers bill 1,563.5 kg (37.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 1,056.4 kg"
-18,24,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 25 batches is above 99% of peer batches (peer median 90.7%)
-18,24,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.0644,False,
-18,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0221,False,
-18,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-18,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-18,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-18,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-18,24,rules+IF,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-18,24,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,"180 invoices to 5 buyers bill 1,563.5 kg (37.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 1,056.4 kg"
-18,24,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 25 batches is above 99% of peer batches (peer median 90.7%)
-18,24,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0644,False,
-18,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-18,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-18,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-18,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-18,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-18,24,rules only,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-18,36,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,"274 invoices to 5 buyers bill 2,312.8 kg (41.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 1,432.3 kg"
-18,36,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.5% over 36 batches is above 99% of peer batches (peer median 90.4%)
-18,36,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.0528,False,
-18,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-18,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
-18,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-18,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
-18,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-18,36,rules+IF,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-18,36,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,"274 invoices to 5 buyers bill 2,312.8 kg (41.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 1,432.3 kg"
-18,36,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.5% over 36 batches is above 99% of peer batches (peer median 90.4%)
-18,36,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0431,False,
-18,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-18,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-18,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-18,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-18,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-18,36,rules only,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-19,12,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,61 invoices to 5 buyers bill 439.2 kg (26.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 209.2 kg
-19,12,rules+IF,reclaimer-04,RECLAIMER,naive,0.2917,False,"33% of its active months are among the most unusual 10 % for reclaimers; most unusual month 2024-03, driven by input_g = 3.66e+05 (role median 4.15e+03)"
-19,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.1635,False,
-19,12,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0753,False,
-19,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.0312,False,
-19,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-19,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
-19,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-19,12,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-19,12,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,61 invoices to 5 buyers bill 439.2 kg (26.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 209.2 kg
-19,12,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0085,False,
-19,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-19,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-19,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
-19,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-19,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-19,12,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-19,12,rules only,reclaimer-04,RECLAIMER,naive,0.0,False,
-19,24,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,132 invoices to 5 buyers bill 963.3 kg (31.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 428.9 kg
-19,24,rules+IF,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 21 batches is above 100% of peer batches (peer median 90.3%)
-19,24,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0796,False,
-19,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0312,False,
-19,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0221,False,
-19,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-19,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
-19,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-19,24,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-19,24,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,132 invoices to 5 buyers bill 963.3 kg (31.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 428.9 kg
-19,24,rules only,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 21 batches is above 100% of peer batches (peer median 90.3%)
-19,24,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0049,False,
-19,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-19,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-19,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
-19,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-19,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-19,24,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-19,36,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,"191 invoices to 5 buyers bill 1,386.2 kg (31.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 622.4 kg"
-19,36,rules+IF,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.4% over 34 batches is above 100% of peer batches (peer median 90.1%)
-19,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0486,False,
-19,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.025,False,
-19,36,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0136,False,
-19,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
-19,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
-19,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-19,36,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-19,36,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,"191 invoices to 5 buyers bill 1,386.2 kg (31.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 622.4 kg"
-19,36,rules only,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.4% over 34 batches is above 100% of peer batches (peer median 90.1%)
-19,36,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0035,False,
-19,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
-19,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
-19,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
-19,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-19,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-19,36,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
-20,12,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,79 invoices to 5 buyers bill 600.5 kg (40.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 451.8 kg
-20,12,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 96.4% over 14 batches is above 100% of peer batches (peer median 89.8%)
-20,12,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0673,False,
-20,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0673,False,
-20,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0139,False,
-20,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
-20,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-20,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
-20,12,rules+IF,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-20,12,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,79 invoices to 5 buyers bill 600.5 kg (40.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 451.8 kg
-20,12,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 96.4% over 14 batches is above 100% of peer batches (peer median 89.8%)
-20,12,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
-20,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-20,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
-20,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-20,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-20,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-20,12,rules only,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-20,24,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,136 invoices to 5 buyers bill 943.9 kg (33.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 670.4 kg
-20,24,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 96.0% over 26 batches is above 100% of peer batches (peer median 90.2%)
-20,24,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.025,False,
-20,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-20,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
-20,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-20,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
-20,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-20,24,rules+IF,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-20,24,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,136 invoices to 5 buyers bill 943.9 kg (33.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 670.4 kg
-20,24,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 96.0% over 26 batches is above 100% of peer batches (peer median 90.2%)
-20,24,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
-20,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-20,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
-20,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-20,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-20,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-20,24,rules only,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-20,36,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,"203 invoices to 5 buyers bill 1,511.1 kg (35.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 1,055.6 kg"
-20,36,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.8% over 39 batches is above 100% of peer batches (peer median 90.2%)
-20,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.025,False,
-20,36,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0101,False,
-20,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
-20,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
-20,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
-20,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
-20,36,rules+IF,reclaimer-04,RECLAIMER,adaptive,0.0,False,
-20,36,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,"203 invoices to 5 buyers bill 1,511.1 kg (35.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 1,055.6 kg"
-20,36,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.8% over 39 batches is above 100% of peer batches (peer median 90.2%)
-20,36,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
-20,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
-20,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
-20,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
-20,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
-20,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
-20,36,rules only,reclaimer-04,RECLAIMER,adaptive,0.0,False,
+141,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,41 invoices to 4 buyers bill 303.1 kg (30.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 179.4 kg
+141,12,rules+IF,reclaimer-02,RECLAIMER,naive,0.7944,True,mean reclamation yield 95.8% over 10 batches is above 85% of peer batches (peer median 91.4%)
+141,12,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.0673,False,
+141,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0312,False,
+141,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+141,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+141,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+141,12,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+141,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+141,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,41 invoices to 4 buyers bill 303.1 kg (30.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 179.4 kg
+141,12,rules only,reclaimer-02,RECLAIMER,naive,0.7574,True,mean reclamation yield 95.8% over 10 batches is above 85% of peer batches (peer median 91.4%)
+141,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+141,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+141,12,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
+141,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+141,12,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+141,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+141,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+141,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,81 invoices to 5 buyers bill 576.7 kg (25.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 270.2 kg
+141,24,rules+IF,reclaimer-02,RECLAIMER,naive,0.8783,True,2 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+141,24,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.0793,False,
+141,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+141,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+141,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+141,24,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+141,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+141,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+141,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,81 invoices to 5 buyers bill 576.7 kg (25.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 270.2 kg
+141,24,rules only,reclaimer-02,RECLAIMER,naive,0.8672,True,2 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+141,24,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0046,False,
+141,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+141,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+141,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+141,24,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+141,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+141,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+141,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,127 invoices to 5 buyers bill 917.3 kg (25.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 449.2 kg
+141,36,rules+IF,reclaimer-02,RECLAIMER,naive,0.9875,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+141,36,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.0032,False,
+141,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+141,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+141,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+141,36,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+141,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+141,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+141,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,127 invoices to 5 buyers bill 917.3 kg (25.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 449.2 kg
+141,36,rules only,reclaimer-02,RECLAIMER,naive,0.9853,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+141,36,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0032,False,
+141,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+141,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+141,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+141,36,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+141,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+141,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+142,12,rules+IF,distributor-01,DISTRIBUTOR,naive,1.0,True,45 invoices to 5 buyers bill 372.6 kg (25.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 283.7 kg
+142,12,rules+IF,reclaimer-04,RECLAIMER,naive,0.5268,False,1 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+142,12,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.1635,False,
+142,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.1528,False,
+142,12,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0536,False,
+142,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+142,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+142,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+142,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+142,12,rules only,distributor-01,DISTRIBUTOR,naive,1.0,True,45 invoices to 5 buyers bill 372.6 kg (25.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 283.7 kg
+142,12,rules only,reclaimer-04,RECLAIMER,naive,0.5,False,1 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+142,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+142,12,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
+142,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+142,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+142,12,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+142,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+142,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+142,24,rules+IF,distributor-01,DISTRIBUTOR,naive,1.0,True,"115 invoices to 5 buyers bill 1,000.5 kg (29.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 662.9 kg"
+142,24,rules+IF,reclaimer-04,RECLAIMER,naive,0.9428,True,mean reclamation yield 95.2% over 21 batches is above 90% of peer batches (peer median 90.8%)
+142,24,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.0833,False,
+142,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0625,False,
+142,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+142,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+142,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+142,24,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+142,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+142,24,rules only,distributor-01,DISTRIBUTOR,naive,1.0,True,"115 invoices to 5 buyers bill 1,000.5 kg (29.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 662.9 kg"
+142,24,rules only,reclaimer-04,RECLAIMER,naive,0.941,True,mean reclamation yield 95.2% over 21 batches is above 90% of peer batches (peer median 90.8%)
+142,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+142,24,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
+142,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+142,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+142,24,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+142,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+142,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+142,36,rules+IF,distributor-01,DISTRIBUTOR,naive,1.0,True,"165 invoices to 5 buyers bill 1,398.8 kg (28.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 947.0 kg"
+142,36,rules+IF,reclaimer-04,RECLAIMER,naive,0.9952,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+142,36,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.0833,False,
+142,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0363,False,
+142,36,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0139,False,
+142,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+142,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+142,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+142,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+142,36,rules only,distributor-01,DISTRIBUTOR,naive,1.0,True,"165 invoices to 5 buyers bill 1,398.8 kg (28.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 947.0 kg"
+142,36,rules only,reclaimer-04,RECLAIMER,naive,0.9952,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+142,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+142,36,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
+142,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+142,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+142,36,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+142,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+142,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+143,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,45 invoices to 5 buyers bill 385.9 kg (24.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 236.6 kg
+143,12,rules+IF,reclaimer-02,RECLAIMER,naive,0.9988,True,5 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+143,12,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.1875,False,
+143,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.0139,False,
+143,12,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0139,False,
+143,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+143,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+143,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+143,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+143,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,45 invoices to 5 buyers bill 385.9 kg (24.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 236.6 kg
+143,12,rules only,reclaimer-02,RECLAIMER,naive,0.9986,True,5 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+143,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+143,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+143,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+143,12,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+143,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+143,12,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+143,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+143,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,96 invoices to 5 buyers bill 882.7 kg (27.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 463.8 kg
+143,24,rules+IF,reclaimer-02,RECLAIMER,naive,0.9972,True,7 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+143,24,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0312,False,
+143,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+143,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+143,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+143,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
+143,24,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+143,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+143,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,96 invoices to 5 buyers bill 882.7 kg (27.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 463.8 kg
+143,24,rules only,reclaimer-02,RECLAIMER,naive,0.9967,True,7 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+143,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+143,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+143,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+143,24,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+143,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+143,24,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+143,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+143,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,"143 invoices to 5 buyers bill 1,194.4 kg (27.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 607.5 kg"
+143,36,rules+IF,reclaimer-02,RECLAIMER,naive,0.9985,True,8 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+143,36,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.121,False,
+143,36,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0525,False,
+143,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.0455,False,
+143,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+143,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+143,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+143,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+143,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,"143 invoices to 5 buyers bill 1,194.4 kg (27.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 607.5 kg"
+143,36,rules only,reclaimer-02,RECLAIMER,naive,0.9983,True,8 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+143,36,rules only,reclaimer-03,RECLAIMER,adaptive,0.121,False,
+143,36,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0041,False,
+143,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+143,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+143,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+143,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+143,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+144,12,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,53 invoices to 4 buyers bill 433.8 kg (30.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 309.9 kg
+144,12,rules+IF,reclaimer-01,RECLAIMER,naive,0.9557,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+144,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.2917,False,"33% of its active months are among the most unusual 10 % for reclaimers; most unusual month 2023-11, driven by input_g = 3.45e+05 (role median 2.67e+03)"
+144,12,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0833,False,
+144,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+144,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+144,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+144,12,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+144,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+144,12,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,53 invoices to 4 buyers bill 433.8 kg (30.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 309.9 kg
+144,12,rules only,reclaimer-01,RECLAIMER,naive,0.9375,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+144,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+144,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+144,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+144,12,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+144,12,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+144,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+144,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+144,24,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,"115 invoices to 5 buyers bill 1,080.0 kg (36.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 705.1 kg"
+144,24,rules+IF,reclaimer-01,RECLAIMER,naive,0.9865,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+144,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0417,False,
+144,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+144,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+144,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+144,24,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+144,24,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+144,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+144,24,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,"115 invoices to 5 buyers bill 1,080.0 kg (36.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 705.1 kg"
+144,24,rules only,reclaimer-01,RECLAIMER,naive,0.983,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+144,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+144,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+144,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+144,24,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+144,24,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+144,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+144,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+144,36,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,"163 invoices to 5 buyers bill 1,513.8 kg (35.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 1,037.3 kg"
+144,36,rules+IF,reclaimer-01,RECLAIMER,naive,0.9917,True,5 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+144,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.038,False,
+144,36,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0179,False,
+144,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+144,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+144,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+144,36,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+144,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+144,36,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,"163 invoices to 5 buyers bill 1,513.8 kg (35.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 1,037.3 kg"
+144,36,rules only,reclaimer-01,RECLAIMER,naive,0.9889,True,5 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+144,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+144,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+144,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+144,36,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+144,36,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+144,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+144,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+145,12,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,39 invoices to 5 buyers bill 319.3 kg (28.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 173.9 kg
+145,12,rules+IF,reclaimer-01,RECLAIMER,naive,1.0,True,mean reclamation yield 95.3% over 13 batches is above 100% of peer batches (peer median 92.7%)
+145,12,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.1875,False,
+145,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+145,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+145,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+145,12,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+145,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+145,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+145,12,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,39 invoices to 5 buyers bill 319.3 kg (28.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 173.9 kg
+145,12,rules only,reclaimer-01,RECLAIMER,naive,1.0,True,mean reclamation yield 95.3% over 13 batches is above 100% of peer batches (peer median 92.7%)
+145,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+145,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+145,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+145,12,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+145,12,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+145,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+145,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+145,24,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,83 invoices to 5 buyers bill 459.9 kg (21.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 232.6 kg
+145,24,rules+IF,reclaimer-01,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 24 batches is above 100% of peer batches (peer median 92.0%)
+145,24,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0833,False,
+145,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0066,False,
+145,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+145,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+145,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+145,24,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+145,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+145,24,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,83 invoices to 5 buyers bill 459.9 kg (21.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 232.6 kg
+145,24,rules only,reclaimer-01,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 24 batches is above 100% of peer batches (peer median 92.0%)
+145,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+145,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+145,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+145,24,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+145,24,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+145,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+145,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+145,36,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,125 invoices to 5 buyers bill 775.9 kg (23.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 350.4 kg
+145,36,rules+IF,reclaimer-01,RECLAIMER,naive,1.0,True,mean reclamation yield 95.3% over 35 batches is above 99% of peer batches (peer median 92.0%)
+145,36,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0833,False,
+145,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.025,False,
+145,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+145,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+145,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+145,36,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+145,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+145,36,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,125 invoices to 5 buyers bill 775.9 kg (23.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 350.4 kg
+145,36,rules only,reclaimer-01,RECLAIMER,naive,1.0,True,mean reclamation yield 95.3% over 35 batches is above 99% of peer batches (peer median 92.0%)
+145,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+145,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+145,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+145,36,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+145,36,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+145,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+145,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+146,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,47 invoices to 5 buyers bill 273.6 kg (17.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 174.9 kg
+146,12,rules+IF,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.4% over 11 batches is above 97% of peer batches (peer median 89.6%)
+146,12,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.1875,False,
+146,12,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.1528,False,
+146,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+146,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+146,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+146,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
+146,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+146,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,47 invoices to 5 buyers bill 273.6 kg (17.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 174.9 kg
+146,12,rules only,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.4% over 11 batches is above 97% of peer batches (peer median 89.6%)
+146,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+146,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+146,12,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
+146,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+146,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+146,12,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+146,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+146,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,98 invoices to 5 buyers bill 654.6 kg (20.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 428.7 kg
+146,24,rules+IF,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.2% over 26 batches is above 97% of peer batches (peer median 90.2%)
+146,24,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.1875,False,
+146,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+146,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+146,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+146,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
+146,24,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+146,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+146,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,98 invoices to 5 buyers bill 654.6 kg (20.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 428.7 kg
+146,24,rules only,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.2% over 26 batches is above 97% of peer batches (peer median 90.2%)
+146,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+146,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+146,24,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
+146,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+146,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+146,24,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+146,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+146,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,"139 invoices to 5 buyers bill 1,059.4 kg (21.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 584.0 kg"
+146,36,rules+IF,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.3% over 38 batches is above 98% of peer batches (peer median 90.2%)
+146,36,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.0486,False,
+146,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.0312,False,
+146,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+146,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+146,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+146,36,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+146,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+146,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,"139 invoices to 5 buyers bill 1,059.4 kg (21.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 584.0 kg"
+146,36,rules only,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.3% over 38 batches is above 98% of peer batches (peer median 90.2%)
+146,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+146,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+146,36,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
+146,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+146,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+146,36,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+146,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+147,12,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,45 invoices to 4 buyers bill 366.0 kg (27.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 239.6 kg
+147,12,rules+IF,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 96.1% over 11 batches is above 100% of peer batches (peer median 91.8%)
+147,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0833,False,
+147,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.0139,False,
+147,12,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+147,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+147,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+147,12,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+147,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+147,12,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,45 invoices to 4 buyers bill 366.0 kg (27.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 239.6 kg
+147,12,rules only,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 96.1% over 11 batches is above 100% of peer batches (peer median 91.8%)
+147,12,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+147,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+147,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+147,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+147,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+147,12,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+147,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+147,24,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,103 invoices to 5 buyers bill 789.6 kg (27.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 529.7 kg
+147,24,rules+IF,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.8% over 23 batches is above 100% of peer batches (peer median 91.3%)
+147,24,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+147,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+147,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+147,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+147,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
+147,24,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+147,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+147,24,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,103 invoices to 5 buyers bill 789.6 kg (27.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 529.7 kg
+147,24,rules only,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.8% over 23 batches is above 100% of peer batches (peer median 91.3%)
+147,24,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+147,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+147,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+147,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+147,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+147,24,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+147,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+147,36,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,"153 invoices to 5 buyers bill 1,101.2 kg (26.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 784.5 kg"
+147,36,rules+IF,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.8% over 29 batches is above 100% of peer batches (peer median 92.0%)
+147,36,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+147,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+147,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+147,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+147,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
+147,36,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+147,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+147,36,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,"153 invoices to 5 buyers bill 1,101.2 kg (26.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 784.5 kg"
+147,36,rules only,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.8% over 29 batches is above 100% of peer batches (peer median 92.0%)
+147,36,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+147,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+147,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+147,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+147,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+147,36,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+147,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+148,12,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,47 invoices to 5 buyers bill 398.3 kg (24.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 350.2 kg
+148,12,rules+IF,reclaimer-01,RECLAIMER,naive,0.9899,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+148,12,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.1635,False,
+148,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0312,False,
+148,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+148,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+148,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+148,12,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+148,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+148,12,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,47 invoices to 5 buyers bill 398.3 kg (24.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 350.2 kg
+148,12,rules only,reclaimer-01,RECLAIMER,naive,0.9881,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+148,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+148,12,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
+148,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+148,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+148,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+148,12,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+148,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+148,24,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,"100 invoices to 5 buyers bill 1,010.9 kg (30.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 689.0 kg"
+148,24,rules+IF,reclaimer-01,RECLAIMER,naive,0.9989,True,7 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+148,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0833,False,
+148,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+148,24,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
+148,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+148,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+148,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+148,24,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+148,24,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,"100 invoices to 5 buyers bill 1,010.9 kg (30.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 689.0 kg"
+148,24,rules only,reclaimer-01,RECLAIMER,naive,0.9987,True,7 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+148,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+148,24,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
+148,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+148,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+148,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+148,24,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+148,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+148,36,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,"143 invoices to 5 buyers bill 1,280.7 kg (28.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 864.9 kg"
+148,36,rules+IF,reclaimer-01,RECLAIMER,naive,0.9999,True,11 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+148,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0312,False,
+148,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0139,False,
+148,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+148,36,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
+148,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+148,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+148,36,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+148,36,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,"143 invoices to 5 buyers bill 1,280.7 kg (28.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 864.9 kg"
+148,36,rules only,reclaimer-01,RECLAIMER,naive,0.9999,True,11 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+148,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+148,36,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
+148,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+148,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+148,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+148,36,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+148,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+149,12,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,46 invoices to 5 buyers bill 341.8 kg (20.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 168.2 kg
+149,12,rules+IF,reclaimer-01,RECLAIMER,naive,0.7634,True,2 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+149,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.5764,False,1 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+149,12,rules+IF,reclaimer-04,RECLAIMER,adaptive,0.322,False,mean reclamation yield 95.1% over 13 batches is above 81% of peer batches (peer median 90.2%)
+149,12,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.0833,False,
+149,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+149,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+149,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+149,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+149,12,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,46 invoices to 5 buyers bill 341.8 kg (20.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 168.2 kg
+149,12,rules only,reclaimer-01,RECLAIMER,naive,0.75,True,2 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+149,12,rules only,reclaimer-03,RECLAIMER,honest,0.5,False,1 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+149,12,rules only,reclaimer-04,RECLAIMER,adaptive,0.3125,False,mean reclamation yield 95.1% over 13 batches is above 81% of peer batches (peer median 90.2%)
+149,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+149,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+149,12,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0,False,
+149,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+149,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+149,24,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,89 invoices to 5 buyers bill 697.6 kg (23.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 389.8 kg
+149,24,rules+IF,reclaimer-01,RECLAIMER,naive,0.8247,True,2 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+149,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.5208,False,1 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+149,24,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.0902,False,
+149,24,rules+IF,reclaimer-04,RECLAIMER,adaptive,0.0833,False,
+149,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+149,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+149,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+149,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+149,24,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,89 invoices to 5 buyers bill 697.6 kg (23.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 389.8 kg
+149,24,rules only,reclaimer-01,RECLAIMER,naive,0.7632,True,2 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+149,24,rules only,reclaimer-03,RECLAIMER,honest,0.5,False,1 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+149,24,rules only,reclaimer-04,RECLAIMER,adaptive,0.0833,False,
+149,24,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0075,False,
+149,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+149,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+149,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+149,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+149,36,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,"135 invoices to 5 buyers bill 1,135.9 kg (27.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 623.2 kg"
+149,36,rules+IF,reclaimer-01,RECLAIMER,naive,0.9284,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+149,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.5125,False,1 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+149,36,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.0534,False,
+149,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+149,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+149,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+149,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+149,36,rules+IF,reclaimer-04,RECLAIMER,adaptive,0.0,False,
+149,36,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,"135 invoices to 5 buyers bill 1,135.9 kg (27.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 623.2 kg"
+149,36,rules only,reclaimer-01,RECLAIMER,naive,0.9087,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+149,36,rules only,reclaimer-03,RECLAIMER,honest,0.5,False,1 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+149,36,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0051,False,
+149,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+149,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+149,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+149,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+149,36,rules only,reclaimer-04,RECLAIMER,adaptive,0.0,False,
+150,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,56 invoices to 5 buyers bill 361.2 kg (21.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 243.6 kg
+150,12,rules+IF,reclaimer-02,RECLAIMER,naive,0.8984,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+150,12,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.1875,False,
+150,12,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0673,False,
+150,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+150,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+150,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+150,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+150,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+150,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,56 invoices to 5 buyers bill 361.2 kg (21.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 243.6 kg
+150,12,rules only,reclaimer-02,RECLAIMER,naive,0.875,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+150,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+150,12,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
+150,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+150,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+150,12,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+150,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+150,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+150,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,105 invoices to 5 buyers bill 733.6 kg (22.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 503.8 kg
+150,24,rules+IF,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 21 batches is above 98% of peer batches (peer median 89.3%)
+150,24,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0312,False,
+150,24,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.025,False,
+150,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+150,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+150,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+150,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+150,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+150,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,105 invoices to 5 buyers bill 733.6 kg (22.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 503.8 kg
+150,24,rules only,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 21 batches is above 98% of peer batches (peer median 89.3%)
+150,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+150,24,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
+150,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+150,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+150,24,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+150,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+150,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+150,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,"159 invoices to 5 buyers bill 1,041.3 kg (23.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 691.2 kg"
+150,36,rules+IF,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 30 batches is above 96% of peer batches (peer median 89.5%)
+150,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0474,False,
+150,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+150,36,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
+150,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+150,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+150,36,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+150,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+150,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,"159 invoices to 5 buyers bill 1,041.3 kg (23.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 691.2 kg"
+150,36,rules only,reclaimer-02,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 30 batches is above 96% of peer batches (peer median 89.5%)
+150,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+150,36,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
+150,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+150,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+150,36,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+150,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+150,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+151,12,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,37 invoices to 4 buyers bill 323.0 kg (17.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 155.1 kg
+151,12,rules+IF,reclaimer-01,RECLAIMER,naive,0.9867,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+151,12,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0673,False,
+151,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0536,False,
+151,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+151,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+151,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+151,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+151,12,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+151,12,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,37 invoices to 4 buyers bill 323.0 kg (17.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 155.1 kg
+151,12,rules only,reclaimer-01,RECLAIMER,naive,0.9813,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+151,12,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+151,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+151,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+151,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+151,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+151,12,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+151,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+151,24,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,84 invoices to 5 buyers bill 755.8 kg (21.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 349.1 kg
+151,24,rules+IF,reclaimer-01,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 28 batches is above 98% of peer batches (peer median 91.3%)
+151,24,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+151,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+151,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+151,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+151,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+151,24,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+151,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+151,24,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,84 invoices to 5 buyers bill 755.8 kg (21.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 349.1 kg
+151,24,rules only,reclaimer-01,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 28 batches is above 98% of peer batches (peer median 91.3%)
+151,24,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+151,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+151,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+151,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+151,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+151,24,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+151,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+151,36,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,"132 invoices to 5 buyers bill 1,146.7 kg (22.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 504.3 kg"
+151,36,rules+IF,reclaimer-01,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 41 batches is above 98% of peer batches (peer median 91.0%)
+151,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.1382,False,
+151,36,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+151,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+151,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+151,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+151,36,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+151,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+151,36,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,"132 invoices to 5 buyers bill 1,146.7 kg (22.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 504.3 kg"
+151,36,rules only,reclaimer-01,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 41 batches is above 98% of peer batches (peer median 91.0%)
+151,36,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+151,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+151,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+151,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+151,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+151,36,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+151,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+152,12,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,31 invoices to 5 buyers bill 95.2 kg (7.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-410A 39.4 kg
+152,12,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 13 batches is above 97% of peer batches (peer median 91.4%)
+152,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.1023,False,
+152,12,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0139,False,
+152,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0139,False,
+152,12,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+152,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+152,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+152,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+152,12,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,31 invoices to 5 buyers bill 95.2 kg (7.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-410A 39.4 kg
+152,12,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 13 batches is above 97% of peer batches (peer median 91.4%)
+152,12,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+152,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+152,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+152,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+152,12,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+152,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+152,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+152,24,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,74 invoices to 5 buyers bill 369.6 kg (15.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 192.2 kg
+152,24,rules+IF,reclaimer-03,RECLAIMER,naive,0.9468,True,mean reclamation yield 95.4% over 27 batches is above 90% of peer batches (peer median 91.2%)
+152,24,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0312,False,
+152,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0139,False,
+152,24,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0066,False,
+152,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+152,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+152,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+152,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+152,24,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,74 invoices to 5 buyers bill 369.6 kg (15.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 192.2 kg
+152,24,rules only,reclaimer-03,RECLAIMER,naive,0.9426,True,mean reclamation yield 95.4% over 27 batches is above 90% of peer batches (peer median 91.2%)
+152,24,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+152,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+152,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+152,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+152,24,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+152,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+152,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+152,36,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,115 invoices to 5 buyers bill 601.8 kg (16.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 374.9 kg
+152,36,rules+IF,reclaimer-03,RECLAIMER,naive,0.9953,True,5 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+152,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0139,False,
+152,36,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0043,False,
+152,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+152,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+152,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+152,36,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+152,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+152,36,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,115 invoices to 5 buyers bill 601.8 kg (16.7% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 374.9 kg
+152,36,rules only,reclaimer-03,RECLAIMER,naive,0.9947,True,5 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+152,36,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0043,False,
+152,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+152,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+152,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+152,36,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+152,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+152,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+153,12,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,58 invoices to 5 buyers bill 575.0 kg (39.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 407.9 kg
+153,12,rules+IF,reclaimer-04,RECLAIMER,naive,0.942,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+153,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.1635,False,
+153,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0833,False,
+153,12,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0833,False,
+153,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+153,12,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.0,False,
+153,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+153,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
+153,12,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,58 invoices to 5 buyers bill 575.0 kg (39.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 407.9 kg
+153,12,rules only,reclaimer-04,RECLAIMER,naive,0.942,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+153,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+153,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+153,12,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0,False,
+153,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+153,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+153,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+153,12,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+153,24,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,"107 invoices to 5 buyers bill 1,119.2 kg (36.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 716.9 kg"
+153,24,rules+IF,reclaimer-04,RECLAIMER,naive,0.9529,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+153,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.1635,False,
+153,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.025,False,
+153,24,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.0127,False,
+153,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+153,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+153,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
+153,24,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+153,24,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,"107 invoices to 5 buyers bill 1,119.2 kg (36.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 716.9 kg"
+153,24,rules only,reclaimer-04,RECLAIMER,naive,0.9506,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+153,24,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0127,False,
+153,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+153,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+153,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+153,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+153,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+153,24,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+153,36,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,"149 invoices to 5 buyers bill 1,533.7 kg (35.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 994.0 kg"
+153,36,rules+IF,reclaimer-04,RECLAIMER,naive,0.9864,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+153,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0644,False,
+153,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0455,False,
+153,36,rules+IF,distributor-04,DISTRIBUTOR,adaptive,0.0094,False,
+153,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+153,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+153,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
+153,36,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+153,36,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,"149 invoices to 5 buyers bill 1,533.7 kg (35.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 994.0 kg"
+153,36,rules only,reclaimer-04,RECLAIMER,naive,0.9847,True,4 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+153,36,rules only,distributor-04,DISTRIBUTOR,adaptive,0.0094,False,
+153,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+153,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+153,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+153,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+153,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+153,36,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+154,12,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,42 invoices to 5 buyers bill 342.1 kg (22.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 209.2 kg
+154,12,rules+IF,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.1% over 14 batches is above 96% of peer batches (peer median 90.2%)
+154,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0673,False,
+154,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0536,False,
+154,12,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0312,False,
+154,12,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+154,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+154,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+154,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+154,12,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,42 invoices to 5 buyers bill 342.1 kg (22.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 209.2 kg
+154,12,rules only,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.1% over 14 batches is above 96% of peer batches (peer median 90.2%)
+154,12,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+154,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+154,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+154,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+154,12,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+154,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+154,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+154,24,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,91 invoices to 5 buyers bill 682.3 kg (24.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 416.9 kg
+154,24,rules+IF,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.5% over 28 batches is above 97% of peer batches (peer median 89.2%)
+154,24,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0417,False,
+154,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0312,False,
+154,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0312,False,
+154,24,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+154,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+154,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+154,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+154,24,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,91 invoices to 5 buyers bill 682.3 kg (24.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 416.9 kg
+154,24,rules only,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.5% over 28 batches is above 97% of peer batches (peer median 89.2%)
+154,24,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+154,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+154,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+154,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+154,24,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+154,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+154,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+154,36,rules+IF,distributor-05,DISTRIBUTOR,naive,1.0,True,"130 invoices to 5 buyers bill 1,062.8 kg (23.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 533.8 kg"
+154,36,rules+IF,reclaimer-04,RECLAIMER,naive,0.999,True,7 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+154,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0455,False,
+154,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0179,False,
+154,36,rules+IF,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+154,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+154,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+154,36,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+154,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+154,36,rules only,distributor-05,DISTRIBUTOR,naive,1.0,True,"130 invoices to 5 buyers bill 1,062.8 kg (23.8% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 533.8 kg"
+154,36,rules only,reclaimer-04,RECLAIMER,naive,0.9989,True,7 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+154,36,rules only,distributor-01,DISTRIBUTOR,adaptive,0.0,False,
+154,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+154,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+154,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+154,36,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+154,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+154,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+155,12,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,42 invoices to 5 buyers bill 264.2 kg (21.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 123.1 kg
+155,12,rules+IF,reclaimer-04,RECLAIMER,naive,0.9674,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+155,12,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.0833,False,
+155,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0833,False,
+155,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0312,False,
+155,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.0139,False,
+155,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+155,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+155,12,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+155,12,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,42 invoices to 5 buyers bill 264.2 kg (21.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 123.1 kg
+155,12,rules only,reclaimer-04,RECLAIMER,naive,0.9637,True,3 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+155,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+155,12,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0,False,
+155,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+155,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+155,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+155,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+155,12,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+155,24,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,79 invoices to 5 buyers bill 630.1 kg (23.1% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 276.9 kg
+155,24,rules+IF,reclaimer-04,RECLAIMER,naive,0.9955,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+155,24,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.0872,False,
+155,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0312,False,
+155,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0221,False,
+155,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+155,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+155,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+155,24,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+155,24,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,79 invoices to 5 buyers bill 630.1 kg (23.1% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 276.9 kg
+155,24,rules only,reclaimer-04,RECLAIMER,naive,0.9948,True,6 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+155,24,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0042,False,
+155,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+155,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+155,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+155,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+155,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+155,24,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+155,36,rules+IF,distributor-02,DISTRIBUTOR,naive,1.0,True,124 invoices to 5 buyers bill 904.9 kg (24.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 402.7 kg
+155,36,rules+IF,reclaimer-04,RECLAIMER,naive,0.9989,True,8 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+155,36,rules+IF,distributor-03,DISTRIBUTOR,adaptive,0.0514,False,
+155,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0139,False,
+155,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+155,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+155,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
+155,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+155,36,rules+IF,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+155,36,rules only,distributor-02,DISTRIBUTOR,naive,1.0,True,124 invoices to 5 buyers bill 904.9 kg (24.0% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 402.7 kg
+155,36,rules only,reclaimer-04,RECLAIMER,naive,0.9987,True,8 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+155,36,rules only,distributor-03,DISTRIBUTOR,adaptive,0.0029,False,
+155,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+155,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+155,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+155,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+155,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+155,36,rules only,reclaimer-03,RECLAIMER,adaptive,0.0,False,
+156,12,rules+IF,distributor-01,DISTRIBUTOR,naive,1.0,True,47 invoices to 5 buyers bill 525.0 kg (26.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 301.8 kg
+156,12,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 10 batches is above 100% of peer batches (peer median 90.0%)
+156,12,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0139,False,
+156,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0139,False,
+156,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+156,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+156,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+156,12,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+156,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+156,12,rules only,distributor-01,DISTRIBUTOR,naive,1.0,True,47 invoices to 5 buyers bill 525.0 kg (26.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 301.8 kg
+156,12,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.6% over 10 batches is above 100% of peer batches (peer median 90.0%)
+156,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+156,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+156,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+156,12,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+156,12,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+156,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+156,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+156,24,rules+IF,distributor-01,DISTRIBUTOR,naive,1.0,True,100 invoices to 5 buyers bill 965.5 kg (28.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 537.1 kg
+156,24,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.3% over 20 batches is above 100% of peer batches (peer median 90.1%)
+156,24,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0358,False,
+156,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0139,False,
+156,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0066,False,
+156,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+156,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+156,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+156,24,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+156,24,rules only,distributor-01,DISTRIBUTOR,naive,1.0,True,100 invoices to 5 buyers bill 965.5 kg (28.6% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 537.1 kg
+156,24,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.3% over 20 batches is above 100% of peer batches (peer median 90.1%)
+156,24,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0047,False,
+156,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+156,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+156,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+156,24,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+156,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+156,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+156,36,rules+IF,distributor-01,DISTRIBUTOR,naive,1.0,True,"155 invoices to 5 buyers bill 1,501.1 kg (29.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 928.5 kg"
+156,36,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.2% over 32 batches is above 100% of peer batches (peer median 90.4%)
+156,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0363,False,
+156,36,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0034,False,
+156,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+156,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+156,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+156,36,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+156,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+156,36,rules only,distributor-01,DISTRIBUTOR,naive,1.0,True,"155 invoices to 5 buyers bill 1,501.1 kg (29.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 928.5 kg"
+156,36,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.2% over 32 batches is above 100% of peer batches (peer median 90.4%)
+156,36,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0034,False,
+156,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+156,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+156,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+156,36,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+156,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+156,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+157,12,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,52 invoices to 5 buyers bill 338.7 kg (24.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 185.3 kg
+157,12,rules+IF,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.4% over 12 batches is above 97% of peer batches (peer median 90.1%)
+157,12,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0536,False,
+157,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0536,False,
+157,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+157,12,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
+157,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+157,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+157,12,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+157,12,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,52 invoices to 5 buyers bill 338.7 kg (24.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 185.3 kg
+157,12,rules only,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.4% over 12 batches is above 97% of peer batches (peer median 90.1%)
+157,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+157,12,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
+157,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+157,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+157,12,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+157,12,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+157,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+157,24,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,85 invoices to 5 buyers bill 651.3 kg (26.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 463.9 kg
+157,24,rules+IF,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.0% over 24 batches is above 97% of peer batches (peer median 90.4%)
+157,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0455,False,
+157,24,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
+157,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+157,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+157,24,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+157,24,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+157,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+157,24,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,85 invoices to 5 buyers bill 651.3 kg (26.2% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 463.9 kg
+157,24,rules only,reclaimer-04,RECLAIMER,naive,1.0,True,mean reclamation yield 95.0% over 24 batches is above 97% of peer batches (peer median 90.4%)
+157,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+157,24,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
+157,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+157,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+157,24,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+157,24,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+157,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+157,36,rules+IF,distributor-03,DISTRIBUTOR,naive,1.0,True,133 invoices to 5 buyers bill 940.9 kg (24.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 659.4 kg
+157,36,rules+IF,reclaimer-04,RECLAIMER,naive,0.9997,True,7 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+157,36,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0724,False,
+157,36,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.019,False,
+157,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+157,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+157,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+157,36,rules+IF,reclaimer-02,RECLAIMER,honest,0.0,False,
+157,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+157,36,rules only,distributor-03,DISTRIBUTOR,naive,1.0,True,133 invoices to 5 buyers bill 940.9 kg (24.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 659.4 kg
+157,36,rules only,reclaimer-04,RECLAIMER,naive,0.9997,True,7 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+157,36,rules only,distributor-02,DISTRIBUTOR,adaptive,0.019,False,
+157,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+157,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+157,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+157,36,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+157,36,rules only,reclaimer-02,RECLAIMER,honest,0.0,False,
+157,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+158,12,rules+IF,distributor-01,DISTRIBUTOR,naive,1.0,True,44 invoices to 5 buyers bill 364.0 kg (21.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 188.3 kg
+158,12,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.0% over 11 batches is above 100% of peer batches (peer median 91.6%)
+158,12,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0751,False,
+158,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0673,False,
+158,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0312,False,
+158,12,rules+IF,reclaimer-01,RECLAIMER,honest,0.0139,False,
+158,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+158,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+158,12,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+158,12,rules only,distributor-01,DISTRIBUTOR,naive,1.0,True,44 invoices to 5 buyers bill 364.0 kg (21.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 188.3 kg
+158,12,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.0% over 11 batches is above 100% of peer batches (peer median 91.6%)
+158,12,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0084,False,
+158,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+158,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+158,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+158,12,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+158,12,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+158,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+158,24,rules+IF,distributor-01,DISTRIBUTOR,naive,1.0,True,92 invoices to 5 buyers bill 595.3 kg (20.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 262.1 kg
+158,24,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.4% over 23 batches is above 100% of peer batches (peer median 90.9%)
+158,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.1094,False,
+158,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0455,False,
+158,24,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0256,False,
+158,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.025,False,
+158,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+158,24,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
+158,24,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+158,24,rules only,distributor-01,DISTRIBUTOR,naive,1.0,True,92 invoices to 5 buyers bill 595.3 kg (20.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 262.1 kg
+158,24,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.4% over 23 batches is above 100% of peer batches (peer median 90.9%)
+158,24,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0256,False,
+158,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+158,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+158,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+158,24,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+158,24,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+158,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+158,36,rules+IF,distributor-01,DISTRIBUTOR,naive,1.0,True,140 invoices to 5 buyers bill 913.6 kg (21.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 392.6 kg
+158,36,rules+IF,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.5% over 34 batches is above 100% of peer batches (peer median 90.7%)
+158,36,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0391,False,
+158,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0265,False,
+158,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0192,False,
+158,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+158,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+158,36,rules+IF,reclaimer-01,RECLAIMER,honest,0.0,False,
+158,36,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+158,36,rules only,distributor-01,DISTRIBUTOR,naive,1.0,True,140 invoices to 5 buyers bill 913.6 kg (21.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 392.6 kg
+158,36,rules only,reclaimer-03,RECLAIMER,naive,1.0,True,mean reclamation yield 95.5% over 34 batches is above 100% of peer batches (peer median 90.7%)
+158,36,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0391,False,
+158,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+158,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+158,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+158,36,rules only,reclaimer-01,RECLAIMER,honest,0.0,False,
+158,36,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+158,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+159,12,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,54 invoices to 5 buyers bill 465.2 kg (35.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 284.4 kg
+159,12,rules+IF,reclaimer-01,RECLAIMER,naive,1.0,True,mean reclamation yield 95.9% over 10 batches is above 100% of peer batches (peer median 91.0%)
+159,12,rules+IF,distributor-02,DISTRIBUTOR,honest,0.1023,False,
+159,12,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0833,False,
+159,12,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+159,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+159,12,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+159,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+159,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+159,12,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,54 invoices to 5 buyers bill 465.2 kg (35.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 284.4 kg
+159,12,rules only,reclaimer-01,RECLAIMER,naive,1.0,True,mean reclamation yield 95.9% over 10 batches is above 100% of peer batches (peer median 91.0%)
+159,12,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+159,12,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+159,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+159,12,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+159,12,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+159,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+159,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+159,24,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,106 invoices to 5 buyers bill 849.9 kg (29.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 559.8 kg
+159,24,rules+IF,reclaimer-01,RECLAIMER,naive,1.0,True,mean reclamation yield 95.9% over 15 batches is above 97% of peer batches (peer median 91.0%)
+159,24,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+159,24,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+159,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+159,24,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+159,24,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+159,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+159,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+159,24,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,106 invoices to 5 buyers bill 849.9 kg (29.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 559.8 kg
+159,24,rules only,reclaimer-01,RECLAIMER,naive,1.0,True,mean reclamation yield 95.9% over 15 batches is above 97% of peer batches (peer median 91.0%)
+159,24,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+159,24,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+159,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+159,24,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+159,24,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+159,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+159,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+159,36,rules+IF,distributor-04,DISTRIBUTOR,naive,1.0,True,"166 invoices to 5 buyers bill 1,253.2 kg (28.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 787.9 kg"
+159,36,rules+IF,reclaimer-01,RECLAIMER,naive,0.9995,True,9 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+159,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0043,False,
+159,36,rules+IF,distributor-01,DISTRIBUTOR,honest,0.0,False,
+159,36,rules+IF,distributor-02,DISTRIBUTOR,honest,0.0,False,
+159,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+159,36,rules+IF,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+159,36,rules+IF,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+159,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0,False,
+159,36,rules only,distributor-04,DISTRIBUTOR,naive,1.0,True,"166 invoices to 5 buyers bill 1,253.2 kg (28.5% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 787.9 kg"
+159,36,rules only,reclaimer-01,RECLAIMER,naive,0.9994,True,9 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+159,36,rules only,distributor-01,DISTRIBUTOR,honest,0.0,False,
+159,36,rules only,distributor-02,DISTRIBUTOR,honest,0.0,False,
+159,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+159,36,rules only,distributor-05,DISTRIBUTOR,adaptive,0.0,False,
+159,36,rules only,reclaimer-02,RECLAIMER,adaptive,0.0,False,
+159,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+159,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+160,12,rules+IF,distributor-01,DISTRIBUTOR,naive,1.0,True,45 invoices to 5 buyers bill 475.3 kg (26.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 219.7 kg
+160,12,rules+IF,reclaimer-02,RECLAIMER,naive,0.9167,True,mean reclamation yield 95.4% over 16 batches is above 92% of peer batches (peer median 90.2%)
+160,12,rules+IF,reclaimer-03,RECLAIMER,honest,0.2917,False,"33% of its active months are among the most unusual 10 % for reclaimers; most unusual month 2024-06, driven by batches = 3 (role median 1)"
+160,12,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0833,False,
+160,12,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0536,False,
+160,12,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
+160,12,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+160,12,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+160,12,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+160,12,rules only,distributor-01,DISTRIBUTOR,naive,1.0,True,45 invoices to 5 buyers bill 475.3 kg (26.4% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-404A 219.7 kg
+160,12,rules only,reclaimer-02,RECLAIMER,naive,0.9167,True,mean reclamation yield 95.4% over 16 batches is above 92% of peer batches (peer median 90.2%)
+160,12,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
+160,12,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+160,12,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+160,12,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+160,12,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+160,12,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+160,12,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+160,24,rules+IF,distributor-01,DISTRIBUTOR,naive,1.0,True,97 invoices to 5 buyers bill 929.4 kg (29.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 443.9 kg
+160,24,rules+IF,reclaimer-02,RECLAIMER,naive,0.9172,True,2 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+160,24,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.1094,False,
+160,24,rules+IF,reclaimer-03,RECLAIMER,honest,0.0417,False,
+160,24,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0312,False,
+160,24,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0312,False,
+160,24,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+160,24,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+160,24,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+160,24,rules only,distributor-01,DISTRIBUTOR,naive,1.0,True,97 invoices to 5 buyers bill 929.4 kg (29.3% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 443.9 kg
+160,24,rules only,reclaimer-02,RECLAIMER,naive,0.9167,True,2 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+160,24,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0,False,
+160,24,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+160,24,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+160,24,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+160,24,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+160,24,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+160,24,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,
+160,36,rules+IF,distributor-01,DISTRIBUTOR,naive,1.0,True,"142 invoices to 5 buyers bill 1,256.6 kg (28.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 604.4 kg"
+160,36,rules+IF,reclaimer-02,RECLAIMER,naive,0.9231,True,2 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+160,36,rules+IF,reclaimer-03,RECLAIMER,honest,0.0312,False,
+160,36,rules+IF,distributor-02,DISTRIBUTOR,adaptive,0.0203,False,
+160,36,rules+IF,reclaimer-01,RECLAIMER,adaptive,0.0192,False,
+160,36,rules+IF,distributor-03,DISTRIBUTOR,honest,0.0,False,
+160,36,rules+IF,distributor-04,DISTRIBUTOR,honest,0.0,False,
+160,36,rules+IF,distributor-05,DISTRIBUTOR,honest,0.0,False,
+160,36,rules+IF,reclaimer-04,RECLAIMER,honest,0.0,False,
+160,36,rules only,distributor-01,DISTRIBUTOR,naive,1.0,True,"142 invoices to 5 buyers bill 1,256.6 kg (28.9% of invoiced volume) that no ledger shipment within +/-21 days can account for; largest: R-134a 604.4 kg"
+160,36,rules only,reclaimer-02,RECLAIMER,naive,0.9193,True,2 reclamation attempts were rejected for claiming more output than the 98 % ceiling allows
+160,36,rules only,distributor-02,DISTRIBUTOR,adaptive,0.0065,False,
+160,36,rules only,distributor-03,DISTRIBUTOR,honest,0.0,False,
+160,36,rules only,distributor-04,DISTRIBUTOR,honest,0.0,False,
+160,36,rules only,distributor-05,DISTRIBUTOR,honest,0.0,False,
+160,36,rules only,reclaimer-01,RECLAIMER,adaptive,0.0,False,
+160,36,rules only,reclaimer-03,RECLAIMER,honest,0.0,False,
+160,36,rules only,reclaimer-04,RECLAIMER,honest,0.0,False,

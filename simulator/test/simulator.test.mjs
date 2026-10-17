@@ -93,3 +93,26 @@ test('observations carry no ground-truth labels', () => {
   for (const e of r.observations.equipment) assert.match(e.id, /^eq-[0-9a-f]{8}$/);
   assert.ok([...phantomIds].every((id) => /^eq-[0-9a-f]{8}$/.test(id)));
 });
+
+test('end-of-life remaining charge falls inside the IPCC 2006 Table 7.9 ranges', () => {
+  // Remaining charge is not drawn from the table: it emerges from maintenance behaviour.
+  // - medium/large commercial and chillers (all Tier A, leak-checked) must sit inside their ranges;
+  // - unserviced Tier B small units must mostly sit inside 0-80 % (their split-AC leak band is an
+  //   unconfirmed assumption, so not all of them);
+  // - small units that are Tier A (>= 5 tCO2e) are leak-checked by law and expected to be fuller than
+  //   the generic IPCC default: a stated modelling choice, not checked here.
+  const inside = { large: [0, 0], smallB: [0, 0] };
+  for (const seed of [1, 2, 3]) {
+    const r = simulate(params, { seed });
+    for (const u of Object.values(r.truth.units)) {
+      if (u.eolCharge === undefined) continue;
+      const [lo, hi] = params.fleet.categories[u.category].ipccEolRemaining;
+      const x = u.eolCharge / u.nameplate;
+      const ok = x >= lo - 1e-9 && x <= hi + 1e-9 ? 1 : 0;
+      const key = ['medium_large_commercial', 'chiller'].includes(u.category) ? 'large' : u.tier === 'B' ? 'smallB' : null;
+      if (key) { inside[key][0] += ok; inside[key][1] += 1; }
+    }
+  }
+  assert.ok(inside.large[0] / inside.large[1] > 0.9, `large Tier A inside IPCC: ${inside.large[0]}/${inside.large[1]}`);
+  assert.ok(inside.smallB[0] / inside.smallB[1] > 0.7, `small Tier B inside IPCC: ${inside.smallB[0]}/${inside.smallB[1]}`);
+});

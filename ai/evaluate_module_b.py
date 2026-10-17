@@ -12,6 +12,7 @@ All results are on SIMULATED data and say nothing yet about real-world performan
 """
 
 from __future__ import annotations
+import sys
 
 import argparse
 import json
@@ -103,6 +104,9 @@ def markdown(payload: dict, df: pd.DataFrame) -> str:
         "legitimate invoices inside the 5 % weight tolerance and keeps the total under 2 % of its sales; the "
         "adaptive reclaimer shifts its plant's yield up by 3 points and never touches the 98 % ceiling.",
         "",
+        "> Round 14: re-evaluated on a corrected simulator with the model unchanged. The earlier simulator refilled every unit once it was 15 % low, so equipment reached end of life nearly full, contradicting IPCC 2006 Table 7.9 (small units 0–80 % remaining). Since round 14 it follows the leak-check obligation: Tier A units (>= 5 tCO2e) are leak-checked and refilled, Tier B units mostly are not. The seeds 1–20 "
+        "report is archived (`module_b_v1_seeds1-20.md`); this report uses fresh seeds 141–160.",
+        "",
         "## Flags at the fixed threshold (score >= 0.6)",
         "",
         "| months | variant | precision | recall | FPR | distributor naive | distributor adaptive | reclaimer naive | reclaimer adaptive |",
@@ -146,8 +150,10 @@ def markdown(payload: dict, df: pd.DataFrame) -> str:
 
 
 def main() -> None:
+    if hasattr(sys.stdout, "reconfigure"):  # cp950 consoles garble en dashes and CJK otherwise
+        sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--seeds", default="1-20")
+    ap.add_argument("--seeds", default="141-160")
     ap.add_argument("--months", default="12,24,36")
     ap.add_argument("--cache", default=str(here / ".cache" / "sim"))
     ap.add_argument("--report", default=str(here / "reports" / "module_b_evaluation"))

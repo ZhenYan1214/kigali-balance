@@ -30,7 +30,13 @@ from .module_b import EntityResult, ModuleBReport, Signal, match_invoices
 from .observations import Observations
 
 MODEL_NAME = "kigali-balance/module-a-leakage-gap"
-MODEL_VERSION = "1.1.0"
+MODEL_VERSION = "1.2.0"
+# 1.1.0 -> 1.2.0 (round 14): the simulator used to refill every unit once it was 15 % low, so every
+# unit was "expected" to show top-ups. That contradicted IPCC 2006 Table 7.9 (small units reach end of
+# life 0-80 % full). The simulator now follows the leak-check obligation: Tier A units (>= 5 tCO2e)
+# are leak-checked and refilled, Tier B units mostly are not. A2 and A3 therefore judge Tier A units
+# only; expecting top-ups from Tier B units would flag honest companies for doing nothing wrong.
+# 1.2.0 is evaluated on fresh seeds 121-140.
 # 1.0.0 -> 1.1.0: A2 compared recorded top-ups with the full mid-range leakage. Top-ups are lumpy
 # (technicians refill only once a unit is ~15 % low), so small fleets in short windows looked
 # under-recorded: 1.3 % of honest companies were flagged at 12 months on held-out seeds 1-20.
@@ -209,7 +215,9 @@ def run_module_a(obs: Observations, params: dict | None = None) -> ModuleBReport
     params = {**PARAMS, **(params or {})}
     units = unit_table(obs)
     purchases = _purchase_signals(obs, params)
-    leakage = _leakage_signals(units, params)
+    # Only units with a leak-check obligation (Tier A, >= 5 tCO2e) are expected to show recorded
+    # top-ups; small Tier B units are usually not refilled at all (see MODEL_VERSION notes).
+    leakage = _leakage_signals(units[units["tier"] == "A"], params)
     services = obs.actors.loc[obs.actors["role"] == "SERVICE", "id"]
     entities = []
     for svc in services:

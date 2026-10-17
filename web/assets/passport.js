@@ -6,12 +6,9 @@ const params = new URLSearchParams(location.search);
 const state = { source: params.get('source') === 'chain' ? 'chain' : 'sim' };
 const out = document.getElementById('out');
 
-const EXAMPLES = [
-  ['sim', 598, 'Reclaimed cylinder, Tier A inputs'],
-  ['sim', 817, 'Reclaimed by a flagged reclaimer'],
-  ['sim', 64, 'Tier B recovery by a flagged company'],
-  ['sim', 126, 'Destroyed and claimed once'],
-  ['sim', 125, 'Quarantined: recovered < 180 days after a charge'],
+// Simulated examples come from the data bundle (chosen by web/build_data.mjs); the live ones are
+// lots created by the demo deployment on OP Sepolia.
+const CHAIN_EXAMPLES = [
   ['chain', 6, 'Live on OP Sepolia: reclaimed lot'],
   ['chain', 4, 'Live on OP Sepolia: Tier A recovery'],
 ];
@@ -34,13 +31,13 @@ document.getElementById('search').addEventListener('submit', (e) => {
   const id = parseInt(input.value, 10);
   if (Number.isFinite(id)) location.search = `${state.source === 'chain' ? 'source=chain&' : ''}lot=${id}`;
 });
+const data = await loadSim();
 document.getElementById('examples').append(
   el('span', { class: 'muted', style: { fontSize: '12.5px', alignSelf: 'center' } }, 'Try:'),
-  ...EXAMPLES.map(([s, id, label]) => link(s, id, label)),
-  el('a', { href: 'passport.html?actor=service-29' }, 'All lots of one flagged company'),
+  ...(data.examples ?? []).map(({ lot, label }) => link('sim', lot, label)),
+  ...CHAIN_EXAMPLES.map(([s, id, label]) => link(s, id, label)),
+  ...(data.exampleActor ? [el('a', { href: `passport.html?actor=${data.exampleActor}` }, 'All lots of one flagged company')] : []),
 );
-
-const data = await loadSim();
 const lots = new Map(data.lots.map((l) => [l.id, l]));
 const flagsFor = (actor) => ['a', 'b', 'c'].flatMap((m) => data.ai[m].flags.filter((f) => f.actor === actor && f.severity !== 'none').map((f) => ({ ...f, m })));
 

@@ -280,6 +280,31 @@ for (const [id, q] of equipment) {
 
 const monthly = [...months.entries()].sort().map(([m, byGas]) => ({ m, byGas }));
 const span = [events[0].t.slice(0, 10), events.at(-1).t.slice(0, 10)];
+// ------------------------------------------------------------------ passport examples, chosen from the data
+// Hard-coded lot ids go stale whenever the simulator changes; pick the first lot of each kind instead.
+const flaggedBy = (m) => new Set(ai[m].flags.filter((f) => f.score >= 0.6).map((f) => f.actor));
+const flaggedAny = new Set(['a', 'b', 'c'].flatMap((m) => [...flaggedBy(m)]));
+const accepted = events.filter((e) => e.status === 'accepted');
+const claimedEvents = new Set(accepted.filter((e) => e.type === 'CLAIM').map((e) => e.eventId));
+const creditedLots = new Set(
+  accepted.filter((e) => e.type === 'DESTROY' && e.creditEligible && claimedEvents.has(e.eventId)).flatMap((e) => e.inputs),
+);
+const recovers = accepted.filter((e) => e.type === 'RECOVER');
+const reclaims = accepted.filter((e) => e.type === 'RECLAIM');
+const firstLot = (xs) => (xs.length ? Math.min(...xs) : null);
+const examples = [
+  ['Reclaimed cylinder, Tier A inputs', firstLot(reclaims.filter((e) => e.tier === 'A').map((e) => e.outputLot))],
+  ['Reclaimed by a flagged reclaimer', firstLot(reclaims.filter((e) => flaggedBy('b').has(e.actor)).map((e) => e.outputLot))],
+  ['Credited once, yet recovered by a flagged company', firstLot(recovers
+    .filter((e) => e.tier === 'B' && flaggedBy('c').has(e.actor) && creditedLots.has(e.inServiceLot))
+    .map((e) => e.inServiceLot))],
+  ['Destroyed and claimed once', firstLot(recovers
+    .filter((e) => e.tier === 'A' && !flaggedAny.has(e.actor) && creditedLots.has(e.inServiceLot))
+    .map((e) => e.inServiceLot))],
+  ['Quarantined: recovered < 180 days after a charge', firstLot(recovers.filter((e) => e.quarantinedLot).map((e) => e.quarantinedLot))],
+].filter(([, lot]) => lot).map(([label, lot]) => ({ lot, label }));
+const exampleActor = [...flaggedBy('c')].sort()[0] ?? null;
+
 const bundle = {
   meta: {
     note: 'Simulated data only. Built from observed ledger events, the equipment register, actors and AI flags; the simulator ground truth is never read.',
@@ -287,7 +312,11 @@ const bundle = {
     period: span,
     events: events.length,
     gwp: Object.fromEntries(gases.map((g) => [g, gwpOf(g)])),
-    built: new Date().toISOString().slice(0, 10),
+    // Reproducible: the same inputs give a byte-identical bundle. SOURCE_DATE_EPOCH (the
+    // reproducible-builds convention) can override; otherwise the data's own end date is used.
+    built: process.env.SOURCE_DATE_EPOCH
+      ? new Date(Number(process.env.SOURCE_DATE_EPOCH) * 1000).toISOString().slice(0, 10)
+      : span[1],
   },
   gases,
   actors,
@@ -300,6 +329,8 @@ const bundle = {
   ai,
   closure,
   equipment: eqOut,
+  examples,
+  exampleActor,
   lots: [...lots.values()].map(({ status, ...l }) => ({ ...l, status: l.grams > 0 ? status : status === 'IN_TRANSIT' ? status : 'CLOSED' })),
 };
 mkdirSync(outDir, { recursive: true });

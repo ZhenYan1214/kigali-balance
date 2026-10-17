@@ -106,18 +106,18 @@ All results are on simulated data. Fraud in the simulator includes *adaptive* fr
 | Check | Result |
 |---|---|
 | Foundry unit tests | 135 passing, including the demo scenario and attacks on every signature |
-| Fuzzed invariants (256 runs × 128 steps) | 10 passing; 2,197 unconsented recoveries, 1,745 self-certified destructions and 3,255 recoveries above what the unit could still hold (including padding split over several recoveries) attempted, none succeeded |
-| Differential test | 9,759 simulated events replayed against the real contracts: every accept/reject decision, reason, lot ID and gas total matches the simulator's rule mirror |
+| Fuzzed invariants (256 runs × 128 steps, `FOUNDRY_PROFILE=deep`) | 10 passing; about 2,160 unconsented recoveries, 1,700 self-certified destructions and 3,300 recoveries above what the unit could still hold (including padding split over several recoveries) attempted per campaign, none succeeded. Counts vary by about 1 % between campaigns even with the profile's fixed seed |
+| Differential test | 7,219 simulated events replayed against the real contracts: every accept/reject decision, reason, lot ID and gas total matches the simulator's rule mirror |
 
-**AI modules** (threshold fixed before evaluation, scored on held-out simulated runs at 36 months)
+**AI modules** (threshold fixed before evaluation, scored at 36 months on held-out simulated runs never looked at before; re-evaluated on fresh seeds after the simulator was corrected to follow IPCC 2006 Table 7.9 end-of-life charge, see round 14 in [docs/proposal](docs/proposal/))
 
 | Module | Question | Precision | Honest flagged | Naive fraud caught | Adaptive fraud caught | What the adaptive fraudster got away with |
 |---|---|---|---|---|---|---|
-| [A · Leakage gap](ai/reports/module_a_evaluation.md) | Are a unit's top-ups plausible? | 0.96 | 0.6% | 100% | 3% | 157 kg off-ledger, vs 446 kg naive |
-| [B · Mass balance](ai/reports/module_b_evaluation.md) | Do sales and yields match inflows? | 1.00 | 0% | 100% | 0% | 19 kg smuggled, vs 1,270 kg naive |
-| [C · Recovery plausibility](ai/reports/module_c_evaluation.md) | Does a recovery match the unit? | 0.96 | 0.3% | 100% (and every colluding co-signer) | 35% | 6 kg of fake recoveries, vs 140 kg naive |
+| [A · Leakage gap](ai/reports/module_a_evaluation.md) | Are a unit's top-ups plausible? | 0.97 | 0.5% | 100% | 5% | 128 kg off-ledger, vs 401 kg naive |
+| [B · Mass balance](ai/reports/module_b_evaluation.md) | Do sales and yields match inflows? | 1.00 | 0% | 100% | 0% | 15 kg smuggled, vs 1,131 kg naive |
+| [C · Recovery plausibility](ai/reports/module_c_evaluation.md) | Does a recovery match the unit? | 0.98 | 0.1% | 100% (and every colluding co-signer) | 35% | 4 kg of fake recoveries, vs 136 kg naive |
 
-**End-of-life closure** ([report](ai/reports/closure_evaluation.md)): registered units the national register shows as removed, with no recovery on the ledger, the clearest sign of venting. Over 10 simulated runs it listed 1,233 such units and estimated 30–49 t of refrigerant unaccounted for, from the IPCC 2006 range of charge left at end of life; the true amount (46 t) fell inside the range in every run.
+**End-of-life closure** ([report](ai/reports/closure_evaluation.md)): registered units the national register shows as removed, with no recovery on the ledger, the clearest sign of venting. Over 10 fresh simulated runs it listed 1,132 such units and estimated 28–46 t of refrigerant unaccounted for, from the IPCC 2006 range of charge left at end of life; the true amount (43 t) fell inside the range in every run.
 
 **How much can still be laundered** ([analysis](docs/research/04-laundering-capacity.md)): if a technician and an owner padded every registered unit to the limit, with the charge really left in each unit drawn from the IPCC 2006 Table 7.9 ranges, the rules would accept:
 
@@ -150,7 +150,7 @@ python -m http.server 8000 --directory web    # then open http://localhost:8000
 <table>
 <tr>
 <td width="50%"><img src="docs/assets/dashboard.png" alt="Regulator dashboard: kilograms that entered the ledger, a Sankey of recovered kilograms by class and fate, attempts rejected by rule, and the AI review queue."></td>
-<td width="50%"><img src="docs/assets/passport.png" alt="Provenance passport for lot 64: a Tier B recovery traced to its unit, the checks the ledger enforced, and AI notes that flag the recovering company and its co-signer for review."></td>
+<td width="50%"><img src="docs/assets/passport.png" alt="Provenance passport for lot 42: a Tier B recovery traced to its unit, the checks the ledger enforced, and AI notes that flag the recovering company and its co-signer for review."></td>
 </tr>
 <tr>
 <td><sub>Regulator dashboard: the books balance to the gram; what the rules rejected; what the AI sent for review.</sub></td>
@@ -199,20 +199,24 @@ All demo actor keys are derived from one deployer key, so on the testnet one per
 
 ## Quick start
 
-Requirements: Foundry ≥ 1.8, Node.js ≥ 20, Python 3.12.
-
-Rebuild everything and check it in two commands (after setting up `ai/.venv` as below):
+Requirements: Foundry ≥ 1.8, Node.js ≥ 20, Python 3.12, and Edge, Chrome or Chromium for the PDF step. Every push is also rebuilt from scratch on a clean GitHub-hosted Linux machine by the [verify workflow](.github/workflows/verify.yml), which fails if any committed file does not reproduce byte for byte (the browser-rendered PDF excepted).
 
 ```bash
-python scripts/rebuild.py --full          # contracts, simulator, differential test, AI, web data, diagrams, PDF
-python scripts/check_submission.py        # numbers consistent across documents, links, no secrets, PDF still 2 pages
-```
-
-```bash
+# 1. get the code (the submodule holds forge-std; cloned without it? run: git submodule update --init)
 git clone --recurse-submodules https://github.com/ZhenYan1214/kigali-balance.git
 cd kigali-balance
-forge test                                  # contracts: unit tests and invariants
+
+# 2. the AI environment and the simulator's one dependency
+python -m venv ai/.venv
+ai/.venv/Scripts/pip install -r ai/requirements.lock.txt     # macOS/Linux: ai/.venv/bin/pip
+npm ci --prefix simulator
+
+# 3. rebuild everything and check it (the first forge build takes about a minute: via_ir)
+python scripts/rebuild.py --full      # contracts + invariants, simulator, differential test, AI, web data, diagrams, PDF
+python scripts/check_submission.py    # numbers consistent across documents, links, no secrets, PDF still 2 pages
 ```
+
+`forge test` prints 136 tests: the 135 unit tests plus the invariant suite, which runs all 10 invariants as one test. A rebuild rewrites generated files in place; all of them come out byte-identical to the commit except the PDF. `HANDOFF.md` is the maintainers' working notes (in Chinese); everything a judge needs is in this README and [docs/](docs/README.md).
 
 <details>
 <summary><b>Simulator and differential test</b></summary>
@@ -235,9 +239,9 @@ python -m venv .venv && .venv/Scripts/pip install -r requirements.lock.txt   # m
 .venv/Scripts/python run_module_b.py        # mass-balance flags with reasons
 .venv/Scripts/python run_module_c.py        # recovery-plausibility flags with reasons
 .venv/Scripts/python -m pytest              # module tests, incl. guards against reading ground truth
-.venv/Scripts/python evaluate_module_a.py --seeds 21-40
-.venv/Scripts/python evaluate_module_b.py
-.venv/Scripts/python evaluate_module_c.py --seeds 61-80
+.venv/Scripts/python evaluate_module_a.py          # held-out seeds 121-140
+.venv/Scripts/python evaluate_module_b.py          # held-out seeds 141-160
+.venv/Scripts/python evaluate_module_c.py          # held-out seeds 161-180
 ```
 
 </details>

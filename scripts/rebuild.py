@@ -191,6 +191,8 @@ def problem_statement_pdf() -> dict:
 
 
 def main() -> None:
+    if hasattr(sys.stdout, "reconfigure"):  # cp950 consoles garble en dashes and CJK otherwise
+        sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--quick", action="store_true", help="skip the test suites")
     ap.add_argument("--full", action="store_true", help="also run the differential test and print the PDF")

@@ -155,8 +155,18 @@ export function simulate(params, overrides = {}) {
         active: true,
       };
       unit.leakRate *= truth.serviceLeakFactor[unit.service];
+      // Maintenance follows the leak-check obligation (params.service._maintenanceReadme):
+      // Tier A is checked on a fixed schedule; Tier B is only refilled when it stops cooling, so it
+      // starts the simulation having leaked since installation.
+      const tco2e = ((nameplate / KG) * p.gases[gas].gwpAR4) / 1000;
+      if (tier === 'A') {
+        unit.checkMonths = p.service.leakCheckMonthsByTco2e.find(([below]) => tco2e < below)[1];
+        unit.nextCheck = rng.int(0, unit.checkMonths - 1);
+      } else {
+        unit.charge = Math.round(nameplate * Math.max(0, 1 - (unit.leakRate * ageMonths) / 12));
+      }
       physOf(gas).initialInEquipment += unit.charge;
-      truth.units[id] = { leakRatePerYear: Number(unit.leakRate.toFixed(4)), serviceCompany: unit.service };
+      truth.units[id] = { leakRatePerYear: Number(unit.leakRate.toFixed(4)), serviceCompany: unit.service, category, nameplate, tier };
       units.push(unit);
       if (tier === 'A') {
         ledger.registerTierA(t0, id, gas, nameplate, installedAt, category, unit.owner);
@@ -345,7 +355,14 @@ export function simulate(params, overrides = {}) {
       const leak = Math.min(u.charge, Math.round((u.nameplate * u.leakRate) / 12));
       u.charge -= leak;
       physOf(u.gas).leaked += leak;
-      if (u.charge >= u.nameplate * p.service.topUpWhenBelowFraction) continue;
+      if (u.tier === 'A') {
+        // periodic leak check: a refill only happens when a scheduled check finds the unit low
+        if (m < u.nextCheck) continue;
+        u.nextCheck = m + u.checkMonths;
+        if (u.charge >= u.nameplate * p.service.topUpWhenBelowFraction) continue;
+      } else if (!(u.charge < u.nameplate * p.service.tierBRepairBelowFraction && rng.chance(p.service.tierBRepairChancePerMonth))) {
+        continue; // no leak-check obligation: refilled only after it stops cooling and someone calls for repair
+      }
       const deficit = u.nameplate - u.charge;
       const svc = u.service;
       const offLedger = isOffLedgerService.has(svc) && !rng.chance(recordShare(u));

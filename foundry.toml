@@ -27,3 +27,14 @@ depth = 64
 fail_on_revert = false
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+
+# Deeper fuzzing campaign quoted in the README:
+#   FOUNDRY_PROFILE=deep forge test --match-contract InvariantsTest
+# Each run appends its attempt counts to reports/invariant-metrics.csv.
+[profile.deep.invariant]
+runs = 256
+depth = 128
+fail_on_revert = false
+
+[profile.deep.fuzz]
+seed = "0x4b6967616c69"   # fixed so the attempt counts quoted in the README reproduce exactly

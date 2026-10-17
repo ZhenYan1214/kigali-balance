@@ -24,25 +24,25 @@
     "categories": {
       "medium_large_commercial": {
         "share": 0.06, "gases": { "R-404A": 1.0 }, "chargeKg": [50, 300],
-        "leakRatePerYear": [0.10, 0.35], "lifetimeYears": [10, 20],
+        "leakRatePerYear": [0.10, 0.35], "lifetimeYears": [10, 20], "ipccEolRemaining": [0.5, 1.0],
         "source": "IPCC 2006 GL Vol.3 Ch.7 Table 7.9 via Climate Action Reserve (2018): medium/large commercial 10–35 %/yr",
         "verified": true, "lifetimeVerified": false
       },
       "standalone_commercial": {
         "share": 0.30, "gases": { "R-404A": 0.5, "R-134a": 0.5 }, "chargeKg": [0.2, 6],
-        "leakRatePerYear": [0.01, 0.15], "lifetimeYears": [8, 15],
+        "leakRatePerYear": [0.01, 0.15], "lifetimeYears": [8, 15], "ipccEolRemaining": [0.0, 0.8],
         "source": "IPCC 2006 GL Table 7.9 via ACR peer review (2023): stand-alone 0.2–6 kg, 1–15 %/yr",
         "verified": true, "lifetimeVerified": false
       },
       "chiller": {
         "share": 0.06, "gases": { "R-134a": 1.0 }, "chargeKg": [20, 500],
-        "leakRatePerYear": [0.02, 0.15], "lifetimeYears": [15, 25],
+        "leakRatePerYear": [0.02, 0.15], "lifetimeYears": [15, 25], "ipccEolRemaining": [0.8, 1.0],
         "source": "IPCC 2006 GL Table 7.9 via Climate Action Reserve (2018): chillers 2–15 %/yr",
         "verified": true, "lifetimeVerified": false
       },
       "split_ac": {
         "share": 0.58, "gases": { "R-410A": 1.0 }, "chargeKg": [0.8, 3.0],
-        "leakRatePerYear": [0.01, 0.10], "lifetimeYears": [8, 15],
+        "leakRatePerYear": [0.01, 0.10], "lifetimeYears": [8, 15], "ipccEolRemaining": [0.0, 0.8],
         "source": "Assumed (IPCC residential/commercial AC 1–10 %/yr could not be confirmed)",
         "verified": false, "lifetimeVerified": false
       }
@@ -51,6 +51,14 @@
   },
 
   "service": {
+    "_maintenanceReadme": "Who tops units up. Small units that are Tier A (>= 5 tCO2e) are leak-checked by law and so reach end of life fuller than the generic IPCC small-unit default (0-80 %): a stated modelling choice. Tier A units (>= 5 tCO2e) must be leak-checked periodically (EU Reg. 2024/573 Art. 5; Turkiye's F-gas regulation registers the same units in EKOMVET), so they are refilled when a check finds them low. Tier B units have no leak-check obligation: they are refilled only when they stop cooling. End-of-life remaining charge is NOT drawn from IPCC Table 7.9; it emerges from this behaviour and is compared with the Table 7.9 ranges (fleet.categories.*.ipccEolRemaining) as a calibration check.",
+    "leakCheckMonthsByTco2e": [[50, 12], [500, 6], [1000000000, 3]],
+    "leakCheckSource": "EU Reg. 2024/573 Art. 5(3) frequencies for units without leak detection: 5-50 t every 12 months, 50-500 t every 6 months, >= 500 t every 3 months (as recalled; check the text)",
+    "leakCheckVerified": false,
+    "tierBRepairBelowFraction": 0.3,
+    "tierBRepairChancePerMonth": 0.02,
+    "tierBRepairSource": "Assumption, calibrated: a small unit is noticed when it stops cooling (below ~30 % of its charge); most are replaced rather than repaired. 2 % a month puts ~80 % of Tier B end-of-life remaining charges inside the IPCC Table 7.9 range of 0-80 % (seeds 1-5; medians 0.41 stand-alone, 0.55 split AC). With 20 % a month only ~55 % were inside. The ~20 % outside are mainly split ACs at the bottom of their unconfirmed 1-10 %/yr leak band.",
+    "tierBRepairVerified": false,
     "topUpWhenBelowFraction": 0.85,
     "purchaseBatchKg": 20,
     "source": "Assumption: technicians top up when a leak check finds the charge 15 % low",
@@ -129,9 +137,9 @@
       "distributors": 2, "adaptiveMaxExcessShare": 0.02, "adaptivePadMaxPerInvoice": 0.04
     },
     "phantomTierB": {
-      "_readme": "Fake small units 'recovered' with smuggled virgin gas. Needs a colluding take-back point to co-sign as owner; that take-back point also does ordinary business. The first company is naive (1-4 fake units a month, ~the full model charge); the second adapts: it books one fake unit in about 15 % of months (as many as a large honest company scraps) at an honest-looking recovery efficiency.",
+      "_readme": "Fake small units 'recovered' with smuggled virgin gas. Needs a colluding take-back point to co-sign as owner; that take-back point also does ordinary business. The first company is naive (1-4 fake units a month, ~the full model charge); the second adapts: it books one fake unit in about 15 % of months (as many as a large honest company scraps) at an honest-looking share of the model charge (small units reach end of life far from full: IPCC Table 7.9 gives 0-80 % remaining).",
       "serviceCompanies": 2, "colludingTakeBackPoints": 1, "unitsPerMonth": [1, 4], "adaptiveUnitChancePerMonth": 0.15,
-      "fractionOfModelCharge": [0.97, 1.0], "adaptiveFractionOfModelCharge": [0.85, 0.95]
+      "fractionOfModelCharge": [0.97, 1.0], "adaptiveFractionOfModelCharge": [0.2, 0.7]
     },
     "inflatedYield": {
       "_readme": "Reclaimers that blend virgin gas into 'reclaimed' output. The naive one books 93-98 % yields and sometimes tries to exceed the 98 % ceiling (rejected by R4); the adaptive one keeps its own plant's spread and only shifts its centre up by a few points, so it looks like an efficient honest plant and never hits the ceiling.",

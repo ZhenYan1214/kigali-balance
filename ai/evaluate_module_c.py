@@ -11,11 +11,12 @@ Labels:
   colluding         the take-back point that co-signs the fake units (it also has honest business)
   honest            everyone else
 
-Usage: python evaluate_module_c.py [--seeds 61-80] [--months 12,24,36]
+Usage: python evaluate_module_c.py [--seeds 161-180] [--months 12,24,36]
 All results are on SIMULATED data.
 """
 
 from __future__ import annotations
+import sys
 
 import argparse
 import json
@@ -110,6 +111,10 @@ def markdown(payload: dict, df: pd.DataFrame) -> str:
         "",
         "## Reading the results",
         "",
+        "- **Re-evaluated in round 14 on a corrected simulator (model unchanged).** The earlier simulator refilled every unit once it was 15 % low, so equipment reached end of life nearly full, contradicting IPCC 2006 Table 7.9 (small units 0–80 % remaining). Since round 14 it follows the leak-check obligation: Tier A units (>= 5 tCO2e) are leak-checked and refilled, Tier B units mostly are not. An honest Tier B "
+        "recovery therefore rarely comes close to the model charge, and the adaptive phantom company now books "
+        "20–70 % of the model charge to look honest. The seeds 61–80 report is archived "
+        "(`module_c_v1.1_seeds61-80.md`); this report uses fresh seeds 161–180.",
         "- The colluding take-back point is exposed by its counterpart: the fake units it co-signs come from one "
         "company far more often than other companies use it (C4). The owner co-signature required since H1 is what "
         "makes this pattern visible on the ledger.",
@@ -135,8 +140,10 @@ def markdown(payload: dict, df: pd.DataFrame) -> str:
 
 
 def main() -> None:
+    if hasattr(sys.stdout, "reconfigure"):  # cp950 consoles garble en dashes and CJK otherwise
+        sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--seeds", default="61-80")
+    ap.add_argument("--seeds", default="161-180")
     ap.add_argument("--months", default="12,24,36")
     ap.add_argument("--cache", default=str(here / ".cache" / "sim"))
     ap.add_argument("--report", default=str(here / "reports" / "module_c_evaluation"))

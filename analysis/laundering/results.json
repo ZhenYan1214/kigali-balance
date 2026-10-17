@@ -1,7 +1,7 @@
 {
   "meta": {
     "inputs": {
-      "equipment": "simulator/out/equipment.csv",
+      "equipment": "analysis/laundering/population_seed42.csv",
       "params": "simulator/params.json",
       "units": 1856,
       "tier_a": 952,

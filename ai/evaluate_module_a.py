@@ -16,6 +16,7 @@ All results are on SIMULATED data.
 """
 
 from __future__ import annotations
+import sys
 
 import argparse
 import json
@@ -107,6 +108,14 @@ def markdown(payload: dict, df: pd.DataFrame) -> str:
     lines += [
         "## Version history and known limitations",
         "",
+        "- **1.2.0 (round 14) follows a corrected simulator.** The earlier simulator refilled every unit once it was 15 % low, so equipment reached end of life nearly full, contradicting IPCC 2006 Table 7.9 (small units 0–80 % remaining). Since round 14 it follows the leak-check obligation: Tier A units (>= 5 tCO2e) are leak-checked and refilled, Tier B units mostly are not. A2 and A3 therefore judge Tier A units "
+        "only. The 1.1.0 report on seeds 21–40 is archived (`module_a_v1.1_seeds21-40.md`); 1.2.0 was looked at on "
+        "development seeds 100–104 only and is reported here on fresh seeds 121–140.",
+        "- **Known limitation of 1.2.0, found on seeds 121–140 and not fixed (to avoid tuning on test data).** "
+        "Every honest flag came from A2 alone. With one leak check a year, a unit found just above 85 % waits "
+        "another year for its refill, so refills are lumpier than the 15 % allowance in A2 assumes and a small "
+        "fleet can show almost no top-ups for a while. A physical fix (allow one check interval of mid-range "
+        "leakage) is left for the next version, to be judged on another set of fresh seeds.",
         "- **1.0.0 was evaluated first, on held-out seeds 1–20** (`module_a_v1.0_seeds1-20.md`). It flagged 1.3 % of "
         "honest companies at 12 months and 0.3 % at 36 months: signal A2 compared recorded top-ups with the full "
         "expected leakage, but top-ups are lumpy (a unit is refilled only once it is ~15 % low). 1.1.0 subtracts "
@@ -129,8 +138,10 @@ def markdown(payload: dict, df: pd.DataFrame) -> str:
 
 
 def main() -> None:
+    if hasattr(sys.stdout, "reconfigure"):  # cp950 consoles garble en dashes and CJK otherwise
+        sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--seeds", default="1-20")
+    ap.add_argument("--seeds", default="121-140")
     ap.add_argument("--months", default="12,24,36")
     ap.add_argument("--cache", default=str(here / ".cache" / "sim"))
     ap.add_argument("--report", default=str(here / "reports" / "module_a_evaluation"))

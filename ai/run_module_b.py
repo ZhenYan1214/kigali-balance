@@ -4,6 +4,7 @@ Usage: python run_module_b.py [--data ../simulator/out] [--out out/module_b] [--
 """
 
 from __future__ import annotations
+import sys
 
 import argparse
 import json
@@ -16,6 +17,8 @@ here = Path(__file__).resolve().parent
 
 
 def main() -> None:
+    if hasattr(sys.stdout, "reconfigure"):  # cp950 consoles garble en dashes and CJK otherwise
+        sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--data", default=str(here.parent / "simulator" / "out"))
     ap.add_argument("--out", default=str(here / "out" / "module_b"))

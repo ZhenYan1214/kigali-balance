@@ -15,27 +15,18 @@ ai/.venv/bin/pip install --quiet --upgrade pip
 ai/.venv/bin/pip install --quiet -r ai/requirements.lock.txt
 
 echo "== simulator dependency"
-(cd simulator && npm ci --silent)
+npm ci --prefix simulator --silent
 
 echo "== rebuild everything"
 ai/.venv/bin/python scripts/rebuild.py --full
 
 echo "== committed files reproduce byte for byte"
-# Generated files that legitimately change on every build: the build date in the web bundle and the
-# browser-rendered PDF bytes. Everything else must be identical to what is committed.
-git diff --stat -- . ':!web/data/sim.json' ':!docs/proposal/Kigali_Balance_Problem_Statement.pdf'
-if ! git diff --quiet -- . ':!web/data/sim.json' ':!docs/proposal/Kigali_Balance_Problem_Statement.pdf'; then
+# The only rebuilt file allowed to differ is the PDF: browsers embed their own version and timestamps.
+git diff --stat -- . ':!docs/proposal/Kigali_Balance_Problem_Statement.pdf'
+if ! git diff --quiet -- . ':!docs/proposal/Kigali_Balance_Problem_Statement.pdf'; then
   echo "FAIL: rebuilt files differ from the committed ones"; exit 1
 fi
-python3 - <<'PY'
-import json, subprocess
-old = json.loads(subprocess.run(["git", "show", "HEAD:web/data/sim.json"], capture_output=True, text=True, check=True).stdout)
-new = json.load(open("web/data/sim.json", encoding="utf-8"))
-old["meta"].pop("built", None); new["meta"].pop("built", None)
-if old != new:
-    raise SystemExit("FAIL: web/data/sim.json differs from the committed bundle beyond the build date")
-print("web data bundle identical apart from the build date")
-PY
+echo "every rebuilt file matches the commit (PDF excluded)"
 
 echo "== submission checks"
 ai/.venv/bin/python scripts/check_submission.py

@@ -1,30 +1,30 @@
 # End-of-life closure check: evaluation on simulated data
 
-Check `1.0.0`, seeds 81-90 (10 runs, 36 months each).
+Check `1.0.0`, seeds 181-190 (10 runs, 36 months each).
 
 > Simulated data only. The check reads observations only; ground truth (what was really inside each unit at removal) is used here to score it.
 
 ## What it finds
 
-- Registered (Tier A) units removed from service: 2425; recovery recorded for 1133, no recovery record for 1233, still pending 59.
-- Every unit with no recovery record really left service holding gas in 1233 of 1233 cases.
-- Unaccounted mass, all runs: estimated 30,382 to 48,991 kg; true 46,266 kg (truth inside the estimated range in 10 of 10 runs).
+- Registered (Tier A) units removed from service: 2308; recovery recorded for 1115, no recovery record for 1132, still pending 61.
+- Every unit with no recovery record really left service holding gas in 1132 of 1132 cases.
+- Unaccounted mass, all runs: estimated 28,122 to 45,808 kg; true 42,766 kg (truth inside the estimated range in 10 of 10 runs).
 - Companies flagged for a high closure gap: 0 (the simulator vents at random, so none should stand out).
 
 ## Per run
 
 | seed | closed | recovered | no record | pending | true kg | estimate kg | true / nameplate |
 |---|---|---|---|---|---|---|---|
-| 81 | 261 | 123 | 131 | 7 | 5,376 | 3,606–5,782 | 0.92 |
-| 82 | 242 | 112 | 128 | 2 | 4,162 | 2,748–4,468 | 0.92 |
-| 83 | 244 | 106 | 128 | 10 | 6,044 | 3,965–6,350 | 0.94 |
-| 84 | 224 | 110 | 111 | 3 | 4,016 | 2,728–4,227 | 0.94 |
-| 85 | 252 | 126 | 122 | 4 | 4,950 | 3,411–5,260 | 0.93 |
-| 86 | 259 | 108 | 141 | 10 | 5,675 | 3,386–5,983 | 0.94 |
-| 87 | 230 | 96 | 129 | 5 | 4,065 | 2,694–4,285 | 0.93 |
-| 88 | 256 | 121 | 128 | 7 | 4,401 | 3,061–4,651 | 0.93 |
-| 89 | 228 | 116 | 105 | 7 | 3,640 | 2,424–3,832 | 0.94 |
-| 90 | 229 | 115 | 110 | 4 | 3,936 | 2,359–4,152 | 0.94 |
+| 181 | 222 | 113 | 105 | 4 | 2,946 | 1,754–3,134 | 0.92 |
+| 182 | 254 | 122 | 123 | 9 | 4,749 | 3,242–5,014 | 0.94 |
+| 183 | 232 | 122 | 103 | 7 | 3,918 | 2,631–4,229 | 0.91 |
+| 184 | 224 | 105 | 113 | 6 | 3,490 | 2,145–3,675 | 0.93 |
+| 185 | 214 | 100 | 107 | 7 | 4,678 | 3,230–4,976 | 0.93 |
+| 186 | 234 | 117 | 115 | 2 | 3,993 | 2,557–4,391 | 0.90 |
+| 187 | 225 | 103 | 118 | 4 | 6,569 | 4,581–6,965 | 0.94 |
+| 188 | 246 | 113 | 124 | 9 | 5,755 | 3,680–6,185 | 0.92 |
+| 189 | 206 | 104 | 98 | 4 | 3,485 | 2,212–3,801 | 0.90 |
+| 190 | 251 | 116 | 126 | 9 | 3,183 | 2,091–3,438 | 0.91 |
 
 ## Reading the results
 
