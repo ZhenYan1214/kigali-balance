@@ -8,7 +8,7 @@ ARG NODE_VERSION=24.12.0
 ARG FOUNDRY_VERSION=v1.8.5
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends git curl ca-certificates xz-utils chromium fonts-dejavu-core \
+ && apt-get install -y --no-install-recommends git curl ca-certificates xz-utils chromium fonts-dejavu-core fonts-crosextra-carlito fonts-liberation \
  && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz" \
