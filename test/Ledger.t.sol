@@ -160,8 +160,8 @@ contract LedgerTest is Fixture {
     }
 
     function test_revert_chargeWrongGas() public {
-        vm.prank(service);
-        uint256 other = ledger.declareUnknown(R134A, 5_000, bytes32("c"), bytes32("decl"));
+        vm.prank(quotaAuthority);
+        uint256 other = ledger.declareUnknown(service, R134A, 5_000, bytes32("c"), bytes32("decl"));
         vm.prank(service);
         vm.expectRevert(); // EquipmentRegistry.GasMismatch bubbles up
         ledger.charge(other, EQ_A, 1_000);
@@ -209,7 +209,7 @@ contract LedgerTest is Fixture {
         uint256 atReclaimer = _move(rec, service, reclaimer, SCALE_RECLAIM_PK, 8_000);
         // 8 kg in, 2 % minimum loss => at most 7.84 kg out
         bytes32 outCyl = bytes32("out");
-        bytes32 subject = ledger.reclaimSubject(outCyl);
+        bytes32 subject = ledger.reclaimSubject(reclaimer, _one(atReclaimer), outCyl);
         ScaleReading memory r = _reading(subject, 20_000);
         LabCertificate memory c = _cert(subject, R404A, 9_960);
         bytes memory ss = _signScale(SCALE_RECLAIM_PK, r);
@@ -223,7 +223,7 @@ contract LedgerTest is Fixture {
         uint256 rec = _recover(service, SCALE_SERVICE_PK, EQ_A, 8_000, true);
         uint256 atReclaimer = _move(rec, service, reclaimer, SCALE_RECLAIM_PK, 8_000);
         bytes32 outCyl = bytes32("out");
-        bytes32 subject = ledger.reclaimSubject(outCyl);
+        bytes32 subject = ledger.reclaimSubject(reclaimer, _one(atReclaimer), outCyl);
         ScaleReading memory r = _reading(subject, 7_000);
         LabCertificate memory c = _cert(subject, R404A, 9_900);
         bytes memory ss = _signScale(SCALE_RECLAIM_PK, r);
@@ -237,7 +237,7 @@ contract LedgerTest is Fixture {
         uint256 v = _mint(20_000);
         uint256 atReclaimer = _move(v, importer, reclaimer, SCALE_RECLAIM_PK, 20_000);
         bytes32 outCyl = bytes32("out");
-        bytes32 subject = ledger.reclaimSubject(outCyl);
+        bytes32 subject = ledger.reclaimSubject(reclaimer, _one(atReclaimer), outCyl);
         ScaleReading memory r = _reading(subject, 19_000);
         LabCertificate memory c = _cert(subject, R404A, 9_990);
         bytes memory ss = _signScale(SCALE_RECLAIM_PK, r);
@@ -248,10 +248,10 @@ contract LedgerTest is Fixture {
     }
 
     function test_R5_revert_unknownCannotBeReclaimed() public {
-        vm.prank(reclaimer);
-        uint256 u = ledger.declareUnknown(R404A, 20_000, bytes32("legacy"), bytes32("decl"));
+        vm.prank(quotaAuthority);
+        uint256 u = ledger.declareUnknown(reclaimer, R404A, 20_000, bytes32("legacy"), bytes32("decl"));
         bytes32 outCyl = bytes32("out");
-        bytes32 subject = ledger.reclaimSubject(outCyl);
+        bytes32 subject = ledger.reclaimSubject(reclaimer, _one(u), outCyl);
         ScaleReading memory r = _reading(subject, 19_000);
         LabCertificate memory c = _cert(subject, R404A, 9_990);
         bytes memory ss = _signScale(SCALE_RECLAIM_PK, r);
@@ -267,7 +267,7 @@ contract LedgerTest is Fixture {
         uint256 v = _mint(20_000);
         uint256 b = _move(v, importer, reclaimer, SCALE_RECLAIM_PK, 20_000);
         bytes32 outCyl = bytes32("out");
-        bytes32 subject = ledger.reclaimSubject(outCyl);
+        bytes32 subject = ledger.reclaimSubject(reclaimer, _two(a, b), outCyl);
         ScaleReading memory r = _reading(subject, 7_000);
         LabCertificate memory c = _cert(subject, R404A, 9_990);
         bytes memory ss = _signScale(SCALE_RECLAIM_PK, r);
@@ -281,7 +281,7 @@ contract LedgerTest is Fixture {
         uint256 rec = _recover(service, SCALE_SERVICE_PK, EQ_A, 8_000, true);
         uint256 a = _move(rec, service, reclaimer, SCALE_RECLAIM_PK, 8_000);
         bytes32 outCyl = bytes32("out");
-        bytes32 subject = ledger.reclaimSubject(outCyl);
+        bytes32 subject = ledger.reclaimSubject(reclaimer, _two(a, a), outCyl);
         ScaleReading memory r = _reading(subject, 15_000);
         LabCertificate memory c = _cert(subject, R404A, 9_990);
         bytes memory ss = _signScale(SCALE_RECLAIM_PK, r);
@@ -300,7 +300,7 @@ contract LedgerTest is Fixture {
         uint256 rec = _recover(service, SCALE_SERVICE_PK, EQ_A, 8_000, true);
         uint256 a = _move(rec, service, reclaimer, SCALE_RECLAIM_PK, 8_000);
         bytes32 outCyl = bytes32("out");
-        bytes32 subject = ledger.reclaimSubject(outCyl);
+        bytes32 subject = ledger.reclaimSubject(reclaimer, _one(a), outCyl);
         ScaleReading memory r = _reading(subject, 7_000);
         LabCertificate memory c = _cert(subject, R404A, 9_990);
         bytes memory ss = _signScale(SCALE_RECLAIM_PK, r);

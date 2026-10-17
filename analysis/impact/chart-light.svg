@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 644" width="820" height="644" role="img" aria-labelledby="t d" font-family="Inter, 'Segoe UI', system-ui, -apple-system, sans-serif">
+<title id="t">Pathway 1 sensitivity: which assumption drives the estimate</title>
+<desc id="d">Tornado chart of Pathway 1 for a market the size of Japan's, avoided emissions attributable to verifiable recovery in MtCO2e per year. Headline (destroyed share only) with every input at its median: 0.063. Headline: destroyed share only: p5 0.011, p50 0.057, p95 0.177; Upper: reclaimed gas displaces virgin: p5 0.024, p50 0.132, p95 0.406. Δr  recovery-rate increase: 0.017 to 0.136; α  share attributable to verifiability: 0.019 to 0.117; φ  permanence of extra recovery: 0.063 to 0.144; GWP of the extra recovered gas: 0.061 to 0.063; M  gas left in scrapped equipment: 0.062 to 0.063.</desc>
+<rect width="820" height="644" fill="#fcfcfb"/>
+<text x="24" y="36" font-size="19" font-weight="600" fill="#0b0b0b">Two assumptions and one accounting choice set the answer</text>
+<text x="24" y="60" font-size="13" fill="#52514e">Pathway 1 for a market the size of Japan’s (MOEJ 2024 flows used as a unit conversion) · Mt CO₂e per year (AR4 GWP)</text>
+<text x="24" y="78" font-size="13" fill="#52514e">Not an estimate for Japan, where α ≈ 0 · each bar moves one input, others at their median · not a forecast</text>
+<rect x="300" y="98" width="12" height="12" rx="2" fill="#2a78d6"/>
+<text x="318" y="108" font-size="12" fill="#52514e">input at its low value</text>
+<rect x="480" y="98" width="12" height="12" rx="2" fill="#eb6834"/>
+<text x="498" y="108" font-size="12" fill="#52514e">input at its high value</text>
+<line x1="300.0" y1="146" x2="300.0" y2="524" stroke="#e4e3df" stroke-width="1"/>
+<text x="300.0" y="542" font-size="11" fill="#52514e" text-anchor="middle">0.00</text>
+<line x1="353.3" y1="146" x2="353.3" y2="524" stroke="#e4e3df" stroke-width="1"/>
+<text x="353.3" y="542" font-size="11" fill="#52514e" text-anchor="middle">0.05</text>
+<line x1="406.7" y1="146" x2="406.7" y2="524" stroke="#e4e3df" stroke-width="1"/>
+<text x="406.7" y="542" font-size="11" fill="#52514e" text-anchor="middle">0.10</text>
+<line x1="460.0" y1="146" x2="460.0" y2="524" stroke="#e4e3df" stroke-width="1"/>
+<text x="460.0" y="542" font-size="11" fill="#52514e" text-anchor="middle">0.15</text>
+<line x1="513.3" y1="146" x2="513.3" y2="524" stroke="#e4e3df" stroke-width="1"/>
+<text x="513.3" y="542" font-size="11" fill="#52514e" text-anchor="middle">0.20</text>
+<line x1="566.7" y1="146" x2="566.7" y2="524" stroke="#e4e3df" stroke-width="1"/>
+<text x="566.7" y="542" font-size="11" fill="#52514e" text-anchor="middle">0.25</text>
+<line x1="620.0" y1="146" x2="620.0" y2="524" stroke="#e4e3df" stroke-width="1"/>
+<text x="620.0" y="542" font-size="11" fill="#52514e" text-anchor="middle">0.30</text>
+<line x1="673.3" y1="146" x2="673.3" y2="524" stroke="#e4e3df" stroke-width="1"/>
+<text x="673.3" y="542" font-size="11" fill="#52514e" text-anchor="middle">0.35</text>
+<line x1="726.7" y1="146" x2="726.7" y2="524" stroke="#e4e3df" stroke-width="1"/>
+<text x="726.7" y="542" font-size="11" fill="#52514e" text-anchor="middle">0.40</text>
+<line x1="780.0" y1="146" x2="780.0" y2="524" stroke="#e4e3df" stroke-width="1"/>
+<text x="780.0" y="542" font-size="11" fill="#52514e" text-anchor="middle">0.45</text>
+<text x="780.0" y="558" font-size="11" fill="#52514e" text-anchor="end">Mt CO₂e / yr</text>
+<line x1="366.8" y1="140" x2="366.8" y2="524" stroke="#52514e" stroke-width="1.5"/>
+<text x="366.8" y="134" font-size="11.5" fill="#52514e" text-anchor="middle">headline, all inputs at median 0.063</text>
+<text x="24" y="172.0" font-size="13.5" font-weight="600" fill="#0b0b0b">Headline: destroyed share only</text>
+<text x="24" y="189.0" font-size="11.5" fill="#52514e">Monte Carlo, permanence 0.44 · p5 to p95, p50 tick</text>
+<g><title>Headline: destroyed share only (100,000 draws over Δr and α): p5 0.011, p50 0.057, p95 0.177 Mt CO2e/yr; mean 0.071</title><rect x="311.3" y="166.0" width="177.5" height="14" rx="4" fill="#b9b8b2"/><rect x="359.7" y="160.0" width="3" height="26" rx="1" fill="#0b0b0b"/></g>
+<text x="354.2" y="177.5" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="600" stroke="#fcfcfb" stroke-width="5" stroke-linejoin="round" paint-order="stroke">p50 0.06</text>
+<text x="496.8" y="177.5" font-size="12" fill="#52514e" text-anchor="start" stroke="#fcfcfb" stroke-width="5" stroke-linejoin="round" paint-order="stroke">p95 0.18</text>
+<text x="24" y="226.0" font-size="13.5" font-weight="600" fill="#0b0b0b">Upper: reclaimed gas displaces virgin</text>
+<text x="24" y="243.0" font-size="11.5" fill="#52514e">Monte Carlo, permanence 1 · p5 to p95, p50 tick</text>
+<g><title>Upper: reclaimed gas displaces virgin (100,000 draws over Δr and α): p5 0.024, p50 0.132, p95 0.406 Mt CO2e/yr; mean 0.162</title><rect x="325.8" y="220.0" width="407.3" height="14" rx="4" fill="#b9b8b2"/><rect x="439.3" y="214.0" width="3" height="26" rx="1" fill="#0b0b0b"/></g>
+<text x="433.8" y="231.5" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="600" stroke="#fcfcfb" stroke-width="5" stroke-linejoin="round" paint-order="stroke">p50 0.13</text>
+<text x="741.1" y="231.5" font-size="12" fill="#52514e" text-anchor="start" stroke="#fcfcfb" stroke-width="5" stroke-linejoin="round" paint-order="stroke">p95 0.41</text>
+<line x1="24" y1="254.0" x2="780" y2="254.0" stroke="#e4e3df" stroke-width="1"/>
+<text x="24" y="280.0" font-size="13.5" font-weight="600" fill="#0b0b0b">Δr  recovery-rate increase</text>
+<text x="24" y="297.0" font-size="11.5" fill="#52514e">assumption · triangular 0 / 1 / 5 pp · p5 to p95</text>
+<g><title>Δr  recovery-rate increase: 0.5 pp gives 0.017, 4.0 pp gives 0.136 Mt CO2e/yr (swing 0.119, 190% of the headline all-median value)</title>
+<rect x="318.1" y="270.0" width="47.6" height="22" rx="4" fill="#2a78d6"/>
+<rect x="367.8" y="270.0" width="77.3" height="22" rx="4" fill="#eb6834"/>
+</g>
+<text x="310.1" y="285.5" font-size="12" fill="#0b0b0b" text-anchor="end" stroke="#fcfcfb" stroke-width="5" stroke-linejoin="round" paint-order="stroke">0.5 pp → 0.02</text>
+<text x="453.1" y="285.5" font-size="12" fill="#0b0b0b" text-anchor="start" stroke="#fcfcfb" stroke-width="5" stroke-linejoin="round" paint-order="stroke">4.0 pp → 0.14</text>
+<text x="24" y="334.0" font-size="13.5" font-weight="600" fill="#0b0b0b">α  share attributable to verifiability</text>
+<text x="24" y="351.0" font-size="11.5" fill="#52514e">assumption · triangular 0 / 0.3 / 0.8 · p5 to p95</text>
+<g><title>α  share attributable to verifiability: 0.11 gives 0.019, 0.66 gives 0.117 Mt CO2e/yr (swing 0.097, 156% of the headline all-median value)</title>
+<rect x="320.7" y="324.0" width="45.1" height="22" rx="4" fill="#2a78d6"/>
+<rect x="367.8" y="324.0" width="57.0" height="22" rx="4" fill="#eb6834"/>
+</g>
+<text x="312.7" y="339.5" font-size="12" fill="#0b0b0b" text-anchor="end" stroke="#fcfcfb" stroke-width="5" stroke-linejoin="round" paint-order="stroke">0.11 → 0.02</text>
+<text x="432.8" y="339.5" font-size="12" fill="#0b0b0b" text-anchor="start" stroke="#fcfcfb" stroke-width="5" stroke-linejoin="round" paint-order="stroke">0.66 → 0.12</text>
+<text x="24" y="388.0" font-size="13.5" font-weight="600" fill="#0b0b0b">φ  permanence of extra recovery</text>
+<text x="24" y="405.0" font-size="11.5" fill="#52514e">accounting choice · destroyed share to full displacement</text>
+<g><title>φ  permanence of extra recovery: 0.44 gives 0.063, 1.00 gives 0.144 Mt CO2e/yr (swing 0.081, 129% of the headline all-median value)</title>
+<rect x="367.8" y="378.0" width="85.8" height="22" rx="4" fill="#eb6834"/>
+</g>
+<text x="358.8" y="393.5" font-size="12" fill="#52514e" text-anchor="end" stroke="#fcfcfb" stroke-width="5" stroke-linejoin="round" paint-order="stroke">0.44 (headline)</text>
+<text x="461.6" y="393.5" font-size="12" fill="#0b0b0b" text-anchor="start" stroke="#fcfcfb" stroke-width="5" stroke-linejoin="round" paint-order="stroke">1.00 → 0.14</text>
+<text x="24" y="442.0" font-size="13.5" font-weight="600" fill="#0b0b0b">GWP of the extra recovered gas</text>
+<text x="24" y="459.0" font-size="11.5" fill="#52514e">MOEJ 2024 · recovered mix to escaped mix</text>
+<g><title>GWP of the extra recovered gas: 1,779 gives 0.061, 1,835 gives 0.063 Mt CO2e/yr (swing 0.002, 3% of the headline all-median value)</title>
+<rect x="364.7" y="432.0" width="1.0" height="22" rx="4" fill="#2a78d6"/>
+</g>
+<text x="376.8" y="447.5" font-size="12" fill="#52514e" text-anchor="start" stroke="#fcfcfb" stroke-width="5" stroke-linejoin="round" paint-order="stroke">0.061–0.063 · input 1,779 to 1,835</text>
+<text x="24" y="496.0" font-size="13.5" font-weight="600" fill="#0b0b0b">M  gas left in scrapped equipment</text>
+<text x="24" y="513.0" font-size="11.5" fill="#52514e">MOEJ 2024 · slide total to recovered + emitted</text>
+<g><title>M  gas left in scrapped equipment: 12,011 t gives 0.062, 12,066 t gives 0.063 Mt CO2e/yr (swing 0.000, 0% of the headline all-median value)</title>
+<rect x="364.8" y="486.0" width="4" height="22" rx="1" fill="#52514e"/>
+</g>
+<text x="376.8" y="501.5" font-size="12" fill="#52514e" text-anchor="start" stroke="#fcfcfb" stroke-width="5" stroke-linejoin="round" paint-order="stroke">0.062–0.063 · input 12,011 t to 12,066 t</text>
+<text x="24" y="582" font-size="11.5" fill="#52514e">Δr and α are assumed triangular distributions; the Monte Carlo propagates them, it does not reduce them. Rank correlation: Δr 0.75, α 0.61.</text>
+<text x="24" y="598" font-size="11.5" fill="#52514e">GWP and M move only within the narrow ranges the MOEJ slide supports. A pilot would measure Δr × α directly. Pathways 1 and 2 must not be added.</text>
+<text x="24" y="614" font-size="11.5" fill="#52514e">Sources: MOEJ, OEWG48 side-event deck, Jul 2026; JRAIA decks 2012–2025; Carbon Containment Lab, Jun 2024; EIA, May 2026.</text>
+</svg>

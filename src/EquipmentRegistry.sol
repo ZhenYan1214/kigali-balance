@@ -78,6 +78,10 @@ contract EquipmentRegistry is Governed {
     mapping(bytes32 => Model) public models;
     mapping(address => mapping(uint256 => uint64)) public tierBRecoveredByPeriod;
     mapping(bytes32 => ChargeRecord[]) internal _charges;
+    /// @dev UNKNOWN-origin grams charged into each unit and not yet recovered (always Tier C).
+    mapping(bytes32 => uint64) internal _untraceableGrams;
+    /// @dev Nameplate photos already used for a Tier B registration: one photo, one unit.
+    mapping(bytes32 => bool) public nameplatePhotoUsed;
 
     event LedgerSet(address ledger);
     event ParamsSet(uint16 toleranceBps, uint64 tierBMonthlyCapGrams, uint32 minResidence);
@@ -103,6 +107,7 @@ contract EquipmentRegistry is Governed {
     error BadParams();
     error NotEquipmentOwner(address account);
     error OwnerNotIndependent(address owner);
+    error DuplicateNameplatePhoto();
 
     constructor(address governance_, IdentityRegistry identity_) Governed(governance_) {
         identity = identity_;
@@ -171,19 +176,38 @@ contract EquipmentRegistry is Governed {
         if (!m.exists) revert UnknownModel();
         _requireOwner(owner);
         if (owner == msg.sender) revert OwnerNotIndependent(owner);
+        if (nameplatePhotoUsed[nameplatePhotoHash]) revert DuplicateNameplatePhoto();
+        nameplatePhotoUsed[nameplatePhotoHash] = true;
         _register(id, Tier.B, m.gas, m.chargeGrams, 0, nameplatePhotoHash, modelId, owner);
     }
 
     // ---------------------------------------------------------------- ledger hooks
 
-    function recordCharge(bytes32 id, bytes32 gas, uint64 grams, address by) external onlyLedger {
+    /// @param untraceable true when the charged lot is UNKNOWN (undocumented origin): those grams stay
+    ///        quarantined whenever they come back out, however long they were in service.
+    function recordCharge(bytes32 id, bytes32 gas, uint64 grams, address by, bool untraceable) external onlyLedger {
         Equipment storage e = _activeUnit(id, gas);
-        e.chargedGrams += grams;
+        e.chargedGrams = _addCapped(e.chargedGrams, grams);
         e.lastChargeAt = uint64(block.timestamp);
         // a recorded top-up refills the booked content, never above one charge
         uint64 drawn = _drawnBelowFull[id];
         _drawnBelowFull[id] = drawn > grams ? drawn - grams : 0;
-        _charges[id].push(ChargeRecord({at: uint64(block.timestamp), grams: grams}));
+        if (untraceable) {
+            uint64 u = _addCapped(_untraceableGrams[id], grams);
+            uint64 full = maxPerRecovery(id);
+            _untraceableGrams[id] = u > full ? full : u;
+        }
+        // charges on the same day share one record (stamped with the latest charge, so the residence
+        // window only gets longer). This bounds the records inside the window to one per day, so a
+        // flood of tiny charges cannot make the residence check run out of gas.
+        // (timestamps never go backwards, so `>=` on the day number means "the same day")
+        uint256 n = _charges[id].length;
+        if (n > 0 && _charges[id][n - 1].at / 1 days >= block.timestamp / 1 days) {
+            _charges[id][n - 1].grams = _addCapped(_charges[id][n - 1].grams, grams);
+            _charges[id][n - 1].at = uint64(block.timestamp);
+        } else {
+            _charges[id].push(ChargeRecord({at: uint64(block.timestamp), grams: grams}));
+        }
         emit Charged(id, by, grams, e.chargedGrams);
     }
 
@@ -217,6 +241,14 @@ contract EquipmentRegistry is Governed {
         if (decommission) e.status = Status.DECOMMISSIONED;
         tier = e.tier;
         quarantined = _quarantinedGrams(id, e, grams);
+        // undocumented gas charged into the unit is assumed to come out first and stays Tier C
+        uint64 untraceable = _untraceableGrams[id];
+        if (untraceable > 0) {
+            uint64 fromUnknown = untraceable < grams ? untraceable : grams;
+            _untraceableGrams[id] = untraceable - fromUnknown;
+            uint256 q = uint256(quarantined) + fromUnknown;
+            quarantined = q > grams ? grams : uint64(q);
+        }
         emit Recovered(id, by, grams, total, tier, quarantined, decommission);
     }
 
@@ -242,7 +274,12 @@ contract EquipmentRegistry is Governed {
     /// @notice Lifetime recovery cap: one charge plus every top-up charged through the ledger. A
     ///         coarser second check; `bookedContent` is the binding one.
     function recoveryCap(bytes32 id) public view returns (uint64) {
-        return maxPerRecovery(id) + _equipment[id].chargedGrams;
+        return _addCapped(maxPerRecovery(id), _equipment[id].chargedGrams);
+    }
+
+    /// @notice Grams of undocumented (UNKNOWN) gas charged into the unit that have not yet come out.
+    function untraceableGrams(bytes32 id) external view returns (uint64) {
+        return _untraceableGrams[id];
     }
 
     function equipment(bytes32 id) external view returns (Equipment memory) {
@@ -258,7 +295,7 @@ contract EquipmentRegistry is Governed {
     function _quarantinedGrams(bytes32 id, Equipment storage e, uint64 grams) internal view returns (uint64) {
         if (e.installedAt != 0 && block.timestamp - e.installedAt < minResidence) return grams;
         ChargeRecord[] storage c = _charges[id];
-        uint256 recent;
+        uint256 recent = 0;
         for (uint256 i = c.length; i > 0; --i) {
             if (block.timestamp - c[i - 1].at >= minResidence) break;
             recent += c[i - 1].grams;
@@ -293,6 +330,12 @@ contract EquipmentRegistry is Governed {
             owner: owner
         });
         emit EquipmentRegistered(id, tier, gas, nameplateGrams, sourceRef, msg.sender, owner);
+    }
+
+    /// @dev Saturating addition: an absurd amount can never overflow and lock a unit's accounting.
+    function _addCapped(uint64 a, uint64 b) internal pure returns (uint64) {
+        uint256 s = uint256(a) + b;
+        return s > type(uint64).max ? type(uint64).max : uint64(s);
     }
 
     function _requireOwner(address owner) internal view {

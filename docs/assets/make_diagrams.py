@@ -221,8 +221,8 @@ def architecture(theme):
     s.line([(46 + 3 * 222 - 16, by + 81), (720, by + 81)], "amber", sw=1.4)
     s.line([(cx, 300), (318, 300), (318, by + 36)], "amber", dash="2 3", sw=1.3)
     s.text(308, 466, "reads ledger events + invoices", size=11.5, fill=t["amber"], anchor="end")
-    s.line([(819, by + 36), (819, 429), (cx + cw + 4, 429)], "amber", dash="6 4", sw=1.3)
-    s.text(826, 470, "write-back: planned", size=11.5, fill=t["amber"])
+    s.line([(819, by + 36), (819, 429), (cx + cw + 4, 429)], "amber", sw=1.3)
+    s.text(812, 470, "flags + model hash written back", size=11.5, fill=t["amber"], anchor="end")
     s.save(f"architecture-{theme}.svg", "Kigali Balance architecture")
 
 

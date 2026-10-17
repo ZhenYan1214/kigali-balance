@@ -1,0 +1,4 @@
+{
+  "filter_paths": "kigali-balance.(lib|test|script).",
+  "exclude_dependencies": true
+}

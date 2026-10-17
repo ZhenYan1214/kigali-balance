@@ -210,7 +210,7 @@ contract EquipmentTest is Fixture {
         vm.expectRevert(EquipmentRegistry.NotLedger.selector);
         equipment.recordRecovery(EQ_A, R404A, 1_000, service, true);
         vm.expectRevert(EquipmentRegistry.NotLedger.selector);
-        equipment.recordCharge(EQ_A, R404A, 1_000, service);
+        equipment.recordCharge(EQ_A, R404A, 1_000, service, false);
     }
 
     function test_revert_ledgerCanOnlyBeSetOnce() public {

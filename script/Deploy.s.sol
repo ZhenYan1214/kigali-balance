@@ -193,14 +193,13 @@ contract Deploy is Script {
 
         // Step 5: selling 20 kg as "reclaimed" from 8 kg of input is rejected; mixing in virgin is rejected
         bytes32 outCyl = _id("cyl/reclaimed");
-        bytes32 subject = ledger.reclaimSubject(outCyl);
-        _expectReject(reclaimer.addr, address(ledger), _reclaimCall(_one(atReclaimer), outCyl, subject, 20_000),
+        _expectReject(reclaimer.addr, address(ledger), _reclaimCall(_one(atReclaimer), outCyl, 20_000),
             "step 5  20 kg 'reclaimed' from 8 kg of recovered input");
         uint256 virginAtReclaimer = _move(stock, importer, reclaimer, scaleReclaimer, 12_000);
         _expectReject(reclaimer.addr, address(ledger),
-            _reclaimCall(_two(atReclaimer, virginAtReclaimer), outCyl, subject, 19_000),
+            _reclaimCall(_two(atReclaimer, virginAtReclaimer), outCyl, 19_000),
             "step 5  virgin gas mixed into reclamation");
-        bytes memory honest = _reclaimCall(_one(atReclaimer), outCyl, subject, 7_600);
+        bytes memory honest = _reclaimCall(_one(atReclaimer), outCyl, 7_600);
         vm.broadcast(reclaimer.pk);
         (bool ok,) = address(ledger).call(honest);
         require(ok, "honest reclamation failed");
@@ -281,10 +280,11 @@ contract Deploy is Script {
         lotId = inService != 0 ? inService : quarantined;
     }
 
-    function _reclaimCall(uint256[] memory inputs, bytes32 outCyl, bytes32 subject, uint64 grams)
+    function _reclaimCall(uint256[] memory inputs, bytes32 outCyl, uint64 grams)
         internal
         returns (bytes memory)
     {
+        bytes32 subject = ledger.reclaimSubject(reclaimer.addr, inputs, outCyl);
         ScaleReading memory r = _reading(subject, grams);
         LabCertificate memory c = LabCertificate({
             subject: subject, gas: R404A, purityBps: 9_970, sampleId: _id("sample"), timestamp: _ts(), nonce: _id("lab")

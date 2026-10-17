@@ -10,7 +10,8 @@
 // Requires `forge build` in the repository root (reads ../out/*.json artifacts).
 
 import { spawn, spawnSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
@@ -195,7 +196,8 @@ const enc = (types, values) => keccak256(encodeAbiParameters(types, values));
 const subjects = {
   receipt: (lot) => enc([{ type: 'string' }, { type: 'uint256' }], ['RECEIPT', BigInt(lot)]),
   recovery: (eq, cyl) => enc([{ type: 'string' }, { type: 'bytes32' }, { type: 'bytes32' }], ['RECOVERY', eq, cyl]),
-  reclaim: (cyl) => enc([{ type: 'string' }, { type: 'bytes32' }], ['RECLAIM', cyl]),
+  reclaim: (reclaimer, inputs, cyl) => enc([{ type: 'string' }, { type: 'address' }, { type: 'uint256[]' }, { type: 'bytes32' }],
+    ['RECLAIM', reclaimer, inputs.map(BigInt), cyl]),
   destruction: (inputs) => enc([{ type: 'string' }, { type: 'uint256[]' }], ['DESTRUCTION', inputs.map(BigInt)]),
 };
 
@@ -231,7 +233,7 @@ async function build(ev, t) {
     }
     case 'RECLAIM': {
       const cyl = h(ev.outputCylinder);
-      const subject = subjects.reclaim(cyl);
+      const subject = subjects.reclaim(acct(a).address, ev.inputs, cyl);
       const [r, ss] = await scaleReading(a, subject, ev.outGrams, t, ev.seq);
       const gas = ev.gas ?? gasOfLot.get(ev.inputs[0]);
       const [c, ls] = await labCert(subject, gas, ev.purityBps, t, ev.seq);
@@ -326,9 +328,69 @@ for (const gas of gases) {
 }
 const chainEvents = Number(await read(claims, 'DestructionClaims', 'eventCount'));
 
+// ------------------------------------------------------------------ AI flags written back on chain
+// The AI modules run off chain (ai/run_module_*.py). Every flag they raise is recorded in
+// FlagRegistry with the model hash and the hash of the exact observation files it scored, so anyone
+// can re-run the model on the same data. Here the input hash is recomputed independently from the
+// files this replay just used: the flags on chain are tied to the ledger events on chain.
+const aiOut = resolve(here, '..', 'ai', 'out');
+let flagsWritten = 0;
+if (full && existsSync(join(aiOut, 'module_c', 'flags.json'))) {
+  const sha = createHash('sha256');
+  for (const name of ['actors.csv', 'equipment.csv', 'invoices.csv', 'ledger_events.jsonl']) {
+    sha.update(name);
+    sha.update(readFileSync(resolve(dirname(eventsPath), name)));
+  }
+  const snapshot = sha.digest('hex');
+  A.FlagRegistry = artifact('FlagRegistry');
+  const flagRegistry = await deploy(gov, 'FlagRegistry', [identity]);
+  const oracle = acct('ai-oracle');
+  const regulator = acct('regulator');
+  for (const a of [oracle, regulator]) await fund(a);
+  await grant(oracle.address, 'AI_ORACLE');
+  await grant(regulator.address, 'REGULATOR');
+  const b32 = (s) => stringToHex(s, { size: 32 });
+  const reasonOf = { module_a: 'LEAK_GAP', module_b: 'MASS_BALANCE', module_c: 'RECOVERY_IMPLAUSIBLE' };
+  const expected = [];
+  for (const [mod, reason] of Object.entries(reasonOf)) {
+    const out = JSON.parse(readFileSync(join(aiOut, mod, 'flags.json'), 'utf8'));
+    if (out.input_snapshot !== snapshot) {
+      mismatches.push({ type: 'AI_INPUT', expected: `${mod} scored the replayed files (${snapshot.slice(0, 12)}…)`, got: out.input_snapshot.slice(0, 12) });
+      continue;
+    }
+    for (const e of out.entities.filter((x) => x.flagged)) {
+      const f = [b32('ACTOR'), b32(e.actor), b32(reason), Math.round(e.score * 10_000), `0x${out.model_hash}`, `0x${out.input_snapshot}`];
+      const r = await send(oracle, flagRegistry, call('FlagRegistry', 'raise', f));
+      if (r.status !== 'success') mismatches.push({ type: 'AI_FLAGS', expected: `flag for ${e.actor} recorded`, got: 'reverted' });
+      else expected.push(f);
+    }
+  }
+  // read every flag back from the chain and compare field by field
+  const count = Number(await read(flagRegistry, 'FlagRegistry', 'flagCount'));
+  if (count !== expected.length) mismatches.push({ type: 'AI_FLAGS', expected: `${expected.length} flags`, got: `${count}` });
+  for (let i = 0; i < Math.min(count, expected.length); i++) {
+    const f = await read(flagRegistry, 'FlagRegistry', 'flag', [BigInt(i)]);
+    const [subjectType, subjectId, reasonCode, scoreBps, modelHash, inputHash] = expected[i];
+    const same = f.subjectType === subjectType && f.subjectId === subjectId && f.reasonCode === reasonCode
+      && f.scoreBps === scoreBps && f.modelHash === modelHash && f.inputHash === inputHash && f.outcome === 0;
+    if (!same) mismatches.push({ type: 'AI_FLAGS', expected: `flag ${i} as raised`, got: JSON.stringify(f, (_, v) => (typeof v === 'bigint' ? String(v) : v)) });
+  }
+  // the AI cannot close its own flag; only a regulator can (first flag reviewed as a demonstration)
+  if (count > 0) {
+    let got = 'review succeeded';
+    try { await pub.call({ account: oracle.address, to: flagRegistry, data: call('FlagRegistry', 'review', [0n, 1, h('note')]) }); } catch (e) { got = errorName(e); }
+    if (got !== 'NotRole') mismatches.push({ type: 'AI_FLAGS', expected: 'the AI oracle cannot review a flag (NotRole)', got });
+    const r = await send(regulator, flagRegistry, call('FlagRegistry', 'review', [0n, 1, h('review-note:demo')]));
+    const reviewed = await read(flagRegistry, 'FlagRegistry', 'flag', [0n]);
+    if (r.status !== 'success' || reviewed.outcome !== 1) mismatches.push({ type: 'AI_FLAGS', expected: 'the regulator records a review', got: `outcome ${reviewed.outcome}` });
+  }
+  flagsWritten = count;
+}
+
 console.log(`Replayed ${events.length} events (through seq ${lastSeq}) in ${((Date.now() - started) / 1000).toFixed(1)} s`);
 console.log(`Chain: ${await read(ledger, 'KigaliLedger', 'lotCount')} lots, ${chainEvents} destruction events`);
 console.log('Chain totals (g):', JSON.stringify(mirrorTotals));
+if (flagsWritten) console.log(`AI flags written to FlagRegistry: ${flagsWritten}, each read back and matched; input hash recomputed from the replayed files; only the regulator could review`);
 if (mismatches.length) {
   console.log(`MISMATCHES: ${mismatches.length}`);
   console.log(JSON.stringify(mismatches.slice(0, 15), null, 1));

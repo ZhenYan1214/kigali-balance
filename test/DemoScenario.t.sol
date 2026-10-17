@@ -48,7 +48,7 @@ contract DemoScenarioTest is Fixture {
 
         // Step 5 — the reclaimer tries to sell 20 kg as "reclaimed" from 8 kg of documented input.
         bytes32 outCyl = bytes32("demo-reclaimed-cyl");
-        bytes32 subject = ledger.reclaimSubject(outCyl);
+        bytes32 subject = ledger.reclaimSubject(reclaimer, _one(atReclaimer), outCyl);
         {
             ScaleReading memory r = _reading(subject, 20_000);
             LabCertificate memory c = _cert(subject, R404A, 9_970);
@@ -61,8 +61,9 @@ contract DemoScenarioTest is Fixture {
         // ...and the shortcut of topping up with virgin gas is rejected too (classes never mix).
         uint256 virginAtReclaimer = _move(stock, importer, reclaimer, SCALE_RECLAIM_PK, 12_000);
         {
-            ScaleReading memory r = _reading(subject, 19_000);
-            LabCertificate memory c = _cert(subject, R404A, 9_970);
+            bytes32 mixed = ledger.reclaimSubject(reclaimer, _two(atReclaimer, virginAtReclaimer), outCyl);
+            ScaleReading memory r = _reading(mixed, 19_000);
+            LabCertificate memory c = _cert(mixed, R404A, 9_970);
             bytes memory ss = _signScale(SCALE_RECLAIM_PK, r);
             bytes memory ls = _signLab(LAB_PK, c);
             vm.prank(reclaimer);

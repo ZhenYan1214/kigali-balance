@@ -215,22 +215,27 @@ contract KigaliLedger is Governed {
         lotId = _create(q.gas, grams, LotClass.VIRGIN, Tier.NONE, msg.sender, cylinderId, quotaId, false);
     }
 
-    /// @notice Declare legacy stock of undocumented origin. It can be held, sold or destroyed,
-    ///         but never reclaimed or credited.
-    function declareUnknown(bytes32 gas, uint64 grams, bytes32 cylinderId, bytes32 declarationHash)
+    /// @notice Register legacy stock of undocumented origin held by `holder` (for example from a
+    ///         regulator's stock inventory). Only the quota authority can do this: otherwise any
+    ///         operator could create mass from nothing. UNKNOWN gas can be held, sold, charged or
+    ///         destroyed, but never reclaimed or credited, including after it has been charged into
+    ///         equipment: the registry keeps those grams quarantined when they come back out.
+    function declareUnknown(address holder, bytes32 gas, uint64 grams, bytes32 cylinderId, bytes32 declarationHash)
         external
+        onlyRole(Roles.QUOTA_AUTHORITY)
         returns (uint256 lotId)
     {
-        _requireOperator(msg.sender);
+        _requireOperator(holder);
         if (grams == 0) revert ZeroAmount();
         _totals[gas].unknownDeclared += grams;
-        lotId = _create(gas, grams, LotClass.UNKNOWN, Tier.NONE, msg.sender, cylinderId, declarationHash, false);
+        lotId = _create(gas, grams, LotClass.UNKNOWN, Tier.NONE, holder, cylinderId, declarationHash, false);
     }
 
     // ------------------------------------------------------------------ R2: two-step transfers
 
     /// @notice Send `grams` of a lot to another operator. A partial send splits the lot.
     function send(uint256 lotId, address to, uint64 grams, bytes32 newCylinderId) external returns (uint256 sentLot) {
+        _requireOperator(msg.sender); // a revoked operator's lots are frozen
         _requireOperator(to);
         if (to == msg.sender) revert SelfTransfer();
         Lot storage lot = _activeLotOf(lotId, msg.sender);
@@ -255,6 +260,7 @@ contract KigaliLedger is Governed {
     function receiveLot(uint256 lotId, ScaleReading calldata reading, bytes calldata sig) external {
         Lot storage lot = _lot(lotId);
         if (lot.status != LotStatus.IN_TRANSIT || lot.pendingTo != msg.sender) revert NotPendingRecipient(lotId);
+        _requireOperator(msg.sender); // a revoked recipient can still reject, which returns the lot
         if (reading.subject != receiptSubject(lotId)) revert WrongSubject();
         _verifyScale(reading, sig);
 
@@ -296,7 +302,7 @@ contract KigaliLedger is Governed {
         Lot storage lot = _activeLotOf(lotId, msg.sender);
         if (grams == 0) revert ZeroAmount();
         if (grams > lot.grams) revert InsufficientGrams(lotId, lot.grams, grams);
-        equipmentRegistry.recordCharge(equipmentId, lot.gas, grams, msg.sender);
+        equipmentRegistry.recordCharge(equipmentId, lot.gas, grams, msg.sender, lot.cls == LotClass.UNKNOWN);
 
         lot.grams -= grams;
         if (lot.grams == 0) _close(lot);
@@ -323,6 +329,10 @@ contract KigaliLedger is Governed {
         if (reading.subject != recoverySubject(equipmentId, consent.cylinderId)) revert WrongSubject();
         _verifyScale(reading, scaleSig);
         EquipmentRegistry.Equipment memory unit = equipmentRegistry.equipment(equipmentId);
+        // The registry is an immutable system contract: recordRecovery is onlyLedger and makes no external
+        // calls, so no outside code runs before the consent nonce is spent. The order (unit rules, then
+        // consent) fixes which error a rejected attempt reports and is mirrored by simulator/src/ledger.mjs.
+        // slither-disable-next-line reentrancy-no-eth,reentrancy-benign,reentrancy-events
         (Tier tier, uint64 quarantined) =
             equipmentRegistry.recordRecovery(equipmentId, unit.gas, reading.grams, msg.sender, consent.decommission);
         _verifyConsent(consent, consentSig, reading.grams, unit.owner);
@@ -351,7 +361,9 @@ contract KigaliLedger is Governed {
         bytes calldata labSig
     ) external onlyRole(Roles.RECLAIMER) returns (uint256 outputLot) {
         if (inputs.length == 0) revert EmptyInputs();
-        bytes32 subject = reclaimSubject(outputCylinderId);
+        // the subject names the reclaimer and its exact inputs, so a lab certificate cannot be reused
+        // by another reclaimer or for other input lots
+        bytes32 subject = reclaimSubject(msg.sender, inputs, outputCylinderId);
         if (outputReading.subject != subject || cert.subject != subject) revert WrongSubject();
 
         (bytes32 gas, uint64 inputGrams, Tier worst) = _consumeReclaimInputs(inputs);
@@ -394,7 +406,7 @@ contract KigaliLedger is Governed {
         _verifyDestruction(cert, certSig);
 
         bytes32 gas = _lots[inputs[0]].gas;
-        uint64 held;
+        uint64 held = 0;
         bool eligible = true;
         Tier worst = Tier.A;
         for (uint256 i; i < inputs.length; ++i) {
@@ -433,8 +445,12 @@ contract KigaliLedger is Governed {
         return keccak256(abi.encode("RECOVERY", equipmentId, cylinderId));
     }
 
-    function reclaimSubject(bytes32 outputCylinderId) public pure returns (bytes32) {
-        return keccak256(abi.encode("RECLAIM", outputCylinderId));
+    function reclaimSubject(address reclaimer, uint256[] memory inputs, bytes32 outputCylinderId)
+        public
+        pure
+        returns (bytes32)
+    {
+        return keccak256(abi.encode("RECLAIM", reclaimer, inputs, outputCylinderId));
     }
 
     function destructionSubject(uint256[] memory inputs) public pure returns (bytes32) {

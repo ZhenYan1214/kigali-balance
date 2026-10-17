@@ -39,7 +39,7 @@ contract LaunderingTest is Fixture {
         uint256 atReclaimer = _move(rec, service, reclaimer, SCALE_RECLAIM_PK, 9_000);
 
         bytes32 outCyl = bytes32("out");
-        bytes32 subject = ledger.reclaimSubject(outCyl);
+        bytes32 subject = ledger.reclaimSubject(reclaimer, _one(atReclaimer), outCyl);
         ScaleReading memory r = _reading(subject, 8_500);
         LabCertificate memory c = _cert(subject, R404A, 9_990);
         bytes memory ss = _signScale(SCALE_RECLAIM_PK, r);

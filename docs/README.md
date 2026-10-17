@@ -6,7 +6,11 @@ Start with the [project README](../README.md). This page lists everything else. 
 
 | Document | What it is |
 |---|---|
+| [Submission PDF](proposal/Kigali_Balance_Submission.pdf) | The file uploaded to Devpost: the problem statement followed by the technical annex |
 | [Problem statement (PDF, 2 pages)](proposal/Kigali_Balance_Problem_Statement.pdf) | The problem, existing systems, the solution, impact and what we do not claim. [HTML source](proposal/problem_statement.html) |
+| [Technical annex (PDF)](proposal/Kigali_Balance_Technical_Annex.pdf) | Architecture and specification, security and data-integrity assessment (threat model with the test behind each control), climate-impact model, adoption and roadmap, testing. [HTML source](proposal/technical_annex.html) |
+| [Static analysis](security/static-analysis.md) | Slither results and the triage of every finding; CI fails on any Medium or High |
+| [Climate-impact model](../analysis/impact/) | Monte Carlo of avoided emissions with sensitivity analysis, every input sourced or labelled as an assumption, and the pilot size needed to measure the dominant one |
 | [Registry audit](research/03-registry-audit.md) | Real public records of 436 ODS/HFC destruction and reclamation projects at ACR, CAR, Verra and California ARB: can an outsider check that a destroyed kilogram was credited only once? Dataset in [`research/registry-audit/`](../research/registry-audit/) |
 | [Laundering capacity](research/04-laundering-capacity.md) | How much virgin gas a colluding technician and equipment owner could book as "recovered", and how much each defence layer removes. Model in [`analysis/laundering/`](../analysis/laundering/) |
 | [AI evaluation reports](../ai/reports/) | Modules A (leakage gap), B (mass balance), C (recovery plausibility) and the end-of-life closure check, each scored on held-out simulated runs, including the versions that failed first |
@@ -25,6 +29,9 @@ The numbered documents record how the design changed. Each round of review found
 | [04 Round 11: contest re-read](proposal/04_第十一輪反思_重讀比賽與評審模擬.md) | Rules, judges and landscape re-read; priorities for the last week |
 | [05 Round 12: conceptual holes](proposal/05_第十二輪反思_概念層級的漏洞.md) | The lifetime recovery cap was too loose; end-of-life closure signal |
 | [06 Round 13: more ambitious](proposal/06_第十三輪反思_更有野心.md) | Touch real data, outside judges, quantify each defence layer |
+| [07 Round 14: outside judges](proposal/07_第十四輪反思_外部裁判與真正的結果.md) | A no-context reader and clean-machine CI; simulator corrected to IPCC end-of-life data; AI re-evaluated on fresh runs |
+| [08 Round 15: expert instruments](proposal/08_第十五輪反思_專業工具與紅隊.md) | Static analysis, gas and cost measurement, climate Monte Carlo, AI flags on chain, three red-team reviews of the submission |
+| [Video script](video/video_script.md), [Devpost text](devpost/submission.md) | Submission drafts (English; recording notes in zh-TW) |
 | [HANDOFF](../HANDOFF.md) | Full project state, how to run everything, risks |
 
 ## Research notes

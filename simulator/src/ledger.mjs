@@ -243,7 +243,15 @@ export class LedgerMirror {
     if (e.gas !== lot.gas) return this.reject(t, 'CHARGE', data, 'GasMismatch');
     e.charged += grams;
     e.drawn = Math.max(0, e.drawn - grams);
-    e.charges.push({ at: t, grams });
+    // EquipmentRegistry.recordCharge: charges on the same (UTC) day share one record, stamped with the
+    // latest charge, which bounds the residence check's loop
+    const last = e.charges[e.charges.length - 1];
+    if (last && Math.floor(last.at / 86_400) === Math.floor(t / 86_400)) {
+      last.grams += grams;
+      last.at = t;
+    } else {
+      e.charges.push({ at: t, grams });
+    }
     lot.grams -= grams;
     if (lot.grams === 0) this.closeLot(lot);
     const tot = this.totalsOf(lot.gas);

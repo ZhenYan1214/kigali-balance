@@ -1,0 +1,146 @@
+{
+  "_readme": "Every input to impact_model.py. kind: data = a number printed in the source; derived = arithmetic on data rows (formula given); assumption = our judgement, not data. verified: true = read in the primary source on the date given; false = taken from the repo's research notes or a secondary source and not re-read; null = assumption (nothing to verify).",
+
+  "_japan_role": "Japan is used only because it publishes an end-of-life mass balance. Its numbers convert 'one attributable percentage point' into tonnes and CO2e for a market of that size. They are NOT an estimate of impact in Japan: there recovery is mandated and already tracked electronically (RaMS), so alpha is about 0, and Japanese recovery would likely fail a regulatory-surplus test for credits.",
+
+  "sources": {
+    "moej_2026": {
+      "title": "Ministry of the Environment, Japan: OEWG48 side-event presentation, 15 July 2026, slide 6 'Material Flow of HFCs Refrigerants in Japan (2024)' (marked 'based on current available data. It will be further examined')",
+      "url": "https://www.jraia.or.jp/english/relations/file/260724_oewg48_sideevent_moej_presentation.pdf",
+      "checked": "2026-10-17, PDF text extracted with pdftotext"
+    },
+    "jraia_2012": {
+      "title": "JRAIA (K. Sato): Actions to Control Emission of HFCs in Japan, regional symposium; recovery chart 2007-2012, 'recovery ratio is around 30%'",
+      "url": "https://www.jraia.or.jp/english/relations/file/RegionalSymposium-1.pdf",
+      "checked": "2026-10-17, PDF text extracted with pdftotext"
+    },
+    "jraia_2017": {
+      "title": "JRAIA presentation 2017: FY2015 recovery at disposal approx. 3,499 t, 'approx. 38% of potential total disposing gases'",
+      "url": "https://jraia.or.jp/english/relations/file/presentation1_2017.pdf",
+      "checked": "2026-10-17, PDF text extracted with pdftotext"
+    },
+    "jraia_2019": {
+      "title": "JRAIA presentation 2019: recovery at disposal 'nearly 40% in 2017'; 2019 amendment (direct penalties, recovery certificates) aims at 'more than 70% in 2030'",
+      "url": "https://www.jraia.or.jp/english/relations/file/presentation2_2019.pdf",
+      "checked": "2026-10-17, PDF text extracted with pdftotext"
+    },
+    "jraia_2025": {
+      "title": "JRAIA (Ms. Yamanaka), OEWG47 side event, July 2025, slide 10: recovery rate 'Improved from 40% to 44%. This might be the effect of the revised Act' (years not stated)",
+      "url": "https://www.jraia.or.jp/english/relations/file/2507asap_%20OEWG47%20Sideevent_JRAIA%20Ms.%20Yamanaka%20presentation.pdf",
+      "checked": "2026-10-17, PDF text extracted with pdftotext"
+    },
+    "eia_2026_banks": {
+      "title": "EIA (C. Mercado, D. Brack), Evaluating Options for Sustainably Financed Action on ODS and HFC Banks, May 2026. PDF p.24: TEAP MCTOC estimates 250,000-400,000 t of controlled ODS and HFCs decommissioned annually from the RACHP and foams sectors globally; mature programmes in Australia, Japan and the EU capture only 20-30% of end-of-life refrigerant. PDF p.21: New Zealand's ETS 'has helped increase refrigerant recovery rates from end-of-life equipment to 11 per cent'.",
+      "url": "https://eia-international.org/wp-content/uploads/2026-EIA-Evaluating-Options-for-Sustainably-Financed-Action-on-ODS-and-HFC-Banks.pdf",
+      "checked": "2026-10-17, PDF text extracted with pdftotext"
+    },
+    "ccl_2024_reclamation": {
+      "title": "Carbon Containment Lab, Technical Note on HFC Reclamation, June 2024: when virgin suppliers expend all their quota, 'reclaimers do not displace any virgin refrigerant supply'; US 2022: 271.7 million of 273.5 million allowances expended (0.65% unused)",
+      "url": "https://carboncontainmentlab.org/documents/for-upload_technical-note-on-hfc-reclamation.pdf",
+      "checked": "2026-10-17, PDF text extracted with pdftotext"
+    },
+    "eu_fgas_2024_573": {
+      "title": "Regulation (EU) 2024/573 on fluorinated greenhouse gases, Annexes (GWP values from IPCC AR4)",
+      "url": "https://eur-lex.europa.eu/eli/reg/2024/573/oj",
+      "checked": "not re-read in this session; values as recorded in simulator/params.json (verified: true there)"
+    },
+    "eia_2026_via_refindustry": {
+      "title": "EIA report (Apr 2026) on illegal HFC trade into EU supply chains, as reported by refindustry: EU seizures about 250 t (2023) and about 670 t (2024)",
+      "url": "https://refindustry.com/news/eia-report-tracks-illegal-hfc-trade-into-eu-supply-chains/",
+      "checked": "not re-read in this session; from docs/research/02-validation-notes/verify_fgas_ledger.md"
+    },
+    "eu_price_monitoring_q4_2025": {
+      "title": "EU refrigerant price monitoring (Oeko-Recherche / CITEPA), Q4/2025 excerpt: reclaimed R-404A at about 140% of virgin price in Q1 2025",
+      "url": "https://www.nvkl.nl/wp-content/uploads/2026/03/Excerpt-Price-monitoring-Q4-2025.pdf",
+      "checked": "not re-read in this session; from docs/proposal/03_第十輪反思_評審視角.md"
+    },
+    "skatteetaten_hfc": {
+      "title": "Norwegian Tax Administration: excise duty on HFC and PFC, with a refund per kg of gas delivered for destruction (administered by the Norwegian Environment Agency)",
+      "url": "https://www.skatteetaten.no/en/business-and-organisation/vat-and-duties/excise-duties/about-the-excise-duties/hfc-and-pfc/",
+      "checked": "2026-10-17, page read; it gives no evaluation of the refund's effect on recovery"
+    }
+  },
+
+  "data": {
+    "japan_recovered_at_disposal_t":      {"value": 5188,   "unit": "t",      "kind": "data", "source": "moej_2026", "verified": true},
+    "japan_emitted_at_disposal_t":        {"value": 6878,   "unit": "t",      "kind": "data", "source": "moej_2026", "verified": true},
+    "japan_emitted_at_disposal_mtco2e":   {"value": 12.62,  "unit": "MtCO2e", "kind": "data", "source": "moej_2026", "verified": true},
+    "japan_remaining_at_disposal_t":      {"value": 12011,  "unit": "t",      "kind": "data", "source": "moej_2026", "verified": true,
+                                           "note": "The slide's own total is 55 t less than recovered + emitted (12,066 t); the slide mixes fiscal-year reports and calendar-year inventory estimates."},
+    "japan_remaining_at_disposal_mtco2e": {"value": 21.85,  "unit": "MtCO2e", "kind": "data", "source": "moej_2026", "verified": true},
+    "japan_emitted_during_use_t":         {"value": 6283,   "unit": "t",      "kind": "data", "source": "moej_2026", "verified": true},
+    "japan_reclaimed_t":                  {"value": 3712,   "unit": "t",      "kind": "data", "source": "moej_2026", "verified": true,
+                                           "note": "HFC reclaimed after recovery (6.85 MtCO2e on the slide); covers gas recovered at disposal and during maintenance (1,077 t)."},
+    "japan_destroyed_t":                  {"value": 2869,   "unit": "t",      "kind": "data", "source": "moej_2026", "verified": true,
+                                           "note": "HFC destroyed after recovery (5.38 MtCO2e on the slide). A further 65 t was 're-filled and recycled'."},
+    "japan_recovery_rate_history": {
+      "kind": "data", "verified": true,
+      "points": [
+        {"period": "2007-2012 (chart)", "rate": "around 30%", "source": "jraia_2012"},
+        {"period": "2013-2014", "rate": "no figure found", "source": null},
+        {"period": "FY2015", "rate": "about 38%", "source": "jraia_2017"},
+        {"period": "2017", "rate": "nearly 40%", "source": "jraia_2019"},
+        {"period": "years not stated", "rate": "40% -> 44%, 'might be the effect of the revised Act'", "source": "jraia_2025"},
+        {"period": "2024", "rate": "43% (5,188 / 12,011)", "source": "moej_2026"},
+        {"period": "2030 target set in 2019", "rate": "more than 70%", "source": "jraia_2019"}
+      ]
+    },
+    "global_decommissioned_t_per_yr": {"low": 250000, "high": 400000, "unit": "t/yr", "kind": "data", "source": "eia_2026_banks", "verified": true,
+                                       "note": "TEAP MCTOC estimate quoted by EIA. Controlled ODS AND HFCs, refrigeration/AC/heat pumps AND foams, so it is a ceiling for HFC refrigerant. Used only as a tonnage scale reference; not converted to CO2e because the GWP mix is not given."},
+    "nz_recovery_rate_with_ets": {"value": 0.11, "kind": "data (anchor for delta_r)", "source": "eia_2026_banks", "verified": true},
+    "gwp_ar4": {
+      "R-404A": {"value": 3922, "kind": "data", "source": "eu_fgas_2024_573", "verified": false},
+      "R-134a": {"value": 1430, "kind": "data", "source": "eu_fgas_2024_573", "verified": false},
+      "R-410A": {"value": 2088, "kind": "data", "source": "eu_fgas_2024_573", "verified": false}
+    },
+    "eu_seizures_t": {"2023": 250, "2024": 670, "kind": "data (context only, not used in any calculation)",
+                      "source": "eia_2026_via_refindustry", "verified": false},
+    "reclaimed_r404a_price_vs_virgin_q1_2025": {"value": 1.40, "kind": "data (context only, not used in any calculation)",
+                                                "source": "eu_price_monitoring_q4_2025", "verified": false}
+  },
+
+  "derived": {
+    "M_t": {"formula": "japan_recovered_at_disposal_t + japan_emitted_at_disposal_t", "unit": "t/yr", "kind": "derived",
+            "note": "Refrigerant left in equipment scrapped in a Japan-sized market (Japan 2024). Tornado low case uses the slide's own total, 12,011 t."},
+    "gwp_emitted_mix": {"formula": "japan_emitted_at_disposal_mtco2e * 1e6 / japan_emitted_at_disposal_t", "unit": "tCO2e/t", "kind": "derived",
+                        "note": "Average GWP of the gas that escaped at disposal. Tornado low case: the recovered gas mix, (21.85 - 12.62) Mt / 5,188 t."},
+    "permanence_destroyed_share": {"formula": "japan_destroyed_t / (japan_destroyed_t + japan_reclaimed_t)", "kind": "derived",
+                                   "note": "Headline (conservative) permanence: only the destroyed share of extra recovered gas counts. Under a binding quota, reclaimed gas adds to supply instead of displacing virgin gas (ccl_2024_reclamation), so its avoided emission is at most a delay."},
+    "permanence_full_displacement": {"value": 1.0, "kind": "bounding case",
+                                     "note": "Upper variant: every extra recovered tonne counts, as if reclaimed gas displaced virgin gas one for one (only possible where the quota does not bind)."},
+    "recovery_rate_2024": {"formula": "japan_recovered_at_disposal_t / M_t", "kind": "derived"},
+    "beta_disposal_only": {"formula": "japan_emitted_at_disposal_t / M_t", "kind": "derived",
+                           "note": "Share of gas reaching disposal that escapes; ignores leaks during use."},
+    "beta_flow": {"formula": "(japan_emitted_during_use_t + japan_emitted_at_disposal_t) / (japan_emitted_during_use_t + japan_emitted_at_disposal_t + japan_recovered_at_disposal_t)",
+                  "kind": "derived", "note": "Share of the gas leaving Japan's 2024 equipment stock that was emitted rather than recovered at disposal."}
+  },
+
+  "assumptions": {
+    "delta_r_pp": {
+      "kind": "assumption", "verified": null,
+      "dist": "triangular", "min": 0.0, "mode": 1.0, "max": 5.0, "unit": "percentage points of the disposal recovery rate",
+      "why": "Under penalty-backed law Japan's rate went from around 30% (2007-12) to 43% (2024), at most about 1 pp a year, with no reform's effect cleanly identified (no 2013-14 data; JRAIA only says the 40% to 44% rise 'might be' the 2019 revision), and New Zealand's carbon-priced scheme reached 11% recovery; a voluntary data layer is weaker than a law, so the mode is 1 pp, the maximum 5 pp is just above the largest hedged single-reform change (4 pp), and 0 is a real possibility."
+    },
+    "alpha": {
+      "kind": "assumption", "verified": null,
+      "dist": "triangular", "min": 0.0, "mode": 0.3, "max": 0.8, "unit": "share of delta_r",
+      "applies_to": "a market where paid-for recovery is held back by unverifiable claims (e.g. credits or reclaimed premiums where fraud is a concern). In Japan itself alpha is about 0.",
+      "why": "No study separates the effect of verifiability from the effect of the payment itself: alpha can be 0 (refund schemes such as Norway's pay on delivered gas without a shared ledger) and stays below 1 because the payment, not the ledger, is the direct cause; the mode of 0.3 is below the 0.5-0.7 used in the proposal."
+    },
+    "beta": {
+      "kind": "assumption", "verified": null,
+      "dist": "triangular", "min": 0.57, "mode": 0.72, "max": 0.95, "unit": "share of a blocked tonne that would eventually have been emitted",
+      "why": "Anchored to Japan's 2024 flows: 0.57 is the disposal-only escape share (it ignores leaks during use, so it is a floor for a Japan-like recovery regime), 0.72 is the share of all gas leaving the stock that was emitted, and 0.95 stands for markets with little end-of-life recovery; no EU equivalent of Japan's flow table was verified, so Japan is used as a proxy."
+    }
+  },
+
+  "pilot": {
+    "_note": "Inputs to the rough pilot-size calculation. All are conventions or assumptions, not data.",
+    "baseline_unit_recovery_share": {"value": 0.43, "kind": "assumption", "note": "Uses Japan's mass recovery rate as a stand-in for the share of scrapped units with a recovery; per-unit data were not found."},
+    "z_alpha_two_sided_5pct": 1.959964,
+    "z_power_80pct": 0.841621,
+    "detectable_differences_pp": [1, 2, 4, 8],
+    "cluster_example": {"units_per_cluster": 20, "icc": 0.05, "kind": "assumption (illustration only)",
+                        "note": "Design effect = 1 + (m - 1) x ICC for clustering by technician or site; no measured ICC was found."}
+  }
+}

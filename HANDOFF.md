@@ -68,7 +68,7 @@
 | 題目研究、驗證、撞題分析 | ✅ 完成 |
 | 2 頁英文問題陳述（PDF，已確認剛好 2 頁） | ✅ 完成，第十二、十三輪修訂後重新產生 |
 | 計畫書（中文） | ✅ 完成 |
-| 智慧合約 6 個＋135 個單元測試＋10 條不變量 | ✅ 全部通過 |
+| 智慧合約 6 個＋143 個單元測試＋10 條不變量 | ✅ 全部通過（第十五輪加了紅隊回歸測試 `test/RedTeam.t.sol`） |
 | 模擬資料產生器＋測試 21 個 | ✅ 全部通過 |
 | 差異測試（模擬事件重播到真合約） | ✅ 7,219 筆全部一致（第十四輪修正模擬器後；之前是 9,759 筆） |
 | AI 模組 A、B、C＋退役結案檢查，測試 28 個 | ✅ 完成，各有評估報告（`ai/reports/`） |
@@ -78,10 +78,11 @@
 | **第十三輪**：真實資料、外部裁判、量化每道防線 | ✅ A 註冊處公開資料稽核（`docs/research/03-registry-audit.md`）、C 洗白容量量化（`docs/research/04-laundering-capacity.md`）、F 一鍵重建與交件前檢查（`scripts/`）、B 專家信件草稿（`docs/outreach/`，不進 git） |
 | **第十四輪**：外部裁判（沒有前情的讀者照 README 重現；GitHub Actions 乾淨 Linux 重建）、模擬器改成符合 IPCC 表 7.9、AI 在全新種子上重新評估 | ✅ 完成（`docs/proposal/07_…`）；CI 與 Pages 設定已寫好，**需要使用者推送並開啟 Pages** |
 | 第十二輪第 3 項：模擬器報廢剩餘量符合 IPCC 表 7.9、AI 重新評估 | ✅ 第十四輪完成（J1）。A 級灌水造假與 A 級 AI 訊號（J2）未做，第十三輪的洗白容量報告已量化 |
-| AI 旗標寫回鏈上、英文 PDF 附件、影片、Devpost 說明、對外託管、OP Sepolia 重新部署 | ⏳ **下一步** |
+| **第十五輪**：專業工具與紅隊（`docs/proposal/08_…`）：Slither 進 CI、gas 與成本實測、氣候蒙地卡羅、AI 旗標寫回鏈上、英文技術附件、影片腳本、Devpost 文字；三個外部審查（安全、鑑識、編輯） | ✅ 完成。安全審查找到 1 個 High（未知來源冷媒可洗成可申請碳權的回收冷媒），**已修正**並加回歸測試；鑑識審查把氣候推估砍到約四分之一、更正稽核的 68.6% |
+| 對外託管（Pages）、OP Sepolia 重新部署、錄影、送出 Devpost | ⏳ **需要使用者**（見 9.2） |
 
 **這一輪最重要的三個數字**（給影片與 PDF 用）：
-1. **註冊處稽核**〔真實公開資料〕：ACR、CAR、Verra 的 4,240 萬銷毀額度中，有 68.6% 來自完全不公開銷毀證明編號的專案，外人無法檢查同一公斤有沒有被算兩次；**沒有找到重複計算的證據**。ARB 與註冊處之間「先註銷再核發」的規則，是唯一可以被公開驗證、而且對得上的跨帳本鎖（291 期中 270 期相等，沒有一期多發）。
+1. **註冊處稽核**〔真實公開資料〕：ACR、CAR、Verra 的 4,240 萬銷毀額度，沒有一個註冊處公開每單位額度對應哪支鋼瓶、多少公斤，外人無法在公斤層級檢查重複計入。銷毀證明編號公開的佔 31.4%、沒有的 57.6%（其中 94% 是加州與華盛頓州合規型額度，按報告期間對得上帳）、沒評估 11.0%。**第十五輪更正**：先前寫的「68.6% 完全不公開」把沒評估的額度也算進去，是鑑識審查抓到的。**沒有找到重複計算的證據**。ARB 與註冊處之間「先註銷再核發」的規則，是唯一可以被公開驗證、而且對得上的跨帳本鎖（291 期中 270 期相等，沒有一期多發）。
 2. **洗白容量**〔模型〕：如果只有終身上限（一次充填量加歷來補充量），串通的技師與持有者可以多登記 323.5 千噸 CO₂e；改成帳面內容量後是 38.6 千噸（減少 88%）。剩下約等於誠實回收量的 45%，規則關不掉，只能靠統計與稽查。
 3. **退役結案**〔模擬，seed 42，第十四輪後〕：218 台退役的 A 級設備中，116 台在帳本上沒有任何回收紀錄，估計約 2.5–4.4 公噸冷媒下落不明。十個全新種子的評估中，真實下落不明量（43 公噸）每次都落在估計區間（28–46 公噸）內。
 
@@ -250,7 +251,7 @@ HFC 冷媒的紀錄分散在各自獨立的系統：海關配額、技師維修�
 ### 6.1 智慧合約（`src/`，Solidity 0.8.28、Foundry、via_ir）
 | 合約 | 用途 | 大小 |
 |---|---|---|
-| `KigaliLedger.sol` | 批次帳本、配額、轉移、灌注、回收、再生、銷毀、簽章驗證 | 18.8 KB（上限 24 KB；太大而無法部署到 Sepolia，見 8.6） |
+| `KigaliLedger.sol` | 批次帳本、配額、轉移、灌注、回收、再生、銷毀、簽章驗證 | 19.1 KB（第十五輪修正後；原 18.8 KB）（上限 24 KB；太大而無法部署到 Sepolia，見 8.6） |
 | `EquipmentRegistry.sol` | 設備 A／B 級、回收上限、駐留規則、B 級月上限 | |
 | `DestructionClaims.sol` | 銷毀事件與認領鎖 | |
 | `IdentityRegistry.sol` | 角色、可驗證憑證雜湊、撤銷 | |
@@ -258,7 +259,8 @@ HFC 冷媒的紀錄分散在各自獨立的系統：海關配額、技師維修�
 | `FlagRegistry.sol` | AI 標記的稽核軌跡（記錄模型版本與輸入雜湊），只有主管機關能結案 | |
 | `Attestations.sol`、`Types.sol` | EIP-712、共用型別 | |
 
-**測試（`test/`）：135 個單元測試＋10 條不變量，全部通過**（forge 把 10 條不變量算成同一個測試，所以總數顯示為 136；2026-10-17 實測）
+**測試（`test/`）：143 個單元測試＋10 條不變量，全部通過**（forge 把 10 條不變量算成同一個測試，所以總數顯示為 144；2026-10-17 第十五輪後實測）
+- `RedTeam.t.sol`（7，第十五輪新增）：外部安全審查每個概念驗證攻擊都改寫成「現在必須失敗」的測試：F1 未知來源冷媒灌進設備後永遠是 C 級（2）、F3 溢位不能鎖死設備、F4 實驗室證明不能被別的再生廠重用、F5 大量小額灌注不會讓回收耗盡 gas、F7 被撤銷的業者批次凍結、F8 一張銘牌照片只能登錄一台 B 級設備。`EdgeCases.t.sol` 加了「一般業者不能宣告未知來源冷媒」。
 - `Ledger.t.sol`（43）：R1–R6、簽章攻擊（未登錄裝置、重送、竄改重量、過期、未來時間、撤銷、high-s、跨鏈）
 - `Provenance.t.sol`（19，第十輪新增）：H1 回收需設備持有者同意（技師自簽、別人的持有者、指名其他服務商、重量不符、重送、撤銷、持有者不獨立）、H4 銷毀證明需獨立查證者（自簽、查證者綁定銷毀廠、數量不符、證明對不上批次）、M1 鋼瓶唯一性
 - `Equipment.t.sol`（15，含 M8 上限計入補充量、B 級持有者不能是技師）、`Claims.t.sol`、`Laundering.t.sol`、`Governance.t.sol`（含 FlagRegistry）、`EdgeCases.t.sol`
@@ -326,6 +328,7 @@ HFC 冷媒的紀錄分散在各自獨立的系統：海關配額、技師維修�
 | **第十一輪**：重讀比賽發現截止時間三處矛盾、IEEE 頁「70% 區塊鏈實作」、4 位密碼學評審；介面與影片是零分起跳 | 以 10/25 22:00（台北）為準、10/24 先交；做監管儀表板與來源護照頁 | 比賽規則要在最後一週再讀一次，不要只信第一次的筆記 |
 | **第十二輪**：回收上限是「終身累計＋補充量」，愛漏的設備洗白額度最大（M8 修正引進的錯）；模擬器讓誠實設備幾乎滿載，AI 成績偏好看 | 改成單次上限（後來證明不夠）；退役結案訊號把機制接上「排放」 | 請沒看過前情的紅隊審查，並逐行查證它的指控 |
 | **第十四輪**：每個數字只在兩台 Windows 電腦上驗證過；AI 成績建立在「誠實設備報廢時幾乎滿載」這個已被 IPCC 推翻的假設上 | 沒有前情的讀者照 README 重現（抓到 Node 24 解析錯誤、少了 `npm ci`、模糊測試數字重現不出來、模型雜湊因 CRLF 不同等）；CI 在乾淨 Linux 上逐位元組比對；模擬器改成依檢漏義務保養；AI 在全新種子重新評估（成績持平或略好）；洗白分析改用固定的族群檔 | **找一個沒有前情的讀者**；產生物要逐位元組可重現；模擬器的假設要對照原始資料 |
+| **第十五輪**：附件與數字都是自己寫、自己檢查；安全宣稱沒有對照程式碼逐條驗證 | 請三個沒有利害關係的審查者用他們專業的方法攻擊：安全預審（寫概念驗證測試）、鑑識（逐一追數字到來源）、編輯。找到 1 個 High 漏洞與多個高估的數字，全部修正或揭露 | **專業工具＋外部紅隊**：寫完就找人用真正的方法攻擊；被抓到的錯，修正後寫進文件，而不是藏起來 |
 | **第十三輪**：全部是模擬資料，沒有外部裁判 | 真實註冊處公開資料稽核（A）；洗白容量模型（C）抓到單次上限可被分次回收繞過 → 改成帳面內容量；一鍵重建與交件前檢查（F） | **不要讓模型評自己的作品**：C 的模型抓到我自己的修正錯誤；量化每道防線，而不是只列規則 |
 
 ---
@@ -402,25 +405,24 @@ forge script script/Deploy.s.sol --rpc-url op_sepolia --broadcast --verify
 | `FlagRegistry` | [0xa04C3c47F32099072fa654a9F58259a63B50309B](https://sepolia-optimism.etherscan.io/address/0xa04C3c47F32099072fa654a9F58259a63B50309B#code) |
 | `Governance` | [0xaFa2E28071382a0144dE63eFFE79b8E2B32dC935](https://sepolia-optimism.etherscan.io/address/0xaFa2E28071382a0144dE63eFFE79b8E2B32dC935#code) |
 
-**為什麼不是 Sepolia（已知限制）**：Sepolia 現行的 gas 規則下，部署 18.8 KB 的 KigaliLedger 估計要約 29.7M gas，超過 EIP-7825 單筆交易上限 16,777,216，單一合約無法部署。OP Sepolia 只要約 4.1M。腳本在 Sepolia 上會直接拒絕執行。**路線圖**：把 KigaliLedger 拆成數個 10 KB 以下的合約（例如批次帳務、回收、銷毀），拆完也更適合 Besu 聯盟鏈。
+**為什麼不是 Sepolia（已知限制）**：Sepolia 現行的 gas 規則下，部署 KigaliLedger（當時 18.8 KB，現在 19.1 KB）估計要約 30M gas，超過 EIP-7825 單筆交易上限 16,777,216，單一合約無法部署。OP Sepolia 只要約 4.1M。腳本在 Sepolia 上會直接拒絕執行。**路線圖**：把 KigaliLedger 拆成數個 10 KB 以下的合約（例如批次帳務、回收、銷毀），拆完也更適合 Besu 聯盟鏈。
 
 ---
 
 ## 9. 下一步與時程
 
-> 2026-10-17 第十四輪後更新。**截止 2026-10-25 22:00（台北）**，10/24 先送出可編輯的版本。詳細理由見 `docs/proposal/04`–`06`。
+> 2026-10-17 第十五輪後更新。**截止 2026-10-25 22:00（台北）**，10/24 先送出可編輯的版本。詳細理由見 `docs/proposal/04`–`06`。
 
 ### 9.1 剩下的工作（依優先順序）
 | 優先 | 工作 | 備註 |
 |---|---|---|
-| 1 | **推送並開啟 GitHub Pages 與 CI** | 部署設定（`.github/workflows/pages.yml`）與乾淨環境重建（`verify.yml`）都已寫好。使用者推送後，到 Settings → Pages → Source 選「GitHub Actions」。CI 第一次跑綠燈，才算有外部裁判。|
-| 2 | **OP Sepolia 重新部署**（帳面內容量規則） | **先問使用者**。先跑 `bash script/check_env.sh`、`bash script/rehearse_op_sepolia.sh`。2026-10-16 已在 fork 上演練新版合約：六步驟成功、四個應被擋的動作都被擋。部署錢包約 0.022 ETH 足夠：腳本只把 Demo 角色補到預算，上次轉給它們的 gas 還在，所以這次只需約 6×10⁻⁹ ETH |
-| 3 | AI 旗標寫回 `FlagRegistry`（模型雜湊、輸入雜湊） | 「AI＋區塊鏈」最直接的證據，約半天 |
-| 4 | 英文 PDF 附件：架構與規格、安全與資料完整性評估（含後量子遷移路徑、保密模型、威脅模型）、氣候影響、採用策略、路線圖，**放進稽核與洗白容量的結果** | IEEE 必交；約 1.5 天 |
-| 5 | 3 分鐘影片 | 從批次 42 講起（第十四輪後的資料，由 `web/build_data.mjs` 自動挑選）：0.48 kg、B 級設備 eq-9cbd64d3、service-04 回收、takeback-03 共同簽署、在銷毀事件 #2 銷毀、registry-tw 認領一次；AI 模組 C 標記了 service-04 與 takeback-03（ground truth 證實兩者都是造假方）。帳本每條規則都通過，正是「規則管不到的部分交給 AI」的例子。再接稽核的「68.6% 無法檢查」與洗白容量圖 |
-| 6 | Devpost 英文說明；10/24 先送出 | 交件前一定要跑 `python scripts/rebuild.py --full` 與 `python scripts/check_submission.py --online` |
-| 7（時間夠才做） | J2：A 級灌水造假＋A 級 AI 訊號；模組 A 1.3.0（A2 容許一個檢漏週期，修正誠實公司 0.5% 誤報），用另一批新種子評估 | 報廢剩餘量改用 IPCC 表 7.9（J1）已在第十四輪完成 |
-| 7（時間夠才做） | 保密守恆展示（Pedersen 承諾值）、驗章抽成可替換介面（後量子） | 打中密碼學評審，風險高 |
+| 1 | **開啟 GitHub Pages**（使用者） | 已推送，CI（verify）第一次就綠燈。Pages 部署失敗只因為還沒開：Settings → Pages → Source 選「GitHub Actions」，再到 Actions 重跑 pages。 |
+| 2 | **OP Sepolia 重新部署**（使用者，在有 `.env` 的電腦上） | 鏈上版本早於帳面內容量規則與紅隊修正，而且已知可被分次回收繞過。步驟：`bash script/check_env.sh` → `bash script/rehearse_op_sepolia.sh`（本機 fork 演練，不送交易）→ `forge script script/Deploy.s.sol --rpc-url op_sepolia --broadcast --verify`。完成後更新 `deployments/11155420.json`、README 地址表、徽章（拿掉 earlier build）、附件 B.3 |
+| 3 | **錄影**（使用者） | 照 `docs/video/video_script.md`，3:00–3:15。 |
+| 4 | **送出 Devpost**（使用者；10/24 先送可編輯版） | 文字在 `docs/devpost/submission.md`；上傳 `docs/proposal/Kigali_Balance_Submission.pdf`。送出前跑 `python scripts/rebuild.py --full` 與 `python scripts/check_submission.py --online` |
+| 5（時間夠才做） | 紅隊剩下的風險：設備持有者授權維修公司（擋 F2 灌注騷擾）、治理成員可輪替＋提案到期、銷毀事件由開發商指定註冊處（擋 F10）、鋼瓶 ID 擁有權（F6） | 都已寫在附件 B.2 的剩餘風險 |
+| 5（時間夠才做） | J2：A 級灌水造假＋A 級 AI 訊號；模組 A 1.3.0 | 用另一批新種子評估 |
+| 5（時間夠才做） | 保密守恆展示（Pedersen＋範圍證明）、驗章抽成可替換介面（後量子） | 附件 B.5、B.6 已寫設計 |
 
 ### 9.2 只有使用者能做的事
 - ~~寄專家信件~~：使用者 2026-10-17 決定不寄。
@@ -429,7 +431,7 @@ forge script script/Deploy.s.sol --rpc-url op_sepolia --broadcast --verify
 - 重新產生外洩過的 Alchemy 金鑰。（2026-10-17 已掃描整個 Git 歷史：沒有任何 Alchemy／Infura 金鑰網址、私鑰或 `.env` 被提交過，`.env.example` 只有公開端點。外洩應發生在儲存庫以外，例如對話或終端機，所以仍然要重新產生。）
 
 ### 9.3 減碳推估（已寫在計畫書第 8 節）
-- 路徑一（回收率提升）：ΔE = Σ（報廢殘留量 × 回收率提升 × GWP）× 歸因係數 α。日本示意：保守 0.11、中等 0.33、樂觀 0.77 MtCO₂e／年。
+- **第十五輪更正，以 `analysis/impact/` 為準**：路徑一 ΔE = M × Δr × GWP × α × φ（φ＝永久性：只有銷毀的部分算永久避免；在配額用滿時，再生冷媒是增加供給，不是取代原生）。日本只當「單位換算」（日本本身已強制回收並電子追蹤，α≈0）。和日本一樣大的市場：中位數 0.057（p5 0.011、p95 0.18）MtCO₂e／年；若再生完全取代原生，上限 0.13。計畫書原本的 0.11／0.33／0.77 已不再使用。
 - 路徑二（阻止原生冒充再生）：每阻止 1 噸 R-404A ≈ 3,922 × 0.57 ≈ 2,240 tCO₂e。
 - 兩條路徑不能相加；本系統是促成者，不主張自己產生碳權；α、β 是假設，簡報要明講。
 
@@ -450,7 +452,7 @@ forge script script/Deploy.s.sol --rpc-url op_sepolia --broadcast --verify
 | IEEE 3218-2022 標準全文 | 未取得，對照表只能寫到框架層級 |
 | 比賽規則矛盾（截止時間、影片長度、參加資格、評分權重） | 已知；用最保守的做法應對 |
 | 這屆其他作品要截止後才公開 | 無法完全排除撞題 |
-| KigaliLedger 是單一 18.8 KB 合約，超過 Sepolia 單筆交易 gas 上限，無法部署到 Sepolia | 改部署到 OP Sepolia；拆分合約列入路線圖與 PDF 附件的已知限制 |
+| KigaliLedger 是單一 19.1 KB 合約，超過 Sepolia 單筆交易 gas 上限，無法部署到 Sepolia | 改部署到 OP Sepolia；拆分合約列入路線圖與 PDF 附件的已知限制 |
 
 ---
 
@@ -476,7 +478,7 @@ kigali-balance/
 ├── HANDOFF.md                  ← 本檔：交接總覽（中文）
 ├── README.md                   ← 給評審的英文首頁
 ├── src/                        ← 6 個智慧合約
-├── test/                       ← Foundry 測試（135 個單元測試＋invariant/ 10 條不變量）
+├── test/                       ← Foundry 測試（143 個單元測試，含 RedTeam.t.sol 紅隊回歸測試；invariant/ 10 條不變量）
 ├── script/
 │   ├── Deploy.s.sol            ← OP Sepolia 部署＋鏈上 Demo
 │   ├── check_env.sh            ← 檢查 .env（不印出任何密鑰）
@@ -486,7 +488,7 @@ kigali-balance/
 │   └── check_submission.py     ← 交件前檢查（數字一致、連結、密鑰、PDF 頁數）
 ├── deployments/11155420.json   ← OP Sepolia 合約位址
 ├── broadcast/                  ← 部署交易紀錄（公開資料）
-├── simulator/                  ← 模擬器、規則鏡像、差異測試（replay.mjs）、21 個測試
+├── simulator/                  ← 模擬器、規則鏡像、差異測試（replay.mjs，最後把 AI 旗標寫進 FlagRegistry 並讀回比對）、22 個測試
 ├── ai/
 │   ├── kigali_ai/              ← 模組 A、B、C、退役結案檢查、只讀觀測資料的載入器
 │   ├── run_*.py / evaluate_*.py
@@ -495,16 +497,23 @@ kigali-balance/
 ├── web/                        ← 監管儀表板＋來源護照頁（靜態；build_data.mjs 產生資料）
 ├── research/registry-audit/    ← 真實註冊處公開資料（每列附出處）與重建腳本
 ├── analysis/laundering/        ← 洗白容量模型、結果、圖
+├── analysis/impact/            ← 氣候影響蒙地卡羅模型（第十五輪）：每個輸入附出處或標為假設、龍捲風圖、試行所需樣本數
+├── slither.config.json         ← Slither 靜態分析設定（CI 中 Medium 以上就失敗）
 └── docs/
     ├── README.md               ← 英文文件索引
     ├── assets/                 ← logo、圖、截圖（make_diagrams.py 產生圖）
-    ├── outreach/               ← 專家信件草稿（不進 git）
+    ├── security/static-analysis.md ← Slither 結果與每項判讀
+    ├── video/video_script.md   ← 3 分鐘影片腳本（從批次 42 講起；附每個數字的出處與中文錄製說明）
+    ├── devpost/submission.md   ← Devpost 各欄位的英文文字
+    ├── outreach/               ← 專家信件草稿（不進 git；使用者決定不寄）
     ├── proposal/
-    │   ├── 00–06_*.md          ← 設計紀錄：選題與第十到第十三輪反思
+    │   ├── 00–08_*.md          ← 設計紀錄：選題與第十到第十五輪反思
     │   ├── 01_問題陳述_Problem_Statement.md ← 英文交件版＋中文對照
     │   ├── 02_計畫書.md         ← 規則、威脅模型、Demo、推估
-    │   ├── Kigali_Balance_Problem_Statement.pdf ← 交件用（2 頁）
-    │   └── problem_statement.html ← 產生 PDF 的原始檔
+    │   ├── Kigali_Balance_Problem_Statement.pdf ← 2 頁問題陳述
+    │   ├── Kigali_Balance_Technical_Annex.pdf ← 英文技術附件（約 12 頁：架構、安全評估、氣候影響、推廣、測試）
+    │   ├── Kigali_Balance_Submission.pdf ← **Devpost 上傳的檔案**＝問題陳述＋技術附件（rebuild 自動合併）
+    │   └── problem_statement.html、technical_annex.html ← 產生 PDF 的原始檔
     └── research/
         ├── 01-landscape-report.md / 02-validation-report.md ← 選題研究
         ├── 03-registry-audit.md          ← 真實資料：跨註冊處稽核

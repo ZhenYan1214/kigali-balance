@@ -1,7 +1,8 @@
 """Rebuild every generated artefact of Kigali Balance in one command, and record what it measured.
 
     python scripts/rebuild.py            # contracts, simulator, AI, web data, diagrams
-    python scripts/rebuild.py --full     # also the differential test (~1 min) and the problem-statement PDF
+    python scripts/rebuild.py --full     # also the differential test (~1 min) and the PDFs (problem statement,
+                                         # technical annex, and the two merged into the Devpost upload)
     python scripts/rebuild.py --quick    # skip the test suites (data and pages only)
 
 Steps run in dependency order and stop at the first failure. The numbers each step measured
@@ -117,7 +118,8 @@ def differential() -> dict:
     m = re.search(r"Replayed (\d+) events", out)
     if "Differential test passed" not in out or not m:
         raise RuntimeError("differential test did not pass:\n" + "\n".join(out.splitlines()[-10:]))
-    return {"replayed_events": int(m.group(1))}
+    f = re.search(r"AI flags written to FlagRegistry: (\d+)", out)
+    return {"replayed_events": int(m.group(1)), "ai_flags_on_chain": int(f.group(1)) if f else 0}
 
 
 def ai_run() -> dict:
@@ -167,12 +169,11 @@ def find_browser() -> Path | None:
     return None
 
 
-def problem_statement_pdf() -> dict:
+def _print_pdf(html: Path, pdf: Path) -> int:
+    """Print an HTML page to PDF with a headless Chromium-family browser; return the page count."""
     browser = find_browser()
     if not browser:
         raise RuntimeError("needs Microsoft Edge, Google Chrome or Chromium to print the PDF (or set KB_BROWSER)")
-    html = ROOT / "docs" / "proposal" / "problem_statement.html"
-    pdf = ROOT / "docs" / "proposal" / "Kigali_Balance_Problem_Statement.pdf"
     profile = ROOT / "reports" / ".pdf-profile"
     before = pdf.stat().st_mtime if pdf.exists() else 0
     flags = ["--headless=new", "--disable-gpu", "--no-first-run", f"--user-data-dir={profile}",
@@ -184,10 +185,48 @@ def problem_statement_pdf() -> dict:
         if pdf.exists() and pdf.stat().st_mtime > before:
             break
         time.sleep(1)
-    pages = len(re.findall(rb"/Type\s*/Page[^s]", pdf.read_bytes()))
+    if not pdf.exists() or pdf.stat().st_mtime <= before:
+        raise RuntimeError(f"the browser did not write {pdf.name}")
+    return len(re.findall(rb"/Type\s*/Page[^s]", pdf.read_bytes()))
+
+
+PROPOSAL = ROOT / "docs" / "proposal"
+STATEMENT_PDF = PROPOSAL / "Kigali_Balance_Problem_Statement.pdf"
+ANNEX_PDF = PROPOSAL / "Kigali_Balance_Technical_Annex.pdf"
+SUBMISSION_PDF = PROPOSAL / "Kigali_Balance_Submission.pdf"
+
+
+def problem_statement_pdf() -> dict:
+    pages = _print_pdf(PROPOSAL / "problem_statement.html", STATEMENT_PDF)
     if pages != 2:
         raise RuntimeError(f"problem statement PDF has {pages} pages, the limit is 2")
     return {"pdf_pages": pages}
+
+
+def annex_pdf() -> dict:
+    pages = _print_pdf(PROPOSAL / "technical_annex.html", ANNEX_PDF)
+    return {"annex_pages": pages}
+
+
+def submission_pdf() -> dict:
+    """Devpost takes one file: the two-page problem statement followed by the technical annex."""
+    out = run([str(PY), "-c", (
+        "import sys, pypdf\n"
+        "w = pypdf.PdfWriter()\n"
+        "for f in sys.argv[2:]: w.append(f)\n"
+        "w.write(sys.argv[1]); print(len(w.pages))"
+    ), str(SUBMISSION_PDF), str(STATEMENT_PDF), str(ANNEX_PDF)])
+    pages = int(out.strip().splitlines()[-1])
+    size_mb = SUBMISSION_PDF.stat().st_size / 1e6
+    if size_mb > 35:
+        raise RuntimeError(f"submission PDF is {size_mb:.1f} MB; Devpost's upload limit is about 35 MB")
+    return {"submission_pages": pages, "submission_mb": round(size_mb, 2)}
+
+
+def impact_model() -> dict:
+    run([str(PY), "analysis/impact/impact_model.py"])
+    r = json.loads((ROOT / "analysis" / "impact" / "results.json").read_text(encoding="utf-8"))
+    return {"impact_results": "analysis/impact/results.json", "impact_keys": sorted(r)[:6]}
 
 
 def main() -> None:
@@ -207,15 +246,18 @@ def main() -> None:
     s.step("simulator: seed 42", simulator_run)
     if not args.quick:
         s.step("simulator: tests", simulator_test)
-    if args.full:
-        s.step("differential test against the contracts", differential)
     s.step("AI: modules A, B, C and closure check", ai_run)
+    if args.full:  # after the AI, so its flags can be written back to FlagRegistry on the replay chain
+        s.step("differential test against the contracts, AI flags written on chain", differential)
     if not args.quick:
         s.step("AI: tests", ai_test)
     s.step("web: data bundle", web_data)
+    s.step("analysis: climate impact model", impact_model)
     s.step("docs: diagrams", diagrams)
     if args.full:
         s.step("docs: problem statement PDF", problem_statement_pdf)
+        s.step("docs: technical annex PDF", annex_pdf)
+        s.step("docs: submission PDF (statement + annex)", submission_pdf)
     s.save()
     print("\nall steps passed -> reports/rebuild-latest.json")
 

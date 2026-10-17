@@ -273,7 +273,7 @@ abstract contract Fixture is Test {
 
     function _reclaim(uint256[] memory inputs, uint64 outGrams, uint16 purityBps) internal returns (uint256) {
         bytes32 outCyl = keccak256(abi.encode("reclaim-cyl", _nonce));
-        bytes32 subject = ledger.reclaimSubject(outCyl);
+        bytes32 subject = ledger.reclaimSubject(reclaimer, inputs, outCyl);
         ScaleReading memory r = _reading(subject, outGrams);
         LabCertificate memory c = _cert(subject, R404A, purityBps);
         bytes memory ss = _signScale(SCALE_RECLAIM_PK, r);

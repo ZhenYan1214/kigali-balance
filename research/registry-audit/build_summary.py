@@ -214,11 +214,20 @@ def main():
         ('Verra VM0016 / AM0001', sum(1 for p in P if p['registry'] == 'Verra'), 0, 'no standalone CoD in the one document list read'),
     ]
     d_all = sum(int(p['credits_issued'] or 0) for p in dest)
-    d_hidden = sum(int(p['credits_issued'] or 0) for p in dest if not (p['cod_ids_public'] == 'yes' or p['cod_ids_public'].startswith('CoD')))
+    public = lambda p: p['cod_ids_public'] == 'yes' or p['cod_ids_public'].startswith('CoD')
+    d_public = sum(int(p['credits_issued'] or 0) for p in dest if public(p))
+    d_unassessed = sum(int(p['credits_issued'] or 0) for p in dest if p['cod_ids_public'] == 'not assessed')
+    d_none = d_all - d_public - d_unassessed
+    d_none_compliance = sum(int(p['credits_issued'] or 0) for p in dest
+                            if not public(p) and p['cod_ids_public'] != 'not assessed' and 'compliance' in p['program'])
     out += ['## T6. Where certificate-of-destruction identifiers are public', '',
             table(['registry / programme', 'projects', 'projects with CoD identifiers public', 'form'], rows), '',
-            f'- Destruction projects whose CoD identifiers are not public in any form found here hold {num(d_hidden)} of '
-            f'{num(d_all)} registry credits issued for destruction ({d_hidden / d_all:.1%}).',
+            f'- Of {num(d_all)} registry credits issued for destruction: CoD identifiers public {num(d_public)} '
+            f'({d_public / d_all:.1%}); none public {num(d_none)} ({d_none / d_all:.1%}); not assessed {num(d_unassessed)} '
+            f'({d_unassessed / d_all:.1%}).',
+            f'- Of the credits with no public CoD identifier, {num(d_none_compliance)} ({d_none_compliance / d_none:.1%}) are ARB / '
+            f'Washington compliance credits, whose issuance is matched to registry retirements per reporting period (T4). '
+            f'(Before 2026-10-17 this line counted the unassessed credits as "not public": 68.6%.)',
             f'- CAR CoD report: {sum(1 for c in C if c["registry"] == "CAR")} rows, {len(car_ids)} distinct IDs; '
             f'{len(reuse)} IDs appear twice, all within {len(reuse_proj)} project(s) on different dates with different weights, '
             'so the published "COD Identification Number" is not unique even inside one project.',
@@ -249,7 +258,7 @@ def main():
         sys.stdout.reconfigure(encoding='utf-8')
         print(text)
     else:
-        with open(os.path.join(HERE, 'summary.md'), 'w', encoding='utf-8') as f:
+        with open(os.path.join(HERE, 'summary.md'), 'w', encoding='utf-8', newline='\n') as f:
             f.write(text + '\n')
         print('wrote summary.md')
 

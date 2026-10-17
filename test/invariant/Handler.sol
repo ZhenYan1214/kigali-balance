@@ -236,7 +236,7 @@ contract Handler is Test {
         uint64 out = uint64((sum * bound(outFactorBps, 8_000, 12_000)) / 10_000);
         if (out == 0) return;
         bytes32 outCyl = _id("out");
-        bytes32 subject = ledger.reclaimSubject(outCyl);
+        bytes32 subject = ledger.reclaimSubject(reclaimer, inputs, outCyl);
         ScaleReading memory r = _reading(subject, out);
         LabCertificate memory c = LabCertificate({
             subject: subject, gas: gas, purityBps: 9_960, sampleId: _id("sample"), timestamp: uint64(block.timestamp), nonce: _id("n")
@@ -294,7 +294,7 @@ contract Handler is Test {
 
     function _doReclaim(uint256[] memory inputs, uint64 out) internal {
         bytes32 outCyl = _id("out");
-        bytes32 subject = ledger.reclaimSubject(outCyl);
+        bytes32 subject = ledger.reclaimSubject(reclaimer, inputs, outCyl);
         ScaleReading memory r = _reading(subject, out);
         LabCertificate memory c = LabCertificate({
             subject: subject, gas: gas, purityBps: 9_960, sampleId: _id("sample"), timestamp: uint64(block.timestamp), nonce: _id("n")

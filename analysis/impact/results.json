@@ -1,0 +1,277 @@
+{
+  "meta": {
+    "seed": 20261017,
+    "draws": 100000,
+    "params": "analysis/impact/params.json",
+    "status": "consequences of stated assumptions; not a forecast; the two pathways must not be added; the Monte Carlo propagates two assumed distributions and does not reduce them"
+  },
+  "derived_inputs": {
+    "M_t": 12066,
+    "M_t_slide_total": 12011,
+    "M_discrepancy_t": 55,
+    "gwp_emitted_mix": 1834.8,
+    "gwp_remaining_mix": 1819.2,
+    "gwp_recovered_mix": 1779.1,
+    "recovery_rate_2024": 0.42997,
+    "recovery_rate_2024_slide_total": 0.43194,
+    "permanence_destroyed_share": 0.43595,
+    "permanence_full_displacement": 1.0,
+    "beta_disposal_only": 0.57003,
+    "beta_flow": 0.71726,
+    "tonnes_per_pp": 120.66
+  },
+  "pathway1_japan_sized_market": {
+    "role_of_japan": "Japan is used only because it publishes an end-of-life mass balance. Its numbers convert 'one attributable percentage point' into tonnes and CO2e for a market of that size. They are NOT an estimate of impact in Japan: there recovery is mandated and already tracked electronically (RaMS), so alpha is about 0, and Japanese recovery would likely fail a regulatory-surplus test for credits.",
+    "formula": "dE1 [MtCO2e/yr] = M [t] x dr/100 x GWP [tCO2e/t] x alpha x phi / 1e6",
+    "fixed_inputs": {
+      "M_t": 12066,
+      "gwp_tco2e_per_t": 1834.8,
+      "phi_headline_destroyed_share": 0.436,
+      "phi_upper_full_displacement": 1.0
+    },
+    "headline_destroyed_share_only_mtco2e_per_yr": {
+      "p5": 0.0106,
+      "p50": 0.0574,
+      "p95": 0.177,
+      "mean": 0.0707
+    },
+    "upper_full_displacement_mtco2e_per_yr": {
+      "p5": 0.0242,
+      "p50": 0.132,
+      "p95": 0.406,
+      "mean": 0.162
+    },
+    "headline_share_of_draws_below_0p05_mt": 0.436,
+    "attributable_increase_pp": {
+      "p5": 0.109,
+      "p50": 0.595,
+      "p95": 1.83,
+      "mean": 0.733
+    },
+    "unit_conversion": {
+      "japan_sized_market_t_per_attributable_pp": 120.7,
+      "japan_sized_market_mtco2e_per_attributable_pp_headline": 0.09652,
+      "japan_sized_market_mtco2e_per_attributable_pp_upper": 0.2214,
+      "global_t_per_attributable_pp": [
+        2500.0,
+        4000.0
+      ],
+      "global_note": "TEAP MCTOC estimate quoted by EIA. Controlled ODS AND HFCs, refrigeration/AC/heat pumps AND foams, so it is a ceiling for HFC refrigerant. Used only as a tonnage scale reference; not converted to CO2e because the GWP mix is not given.",
+      "global_vs_japan_ratio": [
+        20.7,
+        33.2
+      ]
+    },
+    "rank_correlation_headline": {
+      "delta_r_pp": {
+        "spearman": 0.749,
+        "share_of_rho_squared": 0.6
+      },
+      "alpha": {
+        "spearman": 0.611,
+        "share_of_rho_squared": 0.4
+      }
+    },
+    "proposal_scenarios_recomputed": [
+      {
+        "scenario": "conservative",
+        "delta_r_pp": 1,
+        "alpha": 0.5,
+        "mtco2e_per_yr": 0.111,
+        "share_of_upper_variant_draws_below": 0.42
+      },
+      {
+        "scenario": "medium",
+        "delta_r_pp": 3,
+        "alpha": 0.5,
+        "mtco2e_per_yr": 0.332,
+        "share_of_upper_variant_draws_below": 0.901
+      },
+      {
+        "scenario": "optimistic",
+        "delta_r_pp": 5,
+        "alpha": 0.7,
+        "mtco2e_per_yr": 0.775,
+        "share_of_upper_variant_draws_below": 1.0
+      }
+    ]
+  },
+  "pathway1_tornado": [
+    {
+      "variant": "headline (destroyed share only)",
+      "base_all_at_median_mtco2e": 0.0626
+    },
+    {
+      "input": "dr",
+      "label": "Δr  recovery-rate increase",
+      "range_basis": "assumption · triangular 0 / 1 / 5 pp · p5 to p95",
+      "unit": "pp",
+      "input_low": 0.5,
+      "input_high": 4.0,
+      "input_median": 1.83772,
+      "mtco2e_low": 0.017,
+      "mtco2e_high": 0.136,
+      "swing_mtco2e": 0.119,
+      "swing_vs_base": 1.9
+    },
+    {
+      "input": "al",
+      "label": "α  share attributable to verifiability",
+      "range_basis": "assumption · triangular 0 / 0.3 / 0.8 · p5 to p95",
+      "unit": "",
+      "input_low": 0.109545,
+      "input_high": 0.658579,
+      "input_median": 0.352786,
+      "mtco2e_low": 0.0194,
+      "mtco2e_high": 0.117,
+      "swing_mtco2e": 0.0974,
+      "swing_vs_base": 1.56
+    },
+    {
+      "input": "phi",
+      "label": "φ  permanence of extra recovery",
+      "range_basis": "accounting choice · destroyed share to full displacement",
+      "unit": "",
+      "input_low": 0.435952,
+      "input_high": 1.0,
+      "input_median": 0.435952,
+      "mtco2e_low": 0.0626,
+      "mtco2e_high": 0.144,
+      "swing_mtco2e": 0.081,
+      "swing_vs_base": 1.29
+    },
+    {
+      "input": "gwp",
+      "label": "GWP of the extra recovered gas",
+      "range_basis": "MOEJ 2024 · recovered mix to escaped mix",
+      "unit": "t/t",
+      "input_low": 1779.11,
+      "input_high": 1834.84,
+      "input_median": 1834.84,
+      "mtco2e_low": 0.0607,
+      "mtco2e_high": 0.0626,
+      "swing_mtco2e": 0.0019,
+      "swing_vs_base": 0.0304
+    },
+    {
+      "input": "M",
+      "label": "M  gas left in scrapped equipment",
+      "range_basis": "MOEJ 2024 · slide total to recovered + emitted",
+      "unit": "t",
+      "input_low": 12011.0,
+      "input_high": 12066.0,
+      "input_median": 12066.0,
+      "mtco2e_low": 0.0623,
+      "mtco2e_high": 0.0626,
+      "swing_mtco2e": 0.000285,
+      "swing_vs_base": 0.00456
+    }
+  ],
+  "dominant_inputs": {
+    "ranking_by_swing": [
+      "dr",
+      "al",
+      "phi",
+      "gwp",
+      "M"
+    ],
+    "note": "Δr and α (both assumptions) and the permanence accounting choice φ dominate. GWP and M move the result only within the narrow ranges the MOEJ slide itself supports; that says nothing about whether the slide is right."
+  },
+  "pathway2_per_tonne_blocked": {
+    "formula": "dE2 [tCO2e per t blocked] = GWP x beta",
+    "beta": {
+      "p5": 0.624,
+      "p50": 0.741,
+      "p95": 0.884,
+      "mean": 0.747
+    },
+    "beta_anchors": {
+      "disposal_only": 0.57,
+      "flow": 0.717
+    },
+    "per_tonne": {
+      "R-404A": {
+        "gwp": 3922.0,
+        "tco2e_per_tonne_blocked": {
+          "p5": 2450.0,
+          "p50": 2910.0,
+          "p95": 3470.0,
+          "mean": 2930.0
+        },
+        "at_beta_disposal_only": 2240.0,
+        "at_beta_flow": 2810.0
+      },
+      "R-134a": {
+        "gwp": 1430.0,
+        "tco2e_per_tonne_blocked": {
+          "p5": 893.0,
+          "p50": 1060.0,
+          "p95": 1260.0,
+          "mean": 1070.0
+        },
+        "at_beta_disposal_only": 815.0,
+        "at_beta_flow": 1030.0
+      },
+      "R-410A": {
+        "gwp": 2088.0,
+        "tco2e_per_tonne_blocked": {
+          "p5": 1300.0,
+          "p50": 1550.0,
+          "p95": 1850.0,
+          "mean": 1560.0
+        },
+        "at_beta_disposal_only": 1190.0,
+        "at_beta_flow": 1500.0
+      },
+      "Japan disposal mix": {
+        "gwp": 1835.0,
+        "tco2e_per_tonne_blocked": {
+          "p5": 1150.0,
+          "p50": 1360.0,
+          "p95": 1620.0,
+          "mean": 1370.0
+        },
+        "at_beta_disposal_only": 1050.0,
+        "at_beta_flow": 1320.0
+      }
+    },
+    "caveats": [
+      "gross, not net: the servicing demand the blocked tonne would have met is most likely met instead by legal quota gas or genuine reclaimed gas (or another illegal tonne); the net effect is only the part of the blocked tonne that does not get replaced",
+      "a lifetime figure with no timing: the emission would happen over years of leaks and at disposal",
+      "no total: no source gives the tonnage the ledger would block"
+    ]
+  },
+  "pilot_size": {
+    "baseline_share": 0.43,
+    "test": "two proportions, two-sided 5 %, power 80 %",
+    "outcome_measurement": "independent of the arm: physical audit of a random sample of scrapped units",
+    "cluster_example": {
+      "units_per_cluster": 20,
+      "icc": 0.05,
+      "design_effect": 1.95,
+      "kind": "assumption (illustration only)"
+    },
+    "rows": [
+      {
+        "difference_pp": 1,
+        "units_per_arm_unclustered": 38578,
+        "units_per_arm_cluster_example": 75226
+      },
+      {
+        "difference_pp": 2,
+        "units_per_arm_unclustered": 9666,
+        "units_per_arm_cluster_example": 18849
+      },
+      {
+        "difference_pp": 4,
+        "units_per_arm_unclustered": 2425,
+        "units_per_arm_cluster_example": 4728
+      },
+      {
+        "difference_pp": 8,
+        "units_per_arm_unclustered": 608,
+        "units_per_arm_cluster_example": 1184
+      }
+    ]
+  }
+}

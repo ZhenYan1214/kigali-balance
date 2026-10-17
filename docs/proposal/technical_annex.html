@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Kigali Balance – Technical Annex</title>
+<style>
+  @page { size: A4; margin: 1.5cm 1.7cm 1.6cm; }
+  body { font-family: "Calibri", "Segoe UI", Arial, sans-serif; font-size: 9.8pt; line-height: 1.32; color: #111; margin: 0; }
+  h1 { font-size: 16pt; margin: 0 0 2pt; line-height: 1.2; }
+  .sub { font-size: 9.4pt; color: #444; margin: 0 0 8pt; border-bottom: 1.5px solid #2a6f4f; padding-bottom: 4pt; }
+  h2 { font-size: 12.5pt; margin: 12pt 0 3pt; color: #2a6f4f; border-bottom: 0.8pt solid #b9d3c4; padding-bottom: 1pt; }
+  h3 { font-size: 10.4pt; margin: 8pt 0 2pt; color: #1f4f39; }
+  p { margin: 0 0 4pt; }
+  ul, ol { margin: 0 0 4pt; padding-left: 15pt; }
+  li { margin: 0 0 2pt; }
+  table { border-collapse: collapse; width: 100%; font-size: 8.5pt; margin: 3pt 0 5pt; }
+  th, td { border: 0.6pt solid #999; padding: 2pt 4pt; text-align: left; vertical-align: top; }
+  th { background: #e8f1ec; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  code { font-family: Consolas, "Courier New", monospace; font-size: 8.4pt; background: #f2f4f3; padding: 0 1.5pt; }
+  .box { border-left: 3pt solid #2a6f4f; background: #f1f7f3; padding: 4pt 7pt; margin: 4pt 0 6pt; }
+  .warn { border-left: 3pt solid #9a6700; background: #fbf6ea; padding: 4pt 7pt; margin: 4pt 0 6pt; }
+  .small { font-size: 8.2pt; color: #333; }
+  .fixed { color: #1a7f37; font-weight: 600; }
+  table.threats { font-size: 7.9pt; table-layout: fixed; }
+  table.threats code { font-size: 7.4pt; word-break: break-all; }
+  figure { margin: 4pt 0 6pt; text-align: center; }
+  figure img { max-width: 100%; }
+  figcaption { font-size: 8.2pt; color: #444; margin-top: 2pt; }
+  .refs { font-size: 7.8pt; color: #333; line-height: 1.25; }
+  .refs li { margin-bottom: 1pt; }
+  h2, h3 { break-after: avoid; page-break-after: avoid; }
+  tr, .box, .warn, figure { break-inside: avoid; page-break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<h1>Kigali Balance: Technical Annex</h1>
+<p class="sub">IEEE ClimateChain Global Hackathon 2026 · Track 3: Sustainable Supply Chains (also Track 1: Carbon Markets &amp; Emissions Transparency) · Repository: github.com/ZhenYan1214/kigali-balance · All figures as of 2026-10-17</p>
+
+<div class="box"><b>At a glance.</b>
+<ul>
+<li><i>Problem:</i> a kilogram sold as “reclaimed” or credited as “destroyed” is checked only inside the system that records it. No registry publishes which container, and how many kilograms, each of the 42.4 million destruction credits we audited draws on.</li>
+<li><i>Design:</i> one conservation rule (A.1), enforced on chain when each record is written. Every step that earns money needs a second, accountable signer (A.4–A.5).</li>
+<li><i>Evidence:</i> 143 unit tests, including a regression test for each finding of an outside red-team review (which found one High-severity flaw, now fixed; B.3); 10 fuzzed invariants; 7,219 of 7,219 simulated events replayed identically against the contracts; Slither reports no Medium or High finding.</li>
+<li><i>Impact:</i> for a market the size of Japan's, a median 0.06 MtCO₂e a year attributable to verification (5th–95th percentile 0.01–0.18), counting only gas that is destroyed (C).</li>
+<li><i>Limits:</i> market data is simulated; amounts are not yet confidential; collusion is bounded, not prevented (F).</li>
+</ul></div>
+<p class="small">Sections follow the IEEE call: architecture and specification (A), security and data-integrity assessment (B), climate impact (C), adoption and roadmap (D), testing (E). The problem statement is pages 1–2. Every number comes from a script in the repository. A clean GitHub-hosted Linux machine rebuilds every generated file on every push and fails if any of them changes by one byte; <code>python scripts/rebuild.py --full</code> reproduces this locally.</p>
+
+<h2>A. Architecture and technical specification</h2>
+
+<h3>A.1 What the system is for, in one rule</h3>
+<div class="box"><b>Every kilogram claimed as “reclaimed” or “destroyed” must trace back to a kilogram recovered from a real, registered piece of equipment.</b></div>
+<p>Kigali Balance is a reconciliation layer between the systems that already record HFC kilograms. We audited 436 public ODS (ozone-depleting substance) and HFC destruction and reclamation projects at ACR, CAR and Verra:
+<ul>
+<li>Certificate-of-destruction identifiers are public for 31% of the 42.4 million destruction credits, in three incompatible forms.</li>
+<li>58% have none. Most of these are California and Washington compliance credits, whose issuance does reconcile with the registries period by period.</li>
+<li>11% we did not assess.</li>
+</ul>
+No registry publishes which container and how many kilograms a credit draws on, so uniqueness at the kilogram level cannot be checked from outside. Almost all of these credits are for ODS destruction; HFC destruction crediting is only now opening (C, D). A shared ledger is used only because <b>no single trusted operator spans all the parties</b> (problem statement, §7).</p>
+
+<h3>A.2 Architecture</h3>
+<figure><img src="../assets/architecture-light.svg" alt="Architecture diagram" style="max-height:8.7cm"><figcaption>Independent signers (scales, equipment owners, laboratories, destruction verifiers) send EIP-712 attestations to <code>KigaliLedger</code>. Carbon registries, reclaimers, buyers and regulators rely on it. The AI modules read only ledger events and invoices, off chain, and write their flags back.</figcaption></figure>
+
+<table>
+<tr><th>Layer</th><th>Responsibility</th><th>Not its responsibility</th></tr>
+<tr><td><b>Physical anchors</b></td><td>Scale readings signed by a device key and bound to one cylinder ID; a co-signature by the unit's owner for each recovery; lab certificates (purity per AHRI 700); destruction certificates from a verifier independent of the facility</td><td>Seeing inside a cylinder. Collusion is not prevented, but it needs a second accountable signer.</td></tr>
+<tr><td><b>Shared ledger</b> (6 contracts, Solidity 0.8.28)</td><td>Per-gas mass conservation; provenance classes that cannot be swapped; booked content per unit; quarantine of recently charged and undocumented gas; one claim per destruction event</td><td>Gas that never enters it</td></tr>
+<tr><td><b>AI</b> (Python, off chain)</td><td>Flags what is compliant but implausible, with reasons a reviewer can read; writes each flag to <code>FlagRegistry</code> with model and input hashes</td><td>Sanctions. A flag is a reason to look, never a finding.</td></tr>
+</table>
+
+<h3>A.3 Data model</h3>
+<ul>
+<li><b>Lot</b> (UTXO-like): gas, integer grams, provenance class, tier, holder, origin unit, parent lots, cylinder ID. One open lot per physical cylinder at a time.</li>
+<li><b>Provenance classes</b>, which can never be swapped:
+  <ul>
+  <li><code>VIRGIN</code>: minted against a quota document.</li>
+  <li><code>RECOVERED</code>: from a registered unit.</li>
+  <li><code>RECLAIMED</code>: made only from recovered lots.</li>
+  <li><code>UNKNOWN</code>: legacy stock. Only the quota authority can register it. It is never reclaimed or credited, even after being charged into equipment.</li>
+  </ul></li>
+<li><b>Equipment tiers.</b>
+  <ul>
+  <li><b>A</b>: in a national register (e.g. units ≥ 5 tCO₂e, which EU 2024/573 requires to be leak-checked).</li>
+  <li><b>B</b>: small units registered at decommissioning from a nameplate photo (one photo, one unit) and a model database.</li>
+  <li><b>C</b> is assigned at recovery, to: grams charged through the ledger in the previous 180 days; everything, if the unit was installed less than 180 days ago; and any undocumented gas charged into the unit. Tier C can never be reclaimed or credited.</li>
+  </ul></li>
+<li><b>Booked content</b> per unit: starts at one charge, drawn down by each recovery, refilled only by recorded top-ups, never above one charge.</li>
+<li><b>Destruction event</b>: destroyed grams, destruction and removal efficiency (DRE), credit eligibility, and the weakest input tier. Each event can be claimed by one registry, once.</li>
+</ul>
+<p>In ISO 22095:2020 chain-of-custody terms, this is the <b>segregated</b> model, not mass balance. Reclamation may blend recovered lots with each other, but virgin or unknown gas can never be mixed in. A mass-balance model would let a reclaimer sell “reclaimed” kilograms against an average, which is exactly the loophole the system closes. This positioning is based on published summaries of the standard [6].</p>
+
+<h3>A.4 Rules enforced on chain</h3>
+<table>
+<tr><th>Rule</th><th>What it enforces</th><th>Error on violation</th><th>Tests</th></tr>
+<tr><td>R1</td><td>Virgin lots only against a registered quota document, never above it. Undocumented (<code>UNKNOWN</code>) stock only by the quota authority.</td><td><code>QuotaExceeded</code>, <code>NotRole</code></td><td><code>Ledger.t.sol</code> R1 ×5; <code>EdgeCases.t.sol</code>; invariant <code>quotaNeverExceeded</code></td></tr>
+<tr><td>R2</td><td>Two-step transfer. The receiver re-weighs on its own signed scale. Every shortfall is booked as loss, and a shortfall above 1% is also flagged. Mass can never grow in transit. A revoked operator's lots are frozen.</td><td>Flags <code>UNDERWEIGHT_ON_RECEIPT</code>, <code>OVERWEIGHT_ON_RECEIPT</code>; <code>NotOperator</code></td><td>R2 ×9; <code>RedTeam.t.sol</code> F7</td></tr>
+<tr><td>R3</td><td>
+<ul>
+<li>Recovery ≤ <b>booked content</b>. A lifetime cap of one charge plus recorded top-ups remains as a coarser second bound.</li>
+<li>The owner's co-signature names the service company, grams and cylinder.</li>
+<li>The 180-day quarantine; undocumented gas is quarantined permanently.</li>
+<li>A monthly Tier B cap per service-company address.</li>
+</ul></td><td><code>RecoveryExceedsContent</code>, <code>NotUnitOwner</code>, <code>OwnerNotIndependent</code></td><td><code>Equipment.t.sol</code> 19; <code>Provenance.t.sol</code> consent ×8; <code>Laundering.t.sol</code> 10; <code>RedTeam.t.sol</code> F1 ×2, F3, F5, F8; 3 invariants</td></tr>
+<tr><td>R4</td><td>Reclaimed output ≤ recovered input × (1 − 2% minimum loss); purity ≥ 99.5%, signed by an independent lab over a subject that names the reclaimer, its exact inputs and the output cylinder</td><td><code>ReclaimExceedsInput</code>, <code>WrongSubject</code></td><td>R4 ×5; <code>RedTeam.t.sol</code> F4</td></tr>
+<tr><td>R5</td><td>Only non-Tier-C <code>RECOVERED</code> lots enter reclamation</td><td><code>ClassNotReclaimable</code>, <code>TierNotReclaimable</code></td><td>R5 ×3; invariant <code>reclaimedOnlyFromRecovered</code></td></tr>
+<tr><td>R6</td><td>Destroyed grams and DRE ≥ 99.99% are signed by a verifier independent of the facility. An event is credit-eligible only if every input is non-Tier-C <code>RECOVERED</code>.</td><td><code>NotVerifier</code>, <code>VerifierNotIndependent</code></td><td>R6 ×6, verifier ×5; 2 invariants</td></tr>
+<tr><td>R7</td><td>Claim lock: each credit-eligible destruction event can be claimed by one registry, once. A registry can refuse Tier B inputs.</td><td><code>AlreadyClaimed</code>, <code>TierNotAccepted</code></td><td><code>Claims.t.sol</code> 8; invariant <code>claimedAtMostOnce</code></td></tr>
+<tr><td>Cylinder</td><td>One open lot per cylinder ID</td><td><code>CylinderInUse</code></td><td><code>Provenance.t.sol</code> ×6</td></tr>
+</table>
+<p class="small"><b>Why a claim lock and not a shared fingerprint.</b> An earlier design had registries compare hashes of event data, but changing any field of a certificate changes the hash. The claim lock makes the destruction event itself ledger state.</p>
+
+<h3>A.5 Attestations</h3>
+<p>All off-chain evidence enters as EIP-712 typed data signed with secp256k1 and verified in the contract (<code>Attestations.sol</code>).
+<ul>
+<li>The domain binds chain ID and contract address.</li>
+<li>High-<code>s</code> signatures are rejected.</li>
+<li>Every attestation carries a nonce (no replay), is valid for 7 days, and can never be dated in the future.</li>
+<li>Each device key is bound to one operator, and an operator can only use its own scale.</li>
+<li>“Independent” is checked at the level of addresses: governance must vet that two addresses are not one entity.</li>
+</ul></p>
+<table>
+<tr><th>Type</th><th>Fields</th><th>Signed by</th></tr>
+<tr><td><code>ScaleReading</code></td><td>subject (what was weighed, e.g. recovery of unit X into cylinder Y), grams, timestamp, nonce</td><td>The operator's bound scale</td></tr>
+<tr><td><code>RecoveryConsent</code></td><td>equipmentId, cylinderId, service company, grams (must equal the reading), decommission flag, timestamp, nonce</td><td>The unit's registered owner, independent of the service company</td></tr>
+<tr><td><code>LabCertificate</code></td><td>subject (the reclaimer, its exact input lots and the output cylinder), gas, purity (bps), sampleId, timestamp, nonce</td><td>An accredited lab, independent of the reclaimer</td></tr>
+<tr><td><code>DestructionCertificate</code></td><td>subject (the exact input lots), grams (must equal intake), DRE (bps), documentHash, timestamp, nonce</td><td>A verifier, independent of the facility</td></tr>
+</table>
+
+<h3>A.6 AI modules</h3>
+<p>The modules read only what a regulator could observe: ledger events, the equipment register, the actor list and invoices. The simulator's ground truth is used only to score them; a test parses the source code to prove that no module opens it.
+<ul>
+<li>Each flag carries readable reasons, the model hash and a hash of its input snapshot.</li>
+<li>Signals combine by noisy-OR, and a score ≥ 0.6 sends the case to a human.</li>
+<li>The differential test writes every flag to <code>FlagRegistry</code> and reads it back. It recomputes the input hash independently from the replayed files. Only a regulator can close a flag.</li>
+<li>Thresholds were fixed on development seeds. Each module was then scored on 20 simulated runs it had never seen, and on new ones whenever a version changed.</li>
+</ul></p>
+<table>
+<tr><th>Module (36 months)</th><th>Signals</th><th class="n">Precision</th><th class="n">Honest flagged</th><th class="n">Naive caught</th><th class="n">Adaptive caught</th><th class="n">Fraud in sample</th></tr>
+<tr><td>A · Leakage gap: are a company's top-ups plausible for its registered units?</td><td>Purchases with no ledger receipt; top-ups vs IPCC leak rates (peer robust z); silent units</td><td class="n">0.97</td><td class="n">0.5%</td><td class="n">100%</td><td class="n">5% (3/60)</td><td class="n">20%</td></tr>
+<tr><td>B · Mass balance: do sales and yields match inflows?</td><td>Gram-level invoice-to-shipment matching; attempts above the 98% yield cap; yield percentile. An Isolation Forest only re-ranks; it changes no flag.</td><td class="n">1.00</td><td class="n">0% (0/100)</td><td class="n">100%</td><td class="n">0%</td><td class="n">44%</td></tr>
+<tr><td>C · Recovery plausibility: do a company's Tier B recoveries look real?</td><td>Share of near-full recoveries; volume vs registered fleet (quasi-Poisson); who co-signs for whom</td><td class="n">0.98</td><td class="n">0.1%</td><td class="n">100%</td><td class="n">35% (7/20)</td><td class="n">7%</td></tr>
+</table>
+<p class="small"><b>How to read these numbers.</b>
+<ul>
+<li><b>They measure our own fraud generator.</b> Naive fraud is detectable by construction: it buys gas on invoices the ledger never sees. Adaptive fraud is defined as staying inside each detector's honest range, and its volume is a simulator parameter. So “adapting forces fraudsters to stay small” (4 kg against 136 kg for ghost recoveries; 15 kg against 1,131 kg for distributors; only 14 kg against 28 kg for yield-inflating reclaimers) is a consistency check, not a discovery.</li>
+<li><b>Precision depends on how much fraud the sample holds.</b> If 1 company in 100 cheated, module A's precision would fall to about 0.5. The samples are small: the 95% interval on module C's 35% is 15–59%.</li>
+<li><b>Module C's 35% is reached in year 3;</b> at 12 months it is 5%.</li>
+<li><b>The colluding co-signer is caught partly because it also serves a naive partner.</b></li>
+<li><b>End-of-life closure.</b> A fourth check lists registered units that left service with no recovery on the ledger. Its true unaccounted mass fell inside the IPCC-based estimate in 10 of 10 runs, but near the top of the range, because the simulator keeps small leak-checked units fuller than IPCC typical values.</li>
+</ul></p>
+
+<h3>A.7 Standards and regulation</h3>
+<table>
+<tr><th>Standard or rule</th><th>How Kigali Balance relates</th></tr>
+<tr><td>EU 2024/573 (F-gas)</td><td>
+<ul>
+<li>Art. 5: leak-check frequencies, used to model maintenance.</li>
+<li>Art. 12(7): labelling of reclaimed gas.</li>
+<li>Art. 13: servicing ban on virgin gas of GWP ≥ 2,500 (systems ≥ 40 tCO₂e since 2020); reclaimed gas is exempt until 2030.</li>
+<li>Art. 16(2) and 22(2): imports count as virgin, except gas imported for destruction.</li>
+<li>Art. 26: annual reporting.</li>
+</ul></td></tr>
+<tr><td>US 40 CFR 82 and 84 (EPA)</td><td>Reclaimers already report input and output per gas, with an annual audit: the single-jurisdiction precedent for R4</td></tr>
+<tr><td>Isometric HFC &amp; ODS protocol v1.0; Verra VM0016 v2.0</td><td>Per-container weighing, sampling and DRE ≥ 99.99% became the destruction-certificate fields and R6</td></tr>
+<tr><td>ISO 22095:2020</td><td>Chain-of-custody model: segregated (A.3)</td></tr>
+<tr><td>GS1 EPCIS 2.0</td><td>Planned import format: ObjectEvent for transfers; TransformationEvent for reclamation (many inputs, one output), matching R4</td></tr>
+<tr><td>W3C Verifiable Credentials 2.0, DID</td><td>Roles and device credentials; their hashes are stored in <code>IdentityRegistry</code></td></tr>
+<tr><td>AHRI 700</td><td>Purity floor for reclaimed gas (R4)</td></tr>
+<tr><td>IEEE 3218-2022 (blockchain for carbon trading)</td><td>Overlap: the claim lock supplies the cross-registry uniqueness function. A clause-by-clause mapping is roadmap work.</td></tr>
+<tr><td>CAD Trust</td><td>Aggregates unit metadata across registries; it does not see kilograms, containers or destruction events. The claim lock's event ID can be attached to a CAD Trust unit record.</td></tr>
+<tr><td>Paris Agreement Art. 6; Japan's JCM</td><td>Corresponding adjustments between countries. The claim lock prevents double <i>issuance</i> among registries that use it. It does not address double claiming between a credit buyer and a host country's NDC, or Montreal Protocol accounting of destroyed amounts.</td></tr>
+<tr><td>EU ESPR digital product passport</td><td>The provenance passport follows the per-item passport pattern (a QR code to a verifiable history). No conformance is claimed.</td></tr>
+</table>
+
+<h3>A.8 Cost and capacity</h3>
+<p>Gas measured by Foundry on the demo scenario (a successful call):</p>
+<table>
+<tr><th>Operation</th><th class="n">Gas</th><th>Operation</th><th class="n">Gas</th><th>Operation</th><th class="n">Gas</th></tr>
+<tr><td>Register Tier A unit</td><td class="n">172,648</td><td>Send (split)</td><td class="n">158,428</td><td>Reclaim</td><td class="n">345,136</td></tr>
+<tr><td>Mint virgin lot</td><td class="n">248,489</td><td>Receive and re-weigh</td><td class="n">89,322</td><td>Destroy</td><td class="n">264,609</td></tr>
+<tr><td>Charge into unit</td><td class="n">102,721</td><td>Recover (2 signatures)</td><td class="n">324,546</td><td>Registry claim</td><td class="n">102,524</td></tr>
+</table>
+<p><b>Cost.</b> One recovered cylinder's full path (recover, send, receive, reclaim or destroy, claim) is about 1.0–1.5 million gas. At OP Mainnet prices read on 2026-10-17, that is <b>under one US cent per cylinder</b>:
+<ul>
+<li>L2 gas price about 0.001 gwei;</li>
+<li>ETH at about US$2,420;</li>
+<li>an L1 data fee of under 10<sup>−8</sup> ETH per transaction.</li>
+</ul>
+A permissioned consortium chain (Hyperledger Besu, QBFT) charges no fee at all.</p>
+<p><b>Capacity.</b> Take a deliberately pessimistic case: all 12,066 t of HFC left in equipment scrapped in Japan in 2024, recovered 1 kg at a time. That is about 0.6 million gas per second, under 3% of OP Mainnet's 20 million.</p>
+<p><b>Size.</b> <code>KigaliLedger</code> is 19.1 KB, under the 24 KB limit but too large for a single transaction under Ethereum Sepolia's per-transaction gas cap. Splitting it into contracts below about 10 KB is on the roadmap.</p>
+
+<h2>B. Security and data-integrity assessment</h2>
+
+<h3>B.1 Scope, assets and trust assumptions</h3>
+<p><b>Assets.</b>
+<ol>
+<li>The integrity of each lot's provenance class: the “reclaimed” premium and carbon credits depend on it.</li>
+<li>The uniqueness of each destruction claim.</li>
+<li>Mass conservation per gas.</li>
+<li>The confidentiality of participants' commercial volumes.</li>
+<li>Long-term verifiability of the records.</li>
+</ol></p>
+<p><b>What the ledger does not assume:</b> that any single participant is honest, or that any submitted data is true.</p>
+<p><b>What it does assume:</b>
+<ul>
+<li>At least one independent counterparty in each money-making step is honest: the receiver weighs on its own scale, the owner co-signs, and the lab and the destruction verifier are independent.</li>
+<li>Governance vets identities, so that two addresses are not one entity.</li>
+<li>No single bloc controls governance (3 of 4 seats: regulator, registries, industry association, civil society).</li>
+</ul></p>
+<p><b>Adversaries:</b>
+<ul>
+<li>a reclaimer selling virgin or smuggled gas as reclaimed (reclaimed R-404A sold at a 40% premium over virgin in Q1 2025 [2]);</li>
+<li>a service company or take-back point inventing recoveries;</li>
+<li>a destruction facility overstating destruction;</li>
+<li>a project developer seeking credits from two registries;</li>
+<li>a competitor trying to disrupt another's business;</li>
+<li>an outsider holding a stolen key.</li>
+</ul></p>
+
+<h3>B.2 Threat model</h3>
+<p class="small">Numbering follows the project plan and the comments in the code. Findings of the outside red-team review (B.3) are marked <span class="fixed">fixed</span> where the contracts were changed.</p>
+<table class="threats">
+<colgroup><col style="width:4%"><col style="width:14%"><col style="width:28%"><col style="width:25%"><col style="width:29%"></colgroup>
+<tr><th>#</th><th>Threat</th><th>Control</th><th>Evidence</th><th>Residual risk</th></tr>
+<tr><td>T1</td><td>Fake unit registered to “recover” virgin gas</td><td>Tier A from the national register. Tier B by photo (one photo, one unit; <span class="fixed">fixed</span>) and model charge, under a monthly cap. Owner co-signature. AI module C.</td><td><code>Equipment.t.sol</code>; <code>test_F8_onePhotoRegistersOneUnit</code>; module C (A.6)</td><td>Collusion with a take-back point, bounded per unit. Several addresses multiply the monthly cap. A service company can register a Tier B unit under any unused ID.</td></tr>
+<tr><td>T2</td><td>Tampered scale reading</td><td>Device keys bound to an operator; the receiver re-weighs on its own scale; consent and certificate grams must equal the reading</td><td><code>test_sec_revert_*</code> ×9 (unregistered device, replay, other subject, tampered weight, expired, future, revoked, high-s, other deployment)</td><td>Both parties to a transfer colluding. A scale manipulated before it signs (needs a secure element and a calibration certificate). Under-reporting each receipt by up to 1% goes unflagged.</td></tr>
+<tr><td>T3</td><td>Forged or reused lab report</td><td>The lab is independent of the reclaimer. The certificate's subject names the reclaimer, its inputs and the output cylinder, so a certificate cannot be reused by another reclaimer (<span class="fixed">fixed</span>).</td><td><code>test_R4_revert_reclaimerCannotCertifyItself</code>, <code>test_F4_labCertificateCannotBeReusedByAnotherReclaimer</code></td><td>A dishonest lab</td></tr>
+<tr><td>T4</td><td>Inflated recovery or reclamation</td><td>R3 and R4 caps; modules B and C</td><td>R3/R4 tests; invariants</td><td>Yield inflation inside honest variation (adaptive reclaimers: 0% caught)</td></tr>
+<tr><td>T5</td><td>One destruction credited by two registries</td><td>R7 claim lock</td><td>Invariant <code>claimedAtMostOnce</code>; <code>Claims.t.sol</code></td><td>A registry that does not use the ledger. A rogue or stolen registry key can claim any eligible event first, irreversibly (designation by the project developer is roadmap work). Host-country and Montreal accounting are out of scope (A.7).</td></tr>
+<tr><td>T6</td><td>Stolen participant key</td><td>Revocation through governance immediately stops the key's signatures and freezes the operator's lots (<span class="fixed">fixed</span>); nonces; 7-day attestation validity</td><td><code>test_sec_revert_revokedDeviceStopsImmediately</code>, <code>test_H1_revert_revokedOwnerCannotConsent</code>, <code>test_F7_revokedOperatorsLotsAreFrozen</code></td><td>Records made before revocation need manual review. A unit's owner cannot yet be changed.</td></tr>
+<tr><td>T7</td><td>Tampered data imported from national systems</td><td>Only signed exports, with the source hash recorded (design)</td><td>—</td><td>Import is not built; a source system's own errors</td></tr>
+<tr><td>T8</td><td>Commercial volumes visible to competitors</td><td>Documents off chain, hashes on chain</td><td>—</td><td><b>Lot grams are visible to consortium members</b> (B.5)</td></tr>
+<tr><td>T9</td><td>Smart-contract bug</td><td>143 unit tests, 10 fuzzed invariants, differential replay, Slither in CI, manual red-team review</td><td>B.3</td><td>Unknown bugs; a third-party audit is needed before production</td></tr>
+<tr><td>T10</td><td>Governance captured by one bloc</td><td>3-of-4 multisig across stakeholder groups; no single seat can grant roles</td><td><code>Governance.t.sol</code> 9</td><td>On the testnet one person holds all four seats. Members cannot yet be rotated (losing 2 of 4 keys halts governance). No timelock or proposal expiry.</td></tr>
+<tr><td>T11</td><td>Personal data (GDPR, KVKK)</td><td>Technicians appear only as pseudonymous addresses; identifying data stays off chain</td><td>—</td><td>Cross-border transfer rules need per-country review</td></tr>
+<tr><td>T12</td><td>Signature scheme broken by a quantum computer</td><td>Verification isolated in one library; migration path in B.6</td><td>—</td><td>Not implemented</td></tr>
+<tr><td>T13</td><td>Laundering by charging gas into a unit and recovering it</td><td>180-day quarantine. Undocumented gas stays Tier C for good, and only the quota authority can register it (<span class="fixed">fixed</span>, High).</td><td><code>Laundering.t.sol</code> 10; <code>test_F1_*</code> ×2; <code>test_revert_operatorCannotDeclareUnknown</code></td><td><b>Off-ledger</b> charging of smuggled gas into a nearly empty unit, then a genuine recovery. No false signature is needed; it is bounded only by booked content (B.4), and only inspection or module A can see it.</td></tr>
+<tr><td>T14</td><td>Recovery recorded without the owner</td><td>Owner co-signature naming service company, grams and cylinder</td><td>Invariant <code>noRecoveryWithoutOwnerConsent</code>; 23 blocked in the seed-42 simulation</td><td>Owner and technician colluding</td></tr>
+<tr><td>T15</td><td>Facility certifying its own destruction</td><td>Independent verifier certificate</td><td>Invariant <code>noSelfCertifiedDestruction</code></td><td>Facility and verifier colluding</td></tr>
+<tr><td>T16</td><td>Padding: recovering more than a unit holds, at once or split over several recoveries</td><td>Booked content (R3)</td><td>Invariant <code>noRecoveryAboveBookedContent</code></td><td>Padding up to one charge (B.4)</td></tr>
+<tr><td>T17</td><td>Griefing and denial of service</td><td>One charge record per day bounds the residence check (<span class="fixed">fixed</span>). Saturating arithmetic: an absurd charge can no longer lock a unit (<span class="fixed">fixed</span>).</td><td><code>test_F5_floodOfChargesStaysCheap</code>, <code>test_F3_absurdChargeCannotLockAUnit</code></td><td>Any service company can charge its own gas into another's unit, quarantining as many grams as it gives up; owner-authorised service companies are roadmap work. Cylinder IDs can be squatted by splitting a lot into a victim's ID.</td></tr>
+</table>
+
+<h3>B.3 Verification evidence</h3>
+<table>
+<tr><th>Method</th><th>What it checks</th><th>Result</th></tr>
+<tr><td>Unit tests (Foundry)</td><td>Each rule, each signature attack, the six-step demo, and the red-team proofs of concept turned into regression tests</td><td>143 passing</td></tr>
+<tr><td>Fuzzed invariants (CI: 128 runs × 64 steps; deep profile: 256 × 128, run locally)</td><td>Ten properties, including conservation, claims at most once, and no recovery without consent or above booked content</td><td>10 holding. A deep campaign makes thousands of attempts per property, none of which succeeds. The counts include attempts that revert for other reasons, and the attacks come from a narrow set of keys.</td></tr>
+<tr><td>Differential test</td><td>A simulated three-year market with injected fraud (7,219 events) is replayed against the compiled contracts on a local chain. Every accept or reject, error name, lot ID and gas total must match the simulator's separately written JavaScript rule mirror.</td><td>7,219 / 7,219 match; then 9 AI flags are written to <code>FlagRegistry</code> and read back. The mirror covers the calls the simulator makes; it does not cover legacy-stock declarations, rejections, device binding or parameter changes.</td></tr>
+<tr><td>Static analysis (Slither 0.11.6, 102 detectors)</td><td>Known vulnerability patterns</td><td>0 High, 0 Medium; 17 Low and 5 Informational triaged in <code>docs/security/static-analysis.md</code></td></tr>
+<tr><td><b>Outside red-team review</b> (2026-10-17)</td><td>A pre-audit review that checked every security claim in this annex against the code and tried to break the rules with proof-of-concept tests</td><td>
+<ul>
+<li>1 <b>High</b>: undocumented gas could become credit-eligible recovered gas after 180 days.</li>
+<li>3 Medium: free quarantining of a competitor's unit; a permanent lock through overflow; lab-certificate reuse.</li>
+<li>Several Low, plus documentation errors.</li>
+</ul>
+The High finding, 2 of the Medium and 3 of the Low were fixed, each with a regression test. The rest are listed above as residual risks.</td></tr>
+<tr><td>Clean-room reproduction (CI)</td><td>Everything rebuilt from scratch on a fresh Linux machine on every push</td><td>Passing; every committed generated file is byte-identical (PDFs excepted)</td></tr>
+<tr><td>Live deployment</td><td>The six contracts on OP Sepolia, verified on the block explorer; the demo run on chain</td><td>142 transactions, none failed (2026-10-16). <b>This build predates the booked-content rule and the red-team fixes.</b> Its per-recovery cap can be bypassed by splitting recoveries (B.4). A redeploy is pending.</td></tr>
+</table>
+
+<h3>B.4 How much can colluding parties still launder?</h3>
+<p>Rules cannot stop two parties who agree to lie, so we measured how much room they leave. In the model, every registered unit in the simulated market (the October 16 simulator population, 1,856 units) is padded to the limit by a colluding technician and owner, with the charge really left in each unit drawn from the IPCC 2006 Table 7.9 end-of-life ranges. The rules would then accept as “recovered”:</p>
+<ul>
+<li><b>323.5 kt CO₂e</b> of virgin gas under a plain lifetime cap (375% of honest recovered volume);</li>
+<li><b>38.6 kt CO₂e</b> under the booked-content rule we implemented (45%);</li>
+<li>30.0 kt CO₂e with an uncalibrated padding detector on top (35%).</li>
+</ul>
+<p>Against a lifetime cap, the simplest rule a ledger could enforce, booked content removes 88% of the room. On a ledger only three years old, which has recorded few top-ups, it removes 57% (90.5 → 38.6 kt). A careful paper audit with a unit register would also apply roughly “one charge per unit”, so the gain over today's best practice is smaller. The gain is that the rule is enforced on every record, across organisations.</p>
+<p><b>The rest cannot be closed by rules.</b> Many honest units reach end of life far from full, so padding one to a full charge looks like an ordinary recovery. Off-ledger charging (T13) needs no false signature at all. That residue belongs to statistics and inspection.</p>
+<figure><img src="../../analysis/laundering/chart-light.svg" alt="Laundering capacity by defence layer" style="width:100%"></figure>
+
+<h3>B.5 Confidentiality</h3>
+<p>Today, lot grams and holders are ledger state that every consortium member can read. That is acceptable for a regulator but not for competing reclaimers.</p>
+<p>The production path follows crypto exchanges' proof of reserves, which already proves that totals add up without revealing balances. Commitments (Pedersen) replace plain grams, and the contract checks conservation homomorphically: the sum of input commitments equals the sum of outputs plus losses. <b>Range proofs are mandatory</b> (e.g. Bulletproofs): without them a negative hidden amount could create mass, the known weakness of commitment-only reserve proofs [9]. Regulators would hold viewing keys.</p>
+<p>We have not built this; it is roadmap stage 2.</p>
+
+<h3>B.6 Post-quantum migration path</h3>
+<p>Every signature in the system is secp256k1 ECDSA, which a large quantum computer would break.</p>
+<ul>
+<li><b>What survives:</b> records already on chain stay verifiable as history, as long as the chain's own history cannot be rewritten. That needs the chain's consensus signatures migrated too, which is the chain's job, not this application's.</li>
+<li><b>What breaks:</b> the authenticity of <i>new</i> attestations. Migration therefore has to finish before such a computer exists.</li>
+</ul>
+<p>The design:</p>
+<ol>
+<li><b>Crypto agility.</b> All verification already sits in one library (<code>Attestations.sol</code>). Next, move it behind a verifier contract, selected per key type and replaceable by governance, so a migration needs no redeploy of the ledger.</li>
+<li><b>Hybrid period.</b> For the attestations that create value (recovery consents, destruction certificates), require both an ECDSA and an ML-DSA-44 signature (FIPS 204, final since 2024) over the same EIP-712 digest.</li>
+<li><b>Cost.</b>
+  <ul>
+  <li>An ML-DSA-44 signature is 2,420 bytes.</li>
+  <li>Fireblocks reports a FIPS 204-compliant EVM verifier at about 1.23 million gas per verification. The 20 KB expanded public key is deployed once as contract code, for about 4.1 million gas [11].</li>
+  <li>At the OP Mainnet price above, a verification costs under one cent.</li>
+  <li>A draft precompile (EIP-8051, 4,500 gas) would make it negligible [10], and a permissioned chain can add one itself.</li>
+  </ul></li>
+<li><b>Devices.</b> Scales and lab instruments sign rarely. ML-DSA has been benchmarked on Cortex-M4 and Cortex-M0+ microcontrollers [14], so signing in the scale is expected to be feasible. We have not tested it on scale hardware.</li>
+</ol>
+
+<h2>C. Climate impact and emission-reduction estimate</h2>
+<p>Kigali Balance is an <b>enabler</b>. It recovers no gas and claims no credits; any reduction belongs first to whoever recovers, destroys or pays, and the project will never claim credits for its own role.</p>
+<p>What follows propagates stated assumptions; it is not a forecast. The ranges follow from two assumed distributions and one accounting choice, and the Monte Carlo does not make them more certain. Code, inputs with sources, and a longer discussion: <code>analysis/impact/</code>.</p>
+
+<h3>C.1 How a ledger could reduce emissions</h3>
+<ol>
+<li><b>More recovery (pathway 1).</b> Recovered kilograms become verifiable. Carbon buyers, extended-producer-responsibility schemes and the reclaimed premium can then pay for recovery without paying for fakes. More payment means more recovery, and less venting at end of life.</li>
+<li><b>Closing the “reclaimed” exit (pathway 2).</b> Virgin or smuggled gas can no longer be sold under the reclaimed label, its most profitable outlet.</li>
+</ol>
+<p>The two pathways must not be added: they can count the same molecules twice.</p>
+
+<h3>C.2 Pathway 1, sized on a market like Japan's</h3>
+<p><b>Why Japan.</b> We use Japan's 2024 flows only because Japan publishes an end-of-life mass balance [3]. They convert “one percentage point of recovery” into tonnes for a market of that size. This is <b>not an estimate of impact in Japan</b>: there, recovery is mandated and already tracked electronically, so the ledger would add almost nothing. We found no verifiable end-of-life mass balance for Türkiye or for any EU member state.</p>
+<p><b>Formula.</b> ΔE₁ = M × Δr × GWP × α × φ.</p>
+<ul>
+<li><b>M</b> = 12,066 t reaching end of life. <i>Data.</i></li>
+<li><b>GWP</b> = 1,835 tCO₂e per tonne, for the escaped mix. <i>Data.</i></li>
+<li><b>φ, permanence.</b> Only <i>destroyed</i> gas is permanently avoided. Reclaimed gas goes back into equipment, and under a binding quota it adds to supply rather than displacing virgin gas [15].
+  <ul>
+  <li>Headline: φ = 0.44, Japan's destroyed share of recovered gas.</li>
+  <li>Upper bound: φ = 1, only possible where the quota does not bind.</li>
+  </ul></li>
+<li><b>Δr</b>, the rise in the recovery rate. <i>Assumption:</i> triangular 0 / 1 / 5 percentage points.
+  <ul>
+  <li>Under penalty-backed law, Japan's rate rose about 13 points over 12–17 years [12].</li>
+  <li>New Zealand's carbon-priced scheme reached 11% recovery [16].</li>
+  <li>A voluntary data layer should do less than either.</li>
+  </ul></li>
+<li><b>α</b>, the share of that rise due to verifiability rather than the payment itself. <i>Assumption:</i> triangular 0 / 0.3 / 0.8. No study separates the two. α can be zero: Norway refunds its HFC tax on gas delivered for destruction without any shared ledger [13].</li>
+</ul>
+<table>
+<tr><th>Avoided emissions, MtCO₂e per year, market the size of Japan's</th><th class="n">p5</th><th class="n">median</th><th class="n">p95</th><th class="n">mean</th></tr>
+<tr><td><b>Headline:</b> destroyed share only (φ = 0.44)</td><td class="n">0.011</td><td class="n"><b>0.057</b></td><td class="n">0.18</td><td class="n">0.071</td></tr>
+<tr><td>Upper bound: reclaimed gas fully displaces virgin (φ = 1)</td><td class="n">0.024</td><td class="n">0.13</td><td class="n">0.41</td><td class="n">0.16</td></tr>
+</table>
+<p><b>What the median means.</b> It corresponds to an attributable rise in recovery (Δr × α) of 0.6 percentage points. One attributable point is 121 t of gas a year in a market of this size: 0.10 MtCO₂e on the headline, 0.22 on the upper bound.</p>
+<p><b>For scale.</b> TEAP estimates that 250,000–400,000 t of ODS and HFCs are decommissioned worldwide each year [16]. That makes one attributable point worth 2,500–4,000 t of gas, 21–33 times a Japan-sized market. This is a ceiling, since the figure includes ODS and foams.</p>
+<figure><img src="../../analysis/impact/chart-light.svg" alt="Tornado chart of pathway 1" style="width:100%"><figcaption>Sensitivity of the headline: Δr and α (assumptions) and φ (an accounting choice) dominate. GWP and M move only within the narrow ranges their source supports, which shows neither that the source is right nor that a Japan-sized market is the right size.</figcaption></figure>
+
+<h3>C.3 Pathway 2, per tonne blocked</h3>
+<p>ΔE₂ = GWP × β per tonne blocked, where β is the share that would eventually have been emitted: triangular 0.57 / 0.72 / 0.95, anchored to Japan's 2024 flows.</p>
+<table>
+<tr><th>tCO₂e per tonne blocked (gross, lifetime)</th><th class="n">GWP</th><th class="n">p5</th><th class="n">median</th><th class="n">p95</th></tr>
+<tr><td>R-404A</td><td class="n">3,922</td><td class="n">2,450</td><td class="n">2,910</td><td class="n">3,470</td></tr>
+<tr><td>R-410A</td><td class="n">2,088</td><td class="n">1,300</td><td class="n">1,550</td><td class="n">1,850</td></tr>
+<tr><td>R-134a</td><td class="n">1,430</td><td class="n">890</td><td class="n">1,060</td><td class="n">1,260</td></tr>
+</table>
+<ul>
+<li><b>Gross:</b> the demand a blocked tonne would have met is most likely met by legal quota gas or genuine reclaimed gas instead, so the net effect is smaller.</li>
+<li><b>Lifetime:</b> the emissions would occur over years.</li>
+<li><b>No total:</b> no source says how many tonnes the ledger would block. Seizures (about 670 t in the EU in 2024 [4]) are gas enforcement already stopped.</li>
+</ul>
+
+<h3>C.4 How a pilot would measure the assumption that matters</h3>
+<p>Δr and α enter only as a product, so the stage-2 pilot measures Δr × α directly. It has three matched arms of scrapped units:</p>
+<ul>
+<li>(A) payment per recovered kilogram, verified through the ledger;</li>
+<li>(B) the same payment, verified on paper;</li>
+<li>(C) no payment.</li>
+</ul>
+<p>The outcome must be measured identically in every arm, independently of the ledger and of any paperwork, by a physical audit of a random sample of scrapped units; otherwise fraud inflates the paper arm. The same audit records destroyed versus reclaimed gas, which pins down φ.</p>
+<p><b>Sample size.</b> Assume a 43% baseline (two-sided 5%, power 80%), with clustering by technician (an illustrative design effect of 1.95). Detecting a 1-point difference then needs about 75,000 units per arm; 4 points, about 4,700. <b>A pilot of a few thousand units can rule out the upper end but cannot measure the 0.6-point median.</b> We say so now so that nobody reads a small pilot as proof.</p>
+
+<h3>C.5 What the integrity gain is, and is not</h3>
+<p>The cut in launderable volume (B.4) is not itself an emission reduction. It is what makes paying for recovery, and therefore pathway 1, safe. HFC destruction crediting is only now opening (Verra VM0016 v2.0 in December 2025, Isometric, a Taiwanese draft methodology in 2026), which is why the safeguard matters now.</p>
+
+<h2>D. Adoption strategy and scaling roadmap</h2>
+
+<h3>D.1 Who pays and why</h3>
+<table>
+<tr><th>Participant</th><th>Why join</th><th>Cost</th></tr>
+<tr><td>Compliant reclaimers</td><td>“Verified reclaimed” separates their gas from virgin gas sold under the label, which today undercuts them</td><td>A fee per verified batch</td></tr>
+<tr><td>Carbon registries and credit buyers</td><td>Cross-registry uniqueness at the kilogram level, without sharing databases</td><td>A fee per claim</td></tr>
+<tr><td>Large buyers (supermarkets, rail, data centres)</td><td>Proof that “reclaimed” gas is reclaimed, while the EU servicing ban tightens toward 2030</td><td>Free queries</td></tr>
+<tr><td>Regulators</td><td>Cross-segment signals (closure gaps, AI flags) to target inspections</td><td>A data export</td></tr>
+<tr><td>Technicians and equipment owners</td><td>Designed so that technicians add <b>no paperwork</b>: charges and recoveries would come from records they already file, and weighing becomes signing. Owners add one co-signature per recovery.</td><td>Signing scales are paid for by whoever earns the premium or the credit</td></tr>
+</table>
+<p><b>Türkiye first.</b>
+<ul>
+<li>Türkiye already runs a quota system (FARAVET) and an equipment register (EKOMVET, 21,456 records).</li>
+<li>Verifiable recovery records protect compliant operators, whose gas would otherwise be lumped together with smuggled gas.</li>
+<li>Gas recovered in Türkiye and destroyed in the EU, the one import the EU exempts from quota, must be credited once.</li>
+<li>COP31 is hosted in Antalya, 9–20 November 2026. HFCs are not a COP31 agenda item, but the incoming Presidency has framed super-pollutants, HFCs included, as a core implementation pillar on the road to it.</li>
+</ul></p>
+
+<h3>D.2 Roadmap</h3>
+<table>
+<tr><th>Stage</th><th>When</th><th>Goal</th><th>Success measure</th></tr>
+<tr><td>0 · Hackathon</td><td>2026-10</td><td>End-to-end on simulated data; tests, invariants, threat model, red-team review; testnet</td><td>Done (this submission)</td></tr>
+<tr><td>1 · Validate demand</td><td>2026-11 to 2027-03</td><td>Interviews with reclaimers, a registry, a destruction operator and the Turkish ozone unit; usability tests of the passport; split the ledger below 10 KB; owner-authorised service companies; governance member rotation; a third-party audit</td><td>At least 2 of 4 demand hypotheses confirmed by practitioners</td></tr>
+<tr><td>2 · One destruction project</td><td>2027</td><td>Real cylinders through recover, destroy and claim with one operator and one registry; confidential amounts (B.5); the pilot in C.4</td><td>One complete audited chain; Δr × α measured by physical audit</td></tr>
+<tr><td>3 · National pilot</td><td>2027–2028</td><td>Read-only connection to FARAVET and EKOMVET exports; a consortium chain run by the regulator, registries and industry</td><td>The regulator uses closure gaps to target inspections</td></tr>
+<tr><td>4 · Cross-border</td><td>2028 onward</td><td>A second country and a second registry; a neutral governance body</td><td>Two jurisdictions, two registries, no single operator</td></tr>
+</table>
+<p><b>Scaling.</b> Throughput is not the constraint (A.8). The constraints are onboarding signers (scales, labs, verifiers) and data import. Import uses GS1 EPCIS 2.0 so that existing systems publish events instead of people re-entering them.</p>
+
+<h2>E. Testing results</h2>
+<p><b>We have not tested with real users</b>, and we do not claim to have. What we did instead:</p>
+<ul>
+<li><b>Outside reviewers, working the way their professions do.</b> Three reviewers with no stake in the design:
+  <ul>
+  <li><b>A security pre-audit</b> (B.3): its findings changed the contracts.</li>
+  <li><b>A forensic review of every number.</b> It cut our climate estimate by about three quarters (permanence; Japan only as a unit conversion). It also corrected our registry-audit headline: we had counted unassessed credits as having no identifier.</li>
+  <li><b>An editorial review</b> for busy judges.</li>
+  </ul>
+  We publish the corrected figures, not the earlier ones.</li>
+<li><b>Reproduction by a reader with no context.</b> A reader given only the repository URL and the README reproduced the results and hit 11 obstacles. All 11 were fixed. The CI rebuild repeats this on every push.</li>
+<li><b>Evaluation on held-out data.</b> Every AI module was scored on simulated runs it had never seen, and re-scored on new runs whenever the simulator or the model changed. The reports keep the versions that failed first.</li>
+<li><b>Real public records.</b> The registry audit checked our premise against public metadata. Of 291 California ARB reporting periods, 270 match the registry exactly, 21 are lower on the ARB side, and none is higher. Where a shared key exists, checking works. We found <b>no evidence of double counting</b>. The finding is that kilogram-level uniqueness across registries cannot be checked from public data.</li>
+<li><b>User testing is stage 1 of the roadmap.</b> The dashboard and provenance passport will be tested with a reclaimer, a registry analyst and a regulator, measuring whether each can answer “where did this kilogram come from?” unaided.</li>
+</ul>
+
+<h2>F. What it cannot do</h2>
+<p>Beyond the limits in the problem statement (§7, §9):</p>
+<ul>
+<li>Collusion is bounded and made visible, not prevented. Off-ledger charging followed by a genuine recovery needs no false signature (B.4, T13).</li>
+<li>Amounts are not yet confidential (B.5).</li>
+<li>The claim lock addresses double issuance between registries, not host-country or Montreal Protocol accounting (A.7).</li>
+<li>The AI results describe our simulator, which is calibrated to cited statistics but is not reality (A.6).</li>
+<li>The public testnet deployment predates the current rules and the red-team fixes (B.3).</li>
+</ul>
+
+<h2>References</h2>
+<ol class="refs">
+<li>Kigali Balance registry audit: 436 ODS/HFC projects at ACR, CAR, Verra and the California ARB issuance table, accessed 2026-10-16. <code>docs/research/03-registry-audit.md</code>; data with a source URL per row in <code>research/registry-audit/</code>.</li>
+<li>Öko-Recherche / CITEPA, EU refrigerant price monitoring Q4/2025 (reclaimed R-404A at 140% of virgin, Q1 2025); Cooling Post, 4 April 2025.</li>
+<li>Japan Ministry of the Environment, OEWG-48 side-event presentation, July 2026, slide 6: in 2024, 5,188 t HFC recovered and 6,878 t (12.62 MtCO₂e) emitted at disposal; 2,869 t destroyed and 3,712 t reclaimed. jraia.or.jp/english/relations/file/260724_oewg48_sideevent_moej_presentation.pdf</li>
+<li>Environmental Investigation Agency, <i>Fakes, Fraud and F-Gases</i>, April 2026: EU seizures of about 250 t (2023) and 670 t (2024).</li>
+<li>Regulation (EU) 2024/573 on fluorinated greenhouse gases; US 40 CFR parts 82 and 84.</li>
+<li>ISO 22095:2020 Chain of custody: general terminology and models, as summarised in Int. J. Life Cycle Assessment (2025), doi:10.1007/s11367-025-02452-9, and by BSI.</li>
+<li>IPCC 2006 Guidelines, Vol. 3, Ch. 7, Table 7.9 (refrigerant remaining at end of life).</li>
+<li>Isometric, HFC &amp; ODS Recovery and Destruction Protocol v1.0; Verra VM0016 v2.0.</li>
+<li>G. Maxwell (2013), Merkle-sum trees; Dagher et al., “Provisions”, CCS 2015; survey: arXiv:2208.01263.</li>
+<li>EIP-8051, Precompile for ML-DSA signature verification (Draft, 2025-10-15), eips.ethereum.org/EIPS/eip-8051; NIST FIPS 204 (ML-DSA), August 2024.</li>
+<li>Fireblocks blog, 2026, on cheaper post-quantum signature verification on Ethereum: a FIPS 204 ML-DSA-44 EVM verifier at about 1.23M gas, with key deployment about 4.1M gas. fireblocks.com/blog/post-quantum-signatures-ethereum-cheaper-gas</li>
+<li>JRAIA presentations on Japan's recovery rate, 2012, 2017, 2019 and 2025 (about 30% in 2007–12, 38% in FY2015, nearly 40% in 2017, “40% to 44%” after the 2019 revision). jraia.or.jp/english/relations/</li>
+<li>Norwegian Tax Administration, excise duty on HFC and PFC: refund on gas delivered for destruction. skatteetaten.no</li>
+<li>pqm4: post-quantum cryptography on ARM Cortex-M4 (github.com/mupq/pqm4); ML-KEM and ML-DSA on Cortex-M0+ (RP2040), arXiv:2603.19340.</li>
+<li>Carbon Containment Lab, <i>Technical Note on HFC Reclamation</i>, June 2024: when suppliers use their whole quota, reclaimers do not displace virgin supply.</li>
+<li>EIA, <i>Evaluating Options for Sustainably Financed Action on ODS and HFC Banks</i>, May 2026: TEAP MCTOC estimate of 250,000–400,000 t decommissioned per year (p. 24); New Zealand recovery 11% (p. 21).</li>
+</ol>
+
+</body>
+</html>

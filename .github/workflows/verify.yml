@@ -43,3 +43,26 @@ jobs:
           name: rebuild-latest
           path: reports/rebuild-latest.json
           if-no-files-found: ignore
+
+  # Second outside judge: Slither static analysis. Fails on any Medium or High finding; the Low and
+  # Informational ones are triaged in docs/security/static-analysis.md.
+  static-analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.8.5
+
+      - name: Slither (fail on Medium or above)
+        run: |
+          pip install slither-analyzer==0.11.6
+          slither . --fail-medium

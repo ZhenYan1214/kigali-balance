@@ -162,7 +162,20 @@ def check_deliverables() -> None:
     pdf_m, html_m = pdf.stat().st_mtime, (ROOT / "docs/proposal/problem_statement.html").stat().st_mtime
     record("PASS" if pdf_m >= html_m else "WARN", "deliverables: PDF is newer than its HTML source",
            "re-run scripts/rebuild.py --full" if pdf_m < html_m else "")
-    for rel in ("README.md", "docs/proposal/problem_statement.html"):
+    count = lambda p: len(re.findall(rb"/Type\s*/Page[^s]", p.read_bytes())) if p.exists() else 0
+    annex, annex_html = ROOT / "docs/proposal/Kigali_Balance_Technical_Annex.pdf", ROOT / "docs/proposal/technical_annex.html"
+    upload = ROOT / "docs/proposal/Kigali_Balance_Submission.pdf"
+    record("PASS" if annex.exists() and annex.stat().st_mtime >= annex_html.stat().st_mtime else "WARN",
+           "deliverables: annex PDF is newer than its HTML source", f"{count(annex)} pages")
+    fresh = upload.exists() and upload.stat().st_mtime >= max(pdf_m, annex.stat().st_mtime if annex.exists() else 0)
+    record("PASS" if fresh and count(upload) == pages + count(annex) else "FAIL",
+           "deliverables: Devpost upload = problem statement + annex, rebuilt after both",
+           f"{count(upload)} pages, {upload.stat().st_size / 1e6:.1f} MB" if upload.exists() else "missing")
+    if upload.exists() and upload.stat().st_size > 35_000_000:
+        record("FAIL", "deliverables: Devpost upload is under 35 MB", f"{upload.stat().st_size / 1e6:.1f} MB")
+    if "<!-- CLIMATE" in read("docs/proposal/technical_annex.html"):
+        record("FAIL", "deliverables: annex still has an unfilled section marker")
+    for rel in ("README.md", "docs/proposal/problem_statement.html", "docs/proposal/technical_annex.html"):
         text = read(rel)
         cjk = re.findall(r"[一-鿿]{2,}", text)
         record("WARN" if cjk else "PASS", f"deliverables: {rel} is English only", ", ".join(cjk[:5]))

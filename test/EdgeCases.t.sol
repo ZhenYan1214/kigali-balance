@@ -92,16 +92,24 @@ contract EdgeCasesTest is Fixture {
         vm.prank(importer);
         vm.expectRevert(KigaliLedger.ZeroAmount.selector);
         ledger.mintVirgin(QUOTA_ID, 0, bytes32("c"));
-        vm.prank(service);
+        vm.prank(quotaAuthority);
         vm.expectRevert(KigaliLedger.ZeroAmount.selector);
-        ledger.declareUnknown(R404A, 0, bytes32("c"), bytes32("d"));
+        ledger.declareUnknown(service, R404A, 0, bytes32("c"), bytes32("d"));
     }
 
-    function test_revert_declareUnknownByNonOperator() public {
+    function test_revert_declareUnknownForNonOperator() public {
         address stranger = makeAddr("stranger");
-        vm.prank(stranger);
+        vm.prank(quotaAuthority);
         vm.expectRevert(abi.encodeWithSelector(KigaliLedger.NotOperator.selector, stranger));
-        ledger.declareUnknown(R404A, 1_000, bytes32("c"), bytes32("d"));
+        ledger.declareUnknown(stranger, R404A, 1_000, bytes32("c"), bytes32("d"));
+    }
+
+    /// Red-team finding F1: an operator could create UNKNOWN mass from nothing. Only the quota
+    /// authority can register legacy stock now.
+    function test_revert_operatorCannotDeclareUnknown() public {
+        vm.prank(service);
+        vm.expectRevert(abi.encodeWithSelector(KigaliLedger.NotRole.selector, Roles.QUOTA_AUTHORITY));
+        ledger.declareUnknown(service, R404A, 1_000, bytes32("c"), bytes32("d"));
     }
 
     function test_revert_unknownLot() public {
@@ -153,8 +161,8 @@ contract EdgeCasesTest is Fixture {
     function test_revert_destroyMixedGases() public {
         uint256 a = _recover(service, SCALE_SERVICE_PK, EQ_A, 4_000, true);
         uint256 fa = _move(a, service, facility, SCALE_FACILITY_PK, 4_000);
-        vm.prank(facility);
-        uint256 other = ledger.declareUnknown(R134A, 1_000, bytes32("c"), bytes32("d"));
+        vm.prank(quotaAuthority);
+        uint256 other = ledger.declareUnknown(facility, R134A, 1_000, bytes32("c"), bytes32("d"));
         uint256[] memory inputs = _two(fa, other);
         bytes32 subject = ledger.destructionSubject(inputs);
         ScaleReading memory r = _reading(subject, 5_000);
