@@ -178,15 +178,20 @@ def _print_pdf(html: Path, pdf: Path) -> int:
     before = pdf.stat().st_mtime if pdf.exists() else 0
     flags = ["--headless=new", "--disable-gpu", "--no-first-run", f"--user-data-dir={profile}",
              "--no-pdf-header-footer", f"--print-to-pdf={pdf}"]
-    if hasattr(os, "geteuid") and os.geteuid() == 0:
-        flags.append("--no-sandbox")  # Chromium refuses to run as root (e.g. in a CI container) without it
-    subprocess.run([str(browser), *flags, html.as_uri()], capture_output=True, timeout=120)
+    # Chromium refuses to run as root (a CI container) without --no-sandbox, and on recent Ubuntu
+    # (GitHub-hosted runners) its sandbox cannot start because unprivileged user namespaces are
+    # restricted. The page printed is our own static HTML.
+    if (hasattr(os, "geteuid") and os.geteuid() == 0) or (sys.platform.startswith("linux") and os.environ.get("CI")):
+        flags.append("--no-sandbox")
+    p = subprocess.run([str(browser), *flags, html.as_uri()], capture_output=True, text=True, errors="replace", timeout=120)
     for _ in range(30):  # the browser may return before the file is flushed
         if pdf.exists() and pdf.stat().st_mtime > before:
             break
         time.sleep(1)
     if not pdf.exists() or pdf.stat().st_mtime <= before:
-        raise RuntimeError(f"the browser did not write {pdf.name}")
+        # (before 2026-10-17 this case was not checked, and the committed PDF was silently counted)
+        tail = " | ".join(((p.stderr or "") + (p.stdout or "")).strip().splitlines()[-4:])
+        raise RuntimeError(f"the browser ({browser.name}) did not write {pdf.name}: exit {p.returncode}; {tail}")
     return len(re.findall(rb"/Type\s*/Page[^s]", pdf.read_bytes()))
 
 
