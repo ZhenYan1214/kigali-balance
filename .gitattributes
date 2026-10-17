@@ -1,0 +1,9 @@
+# Text files are stored and checked out with LF on every platform.
+# AI model hashes (recorded on chain in FlagRegistry) are SHA-256 over the module source bytes,
+# so CRLF conversion on Windows would change them; LF everywhere keeps them reproducible.
+* text=auto eol=lf
+
+# binary assets
+*.pdf binary
+*.png binary
+*.jpg binary

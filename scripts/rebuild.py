@@ -103,8 +103,9 @@ def simulator_run() -> dict:
 
 def simulator_test() -> dict:
     out = run([tool("npm"), "test"], cwd=SIM)
-    passed = int(re.search(r"# pass (\d+)", out).group(1))
-    failed = int(re.search(r"# fail (\d+)", out).group(1))
+    # Node prints "# pass N" (TAP reporter) or "ℹ pass N" (spec reporter, the default on newer Node)
+    passed = int(re.search(r"(?:#|ℹ) pass (\d+)", out).group(1))
+    failed = int(re.search(r"(?:#|ℹ) fail (\d+)", out).group(1))
     if failed:
         raise RuntimeError(f"{failed} simulator tests failed")
     return {"simulator_tests": passed}
