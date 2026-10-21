@@ -259,7 +259,7 @@ A permissioned consortium chain (Hyperledger Besu, QBFT) charges no fee at all.<
 </ul>
 Both High findings, all 3 Medium and most Low findings are fixed, each with a regression test (<code>test/RedTeam.t.sol</code>). The simulator also injects the new attacks (a competitor's charge, a rogue registry claim), and the contracts reject them in the differential test. The remaining Low findings are listed above as residual risks. That a fix of ours was itself bypassable is why a third-party audit remains a precondition for production.</td></tr>
 <tr><td>Clean-room reproduction (CI)</td><td>Everything rebuilt from scratch on a fresh Linux machine on every push</td><td>Passing; every committed generated file is byte-identical (PDFs excepted)</td></tr>
-<tr><td>Live deployment</td><td>The six contracts on OP Sepolia, verified on the block explorer; the demo run on chain</td><td>142 transactions, none failed (2026-10-16). <b>This build predates the booked-content rule and the red-team fixes.</b> Its per-recovery cap can be bypassed by splitting recoveries (B.4). A redeploy is pending.</td></tr>
+<tr><td>Live deployment</td><td>The six contracts on OP Sepolia, verified on the block explorer; the demo run on chain</td><td>The current code, including both rounds of red-team fixes: 143 transactions, none failed (2026-10-21). KigaliLedger at 0x9d1B18ae56946A835Ff6c705e9d4a9119BBe0e4b.</td></tr>
 </table>
 
 <h3>B.4 How much can colluding parties still launder?</h3>
@@ -417,7 +417,6 @@ Both High findings, all 3 Medium and most Low findings are fixed, each with a re
 <li>Amounts are not yet confidential (B.5).</li>
 <li>The claim lock addresses double issuance between registries, not host-country or Montreal Protocol accounting (A.7).</li>
 <li>The AI results describe our simulator, which is calibrated to cited statistics but is not reality (A.6).</li>
-<li>The public testnet deployment predates the current rules and the red-team fixes (B.3).</li>
 </ul>
 
 <h2>References</h2>

@@ -11,7 +11,7 @@ Gas sold as "reclaimed" and gas credited as "destroyed" must both trace back to 
 [![Contracts](https://img.shields.io/badge/Solidity-0.8.28-363636?logo=solidity)](src/)
 [![Tests](https://img.shields.io/badge/tests-162_unit_%2B_10_invariants-1a7f37)](test/)
 [![verify](https://github.com/ZhenYan1214/kigali-balance/actions/workflows/verify.yml/badge.svg)](https://github.com/ZhenYan1214/kigali-balance/actions/workflows/verify.yml)
-[![OP Sepolia](https://img.shields.io/badge/OP_Sepolia-deployed_(earlier_build)-ff0420?logo=optimism&logoColor=white)](#live-on-op-sepolia)
+[![OP Sepolia](https://img.shields.io/badge/OP_Sepolia-deployed_%26_verified-ff0420?logo=optimism&logoColor=white)](#live-on-op-sepolia)
 [![Data](https://img.shields.io/badge/data-simulated-9a6700)](#honest-limits)
 [![License](https://img.shields.io/badge/license-MIT-59636e)](#license)
 
@@ -168,27 +168,28 @@ The pages read only what a regulator could observe: ledger events, the equipment
 
 ## Live on OP Sepolia
 
-The six contracts are deployed and verified, and the demo has run on chain (142 transactions, none failed, 2026-10-16). This build predates the booked-content rule and the red-team fixes: its per-recovery cap can be bypassed by splitting recoveries. A redeploy is pending. All tests run against the current code.
+The six contracts of the current code (booked content, both rounds of red-team fixes, registry designation) are deployed and verified, and the demo has run on chain: 143 transactions, none failed (2026-10-21). An earlier build from 2026-10-16 is superseded.
 
 | Contract | Address |
 |---|---|
-| `KigaliLedger` | [`0xC2b8904E…4FA73A`](https://sepolia-optimism.etherscan.io/address/0xC2b8904E911BA41d270Df95e734D53808c4FA73A#code) |
-| `EquipmentRegistry` | [`0x9EBc2C42…81c324`](https://sepolia-optimism.etherscan.io/address/0x9EBc2C426299debb81B1C5796CdEBDd8A281c324#code) |
-| `DestructionClaims` | [`0xcd1c1E9C…661083`](https://sepolia-optimism.etherscan.io/address/0xcd1c1E9C0c35dfC5eB3548aca0B98802E1661083#code) |
-| `IdentityRegistry` | [`0x411544fC…Ad52af`](https://sepolia-optimism.etherscan.io/address/0x411544fCD057701A0C7Ce4297C75d77821Ad52af#code) |
-| `FlagRegistry` | [`0xa04C3c47…50309B`](https://sepolia-optimism.etherscan.io/address/0xa04C3c47F32099072fa654a9F58259a63B50309B#code) |
-| `Governance` | [`0xaFa2E280…2dC935`](https://sepolia-optimism.etherscan.io/address/0xaFa2E28071382a0144dE63eFFE79b8E2B32dC935#code) |
+| `KigaliLedger` | [`0x9d1B18ae…Be0e4b`](https://sepolia-optimism.etherscan.io/address/0x9d1B18ae56946A835Ff6c705e9d4a9119BBe0e4b#code) |
+| `EquipmentRegistry` | [`0xd8bDd620…82d0BF`](https://sepolia-optimism.etherscan.io/address/0xd8bDd620F01b61F6611f616d1733F4539382d0BF#code) |
+| `DestructionClaims` | [`0xBE80B3Cc…fE8825`](https://sepolia-optimism.etherscan.io/address/0xBE80B3Cc9300B06a15323A6b865a81CBA5fE8825#code) |
+| `IdentityRegistry` | [`0xcEc0b705…9dEC32`](https://sepolia-optimism.etherscan.io/address/0xcEc0b705984f1Ae8EA7aaBdB2128f8E7D89dEC32#code) |
+| `FlagRegistry` | [`0x6BF143e2…BACaaE`](https://sepolia-optimism.etherscan.io/address/0x6BF143e2c8089Aeb98a6360EE815F416E7BACaaE#code) |
+| `Governance` | [`0x7323e8d7…49D21F`](https://sepolia-optimism.etherscan.io/address/0x7323e8d73E79FbaD5b5A7d2F057d95Dd3549D21F#code) |
 
 <details>
 <summary><b>Demo transactions</b></summary>
 
 | Step | Transaction |
 |---|---|
-| 1 · Mint 100 kg virgin R-404A against a quota document | [`0x7643dfea…`](https://sepolia-optimism.etherscan.io/tx/0x7643dfea7c78fca659416ff0d9db42889b644df3fafe9d60a2266f1d2ba0a3aa) |
-| 4 · Tier A recovery with the owner's co-signature | [`0xa109ea9c…`](https://sepolia-optimism.etherscan.io/tx/0xa109ea9c94b7e88e1c3f4466d43877f32df5a9aefcf8b88e2bb37db333a2a456) |
-| 5 · Reclaim 7.6 kg from 8 kg, lab-certified | [`0xf4870165…`](https://sepolia-optimism.etherscan.io/tx/0xf48701658f0dbb9f0b2ceac5bcfd0f295e86caa024adf0080e9822e08af10727) |
-| 6 · Destruction with an independent verifier's certificate | [`0x516b3d5f…`](https://sepolia-optimism.etherscan.io/tx/0x516b3d5ff534550984a2fb0e9a771441c35675886d608a46822bf4038b948ae9) |
-| 6 · Claimed by one registry | [`0xb1f6773a…`](https://sepolia-optimism.etherscan.io/tx/0xb1f6773ac5f075c4785fc0504ad7b96dd90cc1be288837355c10be8da0eddc60) |
+| 1 · Mint 100 kg virgin R-404A against a quota document | [`0x036bd3ac…`](https://sepolia-optimism.etherscan.io/tx/0x036bd3acc085487b8e37291f17a17afce629fb0600de901f4ce4b8cb45dfb64b) |
+| 4 · Tier A recovery with the owner's co-signature | [`0x11a5adcb…`](https://sepolia-optimism.etherscan.io/tx/0x11a5adcbccbee0ecd321ced400118d4a0f6a7f898fd08e96cfec389572fddfb1) |
+| 5 · Reclaim 7.6 kg from 8 kg, lab-certified | [`0xdf07f763…`](https://sepolia-optimism.etherscan.io/tx/0xdf07f7635029ae8e9bbc24ba476aa8714847b3e5bda567e96a146c457cebeca6) |
+| 6 · Destruction with an independent verifier's certificate | [`0x81fefac9…`](https://sepolia-optimism.etherscan.io/tx/0x81fefac96ede492308bceaf2ecbe4cbdbc7f13342e1bcd9f41ed830d7248c724) |
+| 6 · The facility designates the registry that may claim | [`0x0505d505…`](https://sepolia-optimism.etherscan.io/tx/0x0505d5056137051a7ce22d1a2ea682fcdcc4af1372285893d275541b23f43885) |
+| 6 · Claimed by that registry | [`0x1fffa787…`](https://sepolia-optimism.etherscan.io/tx/0x1fffa78764819ad612f7caf6a888ada604707be6c813f7a53af301800e456201) |
 
 The four steps that must be rejected (overselling, inflated reclaimed output, virgin gas in reclamation, a second claim) are checked in local simulation before broadcasting, because a reverting transaction would abort the run. They are covered on chain by the unit and differential tests.
 

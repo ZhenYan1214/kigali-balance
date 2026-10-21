@@ -72,7 +72,7 @@
 | 模擬資料產生器＋測試 21 個 | ✅ 全部通過 |
 | 差異測試（模擬事件重播到真合約） | ✅ 7,359 筆全部一致（第十六輪加入指定註冊處與兩種新攻擊後；第十四輪是 7,219 筆） |
 | AI 模組 A、B、C＋退役結案檢查，測試 28 個 | ✅ 完成，各有評估報告（`ai/reports/`） |
-| OP Sepolia 部署（6 個合約、Demo 六步驟、Etherscan 驗證） | ✅ 已部署，**但是第十二、十三輪之前的舊版合約，需要重新部署（要先問使用者）** |
+| OP Sepolia 部署（6 個合約、Demo 六步驟、Etherscan 驗證） | ✅ 2026-10-21 以目前的程式碼重新部署並驗證（143 筆交易全部成功） |
 | 監管儀表板＋來源護照頁（`web/`） | ✅ 完成，本機預覽通過；**尚未對外託管**（GitHub Pages） |
 | **第十二輪**：回收上限過鬆 → 帳面內容量規則；退役結案訊號 | ✅ 完成（`docs/proposal/05_…`） |
 | **第十三輪**：真實資料、外部裁判、量化每道防線 | ✅ A 註冊處公開資料稽核（`docs/research/03-registry-audit.md`）、C 洗白容量量化（`docs/research/04-laundering-capacity.md`）、F 一鍵重建與交件前檢查（`scripts/`）、B 專家信件草稿（`docs/outreach/`，不進 git） |
@@ -80,7 +80,8 @@
 | 第十二輪第 3 項：模擬器報廢剩餘量符合 IPCC 表 7.9、AI 重新評估 | ✅ 第十四輪完成（J1）。A 級灌水造假與 A 級 AI 訊號（J2）未做，第十三輪的洗白容量報告已量化 |
 | **第十六輪**：繼續反思優化（`docs/proposal/09_…`）：重新部署腳本在本機鏈上跑通；修掉其餘可修的合約風險（維修公司登錄、註冊處指定、治理成員輪替與提案到期、設備持有者轉移）；GS1 EPCIS 2.0 匯出並用官方 schema 驗證；**第二次獨立安全審查**找到另一個 High（第十五輪的修正可以被繞過），已修正 | ✅ 完成。單元測試 162、模擬器測試 30、差異測試 7,359 筆全部一致、Slither 0 High／0 Medium |
 | **第十五輪**：專業工具與紅隊（`docs/proposal/08_…`）：Slither 進 CI、gas 與成本實測、氣候蒙地卡羅、AI 旗標寫回鏈上、英文技術附件、影片腳本、Devpost 文字；三個外部審查（安全、鑑識、編輯） | ✅ 完成。安全審查找到 1 個 High（未知來源冷媒可洗成可申請碳權的回收冷媒），**已修正**並加回歸測試；鑑識審查把氣候推估砍到約四分之一、更正稽核的 68.6% |
-| 對外託管（Pages）、OP Sepolia 重新部署、錄影、送出 Devpost | ⏳ **需要使用者**（見 9.2） |
+| 對外託管（Pages）、OP Sepolia 重新部署 | ✅ 2026-10-21 完成：https://zhenyan1214.github.io/kigali-balance/ |
+| 錄影、送出 Devpost | ⏳ **需要使用者**（截止 10/25 22:00 台灣時間） |
 
 **這一輪最重要的三個數字**（給影片與 PDF 用）：
 1. **註冊處稽核**〔真實公開資料〕：ACR、CAR、Verra 的 4,240 萬銷毀額度，沒有一個註冊處公開每單位額度對應哪支鋼瓶、多少公斤，外人無法在公斤層級檢查重複計入。銷毀證明編號公開的佔 31.4%、沒有的 57.6%（其中 94% 是加州與華盛頓州合規型額度，按報告期間對得上帳）、沒評估 11.0%。**第十五輪更正**：先前寫的「68.6% 完全不公開」把沒評估的額度也算進去，是鑑識審查抓到的。**沒有找到重複計算的證據**。ARB 與註冊處之間「先註銷再核發」的規則，是唯一可以被公開驗證、而且對得上的跨帳本鎖（291 期中 270 期相等，沒有一期多發）。
@@ -400,12 +401,14 @@ forge script script/Deploy.s.sol --rpc-url op_sepolia --broadcast --verify
 
 | 合約 | 位址 |
 |---|---|
-| `KigaliLedger` | [0xC2b8904E911BA41d270Df95e734D53808c4FA73A](https://sepolia-optimism.etherscan.io/address/0xC2b8904E911BA41d270Df95e734D53808c4FA73A#code) |
-| `EquipmentRegistry` | [0x9EBc2C426299debb81B1C5796CdEBDd8A281c324](https://sepolia-optimism.etherscan.io/address/0x9EBc2C426299debb81B1C5796CdEBDd8A281c324#code) |
-| `DestructionClaims` | [0xcd1c1E9C0c35dfC5eB3548aca0B98802E1661083](https://sepolia-optimism.etherscan.io/address/0xcd1c1E9C0c35dfC5eB3548aca0B98802E1661083#code) |
-| `IdentityRegistry` | [0x411544fCD057701A0C7Ce4297C75d77821Ad52af](https://sepolia-optimism.etherscan.io/address/0x411544fCD057701A0C7Ce4297C75d77821Ad52af#code) |
-| `FlagRegistry` | [0xa04C3c47F32099072fa654a9F58259a63B50309B](https://sepolia-optimism.etherscan.io/address/0xa04C3c47F32099072fa654a9F58259a63B50309B#code) |
-| `Governance` | [0xaFa2E28071382a0144dE63eFFE79b8E2B32dC935](https://sepolia-optimism.etherscan.io/address/0xaFa2E28071382a0144dE63eFFE79b8E2B32dC935#code) |
+| `KigaliLedger` | [0x9d1B18ae56946A835Ff6c705e9d4a9119BBe0e4b](https://sepolia-optimism.etherscan.io/address/0x9d1B18ae56946A835Ff6c705e9d4a9119BBe0e4b#code) |
+| `EquipmentRegistry` | [0xd8bDd620F01b61F6611f616d1733F4539382d0BF](https://sepolia-optimism.etherscan.io/address/0xd8bDd620F01b61F6611f616d1733F4539382d0BF#code) |
+| `DestructionClaims` | [0xBE80B3Cc9300B06a15323A6b865a81CBA5fE8825](https://sepolia-optimism.etherscan.io/address/0xBE80B3Cc9300B06a15323A6b865a81CBA5fE8825#code) |
+| `IdentityRegistry` | [0xcEc0b705984f1Ae8EA7aaBdB2128f8E7D89dEC32](https://sepolia-optimism.etherscan.io/address/0xcEc0b705984f1Ae8EA7aaBdB2128f8E7D89dEC32#code) |
+| `FlagRegistry` | [0x6BF143e2c8089Aeb98a6360EE815F416E7BACaaE](https://sepolia-optimism.etherscan.io/address/0x6BF143e2c8089Aeb98a6360EE815F416E7BACaaE#code) |
+| `Governance` | [0x7323e8d73E79FbaD5b5A7d2F057d95Dd3549D21F](https://sepolia-optimism.etherscan.io/address/0x7323e8d73E79FbaD5b5A7d2F057d95Dd3549D21F#code) |
+
+**重新部署（2026-10-21，使用者準備好 `.env` 後執行）**：先在本機 fork 演練（六步驟成功、四個應被擋的動作都被擋），再正式廣播：143 筆交易全部成功（區塊 50394632–50394806），6 個合約都驗證通過，鏈上批次數 7。這一版包含帳面內容量、兩輪紅隊修正與指定註冊處。上表已換成新位址；10/16 的舊版位址作廢。
 
 **為什麼不是 Sepolia（已知限制）**：Sepolia 現行的 gas 規則下，部署 KigaliLedger（當時 18.8 KB，現在 19.1 KB）估計要約 30M gas，超過 EIP-7825 單筆交易上限 16,777,216，單一合約無法部署。OP Sepolia 只要約 4.1M。腳本在 Sepolia 上會直接拒絕執行。**路線圖**：把 KigaliLedger 拆成數個 10 KB 以下的合約（例如批次帳務、回收、銷毀），拆完也更適合 Besu 聯盟鏈。
 
@@ -418,8 +421,8 @@ forge script script/Deploy.s.sol --rpc-url op_sepolia --broadcast --verify
 ### 9.1 剩下的工作（依優先順序）
 | 優先 | 工作 | 備註 |
 |---|---|---|
-| 1 | **開啟 GitHub Pages**（使用者） | 已推送，CI（verify）第一次就綠燈。Pages 部署失敗只因為還沒開：Settings → Pages → Source 選「GitHub Actions」，再到 Actions 重跑 pages。 |
-| 2 | **OP Sepolia 重新部署**（使用者，在有 `.env` 的電腦上） | 鏈上版本早於帳面內容量規則與紅隊修正，而且已知可被分次回收繞過。步驟：`bash script/check_env.sh` → `bash script/rehearse_op_sepolia.sh`（本機 fork 演練，不送交易）→ `forge script script/Deploy.s.sol --rpc-url op_sepolia --broadcast --verify`。完成後更新 `deployments/11155420.json`、README 地址表、徽章（拿掉 earlier build）、附件 B.3 |
+| 1 | ~~開啟 GitHub Pages~~（2026-10-21 完成） | 已推送，CI（verify）第一次就綠燈。Pages 部署失敗只因為還沒開：Settings → Pages → Source 選「GitHub Actions」，再到 Actions 重跑 pages。 |
+| 2 | ~~OP Sepolia 重新部署~~ | ✅ 2026-10-21 完成（見 8.6） |
 | 3 | **錄影**（使用者） | 照 `docs/video/video_script.md`，3:00–3:15。 |
 | 4 | **送出 Devpost**（使用者；10/24 先送可編輯版） | 文字在 `docs/devpost/submission.md`；上傳 `docs/proposal/Kigali_Balance_Submission.pdf`。送出前跑 `python scripts/rebuild.py --full` 與 `python scripts/check_submission.py --online` |
 | 5（時間夠才做） | 紅隊剩下的風險：設備持有者授權維修公司（擋 F2 灌注騷擾）、治理成員可輪替＋提案到期、銷毀事件由開發商指定註冊處（擋 F10）、鋼瓶 ID 擁有權（F6） | 都已寫在附件 B.2 的剩餘風險 |

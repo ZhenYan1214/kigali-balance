@@ -85,7 +85,7 @@ solidity, foundry, ethereum, optimism, eip-712, python, scikit-learn, shap, pand
 
 - GitHub: https://github.com/ZhenYan1214/kigali-balance
 - Dashboard and provenance passport: https://zhenyan1214.github.io/kigali-balance/ (after GitHub Pages is enabled; until then, run locally per the README)
-- Contracts on OP Sepolia: https://sepolia-optimism.etherscan.io/address/0xC2b8904E911BA41d270Df95e734D53808c4FA73A#code
+- Contracts on OP Sepolia (current code, deployed and verified 2026-10-21): https://sepolia-optimism.etherscan.io/address/0x9d1B18ae56946A835Ff6c705e9d4a9119BBe0e4b#code
 
 ## File upload
 
