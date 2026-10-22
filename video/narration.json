@@ -1,0 +1,462 @@
+{
+  "_readme": "Narration and shot list for the demo video. Each sentence is one subtitle cue; 'say' (optional) is what the speech engine reads when the written form would be mispronounced. A shot starts at sentence 'at' of its segment and runs until the next shot. Rectangles are [x, y, width] in the source image's pixels (height follows 16:9); the camera moves from 'from' to 'to'. Sources: assets/<name>-2x.png, made by capture.py. To use your own voice, put voice/<segment id>.wav|mp3|m4a next to this file and run make_video.py again.",
+  "voice": "en-US-AndrewNeural",
+  "rate": "+4%",
+  "segments": [
+    {
+      "id": "1-case",
+      "sentences": [
+        {
+          "text": "This is lot 42: half a kilogram of R-410A, recovered from a small air conditioner, destroyed, and credited once by a carbon registry.",
+          "say": "This is lot 42: half a kilogram of R 4 10 A, recovered from a small air conditioner, destroyed, and credited once by a carbon registry."
+        },
+        {
+          "text": "Every rule in our ledger accepted it."
+        },
+        {
+          "text": "And the air conditioner never existed."
+        },
+        {
+          "text": "This market is simulated."
+        },
+        {
+          "text": "The gap it exposes is real."
+        }
+      ],
+      "shots": [
+        {
+          "at": 0,
+          "src": "passport",
+          "from": [
+            560,
+            0,
+            2720
+          ],
+          "to": [
+            700,
+            600,
+            2440
+          ]
+        },
+        {
+          "at": 1,
+          "src": "passport",
+          "from": [
+            1780,
+            1140,
+            1460
+          ],
+          "to": [
+            1860,
+            1180,
+            1320
+          ]
+        },
+        {
+          "at": 2,
+          "src": "slide-never",
+          "from": [
+            0,
+            0,
+            3840
+          ],
+          "to": [
+            140,
+            80,
+            3560
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2-problem",
+      "sentences": [
+        {
+          "text": "HFC refrigerants are super-pollutants: one kilogram of R-404A warms the planet like 3.9 tonnes of CO₂.",
+          "say": "H F C refrigerants are super-pollutants: one kilogram of R 4 0 4 A warms the planet like 3.9 tonnes of C O 2."
+        },
+        {
+          "text": "Their kilograms are recorded in separate systems: customs quotas, technician logs, reclaimer reports and carbon registries."
+        },
+        {
+          "text": "Each checks its own books."
+        },
+        {
+          "text": "Nobody checks the same kilogram between them, and that seam pays."
+        },
+        {
+          "text": "In the EU, reclaimed R-404A sold at 140% of the virgin price in early 2025, and virgin gas has been sold as reclaimed.",
+          "say": "In the E U, reclaimed R 4 0 4 A sold at 140 percent of the virgin price in early 2025, and virgin gas has been sold as reclaimed."
+        },
+        {
+          "text": "We audited 436 destruction and reclamation projects at three carbon registries."
+        },
+        {
+          "text": "Not one publishes which container, and how many kilograms, a credit draws on."
+        }
+      ],
+      "shots": [
+        {
+          "at": 0,
+          "src": "slide-gwp",
+          "from": [
+            0,
+            0,
+            3840
+          ],
+          "to": [
+            160,
+            90,
+            3520
+          ]
+        },
+        {
+          "at": 1,
+          "src": "slide-silos",
+          "from": [
+            0,
+            0,
+            3840
+          ],
+          "to": [
+            120,
+            70,
+            3600
+          ]
+        },
+        {
+          "at": 4,
+          "src": "slide-premium",
+          "from": [
+            0,
+            0,
+            3840
+          ],
+          "to": [
+            160,
+            90,
+            3520
+          ]
+        },
+        {
+          "at": 5,
+          "src": "slide-audit",
+          "from": [
+            0,
+            0,
+            3840
+          ],
+          "to": [
+            140,
+            80,
+            3560
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3-rule",
+      "sentences": [
+        {
+          "text": "Kigali Balance enforces one rule."
+        },
+        {
+          "text": "Every kilogram claimed as reclaimed or destroyed must trace back to a kilogram recovered from a real, registered unit."
+        },
+        {
+          "text": "Each lot carries a provenance class that can never be swapped."
+        },
+        {
+          "text": "A recovery needs two signatures: the technician's scale and the unit's owner."
+        },
+        {
+          "text": "It can never exceed what is booked inside the unit."
+        },
+        {
+          "text": "A destruction needs an independent verifier."
+        },
+        {
+          "text": "And each destruction event can be claimed by one registry, once."
+        }
+      ],
+      "shots": [
+        {
+          "at": 0,
+          "src": "slide-rule",
+          "from": [
+            0,
+            0,
+            3840
+          ],
+          "to": [
+            160,
+            90,
+            3520
+          ]
+        },
+        {
+          "at": 2,
+          "src": "slide-flow",
+          "from": [
+            160,
+            140,
+            2900
+          ],
+          "to": [
+            760,
+            470,
+            2900
+          ]
+        },
+        {
+          "at": 3,
+          "src": "slide-checks",
+          "from": [
+            0,
+            0,
+            3840
+          ],
+          "to": [
+            120,
+            70,
+            3600
+          ]
+        },
+        {
+          "at": 6,
+          "src": "dashboard",
+          "from": [
+            660,
+            3400,
+            1960
+          ],
+          "to": [
+            700,
+            3460,
+            1780
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4-evidence",
+      "sentences": [
+        {
+          "text": "Does it hold?"
+        },
+        {
+          "text": "We replayed a three-year simulated market, 7,359 events with twelve kinds of injected fraud, against the real contracts."
+        },
+        {
+          "text": "Every decision matched a separately written rule mirror."
+        },
+        {
+          "text": "Fuzzing throws thousands of forged recoveries at it, and none gets through."
+        },
+        {
+          "text": "Then we asked outside reviewers to break it."
+        },
+        {
+          "text": "The first found a real hole: undocumented gas could be laundered into credits."
+        },
+        {
+          "text": "A second found a way around our fix."
+        },
+        {
+          "text": "Both are fixed, and both attacks are now tests that run on every push."
+        }
+      ],
+      "shots": [
+        {
+          "at": 0,
+          "src": "slide-terminal",
+          "from": [
+            0,
+            0,
+            3840
+          ],
+          "to": [
+            200,
+            120,
+            3400
+          ]
+        },
+        {
+          "at": 4,
+          "src": "slide-redteam",
+          "from": [
+            0,
+            0,
+            3840
+          ],
+          "to": [
+            140,
+            80,
+            3560
+          ]
+        },
+        {
+          "at": 7,
+          "src": "actions",
+          "from": [
+            900,
+            150,
+            2700
+          ],
+          "to": [
+            1000,
+            380,
+            1800
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5-ai",
+      "sentences": [
+        {
+          "text": "So how was lot 42 caught?"
+        },
+        {
+          "text": "Not by the rules, but by the trail they force."
+        },
+        {
+          "text": "Faking a recovery needs a second signer, and co-signatures leave a pattern."
+        },
+        {
+          "text": "Our AI flagged both the company that recovered lot 42 and the take-back point that co-signed for it."
+        },
+        {
+          "text": "Over three simulated years, it caught every naive fraudster and flagged under one percent of honest companies."
+        },
+        {
+          "text": "Fraudsters who adapt mostly slip through, but only by staying tiny: 4 kilograms in three years instead of 136."
+        }
+      ],
+      "shots": [
+        {
+          "at": 0,
+          "src": "passport",
+          "from": [
+            700,
+            600,
+            2440
+          ],
+          "to": [
+            760,
+            680,
+            2200
+          ]
+        },
+        {
+          "at": 2,
+          "src": "passport",
+          "from": [
+            1780,
+            1760,
+            1480
+          ],
+          "to": [
+            1860,
+            1800,
+            1300
+          ]
+        },
+        {
+          "at": 4,
+          "src": "slide-ai",
+          "from": [
+            0,
+            0,
+            3840
+          ],
+          "to": [
+            140,
+            80,
+            3560
+          ]
+        },
+        {
+          "at": 5,
+          "src": "slide-adaptive",
+          "from": [
+            0,
+            0,
+            3840
+          ],
+          "to": [
+            140,
+            80,
+            3560
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6-impact",
+      "sentences": [
+        {
+          "text": "Kigali Balance claims no credits; it is an enabler."
+        },
+        {
+          "text": "We don't claim a big number."
+        },
+        {
+          "text": "Counting only destroyed gas, our model puts the effect in a Japan-sized market at about 0.06 million tonnes of CO₂e a year, and says how a pilot would measure it.",
+          "say": "Counting only destroyed gas, our model puts the effect in a Japan-sized market at about zero point zero six million tonnes of C O 2 equivalent a year, and says how a pilot would measure it."
+        },
+        {
+          "text": "We would start where trust between systems matters most: Türkiye's compliant reclaimers, as COP31 comes to Antalya.",
+          "say": "We would start where trust between systems matters most: Türkiye's compliant reclaimers, as COP 31 comes to Antalya."
+        },
+        {
+          "text": "Every kilogram has to add up."
+        }
+      ],
+      "shots": [
+        {
+          "at": 0,
+          "src": "slide-impact",
+          "from": [
+            0,
+            0,
+            3840
+          ],
+          "to": [
+            420,
+            260,
+            3000
+          ]
+        },
+        {
+          "at": 3,
+          "src": "slide-start",
+          "from": [
+            0,
+            0,
+            3840
+          ],
+          "to": [
+            140,
+            80,
+            3560
+          ]
+        },
+        {
+          "at": 4,
+          "src": "slide-end",
+          "from": [
+            80,
+            45,
+            3680
+          ],
+          "to": [
+            0,
+            0,
+            3840
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>Kigali Balance – video slides</title>
+<style>
+  :root { --ink: #111; --ink2: #3b3b38; --muted: #6b6a66; --bg: #f6f6f3; --card: #fff; --line: #dcdcd6;
+          --green: #0f766e; --green2: #2a6f4f; --amber: #9a6700; --red: #b42318; --blue: #2563eb; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); color: var(--ink);
+               font-family: "Segoe UI", "Calibri", "Carlito", Arial, sans-serif; }
+  .slide { display: none; position: absolute; inset: 0; padding: 110px 150px 230px; }
+  .slide.on { display: flex; flex-direction: column; justify-content: center; }
+  .kicker { font-size: 30px; letter-spacing: .14em; text-transform: uppercase; color: var(--green); font-weight: 700; margin-bottom: 28px; }
+  h1 { font-size: 92px; line-height: 1.05; margin: 0 0 30px; font-weight: 750; letter-spacing: -.02em; }
+  h2 { font-size: 64px; line-height: 1.12; margin: 0 0 26px; font-weight: 700; letter-spacing: -.01em; }
+  p.lead { font-size: 40px; line-height: 1.35; color: var(--ink2); margin: 0; max-width: 1500px; }
+  .big { font-size: 190px; font-weight: 800; letter-spacing: -.03em; line-height: 1; color: var(--green); }
+  .src { position: absolute; left: 150px; bottom: 200px; font-size: 22px; color: var(--muted); }
+  .row { display: flex; gap: 34px; align-items: stretch; }
+  .box { flex: 1; background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 34px 36px; }
+  .box b { display: block; font-size: 40px; margin-bottom: 10px; }
+  .box span { font-size: 28px; color: var(--muted); line-height: 1.3; }
+  .gap { width: 70px; display: flex; align-items: center; justify-content: center; font-size: 70px; color: var(--red); font-weight: 800; }
+  .quote { font-size: 64px; line-height: 1.22; font-weight: 700; border-left: 14px solid var(--green); padding: 10px 0 10px 50px; max-width: 1560px; }
+  .check { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+  .check .box b { color: var(--green2); }
+  .term { background: #0d1117; color: #c9d1d9; border-radius: 22px; padding: 44px 54px; font-family: Consolas, "Liberation Mono", monospace; font-size: 31px; line-height: 1.5; }
+  .term .ok { color: #3fb950; } .term .dim { color: #8b949e; } .term .hl { color: #f0f6fc; font-weight: 700; }
+  .round { border-left: 10px solid var(--red); }
+  .round.fixed { border-left-color: var(--green); }
+  table { border-collapse: collapse; font-size: 36px; width: 100%; background: var(--card); border-radius: 18px; overflow: hidden; }
+  th, td { padding: 22px 30px; border-bottom: 2px solid var(--line); text-align: left; }
+  th { background: #e8f1ec; font-size: 28px; color: var(--ink2); }
+  td.n { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; }
+  .bar { height: 64px; border-radius: 12px; display: flex; align-items: center; padding-left: 22px; color: #fff; font-size: 32px; font-weight: 700; }
+  figure { margin: 0; display: flex; justify-content: center; }
+  figure img { width: 1620px; height: 720px; object-fit: contain; }
+  .center { text-align: center; align-items: center; }
+  .pill { display: inline-block; padding: 12px 26px; border-radius: 999px; background: #e8f1ec; color: var(--green2); font-size: 30px; font-weight: 700; margin: 0 10px; }
+</style>
+</head>
+<body>
+
+<!-- 1 · the case -->
+<section class="slide" id="never">
+  <div class="kicker">Lot 42 · simulated market</div>
+  <h1>The air conditioner<br>never existed.</h1>
+  <p class="lead">Every rule accepted it. The gap it exposes is real.</p>
+</section>
+
+<!-- 2 · the problem -->
+<section class="slide" id="gwp">
+  <div class="kicker">HFC refrigerants are super-pollutants</div>
+  <div class="row" style="align-items:baseline; gap:60px">
+    <div><div class="big">1 kg</div><p class="lead">of R-404A</p></div>
+    <div style="font-size:120px; color:var(--muted)">≈</div>
+    <div><div class="big">3.9 t</div><p class="lead">of CO₂ in warming</p></div>
+  </div>
+  <div class="src">Global warming potential 3,922 (IPCC AR4, as used by EU Regulation 2024/573)</div>
+</section>
+
+<section class="slide" id="silos">
+  <div class="kicker">The same kilogram, four separate books</div>
+  <div class="row">
+    <div class="box"><b>Customs quotas</b><span>how much entered</span></div>
+    <div class="gap">?</div>
+    <div class="box"><b>Technician logs</b><span>charged and recovered</span></div>
+    <div class="gap">?</div>
+    <div class="box"><b>Reclaimer reports</b><span>reclaimed and sold</span></div>
+    <div class="gap">?</div>
+    <div class="box"><b>Carbon registries</b><span>destroyed and credited</span></div>
+  </div>
+  <p class="lead" style="margin-top:56px"><b>Each checks its own books. Nobody checks the same kilogram between them.</b></p>
+</section>
+
+<section class="slide" id="premium">
+  <div class="kicker">Why the seam pays</div>
+  <div class="row" style="align-items:center; gap:70px">
+    <div class="big">140%</div>
+    <p class="lead">Price of <b>reclaimed</b> R-404A versus virgin gas in the EU, early 2025.<br>Virgin gas has been sold as “reclaimed”.</p>
+  </div>
+  <div class="src">EU refrigerant price monitoring (Öko-Recherche / CITEPA), Q1 2025; Cooling Post, April 2025</div>
+</section>
+
+<section class="slide" id="audit">
+  <div class="kicker">We checked real public records</div>
+  <h2>436 destruction and reclamation projects<br>at ACR, CAR and Verra</h2>
+  <p class="lead">Not one publishes <b>which container</b>, and <b>how many kilograms</b>, a credit draws on.</p>
+  <div class="src">Kigali Balance registry audit, data accessed 2026-10-16 · docs/research/03-registry-audit.md</div>
+</section>
+
+<!-- 3 · the rule -->
+<section class="slide" id="rule">
+  <div class="kicker">One rule, enforced on chain</div>
+  <div class="quote">Every kilogram claimed as “reclaimed” or “destroyed” must trace back to a kilogram recovered from a real, registered unit.</div>
+</section>
+
+<section class="slide" id="flow">
+  <div class="kicker">The life of a kilogram</div>
+  <figure><img src="../docs/assets/kilogram-flow-light.svg" alt=""></figure>
+</section>
+
+<section class="slide" id="checks">
+  <div class="kicker">Lying needs a second, accountable signer</div>
+  <div class="check">
+    <div class="box"><b>Recovery: two signatures</b><span>the technician's scale and the unit's owner</span></div>
+    <div class="box"><b>Never more than is booked</b><span>a recovery cannot exceed what the unit holds on the ledger</span></div>
+    <div class="box"><b>Independent verifier</b><span>a destruction facility cannot certify itself</span></div>
+    <div class="box"><b>Claimed once</b><span>one registry per destruction event</span></div>
+  </div>
+</section>
+
+<!-- 4 · evidence -->
+<section class="slide" id="terminal">
+  <div class="kicker">Does it hold? Rebuilt from scratch on every push</div>
+  <div class="term">
+<span class="dim">$ python scripts/rebuild.py --full</span><br>
+-&gt; contracts: unit tests and invariants ... <span class="ok">ok</span> <span class="hl">162 unit tests, 10 invariants</span><br>
+-&gt; simulator: seed 42 ... <span class="ok">ok</span> <span class="hl">7,359 events · 12 kinds of injected fraud</span><br>
+-&gt; differential test against the contracts ... <span class="ok">ok</span> <span class="hl">7,359 / 7,359 decisions match</span><br>
+&nbsp;&nbsp;&nbsp;AI flags written on chain <span class="hl">9, read back and matched</span><br>
+<span class="ok">all steps passed</span>
+  </div>
+  <p class="lead" style="margin-top:30px; font-size:32px">CI on every push also runs the Slither static analyser: 0 high, 0 medium.</p>
+</section>
+
+<section class="slide" id="redteam">
+  <div class="kicker">Then we asked outside reviewers to break it</div>
+  <div class="row">
+    <div class="box round fixed"><b>Review 1 · High</b><span>Undocumented gas could be laundered into creditable gas after 180 days.<br><br><span style="color:var(--green); font-weight:700">Fixed</span> · test_F1_*</span></div>
+    <div class="box round fixed"><b>Review 2 · High</b><span>A second reviewer found a way around our fix.<br><br><span style="color:var(--green); font-weight:700">Fixed</span> · test_S1_*</span></div>
+  </div>
+  <p class="lead" style="margin-top:44px">Every attack they proved is now a test that runs on every push.</p>
+</section>
+
+<!-- 5 · the AI -->
+<section class="slide" id="ai">
+  <div class="kicker">AI on runs it had never seen · 36 simulated months</div>
+  <table>
+    <tr><th>Module</th><th>Question</th><th style="text-align:right">Naive fraud caught</th><th style="text-align:right">Honest flagged</th></tr>
+    <tr><td><b>A</b> Leakage gap</td><td>Are top-ups plausible?</td><td class="n">100%</td><td class="n">0.5%</td></tr>
+    <tr><td><b>B</b> Mass balance</td><td>Do sales match inflows?</td><td class="n">100%</td><td class="n">0%</td></tr>
+    <tr><td><b>C</b> Recovery plausibility</td><td>Do recoveries look real?</td><td class="n">100%</td><td class="n">0.1%</td></tr>
+  </table>
+  <div class="src">Simulated data; the scores measure our own fraud generator. ai/reports/</div>
+</section>
+
+<section class="slide" id="adaptive">
+  <div class="kicker">Fraudsters who adapt mostly slip through, but stay tiny</div>
+  <p class="lead" style="margin-bottom:26px">Fake recoveries in three years</p>
+  <div style="display:flex; flex-direction:column; gap:30px">
+    <div style="display:flex; align-items:center; gap:26px"><div class="bar" style="width:1450px; background:var(--red)">136 kg</div><span class="lead" style="font-size:36px">naive</span></div>
+    <div style="display:flex; align-items:center; gap:26px"><div class="bar" style="width:43px; background:var(--amber); padding:0"></div><span class="lead" style="font-size:36px"><b>4 kg</b> · adaptive</span></div>
+  </div>
+</section>
+
+<!-- 6 · impact -->
+<section class="slide" id="impact">
+  <div class="kicker">Climate impact · an enabler, not a credit</div>
+  <figure><img src="../analysis/impact/chart-light.svg" alt=""></figure>
+</section>
+
+<section class="slide center" id="start">
+  <div class="kicker">Where to start</div>
+  <h2>Türkiye's compliant reclaimers</h2>
+  <p class="lead">Quota system and equipment register already in place · COP31 in Antalya, November 2026</p>
+</section>
+
+<section class="slide center" id="end">
+  <img src="../docs/assets/logo.svg" alt="" style="width:170px; margin-bottom:34px">
+  <h1 style="font-size:84px">Every kilogram has to add up.</h1>
+  <p class="lead" style="margin:10px 0 34px">Kigali Balance · IEEE ClimateChain Global Hackathon 2026 · Track 3</p>
+  <div><span class="pill">github.com/ZhenYan1214/kigali-balance</span><span class="pill">zhenyan1214.github.io/kigali-balance</span></div>
+</section>
+
+<script>
+  const id = new URLSearchParams(location.search).get('s') || 'never';
+  document.getElementById(id)?.classList.add('on');
+</script>
+</body>
+</html>

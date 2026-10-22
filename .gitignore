@@ -34,3 +34,9 @@ reports/.pdf-profile/
 
 # outreach drafts stay private (names organisations; user decides whether to send)
 docs/outreach/
+
+# demo video: generated screenshots and renders (rebuild with video/capture.py and video/make_video.py)
+video/assets/
+video/build/
+video/voice/*
+!video/voice/README.md
