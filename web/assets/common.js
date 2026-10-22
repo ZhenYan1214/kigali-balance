@@ -1,4 +1,7 @@
 // Shared helpers for the dashboard and the provenance passport.
+import { icon } from './icons.js';
+
+export { icon };
 
 export const CLASS = {
   virgin: { label: 'Virgin · quota-backed', color: 'var(--c-virgin)' },
@@ -54,7 +57,12 @@ export function el(tag, attrs = {}, ...children) {
   for (const [k, v] of Object.entries(attrs)) {
     if (v == null || v === false) continue;
     if (k === 'class') n.className = v;
-    else if (k === 'style' && typeof v === 'object') Object.assign(n.style, v);
+    else if (k === 'style' && typeof v === 'object') {
+      for (const [prop, val] of Object.entries(v)) {
+        if (prop.startsWith('--')) n.style.setProperty(prop, val);
+        else n.style[prop] = val;
+      }
+    }
     else if (k.startsWith('on')) n.addEventListener(k.slice(2), v);
     else n.setAttribute(k, v === true ? '' : v);
   }
@@ -72,15 +80,53 @@ export const svgEl = (tag, attrs = {}) => {
 };
 
 export function status(kind, text) {
-  const ico = { high: '!', review: '!', ok: '✓', blocked: '×' }[kind] ?? '·';
-  return el('span', { class: `status ${kind}` }, el('span', { class: 'ico', 'aria-hidden': 'true' }, ico), text);
+  const ico = { high: 'alert', review: 'alert', ok: 'check', blocked: 'reject', watch: 'dot' }[kind] ?? 'dot';
+  return el('span', { class: `status ${kind}` }, icon(ico, { size: 15 }), text);
 }
 
 export function checkMark(text) {
-  const s = el('span', { class: 'check' });
-  s.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="8" fill="currentColor" opacity="0.15"/><path d="M4.5 8.2l2.2 2.2 4.8-4.9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  s.append(text);
-  return s;
+  return el('span', { class: 'status ok' }, icon('check', { size: 15 }), text);
+}
+
+export const GAS_COLOR = { 'R-404A': 'var(--g-404a)', 'R-134a': 'var(--g-134a)', 'R-410A': 'var(--g-410a)' };
+export const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/** Count a number up once, keeping the final text exact (`format` turns the number into text). */
+export function countUp(node, value, format, ms = 900) {
+  if (reducedMotion() || !value) { node.textContent = format(value); return; }
+  const t0 = performance.now();
+  const step = (t) => {
+    const p = Math.min(1, (t - t0) / ms);
+    const e = 1 - (1 - p) ** 3;
+    node.textContent = format(p < 1 ? value * e : value);
+    if (p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+/** Fade sections in as they scroll into view (no-op when motion is reduced). */
+export function reveal(selector = '.reveal') {
+  const items = document.querySelectorAll(selector);
+  if (reducedMotion() || !('IntersectionObserver' in window)) { items.forEach((n) => n.classList.add('in')); return; }
+  document.documentElement.classList.add('js-reveal');
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }, { rootMargin: '0px 0px -8% 0px' });
+  items.forEach((n) => io.observe(n));
+}
+
+/** Highlight the table-of-contents entry of the section in view. */
+export function scrollSpy(tocSelector = '.toc a') {
+  const links = [...document.querySelectorAll(tocSelector)];
+  const map = new Map(links.map((a) => [a.getAttribute('href').slice(1), a]));
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      links.forEach((a) => a.classList.remove('on'));
+      map.get(e.target.id)?.classList.add('on');
+    }
+  }, { rootMargin: '-35% 0px -60% 0px' });
+  map.forEach((_, id) => { const s = document.getElementById(id); if (s) io.observe(s); });
 }
 
 // ---------------------------------------------------------------- tooltip (one per page)
@@ -108,34 +154,51 @@ export function tooltip() {
 }
 
 // ---------------------------------------------------------------- page chrome
+function isDark() {
+  const t = document.documentElement.dataset.theme;
+  return t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
 export function chrome(active) {
   const saved = (() => { try { return localStorage.getItem('kb-theme'); } catch { return null; } })();
   if (saved) document.documentElement.dataset.theme = saved;
-  const toggle = el('button', {
-    class: 'icon-btn', title: 'Switch light / dark', 'aria-label': 'Switch light or dark theme',
-    onclick: () => {
-      const dark = document.documentElement.dataset.theme
-        ? document.documentElement.dataset.theme === 'dark'
-        : matchMedia('(prefers-color-scheme: dark)').matches;
-      const next = dark ? 'light' : 'dark';
-      document.documentElement.dataset.theme = next;
-      try { localStorage.setItem('kb-theme', next); } catch { /* storage unavailable */ }
-      window.dispatchEvent(new Event('themechange'));
-    },
-  }, '◐');
-  const nav = el('nav', { class: 'nav' },
+  const toggle = el('button', { class: 'tool', type: 'button' });
+  const paint = () => {
+    const dark = isDark();
+    toggle.replaceChildren(icon(dark ? 'sun' : 'moon', { size: 17 }));
+    toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    toggle.title = toggle.getAttribute('aria-label');
+  };
+  toggle.addEventListener('click', () => {
+    const next = isDark() ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('kb-theme', next); } catch { /* storage unavailable */ }
+    paint();
+    window.dispatchEvent(new Event('themechange'));
+  });
+  paint();
+
+  const strip = el('div', { class: 'strip', role: 'note' }, el('div', { class: 'strip-inner' },
+    el('span', {}, el('b', {}, 'Simulated data'), ' · seed 42 · no real company'),
+    el('span', { class: 'hide-s' }, 'Contracts deployed and verified on ', el('b', {}, 'OP Sepolia')),
+    el('span', { class: 'hide-s' }, 'IEEE ClimateChain 2026 · Track 3'),
+  ));
+  const nav = el('nav', { class: 'nav', 'aria-label': 'Pages' },
     el('a', { href: 'index.html', 'aria-current': active === 'dashboard' ? 'page' : null }, el('span', { class: 'full' }, 'Regulator dashboard'), el('span', { class: 'short' }, 'Dashboard')),
     el('a', { href: 'passport.html', 'aria-current': active === 'passport' ? 'page' : null }, el('span', { class: 'full' }, 'Provenance passport'), el('span', { class: 'short' }, 'Passport')),
   );
-  const bar = el('header', { class: 'topbar' }, el('div', { class: 'topbar-inner' },
-    el('a', { class: 'brand', href: 'index.html' }, el('img', { src: 'assets/logo.svg', alt: '' }), el('span', {}, 'Kigali Balance')),
+  const bar = el('header', { class: 'masthead' }, el('div', { class: 'masthead-inner' },
+    el('a', { class: 'brand', href: 'index.html', 'aria-label': 'Kigali Balance, home' }, el('img', { src: 'assets/logo.svg', alt: '' }), el('b', {}, 'Kigali Balance')),
     nav,
     el('div', { class: 'spacer' }),
-    el('span', { class: 'pill', title: 'Every number on these pages comes from simulated data' }, el('span', { class: 'dot' }), 'Simulated data'),
-    el('a', { class: 'icon-btn gh', href: 'https://github.com/ZhenYan1214/kigali-balance', title: 'Source on GitHub', 'aria-label': 'Source on GitHub' }, '↗'),
+    el('a', { class: 'tool', href: 'https://github.com/ZhenYan1214/kigali-balance', title: 'Source code', 'aria-label': 'Source code on GitHub' }, icon('source', { size: 17 })),
     toggle,
   ));
-  document.body.prepend(bar);
+  document.body.prepend(strip, bar);
+  document.body.append(el('footer', { class: 'page-foot' },
+    el('p', {}, 'Every number on these pages comes from a simulated market (seed 42) or from the demo contracts on the OP Sepolia testnet. The pages read only what a regulator could observe: ledger events, the equipment register and the AI flags. The simulator’s ground truth is used to evaluate the AI elsewhere and never appears here.'),
+    el('p', {}, el('a', { href: 'https://github.com/ZhenYan1214/kigali-balance' }, 'Source, tests and reports'), ' · MIT licence'),
+  ));
 }
 
 let bundle;

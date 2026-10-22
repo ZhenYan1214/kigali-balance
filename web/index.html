@@ -5,98 +5,119 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Regulator Dashboard · Kigali Balance</title>
   <meta name="description" content="Kilogram reconciliation of HFC refrigerant across importers, service companies, reclaimers, destroyers and carbon registries. Simulated data.">
+  <meta name="theme-color" content="#f2f0ea">
   <link rel="icon" href="assets/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 <main>
-  <div class="page-head">
+  <section class="hero" aria-labelledby="page-title">
     <div>
-      <h1>Regulator dashboard</h1>
-      <p class="lede">Where every kilogram of HFC refrigerant went over 36 months of a simulated Turkish and EU market: what the shared ledger accepted, what its rules rejected, and what the AI sent for human review.</p>
+      <p class="eyebrow">Regulator view · a simulated Turkish and EU market</p>
+      <h1 id="page-title">Where every kilogram of <em>refrigerant</em> went.</h1>
+      <p class="lede">A shared ledger follows HFC refrigerant from import quota to the last recovery, reclamation or destruction. It refuses records that break the conservation rules, and an AI sends what is legal but implausible to a human reviewer.</p>
+      <p class="meta" id="period"></p>
     </div>
-  </div>
+    <aside class="slip reveal" id="slip" aria-label="Ledger balance"></aside>
+  </section>
 
-  <div class="filters" role="toolbar" aria-label="Filters">
-    <span class="label">Gas</span>
+  <section class="figures" id="figures" aria-label="Key figures"></section>
+
+  <div class="toolbar" role="toolbar" aria-label="Filter every section by gas">
+    <span class="lbl">Gas</span>
     <div class="seg" id="gas-filter"></div>
-    <span class="label" id="period"></span>
+    <span class="period" id="period2"></span>
   </div>
 
-  <section class="tiles" id="tiles" aria-label="Headline figures"></section>
+  <div class="report">
+    <nav class="toc" aria-label="Sections">
+      <ol>
+        <li><a href="#flows"><span>01</span>Flows</a></li>
+        <li><a href="#eol"><span>02</span>Left service unrecovered</a></li>
+        <li><a href="#rules"><span>03</span>Refused by the contracts</a></li>
+        <li><a href="#review"><span>04</span>Human review</a></li>
+        <li><a href="#claims"><span>05</span>Destroyed, claimed once</a></li>
+        <li><a href="#trend"><span>06</span>Month by month</a></li>
+        <li><a href="#chain"><span>07</span>Live on chain</a></li>
+      </ol>
+    </nav>
 
-  <section class="card section-gap" aria-labelledby="sankey-title">
-    <div class="card-head">
-      <h2 id="sankey-title">Where every kilogram went</h2>
-      <span class="sub">Width = kilograms. Colour = provenance class, which the contracts never let change.</span>
-      <span class="spacer"></span>
-      <div class="seg" id="sankey-scope"></div>
-      <button class="link-btn" id="sankey-table-btn" aria-expanded="false">Show as table</button>
+    <div>
+      <section class="sec reveal" id="flows" aria-labelledby="flows-title">
+        <div class="sec-head">
+          <div class="t"><span class="no">01</span><h2 id="flows-title">Where every recovered kilogram went</h2></div>
+          <p class="finding" id="flows-finding"></p>
+        </div>
+        <div class="controls">
+          <div class="seg" id="sankey-scope" aria-label="Scope"></div>
+          <span class="spacer"></span>
+          <button class="textbtn" id="sankey-table-btn" aria-expanded="false" type="button">Show as table</button>
+        </div>
+        <div class="legend" id="sankey-legend"></div>
+        <div class="chart" id="sankey" style="margin-top:14px"></div>
+        <div class="table-wrap" id="sankey-table" hidden></div>
+        <p class="note">Width is kilograms. Colour is the provenance class, which the contracts never let change: virgin gas can never become recovered or reclaimed.</p>
+      </section>
+
+      <section class="sec reveal" id="eol" aria-labelledby="eol-title">
+        <div class="sec-head">
+          <div class="t"><span class="no">02</span><h2 id="eol-title">Left service with no recovery</h2></div>
+          <p class="finding" id="eol-finding"></p>
+        </div>
+        <div id="closure"></div>
+      </section>
+
+      <section class="sec reveal" id="rules" aria-labelledby="rules-title">
+        <div class="sec-head">
+          <div class="t"><span class="no">03</span><h2 id="rules-title">Refused by the contracts</h2></div>
+          <p class="finding" id="rules-finding"></p>
+        </div>
+        <div class="cols">
+          <ul class="refusals" id="refusals" aria-label="Rejected attempts by rule"></ul>
+          <div class="table-wrap"><table class="ledger" id="rejections"></table></div>
+        </div>
+      </section>
+
+      <section class="sec reveal" id="review" aria-labelledby="review-title">
+        <div class="sec-head">
+          <div class="t"><span class="no">04</span><h2 id="review-title">Sent for human review</h2></div>
+          <p class="finding" id="review-finding"></p>
+        </div>
+        <div class="controls"><div class="seg" id="ai-filter" aria-label="AI module"></div></div>
+        <div class="dossiers" id="queue"></div>
+        <p class="note" id="ai-meta"></p>
+      </section>
+
+      <section class="sec reveal" id="claims" aria-labelledby="claims-title">
+        <div class="sec-head">
+          <div class="t"><span class="no">05</span><h2 id="claims-title">Destroyed, and claimed once</h2></div>
+          <p class="finding" id="claims-finding"></p>
+        </div>
+        <div class="table-wrap"><table class="ledger" id="destructions"></table></div>
+        <p style="margin-top:12px"><button class="textbtn" id="more-dest" type="button">Show all events</button></p>
+      </section>
+
+      <section class="sec reveal" id="trend" aria-labelledby="trend-title">
+        <div class="sec-head">
+          <div class="t"><span class="no">06</span><h2 id="trend-title">Month by month</h2></div>
+          <p class="finding">Kilograms recovered from registered equipment, reclaimed and destroyed each month. Hover for the values.</p>
+        </div>
+        <div class="legend" id="trend-legend"></div>
+        <div class="chart" id="trend-chart" style="margin-top:10px"></div>
+      </section>
+
+      <section class="sec reveal" id="chain" aria-labelledby="chain-title">
+        <div class="sec-head">
+          <div class="t"><span class="no">07</span><h2 id="chain-title">Read live from the chain</h2></div>
+          <p class="finding">The same contracts, deployed and verified on the OP Sepolia testnet, read by your browser right now. <span class="live-state wait" id="live-pill"><i></i>connecting</span></p>
+        </div>
+        <div id="live"></div>
+      </section>
     </div>
-    <div class="legend" id="sankey-legend"></div>
-    <div class="chart" id="sankey" style="margin-top:10px"></div>
-    <div class="table-wrap" id="sankey-table" hidden></div>
-  </section>
-
-  <section class="card section-gap" aria-labelledby="closure-title">
-    <div class="card-head">
-      <h2 id="closure-title">Left service with no recovery</h2>
-      <span class="sub">Registered units the national register shows as removed, checked against the ledger. This is where venting shows up.</span>
-    </div>
-    <div id="closure"></div>
-  </section>
-
-  <div class="grid cols-5-7 section-gap">
-    <section class="card" aria-labelledby="rules-title">
-      <div class="card-head">
-        <h2 id="rules-title">Rejected by the contracts</h2>
-        <span class="sub">Attempts that reverted on chain, by rule</span>
-      </div>
-      <div class="chart" id="rules"></div>
-      <div class="table-wrap" style="margin-top:12px">
-        <table id="rejections"></table>
-      </div>
-    </section>
-
-    <section class="card" aria-labelledby="ai-title">
-      <div class="card-head">
-        <h2 id="ai-title">AI review queue</h2>
-        <span class="sub">Compliant on the ledger, but implausible. Flags go to a human reviewer; nothing is sanctioned automatically.</span>
-      </div>
-      <div class="seg" id="ai-filter" style="margin-bottom:12px"></div>
-      <div class="queue" id="queue"></div>
-      <p class="muted" style="font-size:12.5px;margin-top:10px" id="ai-meta"></p>
-    </section>
   </div>
-
-  <section class="card section-gap" aria-labelledby="dest-title">
-    <div class="card-head">
-      <h2 id="dest-title">Destruction events and registry claims</h2>
-      <span class="sub">Each credit-eligible event can be claimed by one registry, once (rule R7)</span>
-    </div>
-    <div class="table-wrap"><table id="destructions"></table></div>
-    <p style="margin-top:10px"><button class="link-btn" id="more-dest">Show all events</button></p>
-  </section>
-
-  <section class="card section-gap" aria-labelledby="trend-title">
-    <div class="card-head">
-      <h2 id="trend-title">Monthly kilograms</h2>
-      <span class="sub">Recovered from registered equipment, reclaimed, and destroyed</span>
-    </div>
-    <div class="legend" id="trend-legend"></div>
-    <div class="chart" id="trend" style="margin-top:8px"></div>
-  </section>
-
-  <section class="card section-gap" aria-labelledby="live-title">
-    <div class="card-head">
-      <h2 id="live-title">Live on OP Sepolia</h2>
-      <span class="pill live" id="live-pill"><span class="dot"></span>reading the chain…</span>
-      <span class="sub">The same contracts, deployed and verified on a public testnet, read directly from the chain by your browser</span>
-    </div>
-    <div id="live"></div>
-  </section>
-
-  <p class="foot-note">All data is simulated (seed 42). The dashboard reads only what a regulator could observe: ledger events, the equipment register and the AI flags. The simulator's ground truth is used to evaluate the AI elsewhere and never appears here.</p>
 </main>
 <script type="module" src="assets/dashboard.js"></script>
 </body>

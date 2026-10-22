@@ -228,18 +228,13 @@ def architecture(theme):
 
 # ---------------------------------------------------------------- logo
 def logo():
-    teal, green, ink = "#3fb9a6", "#3fb950", "#e6edf3"
-    p = [f'<rect width="160" height="160" rx="32" fill="#0d1117"/>',
-         f'<circle cx="80" cy="80" r="58" fill="none" stroke="{teal}" stroke-opacity="0.35" stroke-width="2"/>',
-         f'<line x1="80" y1="44" x2="80" y2="112" stroke="{ink}" stroke-width="4" stroke-linecap="round"/>',
-         f'<line x1="60" y1="114" x2="100" y2="114" stroke="{ink}" stroke-width="4" stroke-linecap="round"/>',
-         f'<line x1="38" y1="52" x2="122" y2="52" stroke="{ink}" stroke-width="4" stroke-linecap="round"/>',
-         f'<circle cx="80" cy="44" r="5" fill="{teal}"/>']
-    for cx, col in [(44, teal), (116, green)]:
-        p.append(f'<polyline points="{cx-13},84 {cx},54 {cx+13},84" fill="none" stroke="{ink}" stroke-opacity="0.6" stroke-width="1.6"/>')
-        p.append(f'<path d="M{cx-17},84 Q{cx},100 {cx+17},84 Z" fill="{col}"/>')
-    svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" '
-           'aria-label="Kigali Balance logo"><title>Kigali Balance</title>' + "".join(p) + "</svg>\n")
+    """The mark: a refrigerant cylinder with its fill level, copper on ink (same file as web/assets/logo.svg)."""
+    svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Kigali Balance"><title>Kigali Balance</title>'
+           '<rect width="64" height="64" rx="14" fill="#15191F"/>'
+           '<path d="M27 14v-4h10v4M32 10V6.5" fill="none" stroke="#E9EEF2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'
+           '<path d="M20 34h24v12a8 8 0 0 1-8 8h-8a8 8 0 0 1-8-8Z" fill="#C4703B"/>'
+           '<rect x="20" y="14" width="24" height="40" rx="8" fill="none" stroke="#E9EEF2" stroke-width="3"/>'
+           '<path d="M17 34h30" stroke="#E9EEF2" stroke-width="3" stroke-linecap="round"/></svg>\n')
     (OUT / "logo.svg").write_text(svg, encoding="utf-8", newline="\n")
 
 
