@@ -5,30 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Provenance Passport · Kigali Balance</title>
   <meta name="description" content="Trace a cylinder of HFC refrigerant back to the registered equipment it was recovered from. Simulated data, plus live reads from OP Sepolia.">
-  <meta name="theme-color" content="#f2f0ea">
+  <meta name="theme-color" content="#ffffff">
   <link rel="icon" href="assets/logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-<main>
-  <section class="pp-head" aria-labelledby="page-title">
-    <div>
-      <p class="eyebrow">Provenance passport · scan a cylinder</p>
-      <h1 id="page-title">Where did the gas in this cylinder <em style="font-style:italic;color:var(--copper-ink)">come from?</em></h1>
-    </div>
-    <p class="lede">What a buyer, a registry or an inspector sees when they scan a cylinder: the registered equipment the gas was recovered from, every rule the ledger checked, and what happened to it. Nothing here is declared by the seller; every line is a signed ledger record.</p>
-  </section>
+<main class="page">
+  <section class="intro" aria-labelledby="page-title">
+    <p class="crumb"><span class="badge">Simulated data</span><span>Live lots are read from OP Sepolia</span></p>
+    <h1 id="page-title">Provenance passport</h1>
+    <p class="lede">Look up a cylinder lot to see which registered equipment its gas came from, which rules the ledger checked, and where the gas is now. Every line is a signed ledger record, not something the seller declared.</p>
 
-  <section class="finder" aria-label="Find a lot">
-    <form id="search">
-      <label class="serial" for="lot-input"><span>LOT</span><input id="lot-input" inputmode="numeric" autocomplete="off" placeholder="42" aria-label="Lot number"></label>
-      <div class="seg" id="source" aria-label="Data source"></div>
-      <button class="btn" type="submit" id="trace-btn">Trace</button>
+    <form class="lookup" id="search" novalidate>
+      <label for="lot-input">Lot number</label>
+      <div class="lookup-row">
+        <input class="field" id="lot-input" inputmode="numeric" autocomplete="off" placeholder="e.g. 42" aria-describedby="lot-hint">
+        <select class="field" id="source" aria-label="Data source">
+          <option value="sim">Simulated market</option>
+          <option value="chain">Live on OP Sepolia</option>
+        </select>
+        <button class="btn" type="submit">Look up</button>
+      </div>
+      <p class="hint" id="lot-hint" role="alert"></p>
+      <p class="examples" id="examples"></p>
     </form>
-    <div class="specimens" id="examples"></div>
   </section>
 
   <div id="out" aria-live="polite"></div>

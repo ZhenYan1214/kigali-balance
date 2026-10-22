@@ -80,44 +80,17 @@ export const svgEl = (tag, attrs = {}) => {
 };
 
 export function status(kind, text) {
-  const ico = { high: 'alert', review: 'alert', ok: 'check', blocked: 'reject', watch: 'dot' }[kind] ?? 'dot';
-  return el('span', { class: `status ${kind}` }, icon(ico, { size: 15 }), text);
+  return el('span', { class: `status ${kind}` }, el('i', { 'aria-hidden': 'true' }), text);
 }
 
-export function checkMark(text) {
-  return el('span', { class: 'status ok' }, icon('check', { size: 15 }), text);
-}
+export const checkMark = (text) => status('ok', text);
 
 export const GAS_COLOR = { 'R-404A': 'var(--g-404a)', 'R-134a': 'var(--g-134a)', 'R-410A': 'var(--g-410a)' };
 export const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/** Count a number up once, keeping the final text exact (`format` turns the number into text). */
-export function countUp(node, value, format, ms = 900) {
-  if (reducedMotion() || !value) { node.textContent = format(value); return; }
-  const t0 = performance.now();
-  const step = (t) => {
-    const p = Math.min(1, (t - t0) / ms);
-    const e = 1 - (1 - p) ** 3;
-    node.textContent = format(p < 1 ? value * e : value);
-    if (p < 1) requestAnimationFrame(step);
-  };
-  requestAnimationFrame(step);
-}
-
-/** Fade sections in as they scroll into view (no-op when motion is reduced). */
-export function reveal(selector = '.reveal') {
-  const items = document.querySelectorAll(selector);
-  if (reducedMotion() || !('IntersectionObserver' in window)) { items.forEach((n) => n.classList.add('in')); return; }
-  document.documentElement.classList.add('js-reveal');
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  }, { rootMargin: '0px 0px -8% 0px' });
-  items.forEach((n) => io.observe(n));
-}
-
-/** Highlight the table-of-contents entry of the section in view. */
-export function scrollSpy(tocSelector = '.toc a') {
-  const links = [...document.querySelectorAll(tocSelector)];
+/** Mark the sub-navigation link of the section in view. */
+export function scrollSpy(selector = '.subnav .links a') {
+  const links = [...document.querySelectorAll(selector)];
   const map = new Map(links.map((a) => [a.getAttribute('href').slice(1), a]));
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) {
@@ -125,7 +98,7 @@ export function scrollSpy(tocSelector = '.toc a') {
       links.forEach((a) => a.classList.remove('on'));
       map.get(e.target.id)?.classList.add('on');
     }
-  }, { rootMargin: '-35% 0px -60% 0px' });
+  }, { rootMargin: '-30% 0px -65% 0px' });
   map.forEach((_, id) => { const s = document.getElementById(id); if (s) io.observe(s); });
 }
 
@@ -165,7 +138,7 @@ export function chrome(active) {
   const toggle = el('button', { class: 'tool', type: 'button' });
   const paint = () => {
     const dark = isDark();
-    toggle.replaceChildren(icon(dark ? 'sun' : 'moon', { size: 17 }));
+    toggle.replaceChildren(icon(dark ? 'sun' : 'moon', { size: 18 }));
     toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
     toggle.title = toggle.getAttribute('aria-label');
   };
@@ -177,28 +150,24 @@ export function chrome(active) {
     window.dispatchEvent(new Event('themechange'));
   });
   paint();
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { paint(); window.dispatchEvent(new Event('themechange')); });
 
-  const strip = el('div', { class: 'strip', role: 'note' }, el('div', { class: 'strip-inner' },
-    el('span', {}, el('b', {}, 'Simulated data'), ' · seed 42 · no real company'),
-    el('span', { class: 'hide-s' }, 'Contracts deployed and verified on ', el('b', {}, 'OP Sepolia')),
-    el('span', { class: 'hide-s' }, 'IEEE ClimateChain 2026 · Track 3'),
-  ));
-  const nav = el('nav', { class: 'nav', 'aria-label': 'Pages' },
+  const nav =el('nav', { class: 'nav', 'aria-label': 'Pages' },
     el('a', { href: 'index.html', 'aria-current': active === 'dashboard' ? 'page' : null }, el('span', { class: 'full' }, 'Regulator dashboard'), el('span', { class: 'short' }, 'Dashboard')),
     el('a', { href: 'passport.html', 'aria-current': active === 'passport' ? 'page' : null }, el('span', { class: 'full' }, 'Provenance passport'), el('span', { class: 'short' }, 'Passport')),
   );
-  const bar = el('header', { class: 'masthead' }, el('div', { class: 'masthead-inner' },
+  const bar = el('header', { class: 'site' }, el('div', { class: 'site-inner' },
     el('a', { class: 'brand', href: 'index.html', 'aria-label': 'Kigali Balance, home' }, el('img', { src: 'assets/logo.svg', alt: '' }), el('b', {}, 'Kigali Balance')),
     nav,
     el('div', { class: 'spacer' }),
-    el('a', { class: 'tool', href: 'https://github.com/ZhenYan1214/kigali-balance', title: 'Source code', 'aria-label': 'Source code on GitHub' }, icon('source', { size: 17 })),
+    el('a', { class: 'tool', href: 'https://github.com/ZhenYan1214/kigali-balance', title: 'Source on GitHub', 'aria-label': 'Source on GitHub' }, icon('source', { size: 18 })),
     toggle,
   ));
-  document.body.prepend(strip, bar);
-  document.body.append(el('footer', { class: 'page-foot' },
-    el('p', {}, 'Every number on these pages comes from a simulated market (seed 42) or from the demo contracts on the OP Sepolia testnet. The pages read only what a regulator could observe: ledger events, the equipment register and the AI flags. The simulator’s ground truth is used to evaluate the AI elsewhere and never appears here.'),
-    el('p', {}, el('a', { href: 'https://github.com/ZhenYan1214/kigali-balance' }, 'Source, tests and reports'), ' · MIT licence'),
-  ));
+  document.body.prepend(bar);
+  document.body.append(el('footer', { class: 'site-foot' }, el('div', { class: 'site-foot-inner' },
+    el('p', {}, 'The figures come from a simulated market (seed 42, no real company) or from the demo contracts on the OP Sepolia testnet. These pages show only what a regulator could observe: ledger events, the equipment register and AI flags.'),
+    el('p', {}, el('a', { href: 'https://github.com/ZhenYan1214/kigali-balance' }, 'Source, tests and reports'), ' · IEEE ClimateChain 2026 · MIT licence'),
+  )));
 }
 
 let bundle;

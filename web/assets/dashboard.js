@@ -1,14 +1,13 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 import { sankey as d3sankey, sankeyLinkHorizontal, sankeyLeft } from 'https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/+esm';
 import {
-  CLASS, RULES, MODULES, GAS_COLOR, roleLabel, kg, fmt, compact, el, svgEl, icon, status, checkMark, tooltip, chrome, loadSim,
-  countUp, reveal, scrollSpy, reducedMotion,
+  CLASS, RULES, MODULES, GAS_COLOR, roleLabel, kg, fmt, compact, el, svgEl, icon, status, checkMark, tooltip, chrome, loadSim, scrollSpy,
 } from './common.js';
 
 chrome('dashboard');
 const tip = tooltip();
 const data = await loadSim();
-const state = { gas: 'all', ai: 'all', allDest: false, virgin: false, drawn: false };
+const state = { gas: 'all', ai: 'all', allDest: false, virgin: false };
 const pct = (a, b) => (b ? Math.round((100 * a) / b) : 0);
 const byGas = (x) => state.gas === 'all' || x.gas === state.gas;
 const sentence = (...parts) => parts.map((p) => (typeof p === 'string' ? document.createTextNode(p) : p));
@@ -28,11 +27,10 @@ for (const g of ['all', ...data.gases]) {
 }
 const period = `${data.meta.period[0]} → ${data.meta.period[1]}`;
 document.getElementById('period').replaceChildren(
-  el('span', {}, period), el('span', {}, `${fmt(data.meta.events)} ledger events`), el('span', {}, `${data.lots.length.toLocaleString('en-US')} lots`),
+  el('span', {}, `${period}, 36 months`), el('span', {}, `${fmt(data.meta.events)} ledger events`), el('span', {}, `${data.lots.length.toLocaleString('en-US')} lots`),
 );
-document.getElementById('period2').textContent = `${period} · 36 months`;
 
-// ------------------------------------------------------------------ balance slip and key figures
+// ------------------------------------------------------------------ balance and key figures
 function totals() {
   const f = data.flows[state.gas];
   const s = f.src;
@@ -50,23 +48,25 @@ function totals() {
 function renderSlip() {
   const { s, recovered, entered, sinks } = totals();
   const unexplained = entered - (sinks.charged + sinks.destroyed + sinks.stock + sinks.loss);
-  const row = (tag, label, grams, cls) => el('tr', { class: cls }, el('td', {}, tag), el('td', {}, label), el('td', { class: 'v' }, `${kg(grams, 0)} kg`));
+  const row = (label, grams) => el('tr', {}, el('td', {}, label), el('td', { class: 'v' }, `${kg(grams, 0)} kg`));
   const disc = data.discrepancies.filter(byGas).length;
   document.getElementById('slip').replaceChildren(
-    el('h2', {}, icon('balance', { size: 16 }), 'The books, in kilograms'),
-    el('table', {}, el('tbody', {},
-      row('IN', 'Minted against import quota documents', s.virgin),
-      row('IN', 'Recovered from registered equipment', recovered),
-      row('OUT', 'Charged into equipment', sinks.charged),
-      row('OUT', 'Destroyed', sinks.destroyed),
-      row('OUT', 'Still in cylinders', sinks.stock),
-      row('OUT', 'Booked as handling or reclamation loss', sinks.loss),
-      el('tr', { class: 'sum' }, el('td', {}, '='), el('td', {}, 'Unexplained'), el('td', { class: 'v' }, `${fmt(unexplained)} g`)),
-    )),
-    el('div', { class: 'verdict' }, unexplained === 0 ? icon('check', { size: 16 }) : icon('alert', { size: 16 }),
-      el('span', {}, unexplained === 0
-        ? `The ledger invariant holds. That is guaranteed by design, so the useful part is where the losses land: ${disc} weight discrepanc${disc === 1 ? 'y was' : 'ies were'} flagged on receipt.`
-        : `${fmt(unexplained)} g do not balance.`)),
+    el('table', { class: 'books' },
+      el('tbody', {}, el('tr', {}, el('th', { colspan: 2, scope: 'rowgroup' }, 'In')),
+        row('Minted against import quota documents', s.virgin),
+        row('Recovered from registered equipment', recovered)),
+      el('tbody', {}, el('tr', {}, el('th', { colspan: 2, scope: 'rowgroup' }, 'Out')),
+        row('Charged into equipment', sinks.charged),
+        row('Destroyed', sinks.destroyed),
+        row('Still in cylinders', sinks.stock),
+        row('Handling and reclamation losses', sinks.loss)),
+      el('tbody', {}, el('tr', { class: 'sum' }, el('td', {}, 'Unexplained'), el('td', { class: 'v' }, `${fmt(unexplained)} g`))),
+    ),
+    el('div', { class: 'verdict' },
+      unexplained === 0 ? status('ok', 'Balanced to the gram') : status('high', `${fmt(unexplained)} g do not balance`),
+      el('p', {}, 'The contracts make this hold by construction, so a balanced total proves little on its own. What matters is where the losses are booked.'),
+      el('p', {}, `${disc} weight discrepanc${disc === 1 ? 'y was' : 'ies were'} flagged when a receiver re-weighed a cylinder.`),
+    ),
   );
 }
 
@@ -77,20 +77,16 @@ function renderFigures() {
   const claimed = eligible.filter((d) => d.claimedBy);
   const tco2e = eligible.reduce((a, d) => a + d.tCO2e, 0);
   const reclaimYield = f.reclaimIn ? (100 * s.reclaimed) / f.reclaimIn : 0;
-  const fig = (ico, label, value, unit, note, format = (v) => kg(v, 0)) => {
-    const v = el('span', {});
-    countUp(v, value, format);
-    return el('div', { class: 'figure' }, el('div', { class: 'k' }, icon(ico, { size: 16 }), label), el('div', { class: 'v num' }, v, el('small', {}, unit)), el('div', { class: 'n' }, note));
-  };
+  const fig = (label, value, unit, note) => el('div', { class: 'stat' }, el('div', { class: 'k' }, label), el('div', { class: 'v' }, value, el('small', {}, unit)), el('div', { class: 'n' }, note));
   document.getElementById('figures').replaceChildren(
-    fig('unit', 'Recovered from equipment', recovered, 'kg', `${pct(s.recoveredA, recovered)}% from registered Tier A units · ${kg(s.recoveredC, 0)} kg quarantined`),
-    fig('flask', 'Reclaimed', s.reclaimed, 'kg', `${fmt(reclaimYield, 1)}% of input, never above input minus losses`),
-    fig('flame', 'Destroyed, credit-eligible', eligible.reduce((a, d) => a + d.grams, 0), 'kg', `${fmt(tco2e, 0)} tCO₂e · ${claimed.length} of ${eligible.length} events claimed once`),
-    fig('reject', 'Refused on chain', data.rejections.length, 'attempts', 'every gas · reverted by rules R1–R7', (v) => fmt(Math.round(v))),
+    fig('Recovered from equipment', kg(recovered, 0), 'kg', `${pct(s.recoveredA, recovered)}% from Tier A units, ${kg(s.recoveredC, 0)} kg quarantined`),
+    fig('Reclaimed', kg(s.reclaimed, 0), 'kg', `${fmt(reclaimYield, 1)}% of what went in`),
+    fig('Destroyed for credit', kg(eligible.reduce((a, d) => a + d.grams, 0), 0), 'kg', `${fmt(tco2e, 0)} tCO₂e, ${claimed.length} of ${eligible.length} events claimed`),
+    fig('Refused on chain', fmt(data.rejections.length), 'attempts', 'All gases, rules R1–R7'),
   );
 }
 
-// ------------------------------------------------------------------ 01 sankey
+// ------------------------------------------------------------------ sankey
 const NODES = {
   virgin: CLASS.virgin.label, recoveredA: CLASS.recoveredA.label, recoveredB: CLASS.recoveredB.label, recoveredC: CLASS.recoveredC.label,
   reclamation: 'Reclamation', reclaimed: 'Reclaimed output',
@@ -124,7 +120,7 @@ function sankeyData() {
   return { nodes: [...used].map((id) => ({ id, name: NODES[id] })), links };
 }
 
-function renderSankey(animate = false) {
+function renderSankey() {
   const host = document.getElementById('sankey');
   const width = Math.max(host.clientWidth, 640);
   const height = 480;
@@ -135,7 +131,6 @@ function renderSankey(animate = false) {
   const svg = svgEl('svg', { viewBox: `0 0 ${width} ${height}`, role: 'img', 'aria-label': 'Sankey diagram of kilograms by provenance class and fate' });
   const gLinks = svgEl('g', { fill: 'none' });
   const path = sankeyLinkHorizontal();
-  const drawn = [];
   for (const l of graph.links) {
     const p = svgEl('path', { d: path(l), 'stroke-width': Math.max(1, l.width), tabindex: 0, 'aria-label': `${kg(l.value, 1)} kg from ${l.source.name} to ${l.target.name}` });
     p.style.stroke = LINK_COLOR[l.color] ?? 'var(--c-loss)';
@@ -149,7 +144,6 @@ function renderSankey(animate = false) {
     p.addEventListener('pointermove', over); p.addEventListener('pointerleave', out);
     p.addEventListener('focus', over); p.addEventListener('blur', out);
     gLinks.append(p);
-    drawn.push([p, l.source.depth]);
   }
   svg.append(gLinks);
   const gNodes = svgEl('g');
@@ -172,22 +166,6 @@ function renderSankey(animate = false) {
   host.classList.toggle('scroll-x', host.clientWidth < 640);
   host.replaceChildren(svg);
 
-  // the flow draws itself in the direction the gas moves, one column after another
-  if (animate && !reducedMotion()) {
-    for (const [p, depth] of drawn) {
-      const len = p.getTotalLength();
-      p.style.strokeDasharray = `${len} ${len}`;
-      p.style.strokeDashoffset = String(len);
-      p.style.transition = `stroke-dashoffset 900ms cubic-bezier(.2,.7,.2,1) ${depth * 260}ms, stroke-opacity .15s`;
-    }
-    gNodes.style.opacity = '0';
-    gNodes.style.transition = 'opacity .6s ease 200ms';
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      for (const [p] of drawn) p.style.strokeDashoffset = '0';
-      gNodes.style.opacity = '1';
-    }));
-  }
-
   document.getElementById('sankey-legend').replaceChildren(
     ...[...(state.virgin ? [['var(--c-virgin)', 'Virgin, quota-backed']] : []), ['var(--c-recovered)', 'Recovered from registered equipment'], ['var(--c-quarantine)', 'Recovered < 180 days after a charge (tier C: never reclaimed or credited)'], ['var(--c-reclaimed)', 'Reclaimed']]
       .map(([c, t]) => el('span', {}, el('i', { style: { background: c } }), t)),
@@ -203,8 +181,8 @@ function renderSankey(animate = false) {
   const destroyed = ['recoveredA', 'recoveredB', 'recoveredC'].reduce((a, k) => a + (f.sink[k]?.destroyedEligible ?? 0) + (f.sink[k]?.destroyedOther ?? 0), 0);
   document.getElementById('flows-finding').replaceChildren(...sentence(
     el('strong', {}, `${kg(recovered, 0)} kg`), ' came back out of registered equipment. ',
-    el('strong', {}, `${pct(reclaimIn, recovered)}%`), ' went to reclamation and ',
-    el('strong', {}, `${pct(destroyed, recovered)}%`), ` was destroyed; ${kg(s.recoveredC, 0)} kg was quarantined because it was recovered within 180 days of a charge.`,
+    el('strong', {}, `${pct(reclaimIn, recovered)}%`), ' of it was reclaimed and ',
+    el('strong', {}, `${pct(destroyed, recovered)}%`), ` destroyed. ${kg(s.recoveredC, 0)} kg was held back because it came out within 180 days of a charge.`,
   ));
 }
 
@@ -216,7 +194,7 @@ for (const [v, label] of [[false, 'Recovered kilograms'], [true, 'Include virgin
     onclick: (e) => {
       state.virgin = v;
       for (const b of scope.children) b.setAttribute('aria-pressed', String(b === e.currentTarget));
-      renderSankey(true);
+      renderSankey();
     },
   }, label));
 }
@@ -228,7 +206,7 @@ tableBtn.addEventListener('click', () => {
   tableBtn.textContent = t.hidden ? 'Show as table' : 'Hide table';
 });
 
-// ------------------------------------------------------------------ 02 end-of-life closure
+// ------------------------------------------------------------------ end-of-life closure
 function renderClosure() {
   const c = data.closure;
   const units = c.units.filter(byGas);
@@ -239,18 +217,18 @@ function renderClosure() {
   const t = (k) => gap.reduce((a, u) => a + (u[k] / 1e6) * data.meta.gwp[u.gas], 0);
   const decided = Math.max(units.length - by('pending').length, 1);
   const top = [...gap].sort((a, b) => b.high - a.high).slice(0, 6);
-  const fig = (ico, label, value, unit, note) => el('div', { class: 'figure' }, el('div', { class: 'k' }, icon(ico, { size: 16 }), label), el('div', { class: 'v num' }, value, el('small', {}, unit)), el('div', { class: 'n' }, note));
+  const fig = (label, value, unit, note) => el('div', { class: 'stat' }, el('div', { class: 'k' }, label), el('div', { class: 'v' }, value, el('small', {}, unit)), el('div', { class: 'n' }, note));
   document.getElementById('eol-finding').replaceChildren(...sentence(
-    el('strong', {}, `${gap.length} of ${units.length}`), ' registered units that left service have no recovery on the ledger: an estimated ',
-    el('strong', {}, `${kg(low, 0)}–${kg(high, 0)} kg`), ' of refrigerant probably vented. This is the largest emission the ledger can point at.',
+    el('strong', {}, `${gap.length} of ${units.length}`), ' registered units that left service have no recovery on the ledger. Roughly ',
+    el('strong', {}, `${kg(low, 0)}–${kg(high, 0)} kg`), ' of refrigerant was probably vented, the largest emission the ledger can point to.',
   ));
   document.getElementById('closure').replaceChildren(
-    el('div', { class: 'figures', style: { gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' } },
-      fig('unit', 'Registered units removed', fmt(units.length), 'units', `${by('recovered').length} with a recovery on the ledger · ${by('pending').length} pending`),
-      fig('alert', 'Removed with no recovery record', fmt(gap.length), 'units', `${pct(gap.length, decided)}% of decided removals`),
-      fig('vent', 'Refrigerant unaccounted for', `${kg(low, 0)}–${kg(high, 0)}`, 'kg', `${fmt(t('low'), 0)}–${fmt(t('high'), 0)} tCO₂e`),
+    el('div', { class: 'stats three' },
+      fig('Registered units removed', fmt(units.length), 'units', `${by('recovered').length} recovered, ${by('pending').length} still pending`),
+      fig('Removed with no recovery', fmt(gap.length), 'units', `${pct(gap.length, decided)}% of decided removals`),
+      fig('Refrigerant unaccounted for', `${kg(low, 0)}–${kg(high, 0)}`, 'kg', `${fmt(t('low'), 0)}–${fmt(t('high'), 0)} tCO₂e`),
     ),
-    el('div', { class: 'table-wrap', style: { marginTop: '22px' } }, el('table', { class: 'ledger' },
+    el('div', { class: 'table-wrap', style: { marginTop: '28px' } }, el('table', { class: 'ledger' },
       el('thead', {}, el('tr', {}, el('th', {}, 'Unit'), el('th', {}, 'Type'), el('th', {}, 'Gas'), el('th', {}, 'Removed'), el('th', {}, 'Serviced by'), el('th', { class: 'r' }, 'Nameplate kg'), el('th', { class: 'r' }, 'Likely unaccounted kg'))),
       el('tbody', {}, ...top.map((u) => el('tr', {},
         el('td', { class: 'mono' }, u.id), el('td', {}, u.category.replaceAll('_', ' ')),
@@ -260,36 +238,33 @@ function renderClosure() {
       ))),
     )),
     el('p', { class: 'note' },
-      `Largest six shown. ${c.companies.length ? `${c.companies.length} service compan${c.companies.length > 1 ? 'ies stand' : 'y stands'} out against the others.` : `No service company stands out against the others (${c.companiesAssessed} compared).`} `
-      + 'The estimate is the nameplate charge times the IPCC 2006 range of charge still in a unit of that kind at end of life (Table 7.9). Units below the national registration threshold are invisible here until someone recovers them.'),
+      `The six largest are shown. ${c.companies.length ? `${c.companies.length} service compan${c.companies.length > 1 ? 'ies stand' : 'y stands'} out against the others.` : `No service company stands out against the others (${c.companiesAssessed} compared).`} `
+      + 'Estimate: nameplate charge times the IPCC 2006 range of charge left in that kind of unit at end of life (Table 7.9). Units below the registration threshold stay invisible here until someone recovers them.'),
   );
 }
 
-// ------------------------------------------------------------------ 03 refusals
+// ------------------------------------------------------------------ refusals
 function renderRules() {
   const counts = d3.rollups(data.rejections, (v) => v.length, (r) => r.reason).sort((a, b) => b[1] - a[1]);
   const max = d3.max(counts, (d) => d[1]) ?? 1;
   const list = document.getElementById('refusals');
   list.replaceChildren(...counts.map(([reason, n]) => {
     const [rule, what] = RULES[reason] ?? ['?', reason];
-    const bar = el('b', { style: { transform: 'scaleX(0)', transition: 'transform .8s cubic-bezier(.2,.7,.2,1)' } });
-    requestAnimationFrame(() => requestAnimationFrame(() => { bar.style.transform = `scaleX(${n / max})`; }));
-    return el('li', {},
+    return el('li', { title: reason },
       el('span', { class: 'code' }, rule),
-      el('span', { class: 'what' }, el('b', {}, reason), el('span', {}, what)),
-      el('span', { class: 'bar', 'aria-hidden': 'true' }, bar),
+      el('span', { class: 'what' }, what),
+      el('span', { class: 'bar', 'aria-hidden': 'true' }, el('b', { style: { width: `${(100 * n) / max}%` } })),
       el('span', { class: 'n' }, String(n)),
     );
   }));
   const top = counts[0];
   document.getElementById('rules-finding').replaceChildren(...sentence(
-    el('strong', {}, `${data.rejections.length} attempts`), ' reverted on chain. ',
-    top ? `The most frequent: ${(RULES[top[0]] ?? [, top[0]])[1].toLowerCase()} (${top[1]}). ` : '',
-    'Each one left the books exactly as they were.',
+    el('strong', {}, `${data.rejections.length} attempts`), ' were reverted and left the books unchanged. ',
+    top ? `The most common: ${(RULES[top[0]] ?? [, top[0]])[1].toLowerCase()} (${top[1]}).` : '',
   ));
   const latest = [...data.rejections].sort((a, b) => b.t.localeCompare(a.t)).slice(0, 7);
   document.getElementById('rejections').replaceChildren(
-    el('thead', {}, el('tr', {}, el('th', {}, 'Date'), el('th', {}, 'Rule'), el('th', {}, 'Who tried'), el('th', {}, 'What'))),
+    el('thead', {}, el('tr', {}, el('th', {}, 'Date'), el('th', {}, 'Rule'), el('th', {}, 'Who tried'), el('th', {}, 'Latest attempts'))),
     el('tbody', {}, ...latest.map((r) => el('tr', {},
       el('td', { class: 'num' }, r.t),
       el('td', {}, status('blocked', (RULES[r.reason] ?? ['?'])[0])),
@@ -314,7 +289,7 @@ function describeRejection(r) {
   }
 }
 
-// ------------------------------------------------------------------ 04 AI review
+// ------------------------------------------------------------------ AI review
 const aiFilter = document.getElementById('ai-filter');
 for (const m of ['all', 'a', 'b', 'c']) {
   aiFilter.append(el('button', {
@@ -326,10 +301,6 @@ for (const m of ['all', 'a', 'b', 'c']) {
       renderQueue();
     },
   }, m === 'all' ? 'All modules' : MODULES[m].name));
-}
-function gauge(score, sev) {
-  const filled = Math.round(score * 10);
-  return el('span', { class: `gauge ${sev}`, title: `score ${score.toFixed(2)}`, 'aria-hidden': 'true' }, ...Array.from({ length: 10 }, (_, i) => el('b', { class: i < filled ? 'f' : null })));
 }
 function renderQueue() {
   const items = [];
@@ -345,8 +316,8 @@ function renderQueue() {
     const mod = data.ai[f.m];
     return el('details', { class: `dossier ${sev}` },
       el('summary', {},
-        el('span', { class: 'who' }, el('b', {}, f.actor), el('span', {}, roleLabel(f.role)), el('span', { class: 'tagline' }, `Module ${MODULES[f.m].short}`)),
-        el('span', { class: 'side' }, status(sev, label), gauge(f.score, sev), el('span', { class: 'score' }, f.score.toFixed(2))),
+        el('span', { class: 'who' }, el('b', {}, f.actor), el('span', {}, roleLabel(f.role)), el('span', {}, `Module ${MODULES[f.m].short}`)),
+        el('span', { class: 'side' }, status(sev, label), el('span', { class: 'score', title: 'Model score, 0 to 1' }, f.score.toFixed(2)), el('span', { class: 'chev', 'aria-hidden': 'true' }, icon('chevron', { size: 16 }))),
         el('span', { class: 'why' }, f.reasons[0] ?? (sev === 'watch' ? 'Below the flag threshold; kept on a watch list.' : '')),
       ),
       el('div', { class: 'body' },
@@ -361,21 +332,21 @@ function renderQueue() {
   const flagged = ['a', 'b', 'c'].reduce((a, m) => a + data.ai[m].flags.filter((f) => f.severity !== 'none').length, 0);
   const assessed = ['a', 'b', 'c'].reduce((a, m) => a + data.ai[m].assessed, 0);
   document.getElementById('review-finding').replaceChildren(...sentence(
-    el('strong', {}, `${flagged} parties`), ` out of ${assessed} assessments are legal on the ledger but implausible. Each comes with its reasons and the hash of the model that scored it. Nothing is sanctioned automatically.`,
+    el('strong', {}, `${flagged} of ${assessed}`), ' assessments are legal on the ledger but look unlikely. Each comes with its reasons and the hash of the model that scored it. Nothing is sanctioned automatically.',
   ));
   const parts = ['a', 'b', 'c'].map((m) => `${MODULES[m].name}: ${data.ai[m].flags.filter((f) => f.severity !== 'none').length} of ${data.ai[m].assessed}`);
-  document.getElementById('ai-meta').textContent = `${parts.join(' · ')}. On held-out simulated runs, fraudsters who adapt are mostly missed, but adapting keeps them small; see the evaluation reports.`;
+  document.getElementById('ai-meta').textContent = `${parts.join(' · ')}. On held-out simulated runs the modules miss most fraudsters who adapt, but adapting keeps their volume small; the evaluation reports have the details.`;
 }
 
-// ------------------------------------------------------------------ 05 destruction events and claims
+// ------------------------------------------------------------------ destruction events and claims
 function renderDestructions() {
   const rows = data.destructions.filter(byGas).sort((a, b) => b.t.localeCompare(a.t));
   const shown = state.allDest ? rows : rows.slice(0, 8);
   const eligible = rows.filter((d) => d.eligible);
   const blocked = rows.reduce((a, d) => a + d.blockedClaims.length, 0);
   document.getElementById('claims-finding').replaceChildren(...sentence(
-    el('strong', {}, `${eligible.filter((d) => d.claimedBy).length} of ${eligible.length}`), ' credit-eligible destruction events were claimed, each by exactly one registry. ',
-    el('strong', {}, `${blocked}`), ` other claim${blocked === 1 ? ' was' : 's were'} refused.`,
+    el('strong', {}, `${eligible.filter((d) => d.claimedBy).length} of ${eligible.length}`), ' credit-eligible destruction events have been claimed, each by one registry only. ',
+    el('strong', {}, `${blocked}`), ` second claim${blocked === 1 ? ' was' : 's were'} refused.`,
   ));
   document.getElementById('destructions').replaceChildren(
     el('thead', {}, el('tr', {},
@@ -391,7 +362,7 @@ function renderDestructions() {
       el('td', {}, d.eligible ? el('span', { class: 'tagline' }, `Tier ${d.tier}`) : el('span', { class: 'muted' }, 'Not creditable')),
       el('td', { class: 'mono' }, d.verifier),
       el('td', {}, d.claimedBy
-        ? el('span', {}, el('span', { class: 'status ok' }, icon('stamp', { size: 15 }), d.claimedBy),
+        ? el('span', {}, status('ok', d.claimedBy),
           d.blockedClaims.length ? el('div', { class: 'muted', style: { fontSize: '12px', marginTop: '3px' } }, `${d.blockedClaims.length} other claim${d.blockedClaims.length > 1 ? 's' : ''} refused`) : null)
         : d.eligible ? el('span', { class: 'muted' }, d.blockedClaims.length ? `unclaimed · ${d.blockedClaims.length} refused` : 'unclaimed') : el('span', { class: 'muted' }, '–')),
     ))),
@@ -402,11 +373,11 @@ function renderDestructions() {
 }
 document.getElementById('more-dest').addEventListener('click', () => { state.allDest = !state.allDest; renderDestructions(); });
 
-// ------------------------------------------------------------------ 06 monthly trend
+// ------------------------------------------------------------------ monthly trend
 const SERIES = [
   ['recovered', 'Recovered', 'var(--c-recovered)'],
   ['reclaimed', 'Reclaimed', 'var(--c-reclaimed)'],
-  ['destroyed', 'Destroyed', 'var(--ink-2)'],
+  ['destroyed', 'Destroyed', 'var(--c-virgin)'],
 ];
 function renderTrend() {
   const rows = data.monthly.map(({ m, byGas: g }) => {
@@ -418,7 +389,7 @@ function renderTrend() {
   const host = document.getElementById('trend-chart');
   const width = Math.max(host.clientWidth, 480);
   const height = 270;
-  const m = { top: 14, right: 96, bottom: 28, left: 46 };
+  const m = { top: 26, right: 96, bottom: 28, left: 46 };
   const x = d3.scaleUtc().domain(d3.extent(rows, (d) => d.date)).range([m.left, width - m.right]);
   const y = d3.scaleLinear().domain([0, d3.max(rows, (d) => Math.max(...SERIES.map(([k]) => d[k])))]).nice().range([height - m.bottom, m.top]);
   const svg = svgEl('svg', { viewBox: `0 0 ${width} ${height}`, role: 'img', 'aria-label': 'Monthly kilograms recovered, reclaimed and destroyed' });
@@ -436,7 +407,7 @@ function renderTrend() {
     lb.textContent = d3.utcFormat('%b %Y')(t);
     svg.append(lb);
   }
-  const yl = svgEl('text', { x: m.left - 10, y: m.top - 4, 'text-anchor': 'end', 'font-size': 11, class: 'val' });
+  const yl = svgEl('text', { x: m.left - 10, y: m.top - 14, 'text-anchor': 'end', 'font-size': 11, class: 'val' });
   yl.style.fill = 'var(--muted)';
   yl.textContent = 'kg';
   svg.append(yl);
@@ -474,7 +445,7 @@ function renderTrend() {
   document.getElementById('trend-legend').replaceChildren(...SERIES.map(([, name, color]) => el('span', {}, el('i', { class: 'line', style: { background: color } }), name)));
 }
 
-// ------------------------------------------------------------------ 07 live chain
+// ------------------------------------------------------------------ live chain
 async function renderLive() {
   const box = document.getElementById('live');
   const pill = document.getElementById('live-pill');
@@ -486,7 +457,7 @@ async function renderLive() {
     const ex = o.info.explorer;
     const evs = await Promise.all(o.events.map(async (e, i) => ({ i, e, facility: await actorName(e.facility), claimer: e.claimedBy === '0x0000000000000000000000000000000000000000' ? null : await actorName(e.claimedBy) })));
     pill.className = 'live-state on';
-    pill.replaceChildren(el('i'), 'live · OP Sepolia');
+    pill.replaceChildren(el('i'), 'live');
     const balanced = Number(t.virginMinted) + Number(t.unknownDeclared) + Number(t.recovered) === Number(t.live) + Number(t.charged) + Number(t.destroyed) + Number(t.reclaimLoss) + Number(t.handlingLoss);
     const cell = (k, v, unit) => el('div', {}, el('dt', {}, k), el('dd', {}, v, unit ? el('small', {}, ` ${unit}`) : null));
     box.replaceChildren(
@@ -499,13 +470,13 @@ async function renderLive() {
       el('div', { style: { marginTop: '14px' } },
         el('div', { class: 'event-line' }, balanced ? checkMark('Books balance on chain: minted + recovered = live + charged + destroyed + losses') : status('high', 'The on-chain books do not balance')),
         ...evs.map(({ i, e, facility, claimer }) => el('div', { class: 'event-line' },
-          icon('flame', { size: 16 }), el('span', { class: 'mono' }, `Event #${i}`),
+          el('span', { class: 'mono' }, `Event #${i}`),
           el('span', {}, `${kg(Number(e.grams), 1)} kg R-404A · DRE ${(e.dreBps / 100).toFixed(2)}% · ${facility}`),
-          claimer ? el('span', { class: 'status ok' }, icon('stamp', { size: 15 }), `claimed once, by ${claimer}`) : el('span', { class: 'muted' }, 'unclaimed'),
+          claimer ? status('ok', `claimed once, by ${claimer}`) : el('span', { class: 'muted' }, 'unclaimed'),
         )),
       ),
       el('div', { class: 'links' },
-        el('a', { href: 'passport.html?source=chain&lot=6' }, icon('tag', { size: 15 }), 'Passport of the reclaimed lot on chain'),
+        el('a', { href: 'passport.html?source=chain&lot=6' }, 'Passport of the reclaimed lot on chain'),
         ...Object.entries(o.info.contracts).slice(0, 3).map(([n, a]) => el('a', { href: `${ex}/address/${a}#code`, target: '_blank', rel: 'noopener' }, n, icon('external', { size: 13 }))),
       ),
     );
@@ -517,19 +488,18 @@ async function renderLive() {
 }
 
 // ------------------------------------------------------------------ render
-function render(animate = true) {
+function render() {
   renderSlip();
   renderFigures();
-  renderSankey(animate);
+  renderSankey();
   renderClosure();
   renderRules();
   renderQueue();
   renderDestructions();
   renderTrend();
 }
-render(true);
+render();
 renderLive();
-reveal();
 scrollSpy();
 let rt;
-window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { renderSankey(false); renderTrend(); }, 150); });
+window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { renderSankey(); renderTrend(); }, 150); });
