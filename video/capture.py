@@ -20,7 +20,7 @@ SITE = "https://zhenyan1214.github.io/kigali-balance"
 SHOTS = {
     # name: (url, window height in CSS px); width is always 1920, device scale 2
     "passport": (f"{SITE}/passport.html?lot=42", 2300),
-    "dashboard": (f"{SITE}/index.html", 2700),
+    "dashboard": (f"{SITE}/index.html", 3800),
     "actions": ("https://github.com/ZhenYan1214/kigali-balance/actions/workflows/verify.yml", 1300),
 }
 

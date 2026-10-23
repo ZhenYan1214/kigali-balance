@@ -18,6 +18,11 @@ Track 3 (also Track 1) · A shared ledger that makes every recovered, reclaimed 
 
 **Track 3: Sustainable Supply Chains (also Track 1: Carbon Markets & Emissions Transparency)**
 
+**See it in 60 seconds**
+1. [The regulator dashboard](https://zhenyan1214.github.io/kigali-balance/): the books balance to the gram, and you can see what the contracts refused and what the AI sent for review.
+2. [The passport of lot 42](https://zhenyan1214.github.io/kigali-balance/passport.html?lot=42): a lot that was destroyed and credited once, traced back to its unit, with the checks the ledger enforced and the AI flags on the companies involved.
+3. [A claim on chain](https://sepolia-optimism.etherscan.io/tx/0x1fffa78764819ad612f7caf6a888ada604707be6c813f7a53af301800e456201): the designated registry claiming one destruction event on OP Sepolia; a second claim is refused.
+
 ### Inspiration
 
 HFC refrigerants, being phased down under the Kigali Amendment, are super-pollutants. One kilogram of R-404A warms the planet as much as 3.9 tonnes of CO₂. Their kilograms are already recorded, but in separate systems: customs quotas, technician logs, reclaimer reports and carbon registries. Each system checks its own books. **No one checks the same kilogram between them**, and that seam pays:
@@ -46,9 +51,17 @@ Kigali Balance enforces one rule on chain:
 - **Contracts.** Six Solidity contracts (Foundry), with EIP-712 attestations verified on chain and a 3-of-4 governance multisig. Deployed and verified on OP Sepolia.
 - **Simulator.** A deterministic three-year HFC market with twelve kinds of injected fraud, including *adaptive* fraudsters who keep every number inside honest ranges. Leak rates follow IPCC 2006, maintenance follows EU leak-check rules, and the end-of-life recovery rate is calibrated to Japan's 2024 figure (43%).
 - **Differential test.** All 7,359 simulated events are replayed against the real contracts. Every accept or reject decision, error, lot ID and gas total matches the simulator's separately written rule mirror.
-- **AI.** Python modules that read only what a regulator could observe, never the simulator's ground truth. They were scored on held-out simulated runs never used for design. Every flag is written to an on-chain `FlagRegistry` with the model's hash and the hash of the exact data it scored, and only a regulator can close it.
-- **Outside judges.** Every push is rebuilt from scratch on a clean Linux machine (GitHub Actions) and must reproduce every committed file byte for byte. A second job runs the Slither static analyser.
+- **AI.** Python modules that read only what a regulator could observe, never the simulator's ground truth. They were scored on held-out simulated runs never used for design. In the local replay chain, every flag is written to `FlagRegistry` with the model's hash and the hash of the exact data it scored, and only a regulator can close it; writing flags on the public deployment is on the roadmap.
+- **Independent machine checks.** Every push is rebuilt from scratch on a clean Linux machine (GitHub Actions) and must reproduce every committed file byte for byte. A second job runs the Slither static analyser.
 - **Real data.** A public-record audit of the ACR, CAR and Verra registries and the California ARB issuance table.
+
+### Climate impact (a conservative estimate)
+
+Kigali Balance recovers no gas and claims no credits; it makes paid-for recovery checkable. For a market the size of Japan's, our model puts the effect attributable to verification at a median 0.06 MtCO₂e a year (5th–95th percentile 0.01–0.18), counting only recovered gas that is then destroyed. The number is small because we refuse to count reclaimed gas that a binding quota does not let displace virgin supply. The scale of the problem is not small: EU seizures of illegal HFCs rose from about 250 t in 2023 to about 670 t in 2024, and the world's equipment banks hold an estimated 13–24 GtCO₂e.
+
+### User testing
+
+None yet, and we do not claim any. The first tests are planned with a reclaimer, a registry analyst and a regulator: can each answer "where did this kilogram come from?" from the passport alone?
 
 ### Challenges we ran into
 
@@ -59,7 +72,7 @@ Kigali Balance enforces one rule on chain:
 ### Accomplishments that we're proud of
 
 - 162 unit tests and 10 fuzzed invariants. Thousands of forged recoveries in each fuzz campaign, none accepted.
-- **We hired our own attackers.** Three outside reviewers (a security pre-audit, a forensic check of every number, an editor) attacked the submission. The security review found a High-severity hole: undocumented gas could be laundered into creditable gas after 180 days. We fixed it and all three Medium findings, turned every proof of concept into a regression test, and taught the simulator the new attacks so the differential test checks them too. Then a second, independent reviewer attacked the fixed code and found that our fix could itself be bypassed by charging the quarantined gas back in. We fixed that too: the gas now stays marked for good. The forensic review cut our climate estimate by about three quarters and corrected our audit headline. We publish the corrected numbers.
+- **We red-teamed ourselves with AI.** Three AI-assisted red-team passes (security, forensic and editorial) attacked the submission; there has been no human audit yet. The security pass found a High-severity hole: undocumented gas could be laundered into creditable gas after 180 days. We fixed it and all three Medium findings, turned every proof of concept into a regression test, and taught the simulator the new attacks so the differential test checks them too. Then a second AI pass, given only the fixed code, found that our fix could itself be bypassed by charging the quarantined gas back in. We fixed that too: the gas now stays marked for good. The forensic pass cut our climate estimate by about three quarters and corrected our audit headline. We publish the corrected numbers.
 - A technical annex where each security claim names the test that proves it.
 - A climate-impact model with its uncertainty and a sensitivity analysis, rather than one big number. It also says how a pilot would measure the assumption that matters most.
 - A finding we did not expect: where two ledgers share a key (California ARB and the registries), the public record reconciles. Where they don't, outsiders cannot check.
@@ -84,12 +97,12 @@ solidity, foundry, ethereum, optimism, eip-712, python, scikit-learn, shap, pand
 ## Try it out (links)
 
 - GitHub: https://github.com/ZhenYan1214/kigali-balance
-- Dashboard and provenance passport: https://zhenyan1214.github.io/kigali-balance/ (after GitHub Pages is enabled; until then, run locally per the README)
+- Dashboard and provenance passport: https://zhenyan1214.github.io/kigali-balance/
 - Contracts on OP Sepolia (current code, deployed and verified 2026-10-21): https://sepolia-optimism.etherscan.io/address/0x9d1B18ae56946A835Ff6c705e9d4a9119BBe0e4b#code
 
 ## File upload
 
-`docs/proposal/Kigali_Balance_Submission.pdf`: the two-page problem statement followed by the technical annex (about 12 pages, under 1 MB).
+`docs/proposal/Kigali_Balance_Submission.pdf`: the two-page problem statement followed by the technical annex (15 pages in all, under 1 MB).
 
 ## Video
 

@@ -7,8 +7,11 @@
       "id": "1-case",
       "sentences": [
         {
-          "text": "This is lot 42: half a kilogram of R-410A, recovered from a small air conditioner, destroyed, and credited once by a carbon registry.",
-          "say": "This is lot 42: half a kilogram of R 4 10 A, recovered from a small air conditioner, destroyed, and credited once by a carbon registry."
+          "text": "One kilogram of R-404A warms the planet like 3.9 tonnes of CO₂, and when it is destroyed, someone is paid in carbon credits.",
+          "say": "One kilogram of R 4 0 4 A warms the planet like 3.9 tonnes of C O 2, and when it is destroyed, someone is paid in carbon credits."
+        },
+        {
+          "text": "This is lot 42: recovered from a small air conditioner, destroyed, and credited once."
         },
         {
           "text": "Every rule in our ledger accepted it."
@@ -17,43 +20,54 @@
           "text": "And the air conditioner never existed."
         },
         {
-          "text": "This market is simulated."
-        },
-        {
-          "text": "The gap it exposes is real."
+          "text": "This market is simulated; the gap is real."
         }
       ],
       "shots": [
         {
           "at": 0,
-          "src": "passport",
+          "src": "slide-gwp",
           "from": [
-            560,
             0,
-            2720
+            0,
+            3840
           ],
           "to": [
-            700,
-            600,
-            2440
+            160,
+            90,
+            3520
           ]
         },
         {
           "at": 1,
           "src": "passport",
           "from": [
-            1780,
-            1140,
-            1460
+            700,
+            0,
+            2440
           ],
           "to": [
-            1860,
-            1180,
-            1320
+            820,
+            880,
+            2260
           ]
         },
         {
           "at": 2,
+          "src": "passport",
+          "from": [
+            1780,
+            1600,
+            1600
+          ],
+          "to": [
+            1840,
+            1620,
+            1480
+          ]
+        },
+        {
+          "at": 3,
           "src": "slide-never",
           "from": [
             0,
@@ -71,10 +85,6 @@
     {
       "id": "2-problem",
       "sentences": [
-        {
-          "text": "HFC refrigerants are super-pollutants: one kilogram of R-404A warms the planet like 3.9 tonnes of CO₂.",
-          "say": "H F C refrigerants are super-pollutants: one kilogram of R 4 0 4 A warms the planet like 3.9 tonnes of C O 2."
-        },
         {
           "text": "Their kilograms are recorded in separate systems: customs quotas, technician logs, reclaimer reports and carbon registries."
         },
@@ -98,20 +108,6 @@
       "shots": [
         {
           "at": 0,
-          "src": "slide-gwp",
-          "from": [
-            0,
-            0,
-            3840
-          ],
-          "to": [
-            160,
-            90,
-            3520
-          ]
-        },
-        {
-          "at": 1,
           "src": "slide-silos",
           "from": [
             0,
@@ -125,7 +121,7 @@
           ]
         },
         {
-          "at": 4,
+          "at": 3,
           "src": "slide-premium",
           "from": [
             0,
@@ -139,7 +135,7 @@
           ]
         },
         {
-          "at": 5,
+          "at": 4,
           "src": "slide-audit",
           "from": [
             0,
@@ -226,14 +222,14 @@
           "at": 6,
           "src": "dashboard",
           "from": [
-            660,
-            3400,
-            1960
+            800,
+            5280,
+            2300
           ],
           "to": [
-            700,
-            3460,
-            1780
+            840,
+            5320,
+            2200
           ]
         }
       ]
@@ -254,16 +250,16 @@
           "text": "Fuzzing throws thousands of forged recoveries at it, and none gets through."
         },
         {
-          "text": "Then we asked outside reviewers to break it."
+          "text": "Then we set AI red-team agents loose on it."
         },
         {
           "text": "The first found a real hole: undocumented gas could be laundered into credits."
         },
         {
-          "text": "A second found a way around our fix."
+          "text": "A second, given only the fixed code, found a way around our fix."
         },
         {
-          "text": "Both are fixed, and both attacks are now tests that run on every push."
+          "text": "Both are fixed and are now tests that run on every push. A human audit is still to come."
         }
       ],
       "shots": [
@@ -338,28 +334,28 @@
           "at": 0,
           "src": "passport",
           "from": [
-            700,
-            600,
-            2440
+            820,
+            880,
+            2260
           ],
           "to": [
-            760,
-            680,
-            2200
+            900,
+            940,
+            2000
           ]
         },
         {
           "at": 2,
           "src": "passport",
           "from": [
-            1780,
-            1760,
-            1480
+            1820,
+            2560,
+            1500
           ],
           "to": [
-            1860,
-            1800,
-            1300
+            1880,
+            2580,
+            1380
           ]
         },
         {

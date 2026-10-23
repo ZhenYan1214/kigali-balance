@@ -18,7 +18,7 @@ slither . --fail-medium   # what CI enforces
 | Informational | 5 | Reviewed below |
 | Optimization | 0 | `Governance.memberCount` is now `immutable` |
 
-Slither looks for known code patterns. The most serious issues in this code base came from a manual red-team review, not from Slither: undocumented gas could be laundered into creditable gas, and lab certificates could be reused. Those are listed in the [technical annex](../proposal/technical_annex.html), section B.3. Every one of them has a regression test in [`test/RedTeam.t.sol`](../../test/RedTeam.t.sol).
+Slither looks for known code patterns. The most serious issues in this code base came from AI-assisted red-team passes (AI agents told to break the contracts; not a human audit), not from Slither: undocumented gas could be laundered into creditable gas, and lab certificates could be reused. Those are listed in the [technical annex](../proposal/technical_annex.html), section B.3. Every one of them has a regression test in [`test/RedTeam.t.sol`](../../test/RedTeam.t.sol).
 
 ## Triage
 

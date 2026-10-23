@@ -42,7 +42,7 @@
 <ul>
 <li><i>Problem:</i> a kilogram sold as “reclaimed” or credited as “destroyed” is checked only inside the system that records it. No registry publishes which container, and how many kilograms, each of the 42.4 million destruction credits we audited draws on.</li>
 <li><i>Design:</i> one conservation rule (A.1), enforced on chain when each record is written. Every step that earns money needs a second, accountable signer (A.4–A.5).</li>
-<li><i>Evidence:</i> 162 unit tests, including a regression test for each fixed finding of two rounds of outside security review (each round found a High-severity laundering path; both are fixed; B.3); 10 fuzzed invariants; 7,359 of 7,359 simulated events replayed identically against the contracts; Slither reports no Medium or High finding.</li>
+<li><i>Evidence:</i> 162 unit tests, including a regression test for each fixed finding of two AI-assisted security red-team passes (each found a High-severity laundering path; both are fixed; no human audit yet; B.3); 10 fuzzed invariants; 7,359 of 7,359 simulated events replayed identically against the contracts; Slither reports no Medium or High finding.</li>
 <li><i>Impact:</i> for a market the size of Japan's, a median 0.06 MtCO₂e a year attributable to verification (5th–95th percentile 0.01–0.18), counting only gas that is destroyed (C).</li>
 <li><i>Limits:</i> market data is simulated; amounts are not yet confidential; collusion is bounded, not prevented (F).</li>
 </ul></div>
@@ -222,7 +222,7 @@ A permissioned consortium chain (Hyperledger Besu, QBFT) charges no fee at all.<
 </ul></p>
 
 <h3>B.2 Threat model</h3>
-<p class="small">Numbering follows the project plan and the comments in the code. Findings of the outside red-team review (B.3) are marked <span class="fixed">fixed</span> where the contracts were changed.</p>
+<p class="small">Numbering follows the project plan and the comments in the code. Findings of the AI-assisted red-team passes (B.3) are marked <span class="fixed">fixed</span> where the contracts were changed.</p>
 <table class="threats">
 <colgroup><col style="width:4%"><col style="width:14%"><col style="width:28%"><col style="width:25%"><col style="width:29%"></colgroup>
 <tr><th>#</th><th>Threat</th><th>Control</th><th>Evidence</th><th>Residual risk</th></tr>
@@ -234,7 +234,7 @@ A permissioned consortium chain (Hyperledger Besu, QBFT) charges no fee at all.<
 <tr><td>T6</td><td>Stolen or lost participant key</td><td>Revocation through governance immediately stops the key's signatures and freezes the operator's lots (<span class="fixed">fixed</span>). A revoked owner or facility key can no longer hand over a unit, change its service company or designate a registry (<span class="fixed">fixed</span>, second review). A unit's owner can hand it over, and governance can reassign a lost owner or designate for a facility that lost its key (<span class="fixed">fixed</span>). Nonces; 7-day attestation validity.</td><td><code>test_sec_revert_revokedDeviceStopsImmediately</code>, <code>test_H1_revert_revokedOwnerCannotConsent</code>, <code>test_F7_*</code>, <code>test_F12_*</code> ×2, <code>test_S2_*</code> ×2</td><td>Records made before revocation need manual review. A lot already in transit when its sender is revoked can still be received.</td></tr>
 <tr><td>T7</td><td>Tampered data imported from national systems</td><td>Only signed exports, with the source hash recorded (design)</td><td>—</td><td>Import is not built; a source system's own errors</td></tr>
 <tr><td>T8</td><td>Commercial volumes visible to competitors</td><td>Documents off chain, hashes on chain</td><td>—</td><td><b>Lot grams are visible to consortium members</b> (B.5)</td></tr>
-<tr><td>T9</td><td>Smart-contract bug</td><td>162 unit tests, 10 fuzzed invariants, differential replay, Slither in CI, manual red-team review</td><td>B.3</td><td>Unknown bugs; a third-party audit is needed before production</td></tr>
+<tr><td>T9</td><td>Smart-contract bug</td><td>162 unit tests, 10 fuzzed invariants, differential replay, Slither in CI, AI-assisted red-team passes</td><td>B.3</td><td>Unknown bugs; a third-party audit is needed before production</td></tr>
 <tr><td>T10</td><td>Governance captured by one bloc, or stalled by a lost key</td><td>3-of-4 multisig across stakeholder groups; no single seat can grant roles. A lost or compromised seat is rotated by the other members, which voids every open proposal; proposals expire after 30 days; approvals can be withdrawn; the contract can never hold a seat, and a call to an address without code is rejected (<span class="fixed">fixed</span>). Parameters have floors, so governance cannot switch a rule off (e.g. a residence period of zero).</td><td><code>Governance.t.sol</code> 21, including <code>test_F11_*</code> ×5, <code>test_S4</code>, <code>test_S5</code>; <code>test_S6</code></td><td>On the testnet one person holds all four seats. Losing 2 of 4 keys at once still halts governance. No timelock.</td></tr>
 <tr><td>T11</td><td>Personal data (GDPR, KVKK)</td><td>Technicians appear only as pseudonymous addresses; identifying data stays off chain</td><td>—</td><td>Cross-border transfer rules need per-country review</td></tr>
 <tr><td>T12</td><td>Signature scheme broken by a quantum computer</td><td>Verification isolated in one library; migration path in B.6</td><td>—</td><td>Not implemented</td></tr>
@@ -252,12 +252,12 @@ A permissioned consortium chain (Hyperledger Besu, QBFT) charges no fee at all.<
 <tr><td>Fuzzed invariants (CI: 128 runs × 64 steps; deep profile: 256 × 128, run locally)</td><td>Ten properties, including conservation, claims at most once, and no recovery without consent or above booked content</td><td>10 holding. A deep campaign makes thousands of attempts per property, none of which succeeds. The counts include attempts that revert for other reasons, and the attacks come from a narrow set of keys.</td></tr>
 <tr><td>Differential test</td><td>A simulated three-year market with twelve kinds of injected fraud (7,359 events) is replayed against the compiled contracts on a local chain. Every accept or reject, error name, lot ID and gas total must match the simulator's separately written JavaScript rule mirror.</td><td>7,359 / 7,359 match; then 9 AI flags are written to <code>FlagRegistry</code> and read back. The mirror covers the calls the simulator makes; it does not cover legacy-stock declarations, rejections, device binding or parameter changes.</td></tr>
 <tr><td>Static analysis (Slither 0.11.6, 102 detectors)</td><td>Known vulnerability patterns</td><td>0 High, 0 Medium; 17 Low and 5 Informational triaged in <code>docs/security/static-analysis.md</code></td></tr>
-<tr><td><b>Outside security reviews</b> (2026-10-17, two independent rounds)</td><td>Pre-audit reviews that checked every security claim in this annex against the code and tried to break the rules with proof-of-concept tests. The second reviewer was given the fixed code and no findings from the first.</td><td>
+<tr><td><b>AI-assisted security red-team passes</b> (2026-10-17, two rounds; AI agents, not human auditors)</td><td>AI agents instructed to work as pre-audit reviewers: check every security claim in this annex against the code and try to break the rules with proof-of-concept tests. The second agent was given the fixed code and no findings from the first.</td><td>
 <ul>
 <li><b>Round 1:</b> 1 High (undocumented gas became credit-eligible after 180 days); 3 Medium (free quarantining of a competitor's unit, a permanent lock through overflow, lab-certificate reuse); several Low.</li>
 <li><b>Round 2:</b> 1 High: <b>our round-1 fix could be bypassed</b> by charging the quarantined lot back and waiting; several Low (revoked keys keeping administrative power, a missing installation date, governance seating itself) and Info.</li>
 </ul>
-Both High findings, all 3 Medium and most Low findings are fixed, each with a regression test (<code>test/RedTeam.t.sol</code>). The simulator also injects the new attacks (a competitor's charge, a rogue registry claim), and the contracts reject them in the differential test. The remaining Low findings are listed above as residual risks. That a fix of ours was itself bypassable is why a third-party audit remains a precondition for production.</td></tr>
+Both High findings, all 3 Medium and most Low findings are fixed, each with a regression test (<code>test/RedTeam.t.sol</code>). The simulator also injects the new attacks (a competitor's charge, a rogue registry claim), and the contracts reject them in the differential test. The remaining Low findings are listed above as residual risks. That a fix of ours was itself bypassable is why a human third-party audit remains a precondition for production.</td></tr>
 <tr><td>Clean-room reproduction (CI)</td><td>Everything rebuilt from scratch on a fresh Linux machine on every push</td><td>Passing; every committed generated file is byte-identical (PDFs excepted)</td></tr>
 <tr><td>Live deployment</td><td>The six contracts on OP Sepolia, verified on the block explorer; the demo run on chain</td><td>The current code, including both rounds of red-team fixes: 143 transactions, none failed (2026-10-21). KigaliLedger at 0x9d1B18ae56946A835Ff6c705e9d4a9119BBe0e4b.</td></tr>
 </table>
@@ -397,14 +397,14 @@ Both High findings, all 3 Medium and most Low findings are fixed, each with a re
 <h2>E. Testing results</h2>
 <p><b>We have not tested with real users</b>, and we do not claim to have. What we did instead:</p>
 <ul>
-<li><b>Outside reviewers, working the way their professions do.</b> Three reviewers with no stake in the design:
+<li><b>AI-assisted red-team passes.</b> Three AI agents, each told to work the way one profession does and given no stake in the design. They are not human experts; a human audit and user tests are still to come:
   <ul>
-  <li><b>A security pre-audit</b> (B.3): its findings changed the contracts.</li>
-  <li><b>A forensic review of every number.</b> It cut our climate estimate by about three quarters (permanence; Japan only as a unit conversion). It also corrected our registry-audit headline: we had counted unassessed credits as having no identifier.</li>
-  <li><b>An editorial review</b> for busy judges.</li>
+  <li><b>A security pre-audit pass</b> (B.3): its findings changed the contracts.</li>
+  <li><b>A forensic pass over every number.</b> It cut our climate estimate by about three quarters (permanence; Japan only as a unit conversion). It also corrected our registry-audit headline: we had counted unassessed credits as having no identifier.</li>
+  <li><b>An editorial pass</b> for busy judges.</li>
   </ul>
   We publish the corrected figures, not the earlier ones.</li>
-<li><b>Reproduction by a reader with no context.</b> A reader given only the repository URL and the README reproduced the results and hit 11 obstacles. All 11 were fixed. The CI rebuild repeats this on every push.</li>
+<li><b>Reproduction by a reader with no context.</b> An AI agent given only the repository URL and the README reproduced the results and hit 11 obstacles. All 11 were fixed. The CI rebuild repeats this on every push.</li>
 <li><b>Evaluation on held-out data.</b> Every AI module was scored on simulated runs it had never seen, and re-scored on new runs whenever the simulator or the model changed. The reports keep the versions that failed first.</li>
 <li><b>Real public records.</b> The registry audit checked our premise against public metadata. Of 291 California ARB reporting periods, 270 match the registry exactly, 21 are lower on the ARB side, and none is higher. Where a shared key exists, checking works. We found <b>no evidence of double counting</b>. The finding is that kilogram-level uniqueness across registries cannot be checked from public data.</li>
 <li><b>User testing is stage 1 of the roadmap.</b> The dashboard and provenance passport will be tested with a reclaimer, a registry analyst and a regulator, measuring whether each can answer “where did this kilogram come from?” unaided.</li>

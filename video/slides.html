@@ -4,12 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=1920">
 <title>Kigali Balance – video slides</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <style>
-  :root { --ink: #111; --ink2: #3b3b38; --muted: #6b6a66; --bg: #f6f6f3; --card: #fff; --line: #dcdcd6;
-          --green: #0f766e; --green2: #2a6f4f; --amber: #9a6700; --red: #b42318; --blue: #2563eb; }
+  /* same palette and typeface as the redesigned dashboard and passport (web/assets/style.css) */
+  :root { --ink: #1b1f24; --ink2: #434a54; --muted: #6a717c; --bg: #f6f6f4; --card: #fff; --line: #e5e5e1;
+          --green: #1d5fae; --green2: #1d5fae; --ok: #17784d; --amber: #9a5800; --red: #b3261e; --blue: #2a78d6; }
   * { box-sizing: border-box; }
   html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); color: var(--ink);
-               font-family: "Segoe UI", "Calibri", "Carlito", Arial, sans-serif; }
+               font-family: "IBM Plex Sans", "Segoe UI", Arial, sans-serif; }
   .slide { display: none; position: absolute; inset: 0; padding: 110px 150px 230px; }
   .slide.on { display: flex; flex-direction: column; justify-content: center; }
   .kicker { font-size: 30px; letter-spacing: .14em; text-transform: uppercase; color: var(--green); font-weight: 700; margin-bottom: 28px; }
@@ -26,19 +28,19 @@
   .quote { font-size: 64px; line-height: 1.22; font-weight: 700; border-left: 14px solid var(--green); padding: 10px 0 10px 50px; max-width: 1560px; }
   .check { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
   .check .box b { color: var(--green2); }
-  .term { background: #0d1117; color: #c9d1d9; border-radius: 22px; padding: 44px 54px; font-family: Consolas, "Liberation Mono", monospace; font-size: 31px; line-height: 1.5; }
+  .term { background: #0d1117; color: #c9d1d9; border-radius: 22px; padding: 44px 54px; font-family: "IBM Plex Mono", Consolas, monospace; font-size: 31px; line-height: 1.5; }
   .term .ok { color: #3fb950; } .term .dim { color: #8b949e; } .term .hl { color: #f0f6fc; font-weight: 700; }
   .round { border-left: 10px solid var(--red); }
-  .round.fixed { border-left-color: var(--green); }
+  .round.fixed { border-left-color: var(--ok); }
   table { border-collapse: collapse; font-size: 36px; width: 100%; background: var(--card); border-radius: 18px; overflow: hidden; }
   th, td { padding: 22px 30px; border-bottom: 2px solid var(--line); text-align: left; }
-  th { background: #e8f1ec; font-size: 28px; color: var(--ink2); }
+  th { background: #e8f0fa; font-size: 28px; color: var(--ink2); }
   td.n { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; }
   .bar { height: 64px; border-radius: 12px; display: flex; align-items: center; padding-left: 22px; color: #fff; font-size: 32px; font-weight: 700; }
   figure { margin: 0; display: flex; justify-content: center; }
   figure img { width: 1620px; height: 720px; object-fit: contain; }
   .center { text-align: center; align-items: center; }
-  .pill { display: inline-block; padding: 12px 26px; border-radius: 999px; background: #e8f1ec; color: var(--green2); font-size: 30px; font-weight: 700; margin: 0 10px; }
+  .pill { display: inline-block; padding: 12px 26px; border-radius: 999px; background: #e8f0fa; color: var(--green2); font-size: 30px; font-weight: 700; margin: 0 10px; }
 </style>
 </head>
 <body>
@@ -127,12 +129,12 @@
 </section>
 
 <section class="slide" id="redteam">
-  <div class="kicker">Then we asked outside reviewers to break it</div>
+  <div class="kicker">Then we set AI red-team agents loose on it</div>
   <div class="row">
-    <div class="box round fixed"><b>Review 1 · High</b><span>Undocumented gas could be laundered into creditable gas after 180 days.<br><br><span style="color:var(--green); font-weight:700">Fixed</span> · test_F1_*</span></div>
-    <div class="box round fixed"><b>Review 2 · High</b><span>A second reviewer found a way around our fix.<br><br><span style="color:var(--green); font-weight:700">Fixed</span> · test_S1_*</span></div>
+    <div class="box round fixed"><b>AI red-team pass 1 · High</b><span>Undocumented gas could be laundered into creditable gas after 180 days.<br><br><span style="color:var(--ok); font-weight:700">Fixed</span> · test_F1_*</span></div>
+    <div class="box round fixed"><b>AI red-team pass 2 · High</b><span>A second agent, given only the fixed code, found a way around our fix.<br><br><span style="color:var(--ok); font-weight:700">Fixed</span> · test_S1_*</span></div>
   </div>
-  <p class="lead" style="margin-top:44px">Every attack they proved is now a test that runs on every push.</p>
+  <p class="lead" style="margin-top:44px">Every attack they proved is now a test that runs on every push. AI agents, not human auditors: a human audit is still to come.</p>
 </section>
 
 <!-- 5 · the AI -->

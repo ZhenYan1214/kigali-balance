@@ -15,6 +15,8 @@ Gas sold as "reclaimed" and gas credited as "destroyed" must both trace back to 
 [![Data](https://img.shields.io/badge/data-simulated-9a6700)](#honest-limits)
 [![License](https://img.shields.io/badge/license-MIT-59636e)](#license)
 
+**See it in 60 seconds:** ① [the dashboard](https://zhenyan1214.github.io/kigali-balance/): the books balance to the gram, and what the rules refused · ② [the passport of lot 42](https://zhenyan1214.github.io/kigali-balance/passport.html?lot=42): a credited lot whose recovery the AI flags · ③ [a claim on chain](https://sepolia-optimism.etherscan.io/tx/0x1fffa78764819ad612f7caf6a888ada604707be6c813f7a53af301800e456201): one registry claiming one destruction event on OP Sepolia
+
 [Problem](#the-problem) · [Gap](#what-already-exists) · [Solution](#the-solution) · [Architecture](#architecture) · [Results](#results) · [Dashboard](#dashboard-and-provenance-passport) · [Live demo](#live-on-op-sepolia) · [Quick start](#quick-start) · [Limits](#honest-limits)
 
 </div>
@@ -106,7 +108,7 @@ All results are on simulated data and measure our own fraud generator: naive fra
 
 | Check | Result |
 |---|---|
-| Foundry unit tests | 162 passing, including the demo scenario, attacks on every signature, and a regression test for each fixed finding of two rounds of outside security review (each found a High-severity laundering path; the second found that our fix of the first could be bypassed; both fixed) |
+| Foundry unit tests | 162 passing, including the demo scenario, attacks on every signature, and a regression test for each fixed finding of two AI-assisted red-team passes (AI agents given the code and told to break it; each found a High-severity laundering path, the second a way around our fix of the first; both fixed). No human audit yet |
 | Fuzzed invariants (256 runs × 128 steps, `FOUNDRY_PROFILE=deep`) | 10 passing; about 2,160 unconsented recoveries, 1,700 self-certified destructions and 3,300 recoveries above what the unit could still hold (including padding split over several recoveries) attempted per campaign, none succeeded |
 | Differential test | 7,359 simulated events (twelve kinds of injected fraud) replayed against the compiled contracts: every accept/reject decision, reason, lot ID and gas total matches the simulator's separately written rule mirror. The AI's flags are then written to `FlagRegistry` and read back |
 | Static analysis | Slither, 102 detectors: 0 High, 0 Medium ([triage](docs/security/static-analysis.md)); rerun on every push |
@@ -140,7 +142,7 @@ The honest reading: **the AI mostly misses fraudsters who adapt, but adapting mo
 
 ### Climate impact (a model, not a forecast)
 
-Kigali Balance recovers no gas and claims no credits; it makes paid-for recovery checkable. For a market the size of Japan's (used only as a unit conversion: Japan itself mandates and tracks recovery), the effect attributable to verification is a median **0.06 MtCO₂e a year** (5th–95th percentile 0.01–0.18), counting only recovered gas that is then destroyed; reclaimed gas under a binding quota adds supply rather than displacing virgin gas. Each tonne of fake "reclaimed" R-404A kept off the market avoids up to about 2,900 tCO₂e over its life (gross: legal gas may fill the demand). Two assumptions dominate, and only a pilot with physical audits can measure them; the [model](analysis/impact/) says which ones, and how large that pilot must be.
+Kigali Balance recovers no gas and claims no credits; it makes paid-for recovery checkable. A conservative estimate: for a market the size of Japan's (used only as a unit conversion: Japan itself mandates and tracks recovery), the effect attributable to verification is a median **0.06 MtCO₂e a year** (5th–95th percentile 0.01–0.18), counting only recovered gas that is then destroyed; reclaimed gas under a binding quota adds supply rather than displacing virgin gas. Each tonne of fake "reclaimed" R-404A kept off the market avoids up to about 2,900 tCO₂e over its life (gross: legal gas may fill the demand). Two assumptions dominate, and only a pilot with physical audits can measure them; the [model](analysis/impact/) says which ones, and how large that pilot must be.
 
 ## Dashboard and provenance passport
 
