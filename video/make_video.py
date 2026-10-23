@@ -47,9 +47,40 @@ def ffmpeg() -> str:
     return exe
 
 
-def to_wav(src: Path, dst: Path) -> None:
-    subprocess.run([ffmpeg(), "-y", "-loglevel", "error", "-i", str(src), "-ac", "1", "-ar", str(RATE),
+def to_wav(src: Path, dst: Path, trim: bool = False) -> None:
+    """Convert to mono 16-bit WAV; for human recordings also cut the silence at both ends."""
+    cut = "silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.15"
+    af = ["-af", f"{cut},areverse,{cut},areverse"] if trim else []
+    subprocess.run([ffmpeg(), "-y", "-loglevel", "error", "-i", str(src), *af, "-ac", "1", "-ar", str(RATE),
                     "-sample_fmt", "s16", str(dst)], check=True)
+
+
+def pauses(wav: Path) -> list[float]:
+    """Where speech resumes after each pause (>= 0.3 s below -38 dB), less 0.1 s, from ffmpeg's silencedetect."""
+    p = subprocess.run([ffmpeg(), "-hide_banner", "-i", str(wav), "-af", "silencedetect=noise=-38dB:d=0.3",
+                        "-f", "null", "-"], capture_output=True, text=True, errors="replace")
+    starts = [float(x) for x in re.findall(r"silence_start: ([\d.]+)", p.stderr)]
+    ends = [float(x) for x in re.findall(r"silence_end: ([\d.]+)", p.stderr)]
+    return [max(a, b - 0.1) for a, b in zip(starts, ends)]
+
+
+def sentence_spans(wav: Path, sentences: list[dict], dur: float) -> list[tuple[float, float]]:
+    """Sentence start/end times in a human recording: estimate each boundary from the words, then
+    snap it to the nearest real pause (within 2.5 s, keeping order). Falls back to the estimate."""
+    words = [max(1, len(s["text"].split())) for s in sentences]
+    est, acc = [], 0.0
+    for n in words[:-1]:
+        acc += dur * n / sum(words)
+        est.append(acc)
+    gaps = pauses(wav)
+    cuts, last = [], 0.0
+    for e in est:
+        near = [g for g in gaps if g > last + 0.5 and abs(g - e) <= 2.5]
+        c = min(near, key=lambda g: abs(g - e)) if near else max(e, last + 0.5)
+        cuts.append(c)
+        last = c
+    bounds = [0.0, *cuts, dur]
+    return list(zip(bounds[:-1], bounds[1:]))
 
 
 def wav_seconds(path: Path) -> float:
@@ -96,14 +127,10 @@ def build_audio(spec: dict) -> tuple[Path, list[dict], float]:
         rec = recording_for(seg["id"])
         if rec:
             wav = BUILD / f"voice-{seg['id']}.wav"
-            to_wav(rec, wav)
+            to_wav(rec, wav, trim=True)
             dur = wav_seconds(wav)
-            words = [max(1, len(s["text"].split())) for s in seg["sentences"]]
-            acc = t
-            for s, n in zip(seg["sentences"], words):
-                d = dur * n / sum(words)
-                timeline.append({"seg": seg["id"], "text": s["text"], "start": acc, "end": acc + d})
-                acc += d
+            for s, (a, b) in zip(seg["sentences"], sentence_spans(wav, seg["sentences"], dur)):
+                timeline.append({"seg": seg["id"], "text": s["text"], "start": t + a, "end": t + b})
             pieces.append(("file", wav))
             t += dur
         else:
@@ -237,10 +264,46 @@ def render(shots: list[dict], total: float, audio: Path, srt: Path, out: Path) -
         raise SystemExit("ffmpeg failed")
 
 
+SAY_HINTS = [  # how to read the words a speaker might stumble on
+    ("R-404A", "“R four-oh-four A”"), ("R-410A", "“R four-ten A”"), ("CO₂e", "“C-O-two equivalent”"),
+    ("CO₂", "“C-O-two”"), ("COP31", "“COP thirty-one”"), ("Türkiye", "“Tur-kee-yeh”"),
+    ("0.06", "“zero point zero six”"), ("7,359", "“seven thousand three hundred fifty-nine”"),
+    ("140%", "“a hundred and forty percent”"), ("HFC", "“H-F-C”"),
+]
+
+
+def write_reading_script(spec: dict) -> None:
+    """video/voice/README.md: the full text to read aloud, regenerated from narration.json."""
+    out = ["# Reading script for your own narration", "",
+           "Generated from `../narration.json` by `make_video.py`; do not edit by hand.", "",
+           "## How to record (中文說明)", "",
+           "- 每一段錄成一個檔，檔名照下面的標題，例如 `1-case.m4a`（`.wav`、`.mp3` 也可以），放在這個資料夾。",
+           "- **句與句之間停半秒左右**，影片會依停頓對齊字幕和換鏡頭。",
+           "- 唸錯不用整段重錄：停一下，從那一句重唸即可。開頭結尾的空白不用剪。",
+           "- 手機錄音即可，安靜房間、離嘴約 20 公分，語速比平常說話慢一點。",
+           "- 錄好後執行 `python video/make_video.py`，有錄音的段落會換成你的聲音，其他段落保留 AI 配音。", "",
+           "## Pronunciation", ""]
+    out += [f"- **{w}**: {s}" for w, s in SAY_HINTS]
+    total_words = 0
+    for seg in spec["segments"]:
+        words = sum(len(s["text"].split()) for s in seg["sentences"])
+        total_words += words
+        out += ["", f"## `{seg['id']}.m4a`  ({words} words, about {words / 2.4:.0f} s)", ""]
+        out += [f"{i}. {s['text']}" for i, s in enumerate(seg["sentences"], 1)]
+    out += ["", f"Total: {total_words} words, about {total_words / 2.4 / 60:.1f} minutes at 145 words a minute.", "",
+            "Recordings are personal data and are not committed: this folder only tracks this file.", ""]
+    VOICE.mkdir(exist_ok=True)
+    (VOICE / "README.md").write_text("\n".join(out), encoding="utf-8", newline="\n")
+
+
 def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     spec = json.loads((HERE / "narration.json").read_text(encoding="utf-8"))
+    write_reading_script(spec)
+    if "--script-only" in sys.argv:
+        print(f"wrote {VOICE / 'README.md'}")
+        return
     BUILD.mkdir(exist_ok=True)
     TTS.mkdir(exist_ok=True)
     audio, timeline, total = build_audio(spec)
