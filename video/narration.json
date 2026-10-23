@@ -2,6 +2,8 @@
   "_readme": "Narration and shot list for the demo video. Each sentence is one subtitle cue; 'say' (optional) is what the speech engine reads when the written form would be mispronounced. A shot starts at sentence 'at' of its segment and runs until the next shot. Rectangles are [x, y, width] in the source image's pixels (height follows 16:9); the camera moves from 'from' to 'to'. Sources: assets/<name>-2x.png, made by capture.py. To use your own voice, put voice/<segment id>.wav|mp3|m4a next to this file and run make_video.py again.",
   "voice": "en-US-AndrewNeural",
   "rate": "+4%",
+  "_recording_tempo": "Speed-up applied to human recordings (pitch kept), so a careful read still fits 3:00-3:20.",
+  "recording_tempo": 1.5,
   "segments": [
     {
       "id": "1-case",

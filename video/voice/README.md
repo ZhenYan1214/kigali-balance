@@ -6,9 +6,9 @@ Generated from `../narration.json` by `make_video.py`; do not edit by hand.
 
 - 每一段錄成一個檔，檔名照下面的標題，例如 `1-case.m4a`（`.wav`、`.mp3` 也可以），放在這個資料夾。
 - **句與句之間停半秒左右**，影片會依停頓對齊字幕和換鏡頭。
-- 唸錯不用整段重錄：停一下，從那一句重唸即可。開頭結尾的空白不用剪。
-- 手機錄音即可，安靜房間、離嘴約 20 公分，語速比平常說話慢一點。
-- 錄好後執行 `python video/make_video.py`，有錄音的段落會換成你的聲音，其他段落保留 AI 配音。
+- 唸錯請重錄那一段：程式不會自動剪掉重唸的句子。開頭結尾的空白不用剪。
+- 手機錄音即可，安靜房間、離嘴約 20 公分，照自己的速度唸就好。
+- 錄好後執行 `python video/make_video.py`，有錄音的段落會換成你的聲音，其他段落保留 AI 配音。錄音會自動降噪、音量拉到 -16 LUFS，並依 `narration.json` 的 `recording_tempo` 加速（音高不變）。裝了 faster-whisper 的話，字幕會對齊每句第一個字被聽到的時間。
 
 ## Pronunciation
 

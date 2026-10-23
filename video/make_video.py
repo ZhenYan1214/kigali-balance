@@ -6,16 +6,21 @@
 Narration comes from video/narration.json. Each sentence is synthesised with a Microsoft Edge neural
 voice (the `edge-tts` package; the sentence text is sent to Microsoft's speech service) and cached in
 video/build/tts/. To use a human voice instead, record one file per segment and save it as
-video/voice/<segment id>.wav (or .mp3 / .m4a); that segment then uses the recording, and its subtitles
-are timed in proportion to the words in each sentence.
+video/voice/<segment id>.wav (or .mp3 / .m4a); that segment then uses the recording (denoised, sped up by
+`recording_tempo`, levelled to -16 LUFS). Its subtitles start where each sentence's first word is heard
+(local speech recognition with faster-whisper, if installed), or else at the pauses that keep the pace
+most even.
 
-Needs: ffmpeg on PATH (with libass), Pillow, and edge-tts unless every segment has a recording.
+Needs: ffmpeg on PATH (with libass and rubberband), Pillow, and edge-tts unless every segment has a
+recording. Optional: faster-whisper and numpy, for subtitle timing on recordings.
 """
 from __future__ import annotations
 
 import asyncio
+import difflib
 import hashlib
 import json
+import math
 import re
 import shutil
 import subprocess
@@ -47,40 +52,155 @@ def ffmpeg() -> str:
     return exe
 
 
-def to_wav(src: Path, dst: Path, trim: bool = False) -> None:
-    """Convert to mono 16-bit WAV; for human recordings also cut the silence at both ends."""
-    cut = "silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.15"
-    af = ["-af", f"{cut},areverse,{cut},areverse"] if trim else []
-    subprocess.run([ffmpeg(), "-y", "-loglevel", "error", "-i", str(src), *af, "-ac", "1", "-ar", str(RATE),
-                    "-sample_fmt", "s16", str(dst)], check=True)
+def to_wav(src: Path, dst: Path, af: str = "") -> None:
+    """Convert to mono 16-bit WAV, optionally through an ffmpeg audio filter chain."""
+    subprocess.run([ffmpeg(), "-y", "-loglevel", "error", "-i", str(src), *(["-af", af] if af else []), "-ac", "1",
+                    "-ar", str(RATE), "-sample_fmt", "s16", str(dst)], check=True)
 
 
-def pauses(wav: Path) -> list[float]:
-    """Where speech resumes after each pause (>= 0.3 s below -38 dB), less 0.1 s, from ffmpeg's silencedetect."""
-    p = subprocess.run([ffmpeg(), "-hide_banner", "-i", str(wav), "-af", "silencedetect=noise=-38dB:d=0.3",
+def speech_threshold(wav: Path) -> float:
+    """Level (dB) separating speech from room noise: 12 dB above the quietest tenth of 50 ms frames."""
+    p = subprocess.run([ffmpeg(), "-hide_banner", "-i", str(wav), "-af", f"asetnsamples=n={RATE // 20},"
+                        "astats=metadata=1:reset=1,ametadata=print:key=lavfi.astats.Overall.RMS_level",
+                        "-f", "null", "-"], capture_output=True, text=True, errors="replace")
+    levels = sorted(float(x) for x in re.findall(r"RMS_level=(-?[\d.]+)\b", p.stderr))
+    return min(-20.0, levels[len(levels) // 10] + 12) if levels else -38.0
+
+
+def loudness(wav: Path) -> float:
+    """Integrated loudness (LUFS) from ffmpeg's EBU R128 meter."""
+    p = subprocess.run([ffmpeg(), "-hide_banner", "-i", str(wav), "-af", "ebur128", "-f", "null", "-"],
+                       capture_output=True, text=True, errors="replace")
+    return float(re.findall(r"I:\s+(-?[\d.]+) LUFS", p.stderr)[-1])
+
+
+def clean_recording(src: Path, dst: Path, tempo: float) -> None:
+    """Phone recording -> narration: cut rumble and hiss, speed up without changing pitch, cut the
+    silence at both ends (relative to this recording's own noise floor), then set loudness to -16 LUFS."""
+    tmp, cut_tmp = dst.with_suffix(".clean.wav"), dst.with_suffix(".cut.wav")
+    stretch = f",rubberband=tempo={tempo}:transients=smooth:formant=preserved" if tempo != 1 else ""
+    to_wav(src, tmp, f"highpass=f=80,afftdn=nf=-30:nr=12{stretch}")
+    cut = f"silenceremove=start_periods=1:start_threshold={speech_threshold(tmp):.0f}dB:start_silence=0.15"
+    to_wav(tmp, cut_tmp, f"{cut},areverse,{cut},areverse")
+    to_wav(cut_tmp, dst, f"volume={-16 - loudness(cut_tmp):.2f}dB,alimiter=limit=0.84:level=false")
+    tmp.unlink()
+    cut_tmp.unlink()
+
+
+def pauses(wav: Path) -> list[tuple[float, float]]:
+    """(where speech resumes less 0.1 s, pause length) for each pause >= 0.12 s below the speech
+    threshold, from ffmpeg's silencedetect."""
+    p = subprocess.run([ffmpeg(), "-hide_banner", "-i", str(wav), "-af",
+                        f"silencedetect=noise={speech_threshold(wav):.0f}dB:d=0.12",
                         "-f", "null", "-"], capture_output=True, text=True, errors="replace")
     starts = [float(x) for x in re.findall(r"silence_start: ([\d.]+)", p.stderr)]
     ends = [float(x) for x in re.findall(r"silence_end: ([\d.]+)", p.stderr)]
-    return [max(a, b - 0.1) for a, b in zip(starts, ends)]
+    return [(max(a, b - 0.1), b - a) for a, b in zip(starts, ends)]
+
+
+PAUSE_WEIGHT = 0.6  # how strongly a longer pause attracts a sentence break, against an even speaking pace
+
+
+_ASR = None
+
+
+def heard_words(wav: Path) -> list[tuple[str, float]] | None:
+    """(word, start time) as recognised locally by faster-whisper; None when it is not installed."""
+    global _ASR
+    try:
+        import numpy as np
+        from faster_whisper import WhisperModel
+    except ImportError:
+        return None
+    if _ASR is None:
+        _ASR = WhisperModel("base.en", device="cpu", compute_type="int8")
+    # decode with ffmpeg ourselves: faster-whisper's own decoder breaks with some PyAV versions
+    pcm = subprocess.run([ffmpeg(), "-loglevel", "error", "-i", str(wav), "-ac", "1", "-ar", "16000", "-f", "f32le",
+                          "-"], capture_output=True, check=True).stdout
+    segs, _ = _ASR.transcribe(np.frombuffer(pcm, dtype=np.float32), language="en", word_timestamps=True)
+    return [(w.word, w.start) for s in segs for w in s.words]
+
+
+def heard_starts(wav: Path, sentences: list[dict]) -> list[float | None] | None:
+    """When each sentence after the first starts, from speech recognition aligned to the script, so a
+    misheard word does not matter; None for a sentence whose opening words could not be matched."""
+    heard = heard_words(wav)
+    if heard is None:
+        return None
+    norm = lambda w: re.sub(r"[^a-z0-9]", "", w.lower())  # noqa: E731
+    script = [(norm(w), i) for i, s in enumerate(sentences) for w in s["text"].split() if norm(w)]
+    sm = difflib.SequenceMatcher(None, [w for w, _ in script], [norm(w) for w, _ in heard], autojunk=False)
+    match = {a + k: b + k for a, b, n in sm.get_matching_blocks() for k in range(n)}
+    starts: list[float | None] = []
+    for i in range(1, len(sentences)):
+        first = next(k for k, (_, si) in enumerate(script) if si == i)
+        # the first word, or the second or third when recognition garbled the first (then step back to it)
+        hit = next(((k - first, match[k]) for k in range(first, first + 3)
+                    if k in match and script[k][1] == i), None)
+        starts.append(heard[max(0, hit[1] - hit[0])][1] if hit else None)
+    return starts
 
 
 def sentence_spans(wav: Path, sentences: list[dict], dur: float) -> list[tuple[float, float]]:
-    """Sentence start/end times in a human recording: estimate each boundary from the words, then
-    snap it to the nearest real pause (within 2.5 s, keeping order). Falls back to the estimate."""
-    words = [max(1, len(s["text"].split())) for s in sentences]
-    est, acc = [], 0.0
-    for n in words[:-1]:
-        acc += dur * n / sum(words)
-        est.append(acc)
+    """Sentence start/end times in a human recording: where speech recognition hears each sentence begin
+    (moved to the end of the pause just before it), and otherwise the pace-based breaks below."""
+    paced = pace_breaks(wav, sentences, dur)
+    heard = heard_starts(wav, sentences) or [None] * len(paced)
     gaps = pauses(wav)
-    cuts, last = [], 0.0
-    for e in est:
-        near = [g for g in gaps if g > last + 0.5 and abs(g - e) <= 2.5]
-        c = min(near, key=lambda g: abs(g - e)) if near else max(e, last + 0.5)
-        cuts.append(c)
-        last = c
+    cuts = []
+    for t, p in zip(heard, paced):
+        if t is None:
+            cuts.append(p)
+            continue
+        # Whisper tends to date a word after a pause from inside that pause, so take the longest pause
+        # around the heard start and begin where speech resumes after it
+        near = [(g, r) for r, g in gaps if t - 0.5 <= r <= t + 1.0]
+        cuts.append(max(near)[1] if near else t - 0.1)
     bounds = [0.0, *cuts, dur]
+    if any(b - a < 0.3 for a, b in zip(bounds, bounds[1:])):
+        print(f"  {wav.name}: recognised starts out of order, timing subtitles by pace only")
+        bounds = [0.0, *paced, dur]
     return list(zip(bounds[:-1], bounds[1:]))
+
+
+def pace_breaks(wav: Path, sentences: list[dict], dur: float) -> list[float]:
+    """Sentence breaks without speech recognition. Readers also pause inside sentences, so instead of
+    snapping each break to the nearest pause, choose the set of breaks (dynamic programming over all pauses)
+    that keeps the pace closest to even, measured in spoken characters, while favouring long pauses."""
+    chars = [max(1, sum(ch.isalnum() for ch in s.get("say", s["text"]))) for s in sentences]
+    sec_per_char = dur / sum(chars)
+    acc, est = 0.0, []
+    for c in chars[:-1]:  # word-proportional estimates stay available when pauses are missing
+        acc += c * sec_per_char
+        est.append((acc, 0.0))
+    cands = sorted(p for p in pauses(wav) + est if 0.3 < p[0] < dur - 0.3)
+
+    def pace(span: float, i: int) -> float:
+        return math.log(max(span, 0.05) / (chars[i] * sec_per_char)) ** 2
+
+    def pull(gap: float) -> float:
+        return PAUSE_WEIGHT * min(gap, 1.0)
+
+    # best[j]: cost of the sentences so far when the latest break is cands[j]; back[i][j] for the path
+    best = [pace(t, 0) - pull(g) for t, g in cands]
+    back: list[list[int]] = []
+    for i in range(1, len(sentences) - 1):
+        row, nxt = [], []
+        for j, (t, g) in enumerate(cands):
+            options = [(best[k] + pace(t - cands[k][0], i), k) for k in range(j) if cands[k][0] < t - 0.3]
+            c, k = min(options, default=(math.inf, -1))
+            nxt.append(c - pull(g))
+            row.append(k)
+        best = nxt
+        back.append(row)
+    if len(sentences) == 1:
+        return []
+    j = min(range(len(cands)), key=lambda j: best[j] + pace(dur - cands[j][0], len(sentences) - 1))
+    cuts = [cands[j][0]]
+    for row in reversed(back):
+        j = row[j]
+        cuts.append(cands[j][0])
+    return cuts[::-1]
 
 
 def wav_seconds(path: Path) -> float:
@@ -127,7 +247,7 @@ def build_audio(spec: dict) -> tuple[Path, list[dict], float]:
         rec = recording_for(seg["id"])
         if rec:
             wav = BUILD / f"voice-{seg['id']}.wav"
-            to_wav(rec, wav, trim=True)
+            clean_recording(rec, wav, spec.get("recording_tempo", 1.0))
             dur = wav_seconds(wav)
             for s, (a, b) in zip(seg["sentences"], sentence_spans(wav, seg["sentences"], dur)):
                 timeline.append({"seg": seg["id"], "text": s["text"], "start": t + a, "end": t + b})
@@ -279,9 +399,11 @@ def write_reading_script(spec: dict) -> None:
            "## How to record (中文說明)", "",
            "- 每一段錄成一個檔，檔名照下面的標題，例如 `1-case.m4a`（`.wav`、`.mp3` 也可以），放在這個資料夾。",
            "- **句與句之間停半秒左右**，影片會依停頓對齊字幕和換鏡頭。",
-           "- 唸錯不用整段重錄：停一下，從那一句重唸即可。開頭結尾的空白不用剪。",
-           "- 手機錄音即可，安靜房間、離嘴約 20 公分，語速比平常說話慢一點。",
-           "- 錄好後執行 `python video/make_video.py`，有錄音的段落會換成你的聲音，其他段落保留 AI 配音。", "",
+           "- 唸錯請重錄那一段：程式不會自動剪掉重唸的句子。開頭結尾的空白不用剪。",
+           "- 手機錄音即可，安靜房間、離嘴約 20 公分，照自己的速度唸就好。",
+           "- 錄好後執行 `python video/make_video.py`，有錄音的段落會換成你的聲音，其他段落保留 AI 配音。"
+           "錄音會自動降噪、音量拉到 -16 LUFS，並依 `narration.json` 的 `recording_tempo` 加速（音高不變）。"
+           "裝了 faster-whisper 的話，字幕會對齊每句第一個字被聽到的時間。", "",
            "## Pronunciation", ""]
     out += [f"- **{w}**: {s}" for w, s in SAY_HINTS]
     total_words = 0
