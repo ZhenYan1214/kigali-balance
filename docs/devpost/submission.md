@@ -51,6 +51,8 @@ Kigali Balance is a shared ledger for HFC refrigerant. It lets a carbon registry
 5. That registry claims the event before issuing credits. Any second claim is refused.
 6. Three AI modules flag what is allowed but implausible (leak gaps, mass-balance anomalies, implausible recoveries) with readable reasons. They never block anyone; a regulator decides.
 
+![How a kilogram moves through the ledger, and the seven actions the contracts reject](https://zhenyan1214.github.io/kigali-balance/assets/diagrams/kilogram-flow.png)
+
 So virgin gas can't become "reclaimed" (a lot's provenance class never changes), a fake recovery needs two colluding signers and stays under the unit's booked content, and no destruction is credited twice, without registries sharing databases.
 
 **Users:** carbon registries (claim before issuing), buyers of reclaimed gas such as supermarkets (scan a cylinder's passport) and regulators (dashboard and AI review queue). Technicians and owners only sign.
@@ -63,6 +65,8 @@ So virgin gas can't become "reclaimed" (a lot's provenance class never changes),
 - **Simulator and differential test:** a deterministic three-year market with twelve kinds of injected fraud. All 7,359 events are replayed against the real contracts, and every decision, error and gas total matches a separately written rule mirror.
 - **AI:** Python (scikit-learn, SHAP) that reads only what a regulator could see.
 - **CI:** every push rebuilds everything on a clean machine and must reproduce every committed file byte for byte. Lots export as GS1 EPCIS 2.0.
+
+![Architecture: independent signers, the six contracts, who relies on them, and the off-chain AI](https://zhenyan1214.github.io/kigali-balance/assets/diagrams/architecture.png)
 
 **Why a blockchain, and why OP:**
 
