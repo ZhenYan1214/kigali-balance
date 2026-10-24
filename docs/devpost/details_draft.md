@@ -1,3 +1,5 @@
+![Kigali Balance: refrigerant tracked, every kilogram accounted for](https://zhenyan1214.github.io/kigali-balance/assets/banner.jpg)
+
 **Track 3: Sustainable Supply Chains (also Track 1: Carbon Markets & Emissions Transparency)**
 
 Kigali Balance is a shared ledger for HFC refrigerant. It lets a carbon registry, a buyer of reclaimed gas or a regulator check that a kilogram sold as "reclaimed" or credited as "destroyed" was really recovered from a registered unit, and was credited only once.
@@ -6,7 +8,7 @@ Kigali Balance is a shared ledger for HFC refrigerant. It lets a carbon registry
 
 - **Live:** [regulator dashboard](https://zhenyan1214.github.io/kigali-balance/), a simulated three-year market whose books balance to the gram. "Refused by the contracts" shows what was blocked and why.
 - **One lot:** [passport of lot 42](https://zhenyan1214.github.io/kigali-balance/passport.html?lot=42): recovered, destroyed, credited once, accepted by every rule. In the simulation its unit never existed; the AI flagged both companies that signed for it.
-- **Video (3:14):** [VIDEO LINK]
+- **Video (3:14):** [youtu.be/UMIC3L5dO80](https://youtu.be/UMIC3L5dO80), narrated by me, with subtitles.
 - **On chain:** [six contracts, verified on OP Sepolia](https://sepolia-optimism.etherscan.io/address/0x9d1B18ae56946A835Ff6c705e9d4a9119BBe0e4b#code). Two transactions to read: [the designated registry claims destruction event 0](https://sepolia-optimism.etherscan.io/tx/0x1fffa78764819ad612f7caf6a888ada604707be6c813f7a53af301800e456201), and [a second registry tries the same event](https://sepolia-optimism.etherscan.io/tx/0x3ba6bc74cc2be7407712daa3e477d9ab431daa21b77bc5c23f9984f2b9fdf4e8) and is reverted with `AlreadyClaimed`.
 - **Code:** [github.com/ZhenYan1214/kigali-balance](https://github.com/ZhenYan1214/kigali-balance). `forge test` runs 162 unit tests and 10 fuzzed invariants.
 - All market data is simulated, and every testnet key is mine (see Limits).
