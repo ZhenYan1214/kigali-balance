@@ -7,6 +7,7 @@ the first process and exits, so captures would otherwise be lost.
 """
 from __future__ import annotations
 
+import os
 import shutil
 import subprocess
 import sys
@@ -16,7 +17,8 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ASSETS = HERE / "assets"
-SITE = "https://zhenyan1214.github.io/kigali-balance"
+# the public site by default; KB_SITE=http://localhost:8000 captures a local `python -m http.server -d web` instead
+SITE = os.environ.get("KB_SITE", "https://zhenyan1214.github.io/kigali-balance")
 SHOTS = {
     # name: (url, window height in CSS px); width is always 1920, device scale 2
     "passport": (f"{SITE}/passport.html?lot=42", 2300),
