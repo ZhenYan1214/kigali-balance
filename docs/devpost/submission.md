@@ -18,75 +18,85 @@ Track 3 (also Track 1) · A shared ledger that makes every recovered, reclaimed 
 
 **Track 3: Sustainable Supply Chains (also Track 1: Carbon Markets & Emissions Transparency)**
 
-**See it in 60 seconds**
-1. [The regulator dashboard](https://zhenyan1214.github.io/kigali-balance/): the books balance to the gram, and you can see what the contracts refused and what the AI sent for review.
-2. [The passport of lot 42](https://zhenyan1214.github.io/kigali-balance/passport.html?lot=42): a lot that was destroyed and credited once, traced back to its unit, with the checks the ledger enforced and the AI flags on the companies involved.
-3. [A claim on chain](https://sepolia-optimism.etherscan.io/tx/0x1fffa78764819ad612f7caf6a888ada604707be6c813f7a53af301800e456201): the designated registry claiming one destruction event on OP Sepolia; a second claim is refused.
+Kigali Balance is a shared ledger for HFC refrigerant. It lets a carbon registry, a buyer of reclaimed gas or a regulator check that a kilogram sold as "reclaimed" or credited as "destroyed" was really recovered from a registered unit, and was credited only once.
 
-### Inspiration
+## Try it in two minutes (no wallet, no install)
 
-HFC refrigerants, being phased down under the Kigali Amendment, are super-pollutants. One kilogram of R-404A warms the planet as much as 3.9 tonnes of CO₂. Their kilograms are already recorded, but in separate systems: customs quotas, technician logs, reclaimer reports and carbon registries. Each system checks its own books. **No one checks the same kilogram between them**, and that seam pays:
+- **Live:** [regulator dashboard](https://zhenyan1214.github.io/kigali-balance/), a simulated three-year market whose books balance to the gram. "Refused by the contracts" shows what was blocked and why.
+- **One lot:** [passport of lot 42](https://zhenyan1214.github.io/kigali-balance/passport.html?lot=42): recovered, destroyed, credited once, accepted by every rule. In the simulation its unit never existed; the AI flagged both companies that signed for it.
+- **Video (3:14):** [VIDEO LINK]
+- **On chain:** [six contracts, verified on OP Sepolia](https://sepolia-optimism.etherscan.io/address/0x9d1B18ae56946A835Ff6c705e9d4a9119BBe0e4b#code). Two transactions to read: [the designated registry claims destruction event 0](https://sepolia-optimism.etherscan.io/tx/0x1fffa78764819ad612f7caf6a888ada604707be6c813f7a53af301800e456201), and [a second registry tries the same event](https://sepolia-optimism.etherscan.io/tx/0x3ba6bc74cc2be7407712daa3e477d9ab431daa21b77bc5c23f9984f2b9fdf4e8) and is reverted with `AlreadyClaimed`.
+- **Code:** [github.com/ZhenYan1214/kigali-balance](https://github.com/ZhenYan1214/kigali-balance). `forge test` runs 162 unit tests and 10 fuzzed invariants.
+- All market data is simulated, and every testnet key is mine (see Limits).
 
-- Reclaimed R-404A sold at 140% of the virgin price in the EU in early 2025, and virgin gas has been sold as "reclaimed".
-- Destroyed HFCs earn carbon credits. Whether a kilogram was "not credited elsewhere" is a declaration, not a check.
-- We audited 436 public destruction and reclamation projects at three carbon registries. None publishes which container, and how many kilograms, each of 42.4 million destruction credits draws on. Where two ledgers share a key (California's ARB and the registries), the records reconcile; between registries, kilogram-level uniqueness cannot be checked from outside.
+## Inspiration
 
-> If virgin gas is labelled reclaimed, a carbon credit is paid for virgin gas. The "reclaimed" fraud and the crediting problem are one conservation problem.
+**The problem.** HFCs, which the Kigali Amendment phases down, are super-pollutants: one kilogram of R-404A warms the planet as much as 3.9 tonnes of CO₂ (GWP 3,922). Two things make a kilogram worth faking:
 
-### What it does
+- Since 2025 the EU bans virgin high-GWP gas for servicing refrigeration, but reclaimed gas is exempt. In Q1 2025 reclaimed R-404A sold at 140% of the virgin price (EU price monitoring), and a reclaimer publicly warned of virgin gas sold as reclaimed. EU seizures of illegal HFCs rose from about 250 t in 2023 to about 670 t in 2024 (EIA, 2026).
+- Destroyed refrigerant earns carbon credits. I audited 436 destruction and reclamation projects at ACR, Climate Action Reserve and Verra, behind 42.4 million destruction credits. Certificate-of-destruction identifiers are public for only 31% of them, and no registry publishes which container, and how many kilograms, a credit draws on.
 
-Kigali Balance enforces one rule on chain:
+**Why it isn't solved.** Quotas, technician logs, reclaimer reports and registry issuances are each checked inside their own system. Where two ledgers share a key (California's ARB and the registries), the public records match; between registries there is none, so "not credited elsewhere" rests on a declaration. I found no double counting. Nobody outside can check.
 
-> **Every kilogram claimed as "reclaimed" or "destroyed" must trace back to a kilogram recovered from a real, registered piece of equipment.**
+**Why I built it.** I started from a test, not a topic: a blockchain earns its place only when parties who don't trust each other share a conservation rule (one unit, one claim) and money rides on the record. Battery passports, CBAM tracing and recycled-content ledgers failed it, because regulation or existing tools already cover them. HFC refrigerant passed, and I found no Devpost or ETHGlobal project reconciling refrigerant kilograms.
 
-- **Lots with provenance classes that can never be swapped:** virgin, recovered, reclaimed, unknown. Reclamation accepts only recovered gas, and output can never exceed input minus losses.
-- **Two independent signatures for each step that earns money.** A recovery needs the technician's signed scale reading and the unit owner's co-signature. A destruction needs a certificate from a verifier independent of the facility.
-- **Booked content per unit.** A recovery can never exceed what the ledger says is inside the unit. Gas charged within the last 180 days is quarantined and can never be reclaimed or credited.
-- **A claim lock.** Each destruction event can be claimed by one registry, once, without registries sharing databases.
-- **AI for what is compliant but implausible.** Three modules flag leakage gaps, mass-balance anomalies and implausible recoveries, each with reasons a reviewer can read. They never sanction anyone.
-- **A regulator dashboard and a provenance passport.** A buyer or registry scans a cylinder and sees where the gas came from, every check the ledger enforced, and any AI notes.
+## What it does
 
-### How we built it
+**One rule:** every kilogram claimed as reclaimed or destroyed must trace back to a kilogram recovered from a real, registered unit, and each destruction can be claimed once.
 
-- **Contracts.** Six Solidity contracts (Foundry), with EIP-712 attestations verified on chain and a 3-of-4 governance multisig. Deployed and verified on OP Sepolia.
-- **Simulator.** A deterministic three-year HFC market with twelve kinds of injected fraud, including *adaptive* fraudsters who keep every number inside honest ranges. Leak rates follow IPCC 2006, maintenance follows EU leak-check rules, and the end-of-life recovery rate is calibrated to Japan's 2024 figure (43%).
-- **Differential test.** All 7,359 simulated events are replayed against the real contracts. Every accept or reject decision, error, lot ID and gas total matches the simulator's separately written rule mirror.
-- **AI.** Python modules that read only what a regulator could observe, never the simulator's ground truth. They were scored on held-out simulated runs never used for design. In the local replay chain, every flag is written to `FlagRegistry` with the model's hash and the hash of the exact data it scored, and only a regulator can close it; writing flags on the public deployment is on the roadmap.
-- **Independent machine checks.** Every push is rebuilt from scratch on a clean Linux machine (GitHub Actions) and must reproduce every committed file byte for byte. A second job runs the Slither static analyser.
-- **Real data.** A public-record audit of the ACR, CAR and Verra registries and the California ARB issuance table.
+1. A unit is registered, and every charge books gas into it.
+2. A technician's scale signs each recovery, and the unit's owner co-signs. A recovery can never exceed what is booked inside the unit; gas charged in the last 180 days is quarantined.
+3. A reclaimer accepts only recovered lots. A lab certifies the output, which can never exceed the input minus losses.
+4. A facility destroys lots with an independent verifier's certificate and names the registry that may claim the event.
+5. That registry claims the event before issuing credits. Any second claim is refused.
+6. Three AI modules flag what is allowed but implausible (leak gaps, mass-balance anomalies, implausible recoveries) with readable reasons. They never block anyone; a regulator decides.
 
-### Climate impact (a conservative estimate)
+So virgin gas can't become "reclaimed" (a lot's provenance class never changes), a fake recovery needs two colluding signers and stays under the unit's booked content, and no destruction is credited twice, without registries sharing databases.
 
-Kigali Balance recovers no gas and claims no credits; it makes paid-for recovery checkable. For a market the size of Japan's, our model puts the effect attributable to verification at a median 0.06 MtCO₂e a year (5th–95th percentile 0.01–0.18), counting only recovered gas that is then destroyed. The number is small because we refuse to count reclaimed gas that a binding quota does not let displace virgin supply. The scale of the problem is not small: EU seizures of illegal HFCs rose from about 250 t in 2023 to about 670 t in 2024, and the world's equipment banks hold an estimated 13–24 GtCO₂e.
+**Users:** carbon registries (claim before issuing), buyers of reclaimed gas such as supermarkets (scan a cylinder's passport) and regulators (dashboard and AI review queue). Technicians and owners only sign.
 
-### User testing
+**Guarantees:** no function, governance included, can edit or delete a lot, and nothing is upgradeable. A 3-of-4 multisig grants roles, binds scales and tunes parameters within hard-coded floors.
 
-None yet, and we do not claim any. The first tests are planned with a reclaimer, a registry analyst and a regulator: can each answer "where did this kilogram come from?" from the passport alone?
+## How I built it
 
-### Challenges we ran into
+- **Contracts:** six Solidity contracts (Foundry) that verify EIP-712 signatures on chain, deployed on OP Sepolia on 2026-10-21.
+- **Simulator and differential test:** a deterministic three-year market with twelve kinds of injected fraud. All 7,359 events are replayed against the real contracts, and every decision, error and gas total matches a separately written rule mirror.
+- **AI:** Python (scikit-learn, SHAP) that reads only what a regulator could see.
+- **CI:** every push rebuilds everything on a clean machine and must reproduce every committed file byte for byte. Lots export as GS1 EPCIS 2.0.
 
-- **Our own fraud model fooled us twice.** A per-recovery cap could be bypassed by splitting one recovery into several. Our laundering-capacity model caught it, and we replaced the cap with booked content, which removes 88% of the room colluding parties have.
-- **The simulator's honest equipment was too full at end of life.** IPCC data says small units are often nearly empty. We corrected the simulator and re-evaluated every AI module on fresh data. The scores held, and we reported them either way.
-- **Honesty about adaptive fraud.** The AI catches every naive fraudster over three simulated years, with under 1% of honest companies flagged. It mostly misses fraudsters who adapt, but adapting mostly forces them to stay small: 4 kg of fake recoveries in three years instead of 136 kg. Yield-inflating reclaimers are the exception: adapting only halves their volume, which is why lab sampling stays in the loop.
+**Why a blockchain, and why OP:**
 
-### Accomplishments that we're proud of
+- No operator spans all the parties: several registries, competing reclaimers, gas shipped abroad for destruction. A central database would need an operator every registry trusts; inside one country, a regulator's database is enough.
+- Anyone can recompute the books, and the passport reads live lots straight from the chain instead of trusting an operator's export.
+- The contract checks every signature, so a forged scale reading is rejected by code.
+- OP is a cost choice: a cylinder's full path costs under one US cent at OP Mainnet prices (2026-10-17). Any EVM chain could run it.
 
-- 162 unit tests and 10 fuzzed invariants. Thousands of forged recoveries in each fuzz campaign, none accepted.
-- **We red-teamed ourselves with AI.** Three AI-assisted red-team passes (security, forensic and editorial) attacked the submission; there has been no human audit yet. The security pass found a High-severity hole: undocumented gas could be laundered into creditable gas after 180 days. We fixed it and all three Medium findings, turned every proof of concept into a regression test, and taught the simulator the new attacks so the differential test checks them too. Then a second AI pass, given only the fixed code, found that our fix could itself be bypassed by charging the quarantined gas back in. We fixed that too: the gas now stays marked for good. The forensic pass cut our climate estimate by about three quarters and corrected our audit headline. We publish the corrected numbers.
-- A technical annex where each security claim names the test that proves it.
-- A climate-impact model with its uncertainty and a sensitivity analysis, rather than one big number. It also says how a pilot would measure the assumption that matters most.
-- A finding we did not expect: where two ledgers share a key (California ARB and the registries), the public record reconciles. Where they don't, outsiders cannot check.
+## Challenges: what I got wrong
 
-### What we learned
+- A per-recovery cap could be bypassed by splitting one recovery into several. My own laundering model caught it; capping by booked content removed 88% of the room colluders had.
+- An AI-assisted red-team pass (AI agents, not human auditors) found a High-severity hole: undocumented gas could be laundered into creditable gas. A second pass got around my fix. Both are fixed and are now regression tests.
+- The forensic pass cut my climate estimate by about three quarters and caught a wrong headline in my audit. I published the corrections.
 
-A blockchain is only justified where **no single trusted operator spans all the parties**: several carbon registries, competing reclaimers, and gas shipped across borders for destruction. Inside one country, a regulator's database is enough. We say so in the README.
+## Results
 
-### What's next for Kigali Balance
+- Over three simulated years, the AI catches every naive fraudster and flags under 1% of honest companies. Adaptive fraudsters mostly slip through, but only by staying small (4 kg of fake recoveries instead of 136 kg).
+- Climate impact: Kigali Balance recovers no gas and claims no credits. For a Japan-sized market, my model puts the effect of verification at a median 0.06 MtCO₂e a year (5th–95th percentile 0.01–0.18), counting only destroyed gas and assuming verification raises recovery by 0–5 percentage points.
 
-1. Interviews with reclaimers, a registry and Türkiye's ozone unit, plus usability tests of the passport.
-2. One real destruction project, from recovery to destruction to a single claim, with confidential amounts (commitments and range proofs).
-3. A pilot designed to measure how much verifiability itself raises recovery.
-4. A national pilot connected to Türkiye's quota and equipment registers, run by a consortium in which no one holds a majority.
+## Limits
+
+- All market data is simulated, and the AI has only been scored on simulated runs.
+- Every testnet key derives from my deployer key: I hold all four governance seats and every demo role. It shows the mechanism, not independence.
+- No human audit and no user testing yet. AI flags are written on chain only in my local replay chain.
+
+## What's next
+
+1. Passport tests with a reclaimer, a registry analyst and Türkiye's ozone unit: can each answer "where did this kilogram come from?"
+2. One real destruction project end to end, with confidential amounts.
+3. A pilot that measures how much verifiability raises recovery, and a human audit before real money depends on the contracts.
+
+## About me
+
+I'm a first-year master's student in Taiwan and built this alone. The registry audit is the part I'd point to: the container numbers and weights needed to check a destroyed kilogram already exist on paper, just not shared. I'd like to hear from any reclaimer, registry or ozone unit willing to test the passport.
 
 ---
 
@@ -106,4 +116,4 @@ solidity, foundry, ethereum, optimism, eip-712, python, scikit-learn, shap, pand
 
 ## Video
 
-The YouTube link, recorded from `docs/video/video_script.md`.
+The YouTube link (unlisted is fine). The video is `video/build/kigali_balance_demo.mp4`: 3:14, my own voice, subtitles burned in; upload `kigali_balance_demo.srt` as captions too. Put the same link in `[VIDEO LINK]` above.

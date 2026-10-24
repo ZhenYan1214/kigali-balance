@@ -15,7 +15,7 @@ Gas sold as "reclaimed" and gas credited as "destroyed" must both trace back to 
 [![Data](https://img.shields.io/badge/data-simulated-9a6700)](#honest-limits)
 [![License](https://img.shields.io/badge/license-MIT-59636e)](#license)
 
-**See it in 60 seconds:** ① [the dashboard](https://zhenyan1214.github.io/kigali-balance/): the books balance to the gram, and what the rules refused · ② [the passport of lot 42](https://zhenyan1214.github.io/kigali-balance/passport.html?lot=42): a credited lot whose recovery the AI flags · ③ [a claim on chain](https://sepolia-optimism.etherscan.io/tx/0x1fffa78764819ad612f7caf6a888ada604707be6c813f7a53af301800e456201): one registry claiming one destruction event on OP Sepolia
+**See it in 60 seconds:** ① [the dashboard](https://zhenyan1214.github.io/kigali-balance/): the books balance to the gram, and what the rules refused · ② [the passport of lot 42](https://zhenyan1214.github.io/kigali-balance/passport.html?lot=42): a credited lot whose recovery the AI flags · ③ [a claim on chain](https://sepolia-optimism.etherscan.io/tx/0x1fffa78764819ad612f7caf6a888ada604707be6c813f7a53af301800e456201): one registry claiming one destruction event on OP Sepolia, and [a second registry refused](https://sepolia-optimism.etherscan.io/tx/0x3ba6bc74cc2be7407712daa3e477d9ab431daa21b77bc5c23f9984f2b9fdf4e8) with `AlreadyClaimed`
 
 [Problem](#the-problem) · [Gap](#what-already-exists) · [Solution](#the-solution) · [Architecture](#architecture) · [Results](#results) · [Dashboard](#dashboard-and-provenance-passport) · [Live demo](#live-on-op-sepolia) · [Quick start](#quick-start) · [Limits](#honest-limits)
 
@@ -192,8 +192,9 @@ The six contracts of the current code (booked content, both rounds of red-team f
 | 6 · Destruction with an independent verifier's certificate | [`0x81fefac9…`](https://sepolia-optimism.etherscan.io/tx/0x81fefac96ede492308bceaf2ecbe4cbdbc7f13342e1bcd9f41ed830d7248c724) |
 | 6 · The facility designates the registry that may claim | [`0x0505d505…`](https://sepolia-optimism.etherscan.io/tx/0x0505d5056137051a7ce22d1a2ea682fcdcc4af1372285893d275541b23f43885) |
 | 6 · Claimed by that registry | [`0x1fffa787…`](https://sepolia-optimism.etherscan.io/tx/0x1fffa78764819ad612f7caf6a888ada604707be6c813f7a53af301800e456201) |
+| 6 · A second registry claims the same event: **reverted**, `AlreadyClaimed` (2026-10-24, [`script/refused_claim_op_sepolia.sh`](script/refused_claim_op_sepolia.sh)) | [`0x3ba6bc74…`](https://sepolia-optimism.etherscan.io/tx/0x3ba6bc74cc2be7407712daa3e477d9ab431daa21b77bc5c23f9984f2b9fdf4e8) |
 
-The four steps that must be rejected (overselling, inflated reclaimed output, virgin gas in reclamation, a second claim) are checked in local simulation before broadcasting, because a reverting transaction would abort the run. They are covered on chain by the unit and differential tests.
+The four steps that must be rejected (overselling, inflated reclaimed output, virgin gas in reclamation, a second claim) are checked in local simulation before broadcasting, because a reverting transaction would abort the run. They are covered by the unit and differential tests, and the second claim was afterwards also sent on purpose, so one refusal is visible on chain.
 
 </details>
 

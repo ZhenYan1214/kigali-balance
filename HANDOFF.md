@@ -425,7 +425,7 @@ forge script script/Deploy.s.sol --rpc-url op_sepolia --broadcast --verify
 | 1 | ~~開啟 GitHub Pages~~（2026-10-21 完成） | 已推送，CI（verify）第一次就綠燈。Pages 部署失敗只因為還沒開：Settings → Pages → Source 選「GitHub Actions」，再到 Actions 重跑 pages。 |
 | 2 | ~~OP Sepolia 重新部署~~ | ✅ 2026-10-21 完成（見 8.6） |
 | 3 | ~~錄影~~ ✅ 2026-10-23：使用者錄好 6 段（`video/voice/`，不進版控），`video/make_video.py` 降噪、加速 1.5 倍（`narration.json` 的 `recording_tempo`）、音量 -16 LUFS，字幕用本機 faster-whisper 對齊（37 句中 36 句在說話前 0.1 秒出現）→ `video/build/kigali_balance_demo.mp4` 3:14.6 | 剩：上傳 YouTube（不公開）、把 .srt 加成 CC 字幕。重算字幕要用有 faster-whisper 的 Python，沒有的話退回依停頓與語速估計，比較不準。 |
-| 4 | **送出 Devpost**（使用者；10/24 先送可編輯版） | 文字在 `docs/devpost/submission.md`；上傳 `docs/proposal/Kigali_Balance_Submission.pdf`。送出前跑 `python scripts/rebuild.py --full` 與 `python scripts/check_submission.py --online` |
+| 4 | **送出 Devpost**（使用者；10/24 先送可編輯版） | 文字在 `docs/devpost/submission.md`（2026-10-24 依 `Circle_arc/_private/docs/DETAILS_GUIDE.md` 重寫 About，對照與檢查在 `docs/devpost/details_notes.md`；只剩 `[VIDEO LINK]` 要填）；圖庫圖片在 `docs/devpost/gallery/`；上傳 `docs/proposal/Kigali_Balance_Submission.pdf`。2026-10-24 在 OP Sepolia 故意送出第二次認領，被 `AlreadyClaimed` 拒絕：tx 0x3ba6bc74cc2be7407712daa3e477d9ab431daa21b77bc5c23f9984f2b9fdf4e8（`script/refused_claim_op_sepolia.sh`；附件 B.3 也補寫了四個治理席位都在同一人手上）。送出前跑 `python scripts/rebuild.py --full` 與 `python scripts/check_submission.py --online` |
 | 5（時間夠才做） | 紅隊剩下的風險：設備持有者授權維修公司（擋 F2 灌注騷擾）、治理成員可輪替＋提案到期、銷毀事件由開發商指定註冊處（擋 F10）、鋼瓶 ID 擁有權（F6） | 都已寫在附件 B.2 的剩餘風險 |
 | 5（時間夠才做） | J2：A 級灌水造假＋A 級 AI 訊號；模組 A 1.3.0 | 用另一批新種子評估 |
 | 5（時間夠才做） | 保密守恆展示（Pedersen＋範圍證明）、驗章抽成可替換介面（後量子） | 附件 B.5、B.6 已寫設計 |

@@ -259,7 +259,7 @@ A permissioned consortium chain (Hyperledger Besu, QBFT) charges no fee at all.<
 </ul>
 Both High findings, all 3 Medium and most Low findings are fixed, each with a regression test (<code>test/RedTeam.t.sol</code>). The simulator also injects the new attacks (a competitor's charge, a rogue registry claim), and the contracts reject them in the differential test. The remaining Low findings are listed above as residual risks. That a fix of ours was itself bypassable is why a human third-party audit remains a precondition for production.</td></tr>
 <tr><td>Clean-room reproduction (CI)</td><td>Everything rebuilt from scratch on a fresh Linux machine on every push</td><td>Passing; every committed generated file is byte-identical (PDFs excepted)</td></tr>
-<tr><td>Live deployment</td><td>The six contracts on OP Sepolia, verified on the block explorer; the demo run on chain</td><td>The current code, including both rounds of red-team fixes: 143 transactions, none failed (2026-10-21). KigaliLedger at 0x9d1B18ae56946A835Ff6c705e9d4a9119BBe0e4b.</td></tr>
+<tr><td>Live deployment</td><td>The six contracts on OP Sepolia, verified on the block explorer; the demo run on chain</td><td>The current code, including both rounds of red-team fixes: 143 transactions, none failed (2026-10-21). KigaliLedger at 0x9d1B18ae56946A835Ff6c705e9d4a9119BBe0e4b. On 2026-10-24 a second registry's claim on the already claimed destruction event was sent on purpose and reverted with <code>AlreadyClaimed</code> (tx 0x3ba6bc74…). All demo keys derive from one deployer key, so one person holds all four governance seats: the testnet shows the 3-of-4 mechanics, not independence.</td></tr>
 </table>
 
 <h3>B.4 How much can colluding parties still launder?</h3>
